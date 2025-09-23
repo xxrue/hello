@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Langkah-langkah Mentafsir Jadual dan Graf</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .new-gradient-bg {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .step-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .step-card {
+                margin: 0 8px;
+                padding: 16px;
+            }
+            
+            .step-card h3 {
+                font-size: 16px;
+                line-height: 1.4;
+            }
+            
+            .step-card .flex {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .step-card .ml-auto {
+                margin-left: 0;
+                order: -1;
+            }
+            
+            svg {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .md\\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            
+            .text-xl {
+                font-size: 1.125rem;
+            }
+            
+            .p-6 {
+                padding: 16px;
+            }
+            
+            .space-y-4 > * + * {
+                margin-top: 16px;
+            }
+        }
+        
+        /* Touch-friendly interactions */
+        .step-card {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .step-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .wiggle {
+            animation: wiggle 1s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 7% { transform: rotateZ(0); }
+            15% { transform: rotateZ(-15deg); }
+            20% { transform: rotateZ(10deg); }
+            25% { transform: rotateZ(-10deg); }
+            30% { transform: rotateZ(6deg); }
+            35% { transform: rotateZ(-4deg); }
+            40%, 100% { transform: rotateZ(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 min-h-screen">
+    <!-- Header -->
+    <div class="new-gradient-bg text-gray-800 p-4 sm:p-6 text-center relative overflow-hidden">
+        <!-- Floating decorative elements -->
+        <div class="absolute top-2 left-2 sm:top-4 sm:left-4 text-2xl sm:text-3xl float">📊</div>
+        <div class="absolute top-3 right-3 sm:top-6 sm:right-6 text-xl sm:text-2xl float" style="animation-delay: 0.5s;">📈</div>
+        <div class="absolute bottom-2 left-4 sm:bottom-4 sm:left-8 text-xl sm:text-2xl float" style="animation-delay: 1s;">📉</div>
+        <div class="absolute bottom-3 right-2 sm:bottom-6 sm:right-4 text-2xl sm:text-3xl float" style="animation-delay: 1.5s;">📋</div>
+        
+        <div class="bounce text-4xl sm:text-5xl mb-3">🎯</div>
+        <h1 class="text-xl sm:text-2xl font-bold mb-1 px-2">Langkah-langkah Mentafsir</h1>
+        <h2 class="text-lg sm:text-xl font-semibold mb-2">Jadual dan Graf</h2>
+        <div class="mt-4 text-xs sm:text-sm opacity-80 bg-white bg-opacity-30 rounded-full px-3 sm:px-4 py-2 inline-block mx-2">
+            ✨ Panduan Interaktif untuk Pelajar ✨
+        </div>
+    </div>
+
+    <!-- Steps Container -->
+    <div class="p-4 space-y-4" id="stepsContainer">
+        <!-- Step 1 -->
+        <div class="step-card bg-white rounded-2xl p-4 sm:p-6 card-shadow border-l-4 border-rose-400" data-step="1">
+            <div class="flex items-center mb-4 flex-wrap sm:flex-nowrap gap-2 sm:gap-0">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg mr-3 sm:mr-4 shadow-lg flex-shrink-0">1</div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800 flex-1 min-w-0">Perhatikan Tajuk dengan Teliti</h3>
+                <div class="text-xl sm:text-2xl wiggle order-first sm:order-last">🎯</div>
+            </div>
+            
+            <!-- Visual Example -->
+            <div class="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-4 mb-4 border border-rose-200">
+                <div class="text-center mb-3">
+                    <div class="inline-block bg-white rounded-lg p-4 shadow-md border-2 border-dashed border-rose-300">
+                        <div class="text-lg font-bold text-rose-700 mb-2">📊 BILANGAN PELAJAR HADIR KE SEKOLAH</div>
+                        <div class="text-sm text-gray-600">Minggu Pertama Januari 2024</div>
+                        <div class="mt-2 flex justify-center space-x-2">
+                            <div class="w-4 h-8 bg-rose-300 rounded"></div>
+                            <div class="w-4 h-12 bg-rose-400 rounded"></div>
+                            <div class="w-4 h-10 bg-rose-500 rounded"></div>
+                            <div class="w-4 h-14 bg-rose-600 rounded"></div>
+                            <div class="w-4 h-9 bg-rose-700 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center mb-2">
+                    <span class="text-2xl mr-2">💬</span>
+                    <span class="font-medium text-rose-700">Contoh Ayat:</span>
+                </div>
+                <p class="text-rose-800 italic bg-white rounded-lg p-3 shadow-sm">"Graf bar menunjukkan bilangan pelajar yang hadir ke sekolah sepanjang seminggu."</p>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">✅</span>
+                    <p>Tajuk memberitahu kita tentang apa yang ditunjukkan oleh data</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🔍</span>
+                    <p>Ia membantu kita memahami konteks maklumat</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📖</span>
+                    <p>Sentiasa baca tajuk sebelum menganalisis data</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-orange-400" data-step="2">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">2</div>
+                <h3 class="text-lg font-semibold text-gray-800">Perhatikan Maklumat dalam Jadual</h3>
+                <div class="ml-auto text-2xl wiggle">📋</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-4 mb-4 border border-orange-200">
+                <div class="text-center mb-3">
+                    <div class="inline-block bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-sm font-semibold text-orange-700 mb-2">📊 Contoh Jadual</div>
+                        <table class="text-sm border-collapse">
+                            <tr class="bg-gradient-to-r from-orange-100 to-amber-100">
+                                <th class="px-4 py-2 border-2 border-orange-300 font-semibold">🗓️ Hari</th>
+                                <th class="px-4 py-2 border-2 border-orange-300 font-semibold">👥 Kehadiran</th>
+                            </tr>
+                            <tr class="hover:bg-orange-50 transition-colors">
+                                <td class="px-4 py-2 border border-orange-200">Isnin</td>
+                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">45</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50 transition-colors">
+                                <td class="px-4 py-2 border border-orange-200">Selasa</td>
+                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">48</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50 transition-colors">
+                                <td class="px-4 py-2 border border-orange-200">Rabu</td>
+                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">52</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">👀</span>
+                    <p>Lihat setiap baris dan lajur dengan teliti</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🔗</span>
+                    <p>Fahami hubungan antara data</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📏</span>
+                    <p>Perhatikan unit pengukuran yang digunakan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-yellow-400" data-step="3">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">3</div>
+                <h3 class="text-lg font-semibold text-gray-800">Perhatikan Paksi Menegak dan Mendatar</h3>
+                <div class="ml-auto text-2xl wiggle">📐</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-4 mb-4 border border-yellow-200">
+                <div class="text-center mb-3">
+                    <svg viewBox="0 0 250 180" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-4" style="height: auto;">
+                        <defs>
+                            <linearGradient id="axisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#fbbf24"/>
+                                <stop offset="100%" style="stop-color:#f59e0b"/>
+                            </linearGradient>
+                            <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#60a5fa"/>
+                                <stop offset="100%" style="stop-color:#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid lines -->
+                        <defs>
+                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f3f4f6" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.5"/>
+                        
+                        <!-- Axes -->
+                        <line x1="40" y1="20" x2="40" y2="140" stroke="url(#axisGradient)" stroke-width="4"/>
+                        <line x1="40" y1="140" x2="200" y2="140" stroke="url(#axisGradient)" stroke-width="4"/>
+                        
+                        <!-- Sample bars -->
+                        <rect x="60" y="100" width="20" height="40" fill="url(#barGradient)" rx="2"/>
+                        <rect x="90" y="80" width="20" height="60" fill="url(#barGradient)" rx="2"/>
+                        <rect x="120" y="70" width="20" height="70" fill="url(#barGradient)" rx="2"/>
+                        <rect x="150" y="90" width="20" height="50" fill="url(#barGradient)" rx="2"/>
+                        
+                        <!-- Labels with backgrounds -->
+                        <rect x="5" y="65" width="30" height="20" fill="white" stroke="#fbbf24" stroke-width="1" rx="10"/>
+                        <text x="20" y="78" font-size="10" fill="#92400e" text-anchor="middle" font-weight="bold">Paksi Y</text>
+                        
+                        <rect x="110" y="150" width="30" height="20" fill="white" stroke="#fbbf24" stroke-width="1" rx="10"/>
+                        <text x="125" y="163" font-size="10" fill="#92400e" text-anchor="middle" font-weight="bold">Paksi X</text>
+                        
+                        <!-- Arrow heads -->
+                        <polygon points="40,15 35,25 45,25" fill="url(#axisGradient)"/>
+                        <polygon points="205,140 195,135 195,145" fill="url(#axisGradient)"/>
+                        
+                        <!-- Value labels -->
+                        <text x="30" y="145" font-size="8" fill="#666">0</text>
+                        <text x="30" y="125" font-size="8" fill="#666">20</text>
+                        <text x="30" y="105" font-size="8" fill="#666">40</text>
+                        <text x="30" y="85" font-size="8" fill="#666">60</text>
+                        
+                        <!-- Category labels -->
+                        <text x="70" y="155" font-size="8" fill="#666" text-anchor="middle">Isn</text>
+                        <text x="100" y="155" font-size="8" fill="#666" text-anchor="middle">Sel</text>
+                        <text x="130" y="155" font-size="8" fill="#666" text-anchor="middle">Rab</text>
+                        <text x="160" y="155" font-size="8" fill="#666" text-anchor="middle">Kha</text>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3 bg-blue-50 rounded-lg p-3">
+                    <span class="text-xl">➡️</span>
+                    <p><strong>Paksi X (mendatar):</strong> Biasanya menunjukkan kategori atau masa</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-green-50 rounded-lg p-3">
+                    <span class="text-xl">⬆️</span>
+                    <p><strong>Paksi Y (menegak):</strong> Biasanya menunjukkan nilai atau kuantiti</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-purple-50 rounded-lg p-3">
+                    <span class="text-xl">🎯</span>
+                    <p>Pastikan anda faham apa yang diwakili oleh setiap paksi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-emerald-400" data-step="4">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">4</div>
+                <h3 class="text-lg font-semibold text-gray-800">Kenal Pasti Nilai Maksimum dan Minimum</h3>
+                <div class="ml-auto text-2xl wiggle">🏔️</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border border-emerald-200">
+                <div class="text-center mb-3">
+                    <svg viewBox="0 0 250 120" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-3" style="height: auto;">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#10b981"/>
+                                <stop offset="100%" style="stop-color:#059669"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Line chart -->
+                        <polyline points="30,80 70,60 110,40 150,90 190,50" 
+                                  fill="none" stroke="url(#lineGradient)" stroke-width="3"/>
+                        
+                        <!-- Points -->
+                        <circle cx="30" cy="80" r="4" fill="#ef4444"/>
+                        <circle cx="70" cy="60" r="4" fill="#3b82f6"/>
+                        <circle cx="110" cy="40" r="6" fill="#10b981" stroke="white" stroke-width="2"/>
+                        <circle cx="150" cy="90" r="6" fill="#ef4444" stroke="white" stroke-width="2"/>
+                        <circle cx="190" cy="50" r="4" fill="#3b82f6"/>
+                        
+                        <!-- Max label -->
+                        <rect x="85" y="25" width="50" height="18" fill="#10b981" rx="9"/>
+                        <text x="110" y="37" font-size="10" fill="white" text-anchor="middle" font-weight="bold">MAX: 50</text>
+                        <line x1="110" y1="43" x2="110" y2="40" stroke="#10b981" stroke-width="2"/>
+                        
+                        <!-- Min label -->
+                        <rect x="125" y="95" width="50" height="18" fill="#ef4444" rx="9"/>
+                        <text x="150" y="107" font-size="10" fill="white" text-anchor="middle" font-weight="bold">MIN: 42</text>
+                        <line x1="150" y1="95" x2="150" y2="90" stroke="#ef4444" stroke-width="2"/>
+                    </svg>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">💬</span>
+                        <span class="font-medium text-emerald-700">Contoh Ayat:</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
+                        <p class="text-emerald-800 italic flex items-center">
+                            <span class="text-green-500 mr-2">🔺</span>
+                            "Nilai tertinggi ialah 50 pelajar pada hari Rabu."
+                        </p>
+                        <p class="text-emerald-800 italic flex items-center">
+                            <span class="text-red-500 mr-2">🔻</span>
+                            "Nilai terendah ialah 42 pelajar pada hari Khamis."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🔍</span>
+                    <p>Cari titik tertinggi dan terendah dalam data</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📝</span>
+                    <p>Nyatakan nilai dan kategori/masa yang berkaitan</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📊</span>
+                    <p>Ini membantu memahami julat data</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-blue-400" data-step="5">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">5</div>
+                <h3 class="text-lg font-semibold text-gray-800">Huraikan Aliran Perubahan Data (Graf Garisan Mudah)</h3>
+                <div class="ml-auto text-2xl wiggle">📈</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border border-blue-200">
+                <div class="text-center mb-3">
+                    <svg viewBox="0 0 250 140" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-3" style="height: auto;">
+                        <!-- Trend arrows and lines -->
+                        <defs>
+                            <linearGradient id="trendUp" x1="0%" y1="100%" x2="0%" y2="0%">
+                                <stop offset="0%" style="stop-color:#10b981"/>
+                                <stop offset="100%" style="stop-color:#34d399"/>
+                            </linearGradient>
+                            <linearGradient id="trendDown" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ef4444"/>
+                                <stop offset="100%" style="stop-color:#f87171"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Trend sections -->
+                        <polyline points="20,100 60,70 100,50" fill="none" stroke="url(#trendUp)" stroke-width="4"/>
+                        <polyline points="100,50 140,80 180,110" fill="none" stroke="url(#trendDown)" stroke-width="4"/>
+                        <polyline points="180,110 220,105" fill="none" stroke="#6b7280" stroke-width="4"/>
+                        
+                        <!-- Trend labels -->
+                        <rect x="30" y="55" width="60" height="16" fill="#10b981" rx="8"/>
+                        <text x="60" y="66" font-size="9" fill="white" text-anchor="middle" font-weight="bold">📈 NAIK</text>
+                        
+                        <rect x="120" y="85" width="60" height="16" fill="#ef4444" rx="8"/>
+                        <text x="150" y="96" font-size="9" fill="white" text-anchor="middle" font-weight="bold">📉 TURUN</text>
+                        
+                        <rect x="185" y="100" width="50" height="16" fill="#6b7280" rx="8"/>
+                        <text x="210" y="111" font-size="9" fill="white" text-anchor="middle" font-weight="bold">➡️ STABIL</text>
+                        
+                        <!-- Points -->
+                        <circle cx="20" cy="100" r="3" fill="#3b82f6"/>
+                        <circle cx="60" cy="70" r="3" fill="#3b82f6"/>
+                        <circle cx="100" cy="50" r="3" fill="#3b82f6"/>
+                        <circle cx="140" cy="80" r="3" fill="#3b82f6"/>
+                        <circle cx="180" cy="110" r="3" fill="#3b82f6"/>
+                        <circle cx="220" cy="105" r="3" fill="#3b82f6"/>
+                    </svg>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">💬</span>
+                        <span class="font-medium text-blue-700">Contoh Ayat:</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
+                        <p class="text-blue-800 italic flex items-center">
+                            <span class="text-green-500 mr-2">📈</span>
+                            "Kehadiran pelajar menunjukkan <strong>peningkatan</strong> dari Isnin ke Rabu."
+                        </p>
+                        <p class="text-blue-800 italic flex items-center">
+                            <span class="text-red-500 mr-2">📉</span>
+                            "Terdapat <strong>penurunan mendadak</strong> pada hari Khamis."
+                        </p>
+                        <p class="text-blue-800 italic flex items-center">
+                            <span class="text-gray-500 mr-2">➡️</span>
+                            "Graf menunjukkan <strong>trend yang stabil</strong> pada akhir minggu."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">👁️</span>
+                    <p>Lihat sama ada data naik, turun, atau kekal</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📝</span>
+                    <p>Gunakan kata-kata seperti: meningkat, menurun, stabil, mendadak</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🔍</span>
+                    <p>Huraikan corak yang anda nampak</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-purple-400" data-step="6">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">6</div>
+                <h3 class="text-lg font-semibold text-gray-800">Huraikan Isi Tersirat</h3>
+                <div class="ml-auto text-2xl wiggle">🤔</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4 border border-purple-200">
+                <div class="text-center mb-3">
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="flex justify-center space-x-4 mb-3">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🌧️</div>
+                                <div class="text-xs text-gray-600">Khamis</div>
+                                <div class="text-xs font-bold text-red-600">↓ 42</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🎉</div>
+                                <div class="text-xs text-gray-600">Jumaat</div>
+                                <div class="text-xs font-bold text-green-600">↑ 50</div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-purple-700 font-medium">Sebab & Akibat</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">💬</span>
+                        <span class="font-medium text-purple-700">Contoh Ayat:</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
+                        <p class="text-purple-800 italic flex items-start">
+                            <span class="text-blue-500 mr-2 mt-1">🌧️</span>
+                            "Penurunan kehadiran pada hari Khamis mungkin disebabkan oleh cuaca buruk."
+                        </p>
+                        <p class="text-purple-800 italic flex items-start">
+                            <span class="text-yellow-500 mr-2 mt-1">🎉</span>
+                            "Kehadiran tinggi pada hari Jumaat menunjukkan pelajar bersemangat untuk aktiviti kokurikulum."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">💭</span>
+                    <p>Fikirkan sebab-sebab di sebalik data</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🔗</span>
+                    <p>Buat inferens berdasarkan maklumat yang ada</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🧠</span>
+                    <p>Hubungkan dengan pengetahuan am atau konteks</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-pink-400" data-step="7">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">7</div>
+                <h3 class="text-lg font-semibold text-gray-800">Buat Rumusan Keseluruhan</h3>
+                <div class="ml-auto text-2xl wiggle">📋</div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-4 mb-4 border border-pink-200">
+                <div class="text-center mb-3">
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-lg font-bold text-pink-700 mb-2">📊 RINGKASAN</div>
+                        <div class="grid grid-cols-3 gap-2 text-xs">
+                            <div class="bg-green-100 rounded p-2">
+                                <div class="font-bold text-green-700">Purata</div>
+                                <div class="text-green-600">46 orang</div>
+                            </div>
+                            <div class="bg-blue-100 rounded p-2">
+                                <div class="font-bold text-blue-700">Tertinggi</div>
+                                <div class="text-blue-600">50 orang</div>
+                            </div>
+                            <div class="bg-red-100 rounded p-2">
+                                <div class="font-bold text-red-700">Terendah</div>
+                                <div class="text-red-600">42 orang</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">💬</span>
+                        <span class="font-medium text-pink-700">Contoh Ayat:</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
+                        <p class="text-pink-800 italic flex items-start">
+                            <span class="text-green-500 mr-2 mt-1">✅</span>
+                            "Secara keseluruhannya, kehadiran pelajar adalah baik dengan purata 46 orang sehari."
+                        </p>
+                        <p class="text-pink-800 italic flex items-start">
+                            <span class="text-blue-500 mr-2 mt-1">📈</span>
+                            "Kesimpulannya, terdapat variasi kehadiran sepanjang minggu dengan corak tertentu."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-gray-700">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">📝</span>
+                    <p>Ringkaskan penemuan utama anda</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🎯</span>
+                    <p>Nyatakan kesimpulan umum tentang data</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">💬</span>
+                    <p>Gunakan frasa seperti: "Secara keseluruhannya..." atau "Kesimpulannya..."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Keywords Section -->
+    <div class="p-4">
+        <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-6 text-white card-shadow">
+            <div class="flex items-center mb-4">
+                <span class="text-4xl mr-3 float">🔑</span>
+                <h3 class="text-xl font-semibold">Kata Kunci Penting</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <!-- Jenis Graf -->
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">📊</span>
+                        <h4 class="font-semibold">Jenis Graf</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Bar</span>
+                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Garisan</span>
+                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Gabungan</span>
+                    </div>
+                </div>
+                
+                <!-- Kata Perubahan -->
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">📈</span>
+                        <h4 class="font-semibold">Kata Perubahan</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Meningkat</span>
+                        <span class="bg-red-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Menurun</span>
+                        <span class="bg-gray-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Stabil</span>
+                        <span class="bg-yellow-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Mendadak</span>
+                    </div>
+                </div>
+                
+                <!-- Kata Nilai -->
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">🏔️</span>
+                        <h4 class="font-semibold">Kata Nilai</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Tertinggi</span>
+                        <span class="bg-red-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Terendah</span>
+                        <span class="bg-blue-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Purata</span>
+                        <span class="bg-purple-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Julat</span>
+                    </div>
+                </div>
+                
+                <!-- Kata Rumusan -->
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">📝</span>
+                        <h4 class="font-semibold">Kata Rumusan</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-pink-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Secara keseluruhannya</span>
+                        <span class="bg-indigo-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Kesimpulannya</span>
+                        <span class="bg-teal-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Oleh itu</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tips -->
+            <div class="mt-4 sm:mt-6 bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
+                <div class="flex items-center mb-3">
+                    <span class="text-2xl mr-2">💡</span>
+                    <h4 class="font-semibold">Tips Berguna</h4>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <p class="flex items-center">
+                        <span class="mr-2">✨</span>
+                        Sentiasa rujuk kembali kepada tajuk dan paksi untuk memastikan tafsiran yang betul!
+                    </p>
+                    <p class="flex items-center">
+                        <span class="mr-2">🎯</span>
+                        Gunakan data konkrit (nombor) dalam huraian anda untuk lebih tepat.
+                    </p>
+                    <p class="flex items-center">
+                        <span class="mr-2">🔍</span>
+                        Cari corak atau trend yang menarik untuk dibincangkan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center p-6 text-gray-500 text-sm">
+        <div class="flex justify-center items-center space-x-2 mb-2">
+            <span class="text-2xl">📚</span>
+            <p class="font-medium">Panduan Interaktif untuk Pembelajaran Matematik</p>
+        </div>
+        <p class="text-xs opacity-75">Panduan lengkap untuk mentafsir jadual dan graf!</p>
+    </div>
+
+    <script>
+        // Intersection Observer for smooth animations as cards come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply animation observer to all step cards
+        const stepCards = document.querySelectorAll('.step-card');
+        stepCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98392460879dee09',t:'MTc1ODYyMTA3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
