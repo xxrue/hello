@@ -2,8 +2,8 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Kuiz Flashcard Carta Pai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graf Master - Ciri-ciri dan Kegunaan Graf</title>
     <style>
         * {
             margin: 0;
@@ -12,865 +12,812 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8e8ff 0%, #e8f4fd 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            color: #333;
+            touch-action: manipulation;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 400px;
             margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
         }
 
         .header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            padding: 20px;
             text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: shimmer 3s linear infinite;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
         }
 
         .header h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            font-weight: 900;
-            color: #6b4e71;
-            letter-spacing: -1px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .nav-buttons {
+        .stats-row {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .nav-btn {
-            background: linear-gradient(135deg, #ffb3d9 0%, #ffd1b3 100%);
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .game-area {
+            padding: 20px;
+            position: relative;
+        }
+
+        .statement-card {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .statement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 2s infinite;
+        }
+
+        .statement-text {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .statement-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .classification-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .graph-section {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .graph-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0,184,148,0.2) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .graph-section:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .graph-section.selected {
+            border-color: #00b894;
+            background: linear-gradient(135deg, #00b89420, #00a08520);
+            transform: scale(1.02);
+            animation: selectedPulse 1s infinite;
+        }
+
+        .graph-section.correct-answer {
+            animation: correctBounce 0.8s ease-out;
+            border-color: #00b894;
+            background: linear-gradient(135deg, #00b89420, #00a08520);
+        }
+
+        .graph-section.wrong-answer {
+            animation: wrongShake 0.6s ease-out;
+            border-color: #e17055;
+            background: linear-gradient(135deg, #e1705520, #d6303020);
+        }
+
+        .graph-visual {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            gap: 4px;
+            height: 45px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #ff6b6b, #feca57);
+            width: 10px;
+            border-radius: 2px 2px 0 0;
+            animation: growUp 1s ease-out;
+            position: relative;
+        }
+
+        .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, transparent, rgba(255,255,255,0.3));
+            border-radius: 2px 2px 0 0;
+        }
+
+        .bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 80%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
+
+        .line-chart {
+            position: relative;
+            width: 70px;
+            height: 45px;
+        }
+
+        .line-path {
+            stroke: #ff6b6b;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            filter: drop-shadow(0 2px 4px rgba(255,107,107,0.3));
+        }
+
+        .combined-chart {
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            height: 45px;
+            position: relative;
+        }
+
+        .combined-chart .bar {
+            width: 7px;
+        }
+
+        .graph-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            position: relative;
+            overflow: hidden;
+            line-height: 1.2;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0,184,148,0.2);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .category-btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .category-btn.ciri {
+            border-color: #a8e6cf;
+            color: #00b894;
+        }
+
+        .category-btn.kegunaan {
+            border-color: #fab1a0;
+            color: #e17055;
+        }
+
+        .category-btn.selected {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .category-btn.ciri.selected {
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            color: white;
+        }
+
+        .category-btn.kegunaan.selected {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
-            color: #6b4e71;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            background: linear-gradient(135deg, #ff9dd1 0%, #ffbf9d 100%);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, #b3e5d1 0%, #d1e5ff 100%);
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .flashcards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px;
-        }
-
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .flashcard {
-            width: 100%;
-            height: 280px;
-            perspective: 1000px;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .quiz-card {
-            width: 100%;
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            border-radius: 15px;
-        }
-
-        .flashcard.flipped .card-inner,
-        .quiz-card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe8e8 100%);
-            color: #6b4e71;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #e8f8f5 0%, #f0f8ff 100%);
-            transform: rotateY(180deg);
-            color: #6b4e71;
-        }
-
-        .quiz-front {
-            background: linear-gradient(135deg, #f8e8ff 0%, #fff8e8 100%);
-        }
-
-        .quiz-back {
-            background: linear-gradient(135deg, #e8f4fd 0%, #f0fff0 100%);
-            color: #6b4e71;
-        }
-
-        .card-content {
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: #6b4e71;
-        }
-
-        .quiz-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #6b4e71;
-            line-height: 1.4;
-        }
-
-        .card-list {
-            text-align: left;
-            list-style: none;
-        }
-
-        .card-list li {
-            margin-bottom: 6px;
-            padding-left: 15px;
-            position: relative;
+            font-size: 16px;
             font-weight: 600;
-            color: #6b4e71;
-            line-height: 1.3;
-            font-size: 0.9rem;
-        }
-
-        .card-list li:before {
-            content: "•";
-            color: #ffb3d9;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-
-        .quiz-answer {
-            font-size: 1.2rem;
-            font-weight: 800;
-            padding: 10px 20px;
-            background: rgba(179, 229, 209, 0.3);
-            border-radius: 10px;
-            margin-top: 10px;
-            color: #6b4e71;
-            border: 2px solid rgba(179, 229, 209, 0.5);
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #ffb3d9 0%, #ffd1b3 100%);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            color: #6b4e71;
-            font-weight: 700;
             cursor: pointer;
+            width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: none;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-        }
-
-        .back-btn.show {
-            display: block;
-        }
-
-        .welcome-container {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .welcome-card {
-            background: linear-gradient(135deg, #fff0f5 0%, #f0f8ff 100%);
-            border-radius: 25px;
-            padding: 40px 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .pie-chart-icon {
-            margin-bottom: 20px;
-        }
-
-        .welcome-card h2 {
-            font-size: 2.2rem;
-            color: #6b4e71;
             margin-bottom: 15px;
-            font-weight: 800;
-        }
-
-        .welcome-card p {
-            font-size: 1.2rem;
-            color: #6b4e71;
-            font-weight: 500;
-        }
-
-        .mode-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .mode-card {
-            background: linear-gradient(135deg, #e8f8f5 0%, #fff0f5 100%);
-            border-radius: 20px;
-            padding: 30px 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border: 2px solid rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
         }
 
-        .mode-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        }
-
-        .mode-card:first-child {
-            background: linear-gradient(135deg, #e8f4fd 0%, #f0fff0 100%);
-        }
-
-        .mode-card:last-child {
-            background: linear-gradient(135deg, #f8e8ff 0%, #fff8e8 100%);
-        }
-
-        .mode-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .mode-card h3 {
-            font-size: 1.5rem;
-            color: #6b4e71;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .mode-card p {
-            color: #6b4e71;
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .mode-arrow {
+        .submit-btn::before {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            right: 25px;
-            font-size: 1.5rem;
-            color: #b3e5d1;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-        }
-
-        .mode-card:hover .mode-arrow {
-            transform: translateX(5px);
-        }
-
-        .quiz-instructions {
-            margin-bottom: 30px;
-        }
-
-        .instruction-card {
-            background: linear-gradient(135deg, #fff0f5 0%, #f0f8ff 100%);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .instruction-card h3 {
-            color: #6b4e71;
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .instruction-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            text-align: center;
-        }
-
-        .tap-left, .tap-right {
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 600;
-            color: #6b4e71;
-            font-size: 0.95rem;
-        }
-
-        .tap-left {
-            background: linear-gradient(135deg, #ffe8f0 0%, #fff0e8 100%);
-            border: 2px solid #ffb3d9;
-        }
-
-        .tap-right {
-            background: linear-gradient(135deg, #e8f8f5 0%, #e8f4fd 100%);
-            border: 2px solid #b3e5d1;
-        }
-
-        .tap-zone {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border-radius: 15px;
-            z-index: 10;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-        }
-
-        .left-zone {
-            left: 0;
-            background: linear-gradient(135deg, rgba(255, 179, 217, 0.1) 0%, rgba(255, 209, 179, 0.1) 100%);
-        }
-
-        .right-zone {
-            right: 0;
-            background: linear-gradient(135deg, rgba(179, 229, 209, 0.1) 0%, rgba(209, 229, 255, 0.1) 100%);
-        }
-
-        .tap-zone:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .tap-hint {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #6b4e71;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-            text-align: center;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .tap-zone:hover .tap-hint {
-            opacity: 1;
-        }
-
-        .tap-zone:hover {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-        }
-
-        .quiz-container {
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .quiz-progress {
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
             background: rgba(255,255,255,0.3);
-            border-radius: 4px;
-            margin: 10px 0;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #feca57);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .quiz-card-single {
-            width: 100%;
-            max-width: 400px;
+        .submit-btn:hover::before {
+            width: 300px;
             height: 300px;
-            margin: 0 auto 30px;
-            perspective: 1000px;
-            position: relative;
         }
 
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
 
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .feedback {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            animation: feedbackPop 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback::before {
+            content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: bold;
-            border-radius: 15px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s ease;
-            transform: scale(0.8);
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: feedbackShine 1s ease-out;
         }
 
         .feedback.correct {
-            background: linear-gradient(135deg, rgba(46, 204, 113, 0.95) 0%, rgba(39, 174, 96, 0.95) 100%);
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            color: #2d3436;
+        }
+
+        .feedback.wrong {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
             color: white;
-            box-shadow: 0 0 30px rgba(46, 204, 113, 0.5);
         }
 
-        .feedback.incorrect {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.95) 0%, rgba(192, 57, 43, 0.95) 100%);
+        .streak-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
             color: white;
-            box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
-        }
-
-        .feedback.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .feedback-text {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .next-btn {
-            background: linear-gradient(135deg, #00d2d3 0%, #54a0ff 100%);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: streakGlow 2s infinite;
             display: none;
         }
 
-        .next-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        .streak-indicator.active {
+            display: block;
         }
 
-        .next-btn.show {
-            display: inline-block;
+        .combo-multiplier {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: comboAppear 1s ease-out;
+            z-index: 1000;
+            display: none;
         }
 
-        .score-display {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 20px;
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 2000;
+            animation: achievementBounce 1s ease-out;
+            display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .power-ups {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .power-up {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .power-up:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .power-up.used {
+            background: #ddd;
+            color: #666;
+        }
+
+        .power-up::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .power-up:hover:not(:disabled)::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        .floating-points {
+            position: absolute;
+            color: #00b894;
+            font-weight: bold;
+            font-size: 18px;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #feca57;
+            border-radius: 50%;
+            animation: particleFloat 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(0, 184, 148, 0); }
+        }
+
+        @keyframes correctBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1.02); }
+            40% { transform: translateY(-10px) scale(1.05); }
+            60% { transform: translateY(-5px) scale(1.03); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes growUp {
+            from { height: 0; opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes feedbackPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes feedbackShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes streakGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(254, 202, 87, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(254, 202, 87, 0.8); }
+        }
+
+        @keyframes comboAppear {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes achievementBounce {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30px) scale(0); opacity: 0; }
         }
 
         .final-score {
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #fff0f5 0%, #f0f8ff 100%);
-            border-radius: 20px;
-            margin: 20px 0;
-            display: none;
-            border: 2px solid rgba(255,255,255,0.5);
+            padding: 30px 20px;
         }
 
-        .final-score.show {
-            display: block;
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: finalScoreBounce 1s ease-out;
+            position: relative;
+            overflow: hidden;
         }
 
-        .final-score h2 {
-            font-size: 2rem;
-            color: #6b4e71;
-            margin-bottom: 20px;
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
         }
 
-        .final-score .score {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #6b4e71;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .retry-btn {
-            background: linear-gradient(135deg, #ffb3d9 0%, #ffd1b3 100%);
+        .restart-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
-            color: #6b4e71;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        @keyframes finalScoreBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .nav-btn {
-                width: 100%;
-                max-width: 300px;
-                padding: 20px 25px;
-                font-size: 1.1rem;
-                min-height: 56px;
-            }
-            
-            .flashcard {
-                height: 340px;
-            }
-            
-            .quiz-card {
-                height: 240px;
-            }
-            
-            .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .quiz-title {
-                font-size: 1rem;
-            }
-            
-            .flashcards-grid, .quiz-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 10px;
-            }
-            
-            .card-front, .card-back {
-                padding: 15px;
-            }
-            
-            .card-list li {
-                font-size: 0.85rem;
-                margin-bottom: 5px;
-                line-height: 1.2;
-            }
-
-            .quiz-card-single {
-                height: 280px;
-            }
-
-            .instruction-row {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .tap-left, .tap-right {
-                padding: 16px;
-                font-size: 1rem;
-                min-height: 56px;
-            }
-
-            .welcome-card {
-                padding: 30px 20px;
-            }
-
-            .mode-cards {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .flashcard {
-                height: 300px;
-            }
-            
-            .quiz-card {
-                height: 180px;
-            }
-            
-            .card-title {
-                font-size: 1rem;
-                margin-bottom: 8px;
-            }
-            
-            .quiz-title {
-                font-size: 0.9rem;
-            }
-            
-            .card-front, .card-back {
-                padding: 12px;
-            }
-
-            .card-list li {
-                font-size: 0.8rem;
-                margin-bottom: 4px;
-            }
-
-            .quiz-card-single {
-                height: 220px;
-            }
-
-            .final-score h2 {
-                font-size: 1.5rem;
-            }
-
-            .final-score .score {
-                font-size: 2.5rem;
-            }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <button class="back-btn" onclick="showHome()">← Kembali</button>
-    
     <div class="container">
         <div class="header">
-            <h1>Ciri-ciri dan Kegunaan Carta Pai</h1>
-        </div>
-
-        <!-- Home Section -->
-        <div id="home" class="section active">
-            <div class="welcome-container">
-                <div class="welcome-card">
-                    <div class="pie-chart-icon">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <circle cx="60" cy="60" r="50" fill="#e6f7ff" stroke="#74b9ff" stroke-width="3"/>
-                            <path d="M 60,60 L 60,10 A 50,50 0 0,1 95,35 z" fill="#ffc3c6"/>
-                            <path d="M 60,60 L 95,35 A 50,50 0 0,1 95,85 z" fill="#b8e6d3"/>
-                            <path d="M 60,60 L 95,85 A 50,50 0 0,1 25,85 z" fill="#fff5e6"/>
-                            <path d="M 60,60 L 25,85 A 50,50 0 1,1 60,10 z" fill="#f0e6ff"/>
-                        </svg>
+            <div class="header-content">
+                <div class="level-badge" id="levelBadge">Level 1</div>
+                <h1>🎯 Ciri-ciri dan Kegunaan Graf</h1>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div>Skor</div>
+                        <div id="score">0</div>
                     </div>
-                    <h2>Selamat Datang!</h2>
-                    <p>Pelajari ciri-ciri dan kegunaan carta pai dengan cara yang menyeronokkan</p>
-                </div>
-                
-                <div class="mode-cards">
-                    <div class="mode-card" onclick="showNotes()">
-                        <div class="mode-icon">📚</div>
-                        <h3>Flashcard Nota</h3>
-                        <p>Baca dan pelajari ciri-ciri serta kegunaan carta pai</p>
-                        <div class="mode-arrow">→</div>
+                    <div class="stat-item">
+                        <div>Streak</div>
+                        <div id="streak">0</div>
                     </div>
-                    
-                    <div class="mode-card" onclick="showQuiz()">
-                        <div class="mode-icon">🎯</div>
-                        <h3>Flashcard Kuiz</h3>
-                        <p>Uji pengetahuan anda dengan kuiz interaktif</p>
-                        <div class="mode-arrow">→</div>
+                    <div class="stat-item">
+                        <div>Level</div>
+                        <div id="level">1</div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Notes Section -->
-        <div id="notes" class="section">
-            <div class="flashcards-grid">
-                <div class="flashcard" onclick="flipCard(this)">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <div class="card-content">
-                                <div class="card-title">Ciri-ciri Carta Pai</div>
-                                <p>Klik untuk melihat ciri-ciri</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-content">
-                                <ul class="card-list">
-                                    <li>Mempunyai tajuk dan petunjuk</li>
-                                    <li>Setiap sektor mewakili maklumat tertentu</li>
-                                    <li>Saiz sudut setiap sektor berdasarkan kuantiti maklumat</li>
-                                    <li>Nilai sektor dinyatakan dalam peratus (%)</li>
-                                    <li>Nilai keseluruhan bulatan ialah 360° yang mewakili 100%</li>
-                                    <li>Menyatakan jumlah keseluruhan kuantiti maklumat</li>
-                                    <li>Merupakan bahan grafik yang berbentuk bulat</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="flipCard(this)">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <div class="card-content">
-                                <div class="card-title">Kegunaan Carta Pai</div>
-                                <p>Klik untuk melihat kegunaan</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-content">
-                                <ul class="card-list">
-                                    <li>Menjadikan data lebih mudah difahami, menarik dan dibaca dengan lebih efektif</li>
-                                    <li>Menggambarkan taburan data dan maklumat</li>
-                                    <li>Menunjukkan perbandingan data dan maklumat dengan lebih jelas</li>
-                                    <li>Memudahkan rumusan dibuat</li>
-                                    <li>Sesuai untuk menunjukkan perwakilan data seperti sumbangan sektor ekonomi kepada pendapatan negara</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <!-- Quiz Section -->
-        <div id="quiz" class="section">
-            <div class="quiz-container">
-                <div class="quiz-instructions">
-                    <div class="instruction-card">
-                        <h3>📋 Arahan Kuiz</h3>
-                        <div class="instruction-row">
-                            <div class="tap-left">👈 Ketik KIRI jika jawapan anda <strong>KEGUNAAN</strong></div>
-                            <div class="tap-right">👉 Ketik KANAN jika jawapan anda <strong>CIRI-CIRI</strong></div>
-                        </div>
-                    </div>
-                </div>
+        <div class="game-area" id="gameArea">
+            <!-- Game content will be inserted here -->
+        </div>
 
-                <div class="quiz-progress">
-                    <div class="score-display">Skor: <span id="currentScore">0</span>/12</div>
-                    <div>Soalan <span id="currentQuestion">1</span> daripada 12</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                </div>
+        <div class="streak-indicator" id="streakIndicator">
+            🔥 Streak x<span id="streakCount">0</span>
+        </div>
 
-                <div class="quiz-card-single" id="quizCardContainer">
-                    <!-- Current quiz card will be inserted here -->
-                </div>
+        <div class="combo-multiplier" id="comboMultiplier">
+            COMBO x2!
+        </div>
 
-
-
-                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Seterusnya →</button>
-
-                <div class="final-score" id="finalScore">
-                    <h2>🎉 Tahniah! Kuiz Selesai!</h2>
-                    <div class="score" id="finalScoreText">0/12</div>
-                    <p id="scoreMessage">Teruskan usaha!</p>
-                    <button class="retry-btn" onclick="restartQuiz()">Cuba Lagi</button>
-                </div>
-            </div>
+        <div class="achievement-popup" id="achievementPopup">
+            <h3 id="achievementTitle">🏆 Achievement!</h3>
+            <p id="achievementText">You're doing great!</p>
         </div>
     </div>
 
     <script>
-        // Quiz data with randomized order
-        const quizData = [
-            { question: "Menjadikan data lebih mudah difahami, menarik dan dibaca dengan lebih efektif", answer: "Kegunaan Carta Pai" },
-            { question: "Mempunyai tajuk dan petunjuk", answer: "Ciri-ciri Carta Pai" },
-            { question: "Menggambarkan taburan data dan maklumat", answer: "Kegunaan Carta Pai" },
-            { question: "Setiap sektor mewakili maklumat tertentu", answer: "Ciri-ciri Carta Pai" },
-            { question: "Menunjukkan perbandingan data dan maklumat dengan lebih jelas", answer: "Kegunaan Carta Pai" },
-            { question: "Saiz sudut setiap sektor berdasarkan kuantiti maklumat", answer: "Ciri-ciri Carta Pai" },
-            { question: "Memudahkan rumusan dibuat", answer: "Kegunaan Carta Pai" },
-            { question: "Nilai sektor dinyatakan dalam peratus (%)", answer: "Ciri-ciri Carta Pai" },
-            { question: "Sesuai untuk menunjukkan perwakilan data seperti sumbangan sektor ekonomi kepada pendapatan negara", answer: "Kegunaan Carta Pai" },
-            { question: "Nilai keseluruhan bulatan ialah 360° yang mewakili 100%", answer: "Ciri-ciri Carta Pai" },
-            { question: "Menyatakan jumlah keseluruhan kuantiti maklumat", answer: "Ciri-ciri Carta Pai" },
-            { question: "Merupakan bahan grafik yang berbentuk bulat", answer: "Ciri-ciri Carta Pai" }
+        const statements = [
+            // Graf Bar - Ciri-ciri
+            { text: "Terdiri daripada paksi menegak dan paksi mendatar", graph: "bar", category: "ciri" },
+            { text: "Bar-bar boleh dilukis secara menegak atau mendatar", graph: "bar", category: "ciri" },
+            { text: "Ketinggian bar menunjukkan kuantiti sesuatu komponen", graph: "bar", category: "ciri" },
+            
+            // Graf Bar - Kegunaan
+            { text: "Mempersembahkan data yang boleh dikira", graph: "bar", category: "kegunaan" },
+            { text: "Menunjukkan perbezaan antara komponen yang dikaji", graph: "bar", category: "kegunaan" },
+            { text: "Sesuai untuk bilangan pelajar mengikut kelas", graph: "bar", category: "kegunaan" },
+            
+            // Graf Garisan - Ciri-ciri
+            { text: "Dilukis secara garisan", graph: "line", category: "ciri" },
+            { text: "Garisan yang curam menggambarkan perubahan yang besar", graph: "line", category: "ciri" },
+            { text: "Garisan yang landai menggambarkan perubahan yang kecil", graph: "line", category: "ciri" },
+            { text: "Garisan yang mendatar bermakna tiada perubahan", graph: "line", category: "ciri" },
+            
+            // Graf Garisan - Kegunaan
+            { text: "Menunjukkan perkara yang mengalami perubahan berterusan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk maklumat min suhu bulanan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk menunjukkan perubahan penduduk", graph: "line", category: "kegunaan" },
+            
+            // Graf Gabungan - Ciri-ciri
+            { text: "Gabungan graf bar mudah dan graf garisan", graph: "combined", category: "ciri" },
+            { text: "Menunjukkan dua maklumat yang berlainan dalam satu graf", graph: "combined", category: "ciri" }
         ];
 
-        // Game state
-        let currentQuizData = [];
-        let currentQuestionIndex = 0;
+        let currentStatement = 0;
         let score = 0;
-        let hasAnswered = false;
+        let streak = 0;
+        let level = 1;
+        let selectedGraph = null;
+        let selectedCategory = null;
+        let gameStatements = [];
+        let powerUps = {
+            hint: 3,
+            skip: 2,
+            doublePoints: 1
+        };
+        let achievements = [];
+        let isDoublePoints = false;
 
-        // Shuffle function
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -880,192 +827,467 @@
             return shuffled;
         }
 
-        // Initialize quiz
-        function initializeQuiz() {
-            currentQuizData = shuffleArray(quizData);
-            currentQuestionIndex = 0;
-            score = 0;
-            hasAnswered = false;
-            updateUI();
-            showCurrentQuestion();
+        function createGraphVisual(type) {
+            switch(type) {
+                case 'bar':
+                    return `
+                        <div class="bar-chart">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                    `;
+                case 'line':
+                    return `
+                        <svg class="line-chart" viewBox="0 0 70 45">
+                            <polyline class="line-path" points="5,35 20,20 35,25 50,15 65,18"/>
+                            <circle cx="5" cy="35" r="2" fill="#ff6b6b"/>
+                            <circle cx="20" cy="20" r="2" fill="#ff6b6b"/>
+                            <circle cx="35" cy="25" r="2" fill="#ff6b6b"/>
+                            <circle cx="50" cy="15" r="2" fill="#ff6b6b"/>
+                            <circle cx="65" cy="18" r="2" fill="#ff6b6b"/>
+                        </svg>
+                    `;
+                case 'combined':
+                    return `
+                        <div class="combined-chart">
+                            <div class="bar" style="height: 60%;"></div>
+                            <div class="bar" style="height: 80%;"></div>
+                            <div class="bar" style="height: 40%;"></div>
+                            <div class="bar" style="height: 70%;"></div>
+                            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewBox="0 0 50 45">
+                                <polyline points="6,30 16,18 26,22 36,12" stroke="#e17055" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    `;
+            }
         }
 
-        // Show current question
-        function showCurrentQuestion() {
-            const container = document.getElementById('quizCardContainer');
-            const currentQ = currentQuizData[currentQuestionIndex];
+        function displayStatement() {
+            if (currentStatement >= gameStatements.length) {
+                showFinalScore();
+                return;
+            }
+
+            const statement = gameStatements[currentStatement];
+            const gameArea = document.getElementById('gameArea');
             
-            container.innerHTML = `
-                <div class="card-inner" id="currentCard">
-                    <div class="card-front quiz-front">
-                        <div class="tap-zone left-zone" onclick="makeChoice('Kegunaan Carta Pai')">
-                        </div>
-                        <div class="tap-zone right-zone" onclick="makeChoice('Ciri-ciri Carta Pai')">
-                        </div>
-                        <div class="card-content">
-                            <div class="quiz-title">${currentQ.question}</div>
+            gameArea.innerHTML = `
+                <div style="background: rgba(116, 185, 255, 0.1); border-left: 4px solid #74b9ff; padding: 12px; margin-bottom: 15px; border-radius: 8px; font-size: 13px; color: #2d3436;">
+                    📋 <strong>Cara Main:</strong> Pilih jenis graf yang betul, kemudian klik sama ada "Ciri-ciri" atau "Kegunaan"
+                </div>
+                
+                <div class="power-ups">
+                    <button class="power-up" onclick="useHint()" ${powerUps.hint <= 0 ? 'disabled' : ''}>
+                        💡 Hint (${powerUps.hint})
+                    </button>
+                    <button class="power-up" onclick="useSkip()" ${powerUps.skip <= 0 ? 'disabled' : ''}>
+                        ⏭️ Skip (${powerUps.skip})
+                    </button>
+                    <button class="power-up" onclick="useDoublePoints()" ${powerUps.doublePoints <= 0 || isDoublePoints ? 'disabled' : ''}>
+                        ⭐ 2x Points (${powerUps.doublePoints})
+                    </button>
+                </div>
+                
+                <div class="statement-card">
+                    <div class="statement-text">${statement.text}</div>
+                    <div class="statement-counter">${currentStatement + 1}/15</div>
+                </div>
+                
+                <div class="classification-grid">
+                    <div class="graph-section" onclick="selectGraph('bar')">
+                        <div class="graph-title">Graf Bar</div>
+                        <div class="graph-visual">${createGraphVisual('bar')}</div>
+                        <div class="category-buttons">
+                            <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                            <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
                         </div>
                     </div>
-                    <div class="card-back quiz-back">
-                        <div class="card-content">
-                            <div class="quiz-answer">${currentQ.answer}</div>
+                    
+                    <div class="graph-section" onclick="selectGraph('line')">
+                        <div class="graph-title">Graf Garisan</div>
+                        <div class="graph-visual">${createGraphVisual('line')}</div>
+                        <div class="category-buttons">
+                            <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                            <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                        </div>
+                    </div>
+                    
+                    <div class="graph-section" onclick="selectGraph('combined')" style="grid-column: 1 / -1;">
+                        <div class="graph-title">Graf Gabungan</div>
+                        <div class="graph-visual">${createGraphVisual('combined')}</div>
+                        <div class="category-buttons">
+                            <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                            <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
                         </div>
                     </div>
                 </div>
+                
+                <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>
+                    🚀 Hantar Jawapan
+                </button>
+                
                 <div class="feedback" id="feedback"></div>
+                <button class="next-btn" id="nextBtn" onclick="nextStatement()">Soalan Seterusnya ➡️</button>
             `;
             
-            hasAnswered = false;
-            document.getElementById('nextBtn').classList.remove('show');
+            updateProgress();
+            selectedGraph = null;
+            selectedCategory = null;
         }
 
-        // Make choice
-        function makeChoice(userAnswer) {
-            if (hasAnswered) return;
+        function selectGraph(graphType) {
+            selectedGraph = graphType;
             
-            hasAnswered = true;
-            const currentQ = currentQuizData[currentQuestionIndex];
-            const isCorrect = userAnswer === currentQ.answer;
-            
-            if (isCorrect) {
-                score++;
-            }
-            
-            // Show feedback
-            showFeedback(isCorrect);
-            
-            // Flip card to show answer
-            setTimeout(() => {
-                document.getElementById('currentCard').style.transform = 'rotateY(180deg)';
-            }, 500);
-            
-            // Disable tap zones
-            document.querySelectorAll('.tap-zone').forEach(zone => {
-                zone.style.pointerEvents = 'none';
+            // Clear all selections
+            document.querySelectorAll('.graph-section').forEach(section => {
+                section.classList.remove('selected');
+            });
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
             });
             
-            // Show next button
-            setTimeout(() => {
-                document.getElementById('nextBtn').classList.add('show');
-            }, 1500);
+            // Select the graph
+            document.querySelector(`[onclick="selectGraph('${graphType}')"]`).classList.add('selected');
             
-            updateUI();
+            selectedCategory = null;
+            updateSubmitButton();
         }
 
-        // Show feedback
-        function showFeedback(isCorrect) {
+        function selectCategory(event, category) {
+            event.stopPropagation();
+            
+            if (!selectedGraph) return;
+            
+            // Clear all category selections
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select the category
+            event.target.classList.add('selected');
+            selectedCategory = category;
+            
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (selectedGraph && selectedCategory) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitAnswer() {
+            const statement = gameStatements[currentStatement];
             const feedback = document.getElementById('feedback');
-            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-            feedback.innerHTML = `
-                <div>${isCorrect ? '🎉' : '😔'}</div>
-                <div class="feedback-text">${isCorrect ? 'Betul!' : 'Salah!'}</div>
-            `;
-            feedback.classList.add('show');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const isCorrect = selectedGraph === statement.graph && selectedCategory === statement.category;
+            
+            if (isCorrect) {
+                let points = 10;
+                if (isDoublePoints) {
+                    points *= 2;
+                    isDoublePoints = false;
+                }
+                
+                score += points;
+                streak++;
+                
+                // Show floating points
+                showFloatingPoints(points);
+                createParticles();
+                
+                // Update streak indicator
+                updateStreakIndicator();
+                
+                // Check for combo multiplier
+                if (streak >= 3 && streak % 3 === 0) {
+                    showComboMultiplier();
+                }
+                
+                // Mark correct answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('correct-answer');
+                
+                feedback.className = 'feedback correct';
+                feedback.textContent = `🎉 Betul! +${points} mata! Ini adalah ${selectedCategory} Graf ${getGraphName(selectedGraph)}.`;
+                
+                // Check achievements
+                checkAchievements();
+                
+            } else {
+                streak = 0;
+                document.getElementById('streakIndicator').classList.remove('active');
+                
+                // Mark wrong answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('wrong-answer');
+                
+                feedback.className = 'feedback wrong';
+                feedback.textContent = `❌ Tidak tepat. Ini adalah ${statement.category} Graf ${getGraphName(statement.graph)}.`;
+            }
+            
+            updateStats();
+            feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            
+            // Disable all interactions
+            document.querySelectorAll('.graph-section, .category-btn').forEach(el => {
+                el.style.pointerEvents = 'none';
+            });
+        }
+
+        function showFloatingPoints(points) {
+            const gameArea = document.getElementById('gameArea');
+            const floatingPoints = document.createElement('div');
+            floatingPoints.className = 'floating-points';
+            floatingPoints.textContent = `+${points}`;
+            floatingPoints.style.left = Math.random() * 200 + 100 + 'px';
+            floatingPoints.style.top = '50%';
+            gameArea.appendChild(floatingPoints);
             
             setTimeout(() => {
-                feedback.classList.remove('show');
-            }, 1200);
+                floatingPoints.remove();
+            }, 1000);
         }
 
-        // Next question
-        function nextQuestion() {
-            currentQuestionIndex++;
-            
-            if (currentQuestionIndex >= currentQuizData.length) {
-                showFinalScore();
-            } else {
-                showCurrentQuestion();
-                updateUI();
+        function createParticles() {
+            const gameArea = document.getElementById('gameArea');
+            for (let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 300 + 50 + 'px';
+                particle.style.top = Math.random() * 200 + 100 + 'px';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                gameArea.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
             }
         }
 
-        // Show final score
-        function showFinalScore() {
-            document.getElementById('quizCardContainer').style.display = 'none';
-            document.getElementById('nextBtn').classList.remove('show');
+        function updateStreakIndicator() {
+            const streakIndicator = document.getElementById('streakIndicator');
+            const streakCount = document.getElementById('streakCount');
             
-            const finalScore = document.getElementById('finalScore');
-            const finalScoreText = document.getElementById('finalScoreText');
-            const scoreMessage = document.getElementById('scoreMessage');
+            if (streak >= 2) {
+                streakIndicator.classList.add('active');
+                streakCount.textContent = streak;
+            }
+        }
+
+        function showComboMultiplier() {
+            const comboMultiplier = document.getElementById('comboMultiplier');
+            comboMultiplier.style.display = 'block';
             
-            finalScoreText.textContent = `${score}/12`;
-            
-            let message = '';
-            if (score === 12) {
-                message = '🌟 Sempurna! Anda menguasai topik ini!';
-            } else if (score >= 10) {
-                message = '🎉 Hebat! Prestasi yang sangat baik!';
-            } else if (score >= 8) {
-                message = '👍 Bagus! Teruskan usaha!';
-            } else if (score >= 6) {
-                message = '💪 Tidak buruk! Cuba lagi untuk skor yang lebih baik!';
-            } else {
-                message = '📚 Jangan putus asa! Baca nota dan cuba lagi!';
+            setTimeout(() => {
+                comboMultiplier.style.display = 'none';
+            }, 1500);
+        }
+
+        function checkAchievements() {
+            if (streak === 5 && !achievements.includes('streak5')) {
+                achievements.push('streak5');
+                showAchievement('🔥 Streak Master!', 'Jawab 5 soalan berturut-turut dengan betul!');
             }
             
-            scoreMessage.textContent = message;
-            finalScore.classList.add('show');
-        }
-
-        // Restart quiz
-        function restartQuiz() {
-            document.getElementById('finalScore').classList.remove('show');
-            document.getElementById('quizCardContainer').style.display = 'block';
-            initializeQuiz();
-        }
-
-        // Update UI
-        function updateUI() {
-            document.getElementById('currentScore').textContent = score;
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            if (score >= 100 && !achievements.includes('score100')) {
+                achievements.push('score100');
+                showAchievement('💯 Century!', 'Capai 100 mata!');
+            }
             
-            const progress = ((currentQuestionIndex) / currentQuizData.length) * 100;
+            if (currentStatement === 4 && !achievements.includes('firstLevel')) {
+                achievements.push('firstLevel');
+                showAchievement('🎯 Level Up!', 'Selesai 5 soalan pertama!');
+                levelUp();
+            }
+        }
+
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementText').textContent = text;
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        function levelUp() {
+            level++;
+            document.getElementById('level').textContent = level;
+            document.getElementById('levelBadge').textContent = `Level ${level}`;
+            
+            // Bonus power-ups for leveling up
+            powerUps.hint++;
+            if (level % 2 === 0) {
+                powerUps.skip++;
+            }
+        }
+
+        function useHint() {
+            if (powerUps.hint <= 0) return;
+            
+            powerUps.hint--;
+            const statement = gameStatements[currentStatement];
+            
+            // Highlight correct graph type
+            const correctSection = document.querySelector(`[onclick="selectGraph('${statement.graph}')"]`);
+            correctSection.style.border = '3px solid #00b894';
+            correctSection.style.animation = 'selectedPulse 2s infinite';
+            
+            setTimeout(() => {
+                correctSection.style.border = '';
+                correctSection.style.animation = '';
+            }, 3000);
+            
+            event.target.classList.add('used');
+            event.target.disabled = true;
+        }
+
+        function useSkip() {
+            if (powerUps.skip <= 0) return;
+            
+            powerUps.skip--;
+            nextStatement();
+            event.target.classList.add('used');
+            event.target.disabled = true;
+        }
+
+        function useDoublePoints() {
+            if (powerUps.doublePoints <= 0 || isDoublePoints) return;
+            
+            powerUps.doublePoints--;
+            isDoublePoints = true;
+            event.target.classList.add('used');
+            event.target.disabled = true;
+            
+            // Show visual feedback
+            const gameArea = document.getElementById('gameArea');
+            const doublePointsIndicator = document.createElement('div');
+            doublePointsIndicator.textContent = '⭐ DOUBLE POINTS ACTIVE!';
+            doublePointsIndicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #feca57, #ff9ff3);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 12px;
+                z-index: 100;
+                animation: pulse 1s infinite;
+            `;
+            gameArea.appendChild(doublePointsIndicator);
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+        }
+
+        function getGraphName(graphType) {
+            switch(graphType) {
+                case 'bar': return 'Bar';
+                case 'line': return 'Garisan';
+                case 'combined': return 'Gabungan';
+            }
+        }
+
+        function nextStatement() {
+            currentStatement++;
+            displayStatement();
+        }
+
+        function updateProgress() {
+            const progress = (currentStatement / gameStatements.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
         }
 
-        function flipCard(card) {
-            card.classList.toggle('flipped');
-        }
-
-        function showHome() {
-            document.getElementById('home').classList.add('active');
-            document.getElementById('notes').classList.remove('active');
-            document.getElementById('quiz').classList.remove('active');
-            document.querySelector('.back-btn').classList.remove('show');
+        function showFinalScore() {
+            const gameArea = document.getElementById('gameArea');
+            const percentage = Math.round((score / 150) * 100);
+            let message = '';
+            let rank = '';
             
-            // Reset quiz
-            document.getElementById('finalScore').classList.remove('show');
-            document.getElementById('quizCardContainer').style.display = 'block';
+            if (percentage >= 90) {
+                message = '🌟 LEGEND! Anda adalah Graf Master!';
+                rank = '👑 GRAF MASTER';
+            } else if (percentage >= 80) {
+                message = '🔥 CEMERLANG! Anda memahami graf dengan sangat baik!';
+                rank = '🥇 GRAF EXPERT';
+            } else if (percentage >= 60) {
+                message = '👍 BAGUS! Anda faham konsep asas graf!';
+                rank = '🥈 GRAF SCHOLAR';
+            } else {
+                message = '💪 Teruskan belajar! Anda semakin memahami graf!';
+                rank = '🥉 GRAF STUDENT';
+            }
             
-            // Reset all flipped cards
-            document.querySelectorAll('.flashcard').forEach(card => {
-                card.classList.remove('flipped');
-            });
-        }
-
-        function showNotes() {
-            document.getElementById('home').classList.remove('active');
-            document.getElementById('notes').classList.add('active');
-            document.getElementById('quiz').classList.remove('active');
-            document.querySelector('.back-btn').classList.add('show');
-        }
-
-        function showQuiz() {
-            document.getElementById('home').classList.remove('active');
-            document.getElementById('notes').classList.remove('active');
-            document.getElementById('quiz').classList.add('active');
-            document.querySelector('.back-btn').classList.add('show');
+            gameArea.innerHTML = `
+                <div class="final-score">
+                    <h2>🎯 TAMAT!</h2>
+                    <div class="score-circle">
+                        ${score}/150
+                    </div>
+                    <h3 style="color: #fd79a8; margin-bottom: 10px;">${rank}</h3>
+                    <p style="font-size: 18px; margin-bottom: 15px;">${percentage}%</p>
+                    <p style="margin-bottom: 20px; color: #636e72;">${message}</p>
+                    
+                    <div style="background: linear-gradient(135deg, #a8e6cf, #88d8a3); padding: 15px; border-radius: 10px; margin: 20px 0;">
+                        <h4>📊 Statistik Anda:</h4>
+                        <p>🎯 Skor Tertinggi: ${score}</p>
+                        <p>🔥 Streak Terbaik: ${Math.max(...[streak, 0])}</p>
+                        <p>🏆 Achievement: ${achievements.length}</p>
+                        <p>📈 Level Dicapai: ${level}</p>
+                    </div>
+                    
+                    <button class="restart-btn" onclick="restartGame()">🔄 Main Semula</button>
+                </div>
+            `;
             
-            // Initialize quiz when entering quiz section
-            initializeQuiz();
+            document.getElementById('progressFill').style.width = '100%';
         }
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Quiz will be initialized when showQuiz() is called
-        });
+        function restartGame() {
+            currentStatement = 0;
+            score = 0;
+            streak = 0;
+            level = 1;
+            selectedGraph = null;
+            selectedCategory = null;
+            powerUps = { hint: 3, skip: 2, doublePoints: 1 };
+            achievements = [];
+            isDoublePoints = false;
+            gameStatements = shuffleArray(statements);
+            
+            updateStats();
+            document.getElementById('level').textContent = '1';
+            document.getElementById('levelBadge').textContent = 'Level 1';
+            document.getElementById('streakIndicator').classList.remove('active');
+            
+            displayStatement();
+        }
+
+        // Initialize game
+        function initGame() {
+            gameStatements = shuffleArray(statements);
+            displayStatement();
+        }
+
+        // Start the game
+        initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983842ed406c26f2',t:'MTc1ODYxMTgzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9838a099b707cc5f',t:'MTc1ODYxNTY3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
 
 
