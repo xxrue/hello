@@ -14,11 +14,11 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, 
-                #a8c8ec 0%, 
-                #c8a2c8 25%, 
-                #f5c6cb 50%, 
-                #ffd3a5 75%, 
-                #a8e6cf 100%
+                #667eea 0%, 
+                #764ba2 25%, 
+                #f093fb 50%, 
+                #f5576c 75%, 
+                #4facfe 100%
             );
             min-height: 100vh;
             padding: 10px;
@@ -61,11 +61,11 @@
             body {
                 padding: 20px;
                 background: linear-gradient(135deg, 
-                    #a8c8ec 0%, 
-                    #c8a2c8 25%, 
-                    #f5c6cb 50%, 
-                    #ffd3a5 75%, 
-                    #a8e6cf 100%
+                    #667eea 0%, 
+                    #764ba2 25%, 
+                    #f093fb 50%, 
+                    #f5576c 75%, 
+                    #4facfe 100%
                 );
             }
 
@@ -93,10 +93,12 @@
 
             .progress-bar {
                 margin: 0 0 20px 0;
-                background: rgba(255,255,255,0.2);
+                background: rgba(255,255,255,0.3);
                 backdrop-filter: blur(10px);
                 border-radius: 10px;
-                padding: 5px;
+                padding: 3px;
+                height: 20px;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
             }
 
             .game-area {
@@ -234,13 +236,15 @@
         }
 
         .header {
-            background: linear-gradient(45deg, #a8c8ec, #c8a2c8, #f5c6cb, #ffd3a5);
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #533483);
             padding: 20px;
             text-align: center;
             color: white;
             position: relative;
             overflow: hidden;
             transition: all 0.8s ease;
+            box-shadow: 0 8px 32px rgba(26, 26, 46, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.15);
         }
 
         .header.redemption-mode {
@@ -296,7 +300,7 @@
         }
 
         .level-badge {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
@@ -305,7 +309,7 @@
             display: inline-block;
             margin-bottom: 10px;
             animation: pulse 2s infinite;
-            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
         }
 
         .level-badge.redemption-mode {
@@ -320,13 +324,13 @@
         }
 
         .statement-card {
-            background: linear-gradient(135deg, #a8c8ec, #c8a2c8);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 25px;
             text-align: center;
-            box-shadow: 0 8px 16px rgba(168, 200, 236, 0.3);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
             animation: slideIn 0.5s ease-out;
             position: relative;
             overflow: hidden;
@@ -434,9 +438,14 @@
 
         .classification-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
             gap: 10px;
             margin-bottom: 25px;
+        }
+
+        .classification-grid .graph-section:nth-child(3) {
+            grid-column: 1 / -1;
         }
 
         .graph-section {
@@ -470,11 +479,11 @@
         }
 
         .graph-section.selected {
-            border-color: #a8c8ec;
-            background: linear-gradient(135deg, #e8f4f8, #f0f8ff);
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f2ff, #e8ebff);
             transform: scale(1.02);
             animation: selectedPulse 1s infinite;
-            box-shadow: 0 8px 20px rgba(168, 200, 236, 0.3);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .graph-section.selected.redemption-mode {
@@ -484,9 +493,9 @@
 
         .graph-section.correct-answer {
             animation: correctBounce 0.8s ease-out;
-            border-color: #a8e6cf;
-            background: linear-gradient(135deg, #e8f5e8, #f0fff0);
-            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.4);
+            border-color: #48cae4;
+            background: linear-gradient(135deg, #e8f9fd, #f0fcff);
+            box-shadow: 0 8px 20px rgba(72, 202, 228, 0.4);
         }
 
         .graph-section.correct-answer.redemption-mode {
@@ -496,8 +505,8 @@
 
         .graph-section.wrong-answer {
             animation: wrongShake 0.6s ease-out;
-            border-color: #f5c6cb;
-            background: linear-gradient(135deg, #fdf2f2, #fef5f5);
+            border-color: #f093fb;
+            background: linear-gradient(135deg, #fef7ff, #fdf2ff);
         }
 
         .graph-visual {
@@ -518,7 +527,7 @@
         }
 
         .bar {
-            background: linear-gradient(to top, #e67e22, #f39c12);
+            background: linear-gradient(to top, #ff6b6b, #feca57);
             width: 10px;
             border-radius: 2px 2px 0 0;
             animation: growUp 1s ease-out;
@@ -552,11 +561,11 @@
         }
 
         .line-path {
-            stroke: #2ecc71;
+            stroke: #48cae4;
             stroke-width: 2;
             fill: none;
             stroke-linecap: round;
-            filter: drop-shadow(0 2px 4px rgba(46,204,113,0.3));
+            filter: drop-shadow(0 2px 4px rgba(72,202,228,0.3));
         }
 
         .line-path.redemption-mode {
@@ -599,19 +608,19 @@
 
         .category-btn {
             flex: 1;
-            padding: 10px 8px;
+            padding: 6px 4px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
             background: white;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             color: #666;
             position: relative;
             overflow: hidden;
-            line-height: 1.2;
-            min-height: 40px;
+            line-height: 1.1;
+            min-height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -641,8 +650,8 @@
         }
 
         .category-btn.ciri {
-            border-color: #3498db;
-            color: #2980b9;
+            border-color: #667eea;
+            color: #533483;
         }
 
         .category-btn.ciri.redemption-mode {
@@ -651,8 +660,8 @@
         }
 
         .category-btn.kegunaan {
-            border-color: #2ecc71;
-            color: #27ae60;
+            border-color: #48cae4;
+            color: #0077b6;
         }
 
         .category-btn.kegunaan.redemption-mode {
@@ -666,7 +675,7 @@
         }
 
         .category-btn.ciri.selected {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
 
@@ -676,7 +685,7 @@
         }
 
         .category-btn.kegunaan.selected {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #48cae4, #0077b6);
             color: white;
         }
 
@@ -686,7 +695,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #dda0dd, #c8a2c8);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -699,6 +708,7 @@
             margin-bottom: 15px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
         .submit-btn.redemption-mode {
@@ -758,7 +768,7 @@
         }
 
         .feedback.correct {
-            background: linear-gradient(135deg, #d8bfd8, #c8a2c8);
+            background: linear-gradient(135deg, #48cae4, #0077b6);
             color: white;
         }
 
@@ -768,7 +778,7 @@
         }
 
         .feedback.wrong {
-            background: linear-gradient(135deg, #f0c4de, #dda0dd);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
         }
 
@@ -781,7 +791,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: linear-gradient(135deg, #e6e6fa, #dda0dd);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
             padding: 5px 10px;
             border-radius: 15px;
@@ -800,7 +810,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #dda0dd, #e6e6fa);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
             padding: 10px 20px;
             border-radius: 20px;
@@ -816,7 +826,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #dda0dd, #c8a2c8);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -835,7 +845,7 @@
         }
 
         .power-up {
-            background: linear-gradient(135deg, #b19cd9, #9370db);
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
             color: white;
             border: none;
             padding: 8px 12px;
@@ -876,7 +886,7 @@
         }
 
         .next-btn {
-            background: linear-gradient(135deg, #c8a2c8, #b19cd9);
+            background: linear-gradient(135deg, #764ba2, #667eea);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -903,11 +913,12 @@
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
             height: 100%;
-            border-radius: 4px;
+            border-radius: 7px;
             transition: width 0.5s ease;
             position: relative;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
         }
 
         .progress-fill::after {
@@ -1922,5 +1933,5 @@
         // Start the game
         initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840c403c6ca24d2',t:'MTc1ODcwMTAxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840e7e5075411c9',t:'MTc1ODcwMjQ4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
