@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Langkah-langkah Mentafsir Carta Pai</title>
+    <title>Graf Master - Ciri-ciri dan Kegunaan Graf</title>
     <style>
         * {
             margin: 0;
@@ -12,586 +12,741 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #ec4899 70%, #f59e0b 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, 
+                #a8c8ec 0%, 
+                #c8a2c8 25%, 
+                #f5c6cb 50%, 
+                #ffd3a5 75%, 
+                #a8e6cf 100%
+            );
             min-height: 100vh;
-            padding: 15px;
+            padding: 10px;
+            color: #333;
+            touch-action: manipulation;
             overflow-x: hidden;
+            position: relative;
+            transition: all 0.8s ease;
         }
 
-        .app-container {
-            max-width: 420px;
+        body.redemption-mode {
+            background: linear-gradient(135deg, 
+                #0c0c0c 0%, 
+                #1a1a1a 25%, 
+                #2d1b69 50%, 
+                #8b0000 75%, 
+                #ff0000 100%
+            );
+            animation: redemptionPulse 3s ease-in-out infinite;
+        }
+
+        .container {
+            max-width: 400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 25px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
-            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 10;
+        }
+
+        .container.redemption-mode {
+            background: rgba(20, 20, 20, 0.95);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.5);
+            border: 2px solid rgba(255, 0, 0, 0.7);
         }
 
         @media (min-width: 768px) {
-            .app-container {
-                max-width: 900px;
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 0;
+            body {
+                padding: 20px;
+                background: linear-gradient(135deg, 
+                    #a8c8ec 0%, 
+                    #c8a2c8 25%, 
+                    #f5c6cb 50%, 
+                    #ffd3a5 75%, 
+                    #a8e6cf 100%
+                );
             }
 
-            .hero-section {
-                padding: 50px 40px 40px;
+            body.redemption-mode {
+                background: linear-gradient(135deg, 
+                    #0c0c0c 0%, 
+                    #1a1a1a 25%, 
+                    #2d1b69 50%, 
+                    #8b0000 75%, 
+                    #ff0000 100%
+                );
             }
 
-            .hero-title {
-                font-size: 32px;
+            .container {
+                max-width: 1200px;
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
             }
 
-            .hero-subtitle {
-                font-size: 18px;
+            .header {
+                border-radius: 20px;
+                margin-bottom: 20px;
             }
 
-            .steps-container {
-                padding: 40px;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
+            .progress-bar {
+                margin: 0 0 20px 0;
+                background: rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+                border-radius: 10px;
+                padding: 5px;
+            }
+
+            .game-area {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
                 gap: 25px;
-                align-items: start;
             }
 
-            .step-card {
+            .left-panel {
+                background: white;
+                border-radius: 20px;
+                padding: 25px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                backdrop-filter: blur(10px);
+                width: 100%;
+            }
+
+            .left-panel.redemption-mode {
+                background: rgba(30, 30, 30, 0.95);
+                box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.5);
+                color: #ffffff;
+            }
+
+            .right-panel {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .classification-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
                 margin-bottom: 0;
             }
 
-            .step-header {
-                padding: 30px;
+            .graph-section {
+                background: white;
+                border-radius: 15px;
+                padding: 15px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                backdrop-filter: blur(10px);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border: 2px solid transparent;
+                height: fit-content;
             }
 
-            .step-body {
-                padding: 0 30px 35px;
+            .graph-section.redemption-mode {
+                background: rgba(40, 40, 40, 0.95);
+                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.4);
+                color: #ffffff;
             }
 
-            .summary-section {
-                margin: 30px 40px 40px;
-                padding: 40px;
+            .graph-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            }
+
+            .graph-visual {
+                height: 60px;
+                margin-bottom: 12px;
+            }
+
+            .graph-title {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            .desktop-submit-area {
+                background: white;
+                border-radius: 20px;
+                padding: 20px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+
+            .desktop-submit-area.redemption-mode {
+                background: rgba(30, 30, 30, 0.95);
+                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.5);
+                color: #ffffff;
+            }
+
+            .category-buttons {
+                gap: 12px;
+            }
+
+            .category-btn {
+                padding: 12px 16px;
+                font-size: 12px;
+                min-height: 45px;
+                border-radius: 12px;
+            }
+
+            .statement-card {
+                margin-bottom: 0;
+                font-size: 18px;
+            }
+
+            .power-ups {
+                margin-bottom: 0;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .power-up {
+                padding: 10px 16px;
+                font-size: 13px;
+                border-radius: 25px;
+            }
+
+            .submit-btn, .next-btn {
+                margin-top: 20px;
+                padding: 18px 30px;
+                font-size: 16px;
+                border-radius: 30px;
+            }
+
+            .final-score {
                 grid-column: 1 / -1;
-            }
-
-            .floating-action {
-                bottom: 40px;
-                right: 40px;
-                width: 64px;
-                height: 64px;
-                font-size: 28px;
+                background: white;
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                max-width: 600px;
+                margin: 0 auto;
             }
         }
 
-        @media (min-width: 1200px) {
-            .app-container {
-                max-width: 1200px;
-            }
-
-            .steps-container {
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 30px;
-                padding: 50px;
-            }
-
-            .summary-section {
-                margin: 40px 50px 50px;
-                padding: 50px;
-            }
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            padding: 40px 25px 35px;
+        .header {
+            background: linear-gradient(45deg, #a8c8ec, #c8a2c8, #f5c6cb, #ffd3a5);
+            padding: 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="dots" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="12.5" cy="12.5" r="2" fill="rgba(255,255,255,0.2)"/></pattern></defs><rect width="200" height="200" fill="url(%23dots)"/></svg>');
-            animation: drift 20s infinite linear;
-        }
-
-        @keyframes drift {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-25px) translateY(-25px); }
-        }
-
-        .hero-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            position: relative;
-            z-index: 2;
-            animation: bounce 3s infinite;
-        }
-
-        .hero-pie-chart {
-            width: 100%;
-            height: 100%;
-            animation: rotate 8s linear infinite;
-        }
-
-        .hero-pie-slice {
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.2));
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-12px); }
-            60% { transform: translateY(-6px); }
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hero-title {
-            font-size: 26px;
-            font-weight: 800;
             color: white;
-            margin-bottom: 8px;
             position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            position: relative;
-            z-index: 2;
-            font-weight: 500;
-        }
-
-        .steps-container {
-            padding: 25px;
-        }
-
-        .step-card {
-            background: white;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            border: 2px solid transparent;
-            position: relative;
+            transition: all 0.8s ease;
         }
 
-        .step-card::before {
+        .header.redemption-mode {
+            background: linear-gradient(45deg, #000000, #8b0000, #ff0000, #2d1b69);
+            animation: redemptionHeaderPulse 2s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(255, 0, 0, 0.6);
+        }
+
+        .header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ec4899, #f59e0b);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: shimmer 3s linear infinite;
         }
 
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .header-content {
+            position: relative;
+            z-index: 2;
         }
 
-        .step-card:hover::before {
-            transform: scaleX(1);
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .step-card.active {
-            transform: translateY(-3px);
-        }
-
-        .step-card:nth-child(1).active {
-            border-color: #ec4899;
-        }
-
-        .step-card:nth-child(2).active {
-            border-color: #06b6d4;
-        }
-
-        .step-card:nth-child(3).active {
-            border-color: #8b5cf6;
-        }
-
-        .step-card:nth-child(4).active {
-            border-color: #10b981;
-        }
-
-        .step-card:nth-child(5).active {
-            border-color: #f59e0b;
-        }
-
-        .step-card:nth-child(6).active {
-            border-color: #6366f1;
-        }
-
-        .step-card.active::before {
-            transform: scaleX(1);
-        }
-
-        .step-header {
-            padding: 25px;
+        .stats-row {
             display: flex;
-            align-items: center;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .step-visual {
-            width: 60px;
-            height: 60px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            flex-shrink: 0;
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+        }
+
+        .level-badge.redemption-mode {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            animation: redemptionBadgePulse 1.5s ease-in-out infinite;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.8);
+        }
+
+        .game-area {
+            padding: 20px;
+            position: relative;
+        }
+
+        .statement-card {
+            background: linear-gradient(135deg, #a8c8ec, #c8a2c8);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(168, 200, 236, 0.3);
+            animation: slideIn 0.5s ease-out;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.8s ease;
         }
 
-        .step-visual::before {
+        .statement-card.redemption-mode {
+            background: linear-gradient(135deg, #000000, #2d1b69);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+            animation: redemptionCardPulse 2s ease-in-out infinite;
+            border: 2px solid #ff0000;
+        }
+
+        .statement-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 2s infinite;
         }
 
-        .step-card:hover .step-visual::before {
-            left: 100%;
-        }
-
-        .step-card:nth-child(1) .step-visual { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .step-card:nth-child(2) .step-visual { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-        .step-card:nth-child(3) .step-visual { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-        .step-card:nth-child(4) .step-visual { background: linear-gradient(135deg, #10b981, #34d399); }
-        .step-card:nth-child(5) .step-visual { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-        .step-card:nth-child(6) .step-visual { background: linear-gradient(135deg, #6366f1, #818cf8); }
-
-        .step-info {
-            flex: 1;
-        }
-
-        .step-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 6px;
-            line-height: 1.3;
-        }
-
-        .step-keywords {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        .keyword-tag {
-            background: #f1f5f9;
-            color: #475569;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-            border: 1px solid #e2e8f0;
-        }
-
-        .step-card:nth-child(1) .keyword-tag { background: rgba(236, 72, 153, 0.1); color: #be185d; border-color: rgba(236, 72, 153, 0.2); }
-        .step-card:nth-child(2) .keyword-tag { background: rgba(6, 182, 212, 0.1); color: #0e7490; border-color: rgba(6, 182, 212, 0.2); }
-        .step-card:nth-child(3) .keyword-tag { background: rgba(139, 92, 246, 0.1); color: #7c3aed; border-color: rgba(139, 92, 246, 0.2); }
-        .step-card:nth-child(4) .keyword-tag { background: rgba(16, 185, 129, 0.1); color: #047857; border-color: rgba(16, 185, 129, 0.2); }
-        .step-card:nth-child(5) .keyword-tag { background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.2); }
-        .step-card:nth-child(6) .keyword-tag { background: rgba(99, 102, 241, 0.1); color: #4338ca; border-color: rgba(99, 102, 241, 0.2); }
-
-        .expand-indicator {
-            font-size: 20px;
-            color: #cbd5e0;
-            transition: all 0.3s ease;
-        }
-
-        .step-card:nth-child(1).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #ec4899;
-        }
-
-        .step-card:nth-child(2).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #06b6d4;
-        }
-
-        .step-card:nth-child(3).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #8b5cf6;
-        }
-
-        .step-card:nth-child(4).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #10b981;
-        }
-
-        .step-card:nth-child(5).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #f59e0b;
-        }
-
-        .step-card:nth-child(6).active .expand-indicator {
-            transform: rotate(90deg);
-            color: #6366f1;
-        }
-
-        .step-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .step-content.expanded {
-            max-height: 1000px;
-        }
-
-        .step-body {
-            padding: 0 25px 30px;
-        }
-
-        .visual-example {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .example-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+        .statement-text {
+            font-size: 16px;
             font-weight: 600;
-            color: #374151;
-            font-size: 14px;
-        }
-
-        .pie-chart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .pie-chart {
-            width: 160px;
-            height: 160px;
+            line-height: 1.4;
+            margin-bottom: 10px;
             position: relative;
+            z-index: 2;
         }
 
-        .pie-svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
+        .statement-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
         }
 
-        .pie-slice {
+        .redemption-announcement {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+            animation: redemptionAnnounce 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .redemption-announcement::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        .redemption-announcement-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .redemption-announcement h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .redemption-announcement p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .redemption-start-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .redemption-start-btn:hover {
+            background: white;
+            color: #ff6b6b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .graph-section {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
-        }
-
-        .pie-slice:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
-        }
-
-        .chart-legend {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .example-text {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 13px;
-            line-height: 1.5;
-            font-style: italic;
             position: relative;
             overflow: hidden;
         }
 
-        .example-text::before {
-            content: '"';
+        .graph-section::before {
+            content: '';
             position: absolute;
-            top: 5px;
-            left: 10px;
-            font-size: 30px;
-            opacity: 0.3;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0,184,148,0.2) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
         }
 
-        .key-points {
-            display: grid;
-            gap: 10px;
-            margin-top: 15px;
+        .graph-section:hover::before {
+            width: 200px;
+            height: 200px;
         }
 
-        .key-point {
+        .graph-section.selected {
+            border-color: #a8c8ec;
+            background: linear-gradient(135deg, #e8f4f8, #f0f8ff);
+            transform: scale(1.02);
+            animation: selectedPulse 1s infinite;
+            box-shadow: 0 8px 20px rgba(168, 200, 236, 0.3);
+        }
+
+        .graph-section.selected.redemption-mode {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+        }
+
+        .graph-section.correct-answer {
+            animation: correctBounce 0.8s ease-out;
+            border-color: #a8e6cf;
+            background: linear-gradient(135deg, #e8f5e8, #f0fff0);
+            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.4);
+        }
+
+        .graph-section.correct-answer.redemption-mode {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+        }
+
+        .graph-section.wrong-answer {
+            animation: wrongShake 0.6s ease-out;
+            border-color: #f5c6cb;
+            background: linear-gradient(135deg, #fdf2f2, #fef5f5);
+        }
+
+        .graph-visual {
+            height: 60px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 10px;
-            border-left: 4px solid #ec4899;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .comparison-visual {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-        }
-
-        .comparison-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .comparison-bar {
-            width: 60px;
-            height: 8px;
-            border-radius: 4px;
-            margin: 8px auto;
-        }
-
-        .comparison-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .comparison-value {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .summary-section {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #ec4899 70%, #f59e0b 100%);
-            margin: 20px;
-            border-radius: 20px;
-            padding: 30px;
-            color: white;
-            text-align: center;
+            justify-content: center;
+            margin-bottom: 10px;
             position: relative;
-            overflow: hidden;
+            z-index: 2;
         }
 
-        .summary-section::before {
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            gap: 4px;
+            height: 45px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #e67e22, #f39c12);
+            width: 10px;
+            border-radius: 2px 2px 0 0;
+            animation: growUp 1s ease-out;
+            position: relative;
+        }
+
+        .bar.redemption-mode {
+            background: linear-gradient(to top, #e74c3c, #c0392b);
+        }
+
+        .bar::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="sparkles" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.3)"/><circle cx="30" cy="20" r="1.5" fill="rgba(255,255,255,0.2)"/><circle cx="20" cy="35" r="1" fill="rgba(255,255,255,0.4)"/></pattern></defs><rect width="200" height="200" fill="url(%23sparkles)"/></svg>');
-            animation: sparkle 15s infinite linear;
+            background: linear-gradient(to top, transparent, rgba(255,255,255,0.3));
+            border-radius: 2px 2px 0 0;
         }
 
-        @keyframes sparkle {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-40px) translateY(-40px); }
-        }
+        .bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 80%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
 
-        .summary-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .line-chart {
             position: relative;
-            z-index: 2;
-            animation: pulse 2s infinite;
+            width: 70px;
+            height: 45px;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .line-path {
+            stroke: #2ecc71;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            filter: drop-shadow(0 2px 4px rgba(46,204,113,0.3));
         }
 
-        .summary-title {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        .line-path.redemption-mode {
+            stroke: #e74c3c;
+            filter: drop-shadow(0 2px 4px rgba(231,76,60,0.5));
         }
 
-        .summary-keywords {
+        .combined-chart {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
+            align-items: end;
+            gap: 3px;
+            height: 45px;
+            position: relative;
+        }
+
+        .combined-chart .bar {
+            width: 7px;
+        }
+
+        .graph-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 8px;
             position: relative;
             z-index: 2;
         }
 
-        .summary-keyword {
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 14px;
+        .graph-section.redemption-mode .graph-title {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 10px;
             font-weight: 600;
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            position: relative;
+            overflow: hidden;
+            line-height: 1.2;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0,184,148,0.2);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .category-btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .category-btn.redemption-mode::before {
+            background: rgba(255,107,107,0.2);
+        }
+
+        .category-btn.ciri {
+            border-color: #3498db;
+            color: #2980b9;
+        }
+
+        .category-btn.ciri.redemption-mode {
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+
+        .category-btn.kegunaan {
+            border-color: #2ecc71;
+            color: #27ae60;
+        }
+
+        .category-btn.kegunaan.redemption-mode {
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+
+        .category-btn.selected {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .category-btn.ciri.selected {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .category-btn.ciri.selected.redemption-mode {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .category-btn.kegunaan.selected {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .category-btn.kegunaan.selected.redemption-mode {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #dda0dd, #c8a2c8);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
             position: relative;
             overflow: hidden;
         }
 
-        .summary-keyword::before {
+        .submit-btn.redemption-mode {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            animation: feedbackPop 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback::before {
             content: '';
             position: absolute;
             top: 0;
@@ -599,530 +754,1173 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
+            animation: feedbackShine 1s ease-out;
         }
 
-        .summary-keyword:hover::before {
-            left: 100%;
+        .feedback.correct {
+            background: linear-gradient(135deg, #d8bfd8, #c8a2c8);
+            color: white;
         }
 
-        .summary-keyword:nth-child(1) {
-            background: linear-gradient(135deg, #ec4899, #f472b6);
-            animation: float 3s ease-in-out infinite;
+        .feedback.correct.redemption-mode {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
         }
 
-        .summary-keyword:nth-child(2) {
-            background: linear-gradient(135deg, #06b6d4, #22d3ee);
-            animation: float 3s ease-in-out infinite 0.5s;
+        .feedback.wrong {
+            background: linear-gradient(135deg, #f0c4de, #dda0dd);
+            color: white;
         }
 
-        .summary-keyword:nth-child(3) {
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-            animation: float 3s ease-in-out infinite 1s;
+        .feedback.wrong.redemption-mode {
+            background: linear-gradient(135deg, #ff8e8e, #ffa8a8);
+            color: white;
         }
 
-        .summary-keyword:nth-child(4) {
-            background: linear-gradient(135deg, #10b981, #34d399);
-            animation: float 3s ease-in-out infinite 1.5s;
+        .streak-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #e6e6fa, #dda0dd);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: streakGlow 2s infinite;
+            display: none;
         }
 
-        .summary-keyword:nth-child(5) {
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            animation: float 3s ease-in-out infinite 2s;
+        .streak-indicator.active {
+            display: block;
         }
 
-        .summary-keyword:nth-child(6) {
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            animation: float 3s ease-in-out infinite 2.5s;
+        .combo-multiplier {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #dda0dd, #e6e6fa);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: comboAppear 1s ease-out;
+            z-index: 1000;
+            display: none;
         }
 
-        .summary-keyword:nth-child(7) {
-            background: linear-gradient(135deg, #ef4444, #f87171);
-            animation: float 3s ease-in-out infinite 3s;
-        }
-
-        .summary-keyword:nth-child(8) {
-            background: linear-gradient(135deg, #84cc16, #a3e635);
-            animation: float 3s ease-in-out infinite 3.5s;
-        }
-
-        .summary-keyword:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .floating-action {
+        .achievement-popup {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #ec4899, #f59e0b);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #dda0dd, #c8a2c8);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 2000;
+            animation: achievementBounce 1s ease-out;
+            display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .power-ups {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .power-up {
+            background: linear-gradient(135deg, #b19cd9, #9370db);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .power-up:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .power-up.used {
+            background: #ddd;
+            color: #666;
+        }
+
+        .power-up::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
             border-radius: 50%;
+        }
+
+        .power-up:hover:not(:disabled)::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #c8a2c8, #b19cd9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn.redemption-mode {
+            background: linear-gradient(135deg, #ff8e8e, #ff6b6b);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        .floating-points {
+            position: absolute;
+            color: #a8e6cf;
+            font-weight: bold;
+            font-size: 18px;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .floating-points.redemption-mode {
+            color: #ff6b6b;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffd3a5;
+            border-radius: 50%;
+            animation: particleFloat 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        .particle.redemption-mode {
+            background: #ff6b6b;
+        }
+
+        @keyframes redemptionPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.1); }
+        }
+
+        @keyframes redemptionHeaderPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes redemptionBadgePulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        @keyframes redemptionCardPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 16px rgba(255, 107, 107, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4); }
+        }
+
+        @keyframes redemptionAnnounce {
+            0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+            50% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(168, 200, 236, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(168, 200, 236, 0); }
+        }
+
+        @keyframes correctBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1.02); }
+            40% { transform: translateY(-10px) scale(1.05); }
+            60% { transform: translateY(-5px) scale(1.03); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes growUp {
+            from { height: 0; opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes feedbackPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes feedbackShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes streakGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(254, 202, 87, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(254, 202, 87, 0.8); }
+        }
+
+        @keyframes comboAppear {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes achievementBounce {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30px) scale(0); opacity: 0; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .final-score {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 20px auto;
             color: white;
             font-size: 24px;
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: finalScoreBounce 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(116, 185, 255, 0.3);
         }
 
-        .floating-action:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(236, 72, 153, 0.6);
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(116, 185, 255, 0.4);
         }
 
-        @media (max-width: 480px) {
-            .app-container {
-                margin: 10px;
-                border-radius: 20px;
+        @keyframes finalScoreBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confettiFall 3s linear infinite;
+            pointer-events: none;
+        }
+
+        .confetti:nth-child(odd) {
+            background: #4ecdc4;
+            animation-delay: -0.5s;
+        }
+
+        .confetti:nth-child(3n) {
+            background: #45b7d1;
+            animation-delay: -1s;
+        }
+
+        .confetti:nth-child(4n) {
+            background: #f9ca24;
+            animation-delay: -1.5s;
+        }
+
+        .confetti:nth-child(5n) {
+            background: #6c5ce7;
+            animation-delay: -2s;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
             }
-            
-            .hero-title {
-                font-size: 22px;
-            }
-            
-            .steps-container {
-                padding: 20px;
-            }
-            
-            .step-header {
-                padding: 20px;
-            }
-            
-            .step-body {
-                padding: 0 20px 25px;
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
             }
         }
+
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="hero-section">
-            <div class="hero-icon">
-                <svg class="hero-pie-chart" viewBox="0 0 100 100">
-                    <!-- Slice 1: 30% -->
-                    <path d="M 50,50 L 50,10 A 40,40 0 0,1 85,35 Z" 
-                          fill="#ec4899" class="hero-pie-slice"></path>
-                    <!-- Slice 2: 25% -->
-                    <path d="M 50,50 L 85,35 A 40,40 0 0,1 85,65 Z" 
-                          fill="#06b6d4" class="hero-pie-slice"></path>
-                    <!-- Slice 3: 25% -->
-                    <path d="M 50,50 L 85,65 A 40,40 0 0,1 50,90 Z" 
-                          fill="#8b5cf6" class="hero-pie-slice"></path>
-                    <!-- Slice 4: 20% -->
-                    <path d="M 50,50 L 50,90 A 40,40 0 0,1 50,10 Z" 
-                          fill="#f59e0b" class="hero-pie-slice"></path>
-                </svg>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="level-badge" id="levelBadge">Level 1</div>
+                <h1 id="headerTitle">🎯 Ciri-ciri dan Kegunaan Graf</h1>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div>Skor</div>
+                        <div id="score">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Streak</div>
+                        <div id="streak">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Level</div>
+                        <div id="level">1</div>
+                    </div>
+                </div>
             </div>
-            <h1 class="hero-title">Langkah-langkah Mentafsir Carta Pai</h1>
-            <p class="hero-subtitle">Panduan Visual & Interaktif</p>
         </div>
         
-        <div class="steps-container">
-            <!-- Step 1 -->
-            <div class="step-card" onclick="toggleStep(this, 0)">
-                <div class="step-header">
-                    <div class="step-visual">🎯</div>
-                    <div class="step-info">
-                        <div class="step-title">1. Kenal pasti tajuk dan sektor</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Tajuk</span>
-                            <span class="keyword-tag">Sektor</span>
-                            <span class="keyword-tag">Komponen</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>📋</span>
-                                <span>Komponen Asas</span>
-                            </div>
-                            <div class="key-points">
-                                <div class="key-point">
-                                    <span>📌</span>
-                                    <span><strong>Tajuk:</strong> Nama carta dan topik utama</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🔢</span>
-                                    <span><strong>Sektor:</strong> Bahagian-bahagian dalam carta</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🏷️</span>
-                                    <span><strong>Label:</strong> Nama setiap sektor</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Carta pai ini menunjukkan taburan penduduk mengikut kaum di Malaysia. Sektor-sektor yang terdapat ialah Melayu, Cina, India, dan lain-lain."
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="step-card" onclick="toggleStep(this, 1)">
-                <div class="step-header">
-                    <div class="step-visual">🔢</div>
-                    <div class="step-info">
-                        <div class="step-title">2. Nyatakan nilai keseluruhan dan setiap sektor</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Jumlah</span>
-                            <span class="keyword-tag">Peratusan</span>
-                            <span class="keyword-tag">Nilai</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>🎯</span>
-                                <span>Carta Pai Interaktif</span>
-                            </div>
-                            <div class="pie-chart-container">
-                                <div class="pie-chart">
-                                    <svg class="pie-svg" viewBox="0 0 200 200">
-                                        <!-- Melayu 40% -->
-                                        <path d="M 100,100 L 100,20 A 80,80 0 0,1 156.56,43.44 Z" 
-                                              fill="#ec4899" class="pie-slice" stroke="white" stroke-width="2"></path>
-                                        <!-- Lain-lain 25% -->
-                                        <path d="M 100,100 L 156.56,43.44 A 80,80 0 0,1 156.56,156.56 Z" 
-                                              fill="#10b981" class="pie-slice" stroke="white" stroke-width="2"></path>
-                                        <!-- Cina 20% -->
-                                        <path d="M 100,100 L 156.56,156.56 A 80,80 0 0,1 100,180 Z" 
-                                              fill="#06b6d4" class="pie-slice" stroke="white" stroke-width="2"></path>
-                                        <!-- India 15% -->
-                                        <path d="M 100,100 L 100,180 A 80,80 0 0,1 100,20 Z" 
-                                              fill="#8b5cf6" class="pie-slice" stroke="white" stroke-width="2"></path>
-                                    </svg>
-                                </div>
-                                <div class="chart-legend">
-                                    <div class="legend-item">
-                                        <div class="legend-dot" style="background: #ec4899;"></div>
-                                        <span>Melayu 40%</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-dot" style="background: #10b981;"></div>
-                                        <span>Lain-lain 25%</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-dot" style="background: #06b6d4;"></div>
-                                        <span>Cina 20%</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-dot" style="background: #8b5cf6;"></div>
-                                        <span>India 15%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Jumlah keseluruhan penduduk ialah 100%. Kaum Melayu mewakili 40%, Cina 20%, India 15%, dan lain-lain 25%."
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="step-card" onclick="toggleStep(this, 2)">
-                <div class="step-header">
-                    <div class="step-visual">🏆</div>
-                    <div class="step-info">
-                        <div class="step-title">3. Nyatakan nilai sektor tertinggi dan terendah</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Maksimum</span>
-                            <span class="keyword-tag">Minimum</span>
-                            <span class="keyword-tag">Dominan</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>🏆</span>
-                                <span>Perbandingan Ekstrem</span>
-                            </div>
-                            <div class="comparison-visual">
-                                <div class="comparison-item">
-                                    <div class="comparison-label">TERTINGGI</div>
-                                    <div class="comparison-bar" style="background: #ec4899; width: 80px;"></div>
-                                    <div class="comparison-value">40%</div>
-                                    <div style="font-size: 11px; color: #64748b;">Melayu</div>
-                                </div>
-                                <div style="font-size: 24px; color: #e2e8f0;">VS</div>
-                                <div class="comparison-item">
-                                    <div class="comparison-label">TERENDAH</div>
-                                    <div class="comparison-bar" style="background: #8b5cf6; width: 30px;"></div>
-                                    <div class="comparison-value">15%</div>
-                                    <div style="font-size: 11px; color: #64748b;">India</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Sektor tertinggi ialah kaum Melayu dengan 40%, manakala sektor terendah ialah kaum India dengan 15%."
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 4 -->
-            <div class="step-card" onclick="toggleStep(this, 3)">
-                <div class="step-header">
-                    <div class="step-visual">⚖️</div>
-                    <div class="step-info">
-                        <div class="step-title">4. Nyatakan perbezaan nilai antara sektor</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Selisih</span>
-                            <span class="keyword-tag">Jurang</span>
-                            <span class="keyword-tag">Banding</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>⚖️</span>
-                                <span>Pengiraan Perbezaan</span>
-                            </div>
-                            <div class="key-points">
-                                <div class="key-point">
-                                    <span>➖</span>
-                                    <span><strong>Melayu - Cina:</strong> 40% - 20% = 20%</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>📏</span>
-                                    <span><strong>Tertinggi - Terendah:</strong> 40% - 15% = 25%</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🔄</span>
-                                    <span><strong>Cina - India:</strong> 20% - 15% = 5%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Perbezaan antara kaum Melayu dan Cina ialah 20%. Perbezaan antara sektor tertinggi dan terendah ialah 25%."
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 5 -->
-            <div class="step-card" onclick="toggleStep(this, 4)">
-                <div class="step-header">
-                    <div class="step-visual">🔍</div>
-                    <div class="step-info">
-                        <div class="step-title">5. Huraikan isi tersirat berdasarkan dapatan data</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Analisis</span>
-                            <span class="keyword-tag">Interpretasi</span>
-                            <span class="keyword-tag">Konteks</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>🔍</span>
-                                <span>Analisis Mendalam</span>
-                            </div>
-                            <div class="key-points">
-                                <div class="key-point">
-                                    <span>🏛️</span>
-                                    <span><strong>Sejarah:</strong> Migrasi dan dasar kerajaan</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🌍</span>
-                                    <span><strong>Geografi:</strong> Taburan mengikut wilayah</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🤝</span>
-                                    <span><strong>Sosial:</strong> Kepelbagaian budaya</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Data menunjukkan Malaysia adalah negara majmuk dengan kaum Melayu sebagai majoriti. Kepelbagaian kaum ini mencerminkan sejarah migrasi dan dasar kerajaan."
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 6 -->
-            <div class="step-card" onclick="toggleStep(this, 5)">
-                <div class="step-header">
-                    <div class="step-visual">📝</div>
-                    <div class="step-info">
-                        <div class="step-title">6. Buat rumusan keseluruhan</div>
-                        <div class="step-keywords">
-                            <span class="keyword-tag">Kesimpulan</span>
-                            <span class="keyword-tag">Ringkasan</span>
-                            <span class="keyword-tag">Rumusan</span>
-                        </div>
-                    </div>
-                    <div class="expand-indicator">›</div>
-                </div>
-                <div class="step-content">
-                    <div class="step-body">
-                        <div class="visual-example">
-                            <div class="example-header">
-                                <span>🎯</span>
-                                <span>Poin Utama Rumusan</span>
-                            </div>
-                            <div class="key-points">
-                                <div class="key-point">
-                                    <span>📊</span>
-                                    <span><strong>Data:</strong> Gabungan semua fakta</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>🔗</span>
-                                    <span><strong>Hubungan:</strong> Kaitan antara sektor</span>
-                                </div>
-                                <div class="key-point">
-                                    <span>💭</span>
-                                    <span><strong>Implikasi:</strong> Kesan dan makna</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="example-text">
-                            "Secara keseluruhannya, carta pai menunjukkan taburan penduduk Malaysia yang pelbagai dengan kaum Melayu mendominasi. Kepelbagaian ini adalah kekuatan negara."
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div class="summary-section">
-            <div class="summary-icon">🎓</div>
-            <div class="summary-title">Kata Kunci Penting</div>
-            <div class="summary-keywords">
-                <span class="summary-keyword">Sistematik</span>
-                <span class="summary-keyword">Analisis</span>
-                <span class="summary-keyword">Interpretasi</span>
-                <span class="summary-keyword">Kontekstual</span>
-                <span class="summary-keyword">Bermakna</span>
-                <span class="summary-keyword">Peratusan</span>
-                <span class="summary-keyword">Sektor</span>
-                <span class="summary-keyword">Perbandingan</span>
-            </div>
+        <div class="game-area" id="gameArea">
+            <!-- Game content will be inserted here -->
         </div>
-    </div>
 
-    <div class="floating-action" onclick="scrollToTop()" title="Kembali ke atas">
-        ↑
+        <div class="streak-indicator" id="streakIndicator">
+            🔥 Streak x<span id="streakCount">0</span>
+        </div>
+
+        <div class="combo-multiplier" id="comboMultiplier">
+            COMBO x2!
+        </div>
+
+        <div class="achievement-popup" id="achievementPopup">
+            <h3 id="achievementTitle">🏆 Achievement!</h3>
+            <p id="achievementText">You're doing great!</p>
+        </div>
     </div>
 
     <script>
-        let completedSteps = 0;
-        const totalSteps = 6;
-
-        function toggleStep(element, stepIndex) {
-            const content = element.querySelector('.step-content');
-            const isActive = element.classList.contains('active');
+        const statements = [
+            // Graf Bar - Ciri-ciri
+            { text: "Terdiri daripada paksi menegak dan paksi mendatar", graph: "bar", category: "ciri" },
+            { text: "Bar-bar boleh dilukis secara menegak atau mendatar", graph: "bar", category: "ciri" },
+            { text: "Ketinggian bar menunjukkan kuantiti sesuatu komponen", graph: "bar", category: "ciri" },
             
-            // Toggle current step only (don't close others)
-            if (isActive) {
-                element.classList.remove('active');
-                content.classList.remove('expanded');
-            } else {
-                element.classList.add('active');
-                content.classList.add('expanded');
-                
-                // Add haptic feedback for mobile
-                if (navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
-                
-                // Animate pie chart if it's step 2
-                if (stepIndex === 1) {
-                    animatePieChart();
-                }
+            // Graf Bar - Kegunaan
+            { text: "Mempersembahkan data yang boleh dikira", graph: "bar", category: "kegunaan" },
+            { text: "Menunjukkan perbezaan antara komponen yang dikaji", graph: "bar", category: "kegunaan" },
+            { text: "Sesuai untuk bilangan pelajar mengikut kelas", graph: "bar", category: "kegunaan" },
+            
+            // Graf Garisan - Ciri-ciri
+            { text: "Dilukis secara garisan", graph: "line", category: "ciri" },
+            { text: "Garisan yang curam menggambarkan perubahan yang besar", graph: "line", category: "ciri" },
+            { text: "Garisan yang landai menggambarkan perubahan yang kecil", graph: "line", category: "ciri" },
+            { text: "Garisan yang mendatar bermakna tiada perubahan", graph: "line", category: "ciri" },
+            
+            // Graf Garisan - Kegunaan
+            { text: "Menunjukkan perkara yang mengalami perubahan berterusan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk maklumat min suhu bulanan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk menunjukkan perubahan penduduk", graph: "line", category: "kegunaan" },
+            
+            // Graf Gabungan - Ciri-ciri
+            { text: "Gabungan graf bar mudah dan graf garisan", graph: "combined", category: "ciri" },
+            { text: "Menunjukkan dua maklumat yang berlainan dalam satu graf", graph: "combined", category: "ciri" }
+        ];
+
+        let currentStatement = 0;
+        let score = 0;
+        let streak = 0;
+        let level = 1;
+        let selectedGraph = null;
+        let selectedCategory = null;
+        let gameStatements = [];
+        let powerUps = {
+            hint: 3,
+            doublePoints: 2
+        };
+        let wrongAnswers = [];
+        let achievements = [];
+        let isDoublePoints = false;
+        let isRedemptionMode = false;
+        let redemptionQuestions = [];
+        let currentRedemptionIndex = 0;
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function createGraphVisual(type) {
+            const redemptionClass = isRedemptionMode ? ' redemption-mode' : '';
+            
+            switch(type) {
+                case 'bar':
+                    return `
+                        <div class="bar-chart">
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                        </div>
+                    `;
+                case 'line':
+                    return `
+                        <svg class="line-chart" viewBox="0 0 70 45">
+                            <polyline class="line-path${redemptionClass}" points="5,35 20,20 35,25 50,15 65,18"/>
+                            <circle cx="5" cy="35" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="20" cy="20" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="35" cy="25" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="50" cy="15" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="65" cy="18" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                        </svg>
+                    `;
+                case 'combined':
+                    return `
+                        <div class="combined-chart">
+                            <div class="bar${redemptionClass}" style="height: 60%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 80%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 40%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 70%;"></div>
+                            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewBox="0 0 50 45">
+                                <polyline points="6,30 16,18 26,22 36,12" stroke="${isRedemptionMode ? '#ff6b6b' : '#e17055'}" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    `;
             }
         }
 
-        function animatePieChart() {
-            const slices = document.querySelectorAll('.pie-slice');
-            slices.forEach((slice, index) => {
-                slice.style.opacity = '0';
-                slice.style.transform = 'scale(0.8)';
-                setTimeout(() => {
-                    slice.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    slice.style.opacity = '1';
-                    slice.style.transform = 'scale(1)';
-                }, index * 200);
-            });
+        function enableRedemptionMode() {
+            isRedemptionMode = true;
+            document.body.classList.add('redemption-mode');
+            document.querySelector('.container').classList.add('redemption-mode');
+            document.querySelector('.header').classList.add('redemption-mode');
+            document.querySelector('.level-badge').classList.add('redemption-mode');
+            document.getElementById('headerTitle').textContent = '🔥 REDEMPTION ROUND';
         }
 
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        function disableRedemptionMode() {
+            isRedemptionMode = false;
+            document.body.classList.remove('redemption-mode');
+            document.querySelector('.container').classList.remove('redemption-mode');
+            document.querySelector('.header').classList.remove('redemption-mode');
+            document.querySelector('.level-badge').classList.remove('redemption-mode');
+            document.getElementById('headerTitle').textContent = '🎯 Ciri-ciri dan Kegunaan Graf';
         }
 
-        // Add touch feedback
-        document.querySelectorAll('.step-card').forEach(item => {
-            item.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.98)';
-            });
+        function showRedemptionAnnouncement() {
+            const gameArea = document.getElementById('gameArea');
             
-            item.addEventListener('touchend', function() {
-                setTimeout(() => {
-                    if (!this.classList.contains('active')) {
-                        this.style.transform = '';
-                    }
-                }, 100);
-            });
-        });
+            gameArea.innerHTML = `
+                <div class="redemption-announcement">
+                    <div class="redemption-announcement-content">
+                        <h2>🔥 REDEMPTION ROUND!</h2>
+                        <p>Anda mempunyai peluang untuk menjawab semula soalan yang salah!</p>
+                        <p><strong>Soalan yang boleh diperbaiki: ${wrongAnswers.length}</strong></p>
+                        <p>Setiap jawapan betul akan memberi anda +5 mata bonus!</p>
+                        <button class="redemption-start-btn" onclick="startRedemptionRound()">
+                            🚀 Mula Redemption Round
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
 
-        // Floating action button scroll behavior
-        let lastScrollTop = 0;
-        const floatingAction = document.querySelector('.floating-action');
+        function startRedemptionRound() {
+            enableRedemptionMode();
+            redemptionQuestions = [...wrongAnswers];
+            currentRedemptionIndex = 0;
+            displayRedemptionQuestion();
+        }
 
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        function displayRedemptionQuestion() {
+            if (currentRedemptionIndex >= redemptionQuestions.length) {
+                finishRedemptionRound();
+                return;
+            }
+
+            const question = redemptionQuestions[currentRedemptionIndex];
+            const gameArea = document.getElementById('gameArea');
             
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                floatingAction.style.transform = 'translateY(100px)';
+            gameArea.innerHTML = `
+                <div class="left-panel redemption-mode">
+                    <div style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
+                        <h3>🔥 REDEMPTION - Soalan ${question.questionNumber}</h3>
+                        <p style="font-size: 12px; margin-top: 5px;">${currentRedemptionIndex + 1}/${redemptionQuestions.length}</p>
+                    </div>
+                    
+                    <div class="statement-card redemption-mode">
+                        <div class="statement-text">${question.statement.text}</div>
+                        <div class="statement-counter">Redemption Round</div>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="classification-grid">
+                        <div class="graph-section redemption-mode" onclick="selectGraph('bar')">
+                            <div class="graph-title">Graf Bar</div>
+                            <div class="graph-visual">${createGraphVisual('bar')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section redemption-mode" onclick="selectGraph('line')">
+                            <div class="graph-title">Graf Garisan</div>
+                            <div class="graph-visual">${createGraphVisual('line')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section redemption-mode" onclick="selectGraph('combined')">
+                            <div class="graph-title">Graf Gabungan</div>
+                            <div class="graph-visual">${createGraphVisual('combined')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="desktop-submit-area redemption-mode">
+                        <button class="submit-btn redemption-mode" id="submitBtn" onclick="submitRedemptionAnswer()" disabled>
+                            🔥 Hantar Jawapan Redemption
+                        </button>
+                        
+                        <div class="feedback" id="feedback"></div>
+                        <button class="next-btn redemption-mode" id="nextBtn" onclick="nextRedemptionQuestion()">Soalan Seterusnya 🔥</button>
+                    </div>
+                </div>
+            `;
+            
+            selectedGraph = null;
+            selectedCategory = null;
+        }
+
+        function submitRedemptionAnswer() {
+            const question = redemptionQuestions[currentRedemptionIndex];
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const isCorrect = selectedGraph === question.statement.graph && selectedCategory === question.statement.category;
+            
+            if (isCorrect) {
+                score += 5;
+                
+                showFloatingPoints(5);
+                createParticles();
+                
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('correct-answer', 'redemption-mode');
+                
+                feedback.className = 'feedback correct redemption-mode';
+                feedback.textContent = `🔥 HEBAT! +5 mata bonus! Anda berjaya memperbetulkan jawapan!`;
+                
             } else {
-                floatingAction.style.transform = 'translateY(0)';
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('wrong-answer');
+                
+                feedback.className = 'feedback wrong redemption-mode';
+                feedback.textContent = `❌ Masih tidak tepat. Jawapan: ${question.statement.category} Graf ${getGraphName(question.statement.graph)}.`;
             }
             
-            lastScrollTop = scrollTop;
-        });
+            updateStats();
+            feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            
+            document.querySelectorAll('.graph-section, .category-btn').forEach(el => {
+                el.style.pointerEvents = 'none';
+            });
+        }
 
-        // Add hover effects for pie slices
-        document.addEventListener('DOMContentLoaded', function() {
-            const pieSlices = document.querySelectorAll('.pie-slice');
-            pieSlices.forEach(slice => {
-                slice.addEventListener('mouseenter', function() {
-                    this.style.filter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.2)) brightness(1.1)';
+        function nextRedemptionQuestion() {
+            currentRedemptionIndex++;
+            displayRedemptionQuestion();
+        }
+
+        function finishRedemptionRound() {
+            disableRedemptionMode();
+            showFinalScore();
+        }
+
+        function displayStatement() {
+            if (currentStatement >= gameStatements.length) {
+                // Check if there are wrong answers for redemption
+                if (wrongAnswers.length > 0) {
+                    showRedemptionAnnouncement();
+                } else {
+                    showFinalScore();
+                }
+                return;
+            }
+
+            const statement = gameStatements[currentStatement];
+            const gameArea = document.getElementById('gameArea');
+            
+            gameArea.innerHTML = `
+                <div class="left-panel">
+                    <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 154, 158, 0.15)); border-left: 4px solid #ff6b35; padding: 12px; margin-bottom: 15px; border-radius: 12px; font-size: 13px; color: #2d3436; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);">
+                        📋 <strong>Cara Main:</strong> Pilih jenis graf yang betul, kemudian klik sama ada "Ciri-ciri" atau "Kegunaan"
+                        <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">💡 Garis ini membantu anda memahami langkah-langkah permainan</div>
+                    </div>
+                    
+                    <div class="power-ups">
+                        <button class="power-up" onclick="useHint()" ${powerUps.hint <= 0 ? 'disabled' : ''}>
+                            💡 Hint (${powerUps.hint})
+                        </button>
+                        <button class="power-up" onclick="useDoublePoints()" ${powerUps.doublePoints <= 0 || isDoublePoints ? 'disabled' : ''}>
+                            ⭐ 2x Points (${powerUps.doublePoints})
+                        </button>
+                    </div>
+                    
+                    <div class="statement-card">
+                        <div class="statement-text">${statement.text}</div>
+                        <div class="statement-counter">${currentStatement + 1}/15</div>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="classification-grid">
+                        <div class="graph-section" onclick="selectGraph('bar')">
+                            <div class="graph-title">Graf Bar</div>
+                            <div class="graph-visual">${createGraphVisual('bar')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section" onclick="selectGraph('line')">
+                            <div class="graph-title">Graf Garisan</div>
+                            <div class="graph-visual">${createGraphVisual('line')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section" onclick="selectGraph('combined')">
+                            <div class="graph-title">Graf Gabungan</div>
+                            <div class="graph-visual">${createGraphVisual('combined')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="desktop-submit-area">
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>
+                            🚀 Hantar Jawapan
+                        </button>
+                        
+                        <div class="feedback" id="feedback"></div>
+                        <button class="next-btn" id="nextBtn" onclick="nextStatement()">Soalan Seterusnya ➡️</button>
+                    </div>
+                </div>
+            `;
+            
+            updateProgress();
+            selectedGraph = null;
+            selectedCategory = null;
+        }
+
+        function selectGraph(graphType) {
+            selectedGraph = graphType;
+            
+            // Clear all selections
+            document.querySelectorAll('.graph-section').forEach(section => {
+                section.classList.remove('selected');
+            });
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select the graph
+            document.querySelector(`[onclick="selectGraph('${graphType}')"]`).classList.add('selected');
+            
+            selectedCategory = null;
+            updateSubmitButton();
+        }
+
+        function selectCategory(event, category) {
+            event.stopPropagation();
+            
+            if (!selectedGraph) return;
+            
+            // Clear all category selections
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select the category
+            event.target.classList.add('selected');
+            selectedCategory = category;
+            
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (selectedGraph && selectedCategory) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitAnswer() {
+            const statement = gameStatements[currentStatement];
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const isCorrect = selectedGraph === statement.graph && selectedCategory === statement.category;
+            
+            if (isCorrect) {
+                let points = 10;
+                if (isDoublePoints) {
+                    points *= 2;
+                    isDoublePoints = false;
+                }
+                
+                score += points;
+                streak++;
+                
+                // Show floating points
+                showFloatingPoints(points);
+                createParticles();
+                
+                // Update streak indicator
+                updateStreakIndicator();
+                
+                // Check for combo multiplier
+                if (streak >= 3 && streak % 3 === 0) {
+                    showComboMultiplier();
+                }
+                
+                // Mark correct answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('correct-answer');
+                
+                feedback.className = 'feedback correct';
+                feedback.textContent = `🎉 Betul! +${points} mata! Ini adalah ${selectedCategory} Graf ${getGraphName(selectedGraph)}.`;
+                
+                // Check achievements
+                checkAchievements();
+                
+            } else {
+                streak = 0;
+                document.getElementById('streakIndicator').classList.remove('active');
+                
+                // Track wrong answer for redemption
+                wrongAnswers.push({
+                    statement: statement,
+                    questionNumber: currentStatement + 1
                 });
                 
-                slice.addEventListener('mouseleave', function() {
-                    this.style.filter = 'drop-shadow(0 2px 8px rgba(0,0,0,0.1))';
-                });
+                // Mark wrong answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('wrong-answer');
+                
+                feedback.className = 'feedback wrong';
+                feedback.textContent = `❌ Tidak tepat. Ini adalah ${statement.category} Graf ${getGraphName(statement.graph)}.`;
+            }
+            
+            updateStats();
+            feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            
+            // Disable all interactions
+            document.querySelectorAll('.graph-section, .category-btn').forEach(el => {
+                el.style.pointerEvents = 'none';
             });
-        });
+        }
+
+        function showFloatingPoints(points) {
+            const gameArea = document.getElementById('gameArea');
+            const floatingPoints = document.createElement('div');
+            floatingPoints.className = `floating-points${isRedemptionMode ? ' redemption-mode' : ''}`;
+            floatingPoints.textContent = `+${points}`;
+            floatingPoints.style.left = Math.random() * 200 + 100 + 'px';
+            floatingPoints.style.top = '50%';
+            gameArea.appendChild(floatingPoints);
+            
+            setTimeout(() => {
+                floatingPoints.remove();
+            }, 1000);
+        }
+
+        function createParticles() {
+            const gameArea = document.getElementById('gameArea');
+            for (let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle${isRedemptionMode ? ' redemption-mode' : ''}`;
+                particle.style.left = Math.random() * 300 + 50 + 'px';
+                particle.style.top = Math.random() * 200 + 100 + 'px';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                gameArea.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        function updateStreakIndicator() {
+            const streakIndicator = document.getElementById('streakIndicator');
+            const streakCount = document.getElementById('streakCount');
+            
+            if (streak >= 2) {
+                streakIndicator.classList.add('active');
+                streakCount.textContent = streak;
+            }
+        }
+
+        function showComboMultiplier() {
+            const comboMultiplier = document.getElementById('comboMultiplier');
+            comboMultiplier.style.display = 'block';
+            
+            setTimeout(() => {
+                comboMultiplier.style.display = 'none';
+            }, 1500);
+        }
+
+        function checkAchievements() {
+            if (streak === 5 && !achievements.includes('streak5')) {
+                achievements.push('streak5');
+                showAchievement('🔥 Streak Master!', 'Jawab 5 soalan berturut-turut dengan betul!');
+            }
+            
+            if (score >= 100 && !achievements.includes('score100')) {
+                achievements.push('score100');
+                showAchievement('💯 Century!', 'Capai 100 mata!');
+            }
+            
+            if (currentStatement === 4 && !achievements.includes('firstLevel')) {
+                achievements.push('firstLevel');
+                showAchievement('🎯 Level Up!', 'Selesai 5 soalan pertama!');
+                levelUp();
+            }
+        }
+
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementText').textContent = text;
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        function levelUp() {
+            level++;
+            document.getElementById('level').textContent = level;
+            document.getElementById('levelBadge').textContent = `Level ${level}`;
+            
+            // Progressive power-up system - more power-ups as you advance
+            powerUps.hint += Math.floor(level / 2) + 1; // More hints at higher levels
+            if (level % 2 === 0) {
+                powerUps.doublePoints += Math.floor(level / 3) + 1; // More double points at higher levels
+            }
+            
+            // Bonus power-ups for high streaks
+            if (streak >= 5) {
+                powerUps.hint++;
+            }
+            if (streak >= 10) {
+                powerUps.doublePoints++;
+            }
+        }
+
+        function useHint() {
+            if (powerUps.hint <= 0) return;
+            
+            powerUps.hint--;
+            const statement = gameStatements[currentStatement];
+            
+            // Highlight correct graph type
+            const correctSection = document.querySelector(`[onclick="selectGraph('${statement.graph}')"]`);
+            correctSection.style.border = '3px solid #00b894';
+            correctSection.style.animation = 'selectedPulse 2s infinite';
+            
+            setTimeout(() => {
+                correctSection.style.border = '';
+                correctSection.style.animation = '';
+            }, 3000);
+            
+            event.target.classList.add('used');
+            event.target.disabled = true;
+        }
+
+        function useDoublePoints() {
+            if (powerUps.doublePoints <= 0 || isDoublePoints) return;
+            
+            powerUps.doublePoints--;
+            isDoublePoints = true;
+            event.target.classList.add('used');
+            event.target.disabled = true;
+            
+            // Show visual feedback
+            const gameArea = document.getElementById('gameArea');
+            const doublePointsIndicator = document.createElement('div');
+            doublePointsIndicator.textContent = '⭐ DOUBLE POINTS ACTIVE!';
+            doublePointsIndicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #feca57, #ff9ff3);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 12px;
+                z-index: 100;
+                animation: pulse 1s infinite;
+            `;
+            gameArea.appendChild(doublePointsIndicator);
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+        }
+
+        function getGraphName(graphType) {
+            switch(graphType) {
+                case 'bar': return 'Bar';
+                case 'line': return 'Garisan';
+                case 'combined': return 'Gabungan';
+            }
+        }
+
+        function nextStatement() {
+            currentStatement++;
+            displayStatement();
+        }
+
+        function updateProgress() {
+            const progress = ((currentStatement + 1) / gameStatements.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function createConfetti() {
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        function showFinalScore() {
+            const gameArea = document.getElementById('gameArea');
+            const percentage = Math.round((score / 150) * 100);
+            let message = '';
+            let rank = '';
+            
+            if (percentage >= 90) {
+                message = '🌟 LEGEND! Anda adalah Graf Master!';
+                rank = '👑 GRAF MASTER';
+            } else if (percentage >= 80) {
+                message = '🔥 CEMERLANG! Anda memahami graf dengan sangat baik!';
+                rank = '🥇 GRAF EXPERT';
+            } else if (percentage >= 60) {
+                message = '👍 BAGUS! Anda faham konsep asas graf!';
+                rank = '🥈 GRAF SCHOLAR';
+            } else {
+                message = '💪 Teruskan belajar! Anda semakin memahami graf!';
+                rank = '🥉 GRAF STUDENT';
+            }
+            
+            // Create confetti celebration
+            createConfetti();
+            
+            gameArea.innerHTML = `
+                <div class="final-score">
+                    <h2>🎯 TAMAT!</h2>
+                    <div class="score-circle">
+                        ${score}/150
+                    </div>
+                    <h3 style="color: #fd79a8; margin-bottom: 10px;">${rank}</h3>
+                    <p style="font-size: 18px; margin-bottom: 15px;">${percentage}%</p>
+                    <p style="margin-bottom: 20px; color: #636e72;">${message}</p>
+                    
+                    <div style="background: linear-gradient(135deg, #e8f4f8, #d1ecf1); padding: 15px; border-radius: 10px; margin: 20px 0; color: #2d3436;">
+                        <h4 style="color: #2d3436;">📊 Statistik Anda:</h4>
+                        <p>🎯 Skor Akhir: ${score}</p>
+                        <p>🔥 Streak Terbaik: ${Math.max(...[streak, 0])}</p>
+                        <p>🏆 Achievement: ${achievements.length}</p>
+                        <p>📈 Level Dicapai: ${level}</p>
+                        <p>🔄 Soalan Diperbaiki: ${redemptionQuestions.length || 0}</p>
+                    </div>
+                    
+                    <button class="restart-btn" onclick="restartGame()">🔄 Main Semula</button>
+                </div>
+            `;
+            
+            document.getElementById('progressFill').style.width = '100%';
+        }
+
+        function restartGame() {
+            currentStatement = 0;
+            score = 0;
+            streak = 0;
+            level = 1;
+            selectedGraph = null;
+            selectedCategory = null;
+            powerUps = { hint: 3, doublePoints: 2 };
+            wrongAnswers = [];
+            achievements = [];
+            isDoublePoints = false;
+            isRedemptionMode = false;
+            redemptionQuestions = [];
+            currentRedemptionIndex = 0;
+            gameStatements = shuffleArray(statements);
+            
+            disableRedemptionMode();
+            updateStats();
+            document.getElementById('level').textContent = '1';
+            document.getElementById('levelBadge').textContent = 'Level 1';
+            document.getElementById('streakIndicator').classList.remove('active');
+            
+            displayStatement();
+        }
+
+        // Initialize game
+        function initGame() {
+            gameStatements = shuffleArray(statements);
+            displayStatement();
+        }
+
+        // Start the game
+        initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984065d8f2a2252a',t:'MTc1ODY5NzE1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840c403c6ca24d2',t:'MTc1ODcwMTAxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
