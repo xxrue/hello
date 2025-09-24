@@ -2,746 +2,1079 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Langkah-langkah Mentafsir Jadual dan Graf</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langkah-langkah Mentafsir Carta Pai</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #ec4899 70%, #f59e0b 100%);
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
         }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .app-container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
         }
-        
-        .new-gradient-bg {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 900px;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .hero-section {
+                padding: 50px 40px 40px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .steps-container {
+                padding: 40px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+                align-items: start;
+            }
+
+            .step-card {
+                margin-bottom: 0;
+            }
+
+            .step-header {
+                padding: 30px;
+            }
+
+            .step-body {
+                padding: 0 30px 35px;
+            }
+
+            .summary-section {
+                margin: 30px 40px 40px;
+                padding: 40px;
+                grid-column: 1 / -1;
+            }
+
+            .floating-action {
+                bottom: 40px;
+                right: 40px;
+                width: 64px;
+                height: 64px;
+                font-size: 28px;
+            }
         }
-        
-        .card-shadow {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+        @media (min-width: 1200px) {
+            .app-container {
+                max-width: 1200px;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 30px;
+                padding: 50px;
+            }
+
+            .summary-section {
+                margin: 40px 50px 50px;
+                padding: 50px;
+            }
         }
-        
-        .step-card {
+
+        .hero-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 40px 25px 35px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="dots" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="12.5" cy="12.5" r="2" fill="rgba(255,255,255,0.2)"/></pattern></defs><rect width="200" height="200" fill="url(%23dots)"/></svg>');
+            animation: drift 20s infinite linear;
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-25px) translateY(-25px); }
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            position: relative;
+            z-index: 2;
+            animation: bounce 3s infinite;
+        }
+
+        .hero-pie-chart {
+            width: 100%;
+            height: 100%;
+            animation: rotate 8s linear infinite;
+        }
+
+        .hero-pie-slice {
             transition: all 0.3s ease;
-            transform: translateY(0);
+            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.2));
         }
-        
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .steps-container {
+            padding: 25px;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #f59e0b);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
         .step-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .step-card {
-                margin: 0 8px;
-                padding: 16px;
-            }
-            
-            .step-card h3 {
-                font-size: 16px;
-                line-height: 1.4;
-            }
-            
-            .step-card .flex {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            
-            .step-card .ml-auto {
-                margin-left: 0;
-                order: -1;
-            }
-            
-            svg {
-                max-width: 100%;
-                height: auto;
-            }
-            
-            .grid-cols-3 {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            
-            .md\\:grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-            
-            .text-2xl {
-                font-size: 1.25rem;
-            }
-            
-            .text-xl {
-                font-size: 1.125rem;
-            }
-            
-            .p-6 {
-                padding: 16px;
-            }
-            
-            .space-y-4 > * + * {
-                margin-top: 16px;
-            }
+
+        .step-card:hover::before {
+            transform: scaleX(1);
         }
-        
-        /* Touch-friendly interactions */
-        .step-card {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+
+        .step-card.active {
+            border-color: #ec4899;
+            transform: translateY(-3px);
         }
-        
-        .step-card:active {
-            transform: scale(0.98);
-            transition: transform 0.1s ease;
+
+        .step-card.active::before {
+            transform: scaleX(1);
         }
-        
-        .bounce {
-            animation: bounce 2s infinite;
+
+        .step-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
+
+        .step-visual {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease-in;
+
+        .step-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .step-card:hover .step-visual::before {
+            left: 100%;
         }
-        
-        .float {
+
+        .step-card:nth-child(1) .step-visual { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .step-card:nth-child(2) .step-visual { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+        .step-card:nth-child(3) .step-visual { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .step-card:nth-child(4) .step-visual { background: linear-gradient(135deg, #10b981, #34d399); }
+        .step-card:nth-child(5) .step-visual { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .step-card:nth-child(6) .step-visual { background: linear-gradient(135deg, #6366f1, #818cf8); }
+
+        .step-info {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .step-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .keyword-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step-card:nth-child(1) .keyword-tag { background: rgba(236, 72, 153, 0.1); color: #be185d; border-color: rgba(236, 72, 153, 0.2); }
+        .step-card:nth-child(2) .keyword-tag { background: rgba(6, 182, 212, 0.1); color: #0e7490; border-color: rgba(6, 182, 212, 0.2); }
+        .step-card:nth-child(3) .keyword-tag { background: rgba(139, 92, 246, 0.1); color: #7c3aed; border-color: rgba(139, 92, 246, 0.2); }
+        .step-card:nth-child(4) .keyword-tag { background: rgba(16, 185, 129, 0.1); color: #047857; border-color: rgba(16, 185, 129, 0.2); }
+        .step-card:nth-child(5) .keyword-tag { background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.2); }
+        .step-card:nth-child(6) .keyword-tag { background: rgba(99, 102, 241, 0.1); color: #4338ca; border-color: rgba(99, 102, 241, 0.2); }
+
+        .expand-indicator {
+            font-size: 20px;
+            color: #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .step-card.active .expand-indicator {
+            transform: rotate(90deg);
+            color: #ec4899;
+        }
+
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-content.expanded {
+            max-height: 1000px;
+        }
+
+        .step-body {
+            padding: 0 25px 30px;
+        }
+
+        .visual-example {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .pie-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .pie-chart {
+            width: 160px;
+            height: 160px;
+            position: relative;
+        }
+
+        .pie-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .pie-slice {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+        }
+
+        .pie-slice:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+        }
+
+        .chart-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .example-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            font-style: italic;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-text::before {
+            content: '"';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 30px;
+            opacity: 0.3;
+        }
+
+        .key-points {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #ec4899;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .comparison-visual {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .comparison-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .comparison-bar {
+            width: 60px;
+            height: 8px;
+            border-radius: 4px;
+            margin: 8px auto;
+        }
+
+        .comparison-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .comparison-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #ec4899 70%, #f59e0b 100%);
+            margin: 20px;
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="sparkles" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.3)"/><circle cx="30" cy="20" r="1.5" fill="rgba(255,255,255,0.2)"/><circle cx="20" cy="35" r="1" fill="rgba(255,255,255,0.4)"/></pattern></defs><rect width="200" height="200" fill="url(%23sparkles)"/></svg>');
+            animation: sparkle 15s infinite linear;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-40px) translateY(-40px); }
+        }
+
+        .summary-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .summary-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .summary-keyword {
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-keyword::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .summary-keyword:hover::before {
+            left: 100%;
+        }
+
+        .summary-keyword:nth-child(1) {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
             animation: float 3s ease-in-out infinite;
         }
-        
+
+        .summary-keyword:nth-child(2) {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+            animation: float 3s ease-in-out infinite 0.5s;
+        }
+
+        .summary-keyword:nth-child(3) {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            animation: float 3s ease-in-out infinite 1s;
+        }
+
+        .summary-keyword:nth-child(4) {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        .summary-keyword:nth-child(5) {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            animation: float 3s ease-in-out infinite 2s;
+        }
+
+        .summary-keyword:nth-child(6) {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            animation: float 3s ease-in-out infinite 2.5s;
+        }
+
+        .summary-keyword:nth-child(7) {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            animation: float 3s ease-in-out infinite 3s;
+        }
+
+        .summary-keyword:nth-child(8) {
+            background: linear-gradient(135deg, #84cc16, #a3e635);
+            animation: float 3s ease-in-out infinite 3.5s;
+        }
+
+        .summary-keyword:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
-        
-        .wiggle {
-            animation: wiggle 1s ease-in-out infinite;
+
+        .floating-action {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #ec4899, #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        
-        @keyframes wiggle {
-            0%, 7% { transform: rotateZ(0); }
-            15% { transform: rotateZ(-15deg); }
-            20% { transform: rotateZ(10deg); }
-            25% { transform: rotateZ(-10deg); }
-            30% { transform: rotateZ(6deg); }
-            35% { transform: rotateZ(-4deg); }
-            40%, 100% { transform: rotateZ(0); }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(236, 72, 153, 0.6);
+        }
+
+        @media (max-width: 480px) {
+            .app-container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            .hero-title {
+                font-size: 22px;
+            }
+            
+            .steps-container {
+                padding: 20px;
+            }
+            
+            .step-header {
+                padding: 20px;
+            }
+            
+            .step-body {
+                padding: 0 20px 25px;
+            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 min-h-screen">
-    <!-- Header -->
-    <div class="new-gradient-bg text-gray-800 p-4 sm:p-6 text-center relative overflow-hidden">
-        <!-- Floating decorative elements -->
-        <div class="absolute top-2 left-2 sm:top-4 sm:left-4 text-2xl sm:text-3xl float">📊</div>
-        <div class="absolute top-3 right-3 sm:top-6 sm:right-6 text-xl sm:text-2xl float" style="animation-delay: 0.5s;">📈</div>
-        <div class="absolute bottom-2 left-4 sm:bottom-4 sm:left-8 text-xl sm:text-2xl float" style="animation-delay: 1s;">📉</div>
-        <div class="absolute bottom-3 right-2 sm:bottom-6 sm:right-4 text-2xl sm:text-3xl float" style="animation-delay: 1.5s;">📋</div>
+<body>
+    <div class="app-container">
+        <div class="hero-section">
+            <div class="hero-icon">
+                <svg class="hero-pie-chart" viewBox="0 0 100 100">
+                    <!-- Slice 1: 30% -->
+                    <path d="M 50,50 L 50,10 A 40,40 0 0,1 85,35 Z" 
+                          fill="#ec4899" class="hero-pie-slice"></path>
+                    <!-- Slice 2: 25% -->
+                    <path d="M 50,50 L 85,35 A 40,40 0 0,1 85,65 Z" 
+                          fill="#06b6d4" class="hero-pie-slice"></path>
+                    <!-- Slice 3: 25% -->
+                    <path d="M 50,50 L 85,65 A 40,40 0 0,1 50,90 Z" 
+                          fill="#8b5cf6" class="hero-pie-slice"></path>
+                    <!-- Slice 4: 20% -->
+                    <path d="M 50,50 L 50,90 A 40,40 0 0,1 50,10 Z" 
+                          fill="#f59e0b" class="hero-pie-slice"></path>
+                </svg>
+            </div>
+            <h1 class="hero-title">Langkah-langkah Mentafsir Carta Pai</h1>
+            <p class="hero-subtitle">Panduan Visual & Interaktif</p>
+        </div>
         
-        <div class="bounce text-4xl sm:text-5xl mb-3">🎯</div>
-        <h1 class="text-xl sm:text-2xl font-bold mb-1 px-2">Langkah-langkah Mentafsir</h1>
-        <h2 class="text-lg sm:text-xl font-semibold mb-2">Jadual dan Graf</h2>
-        <div class="mt-4 text-xs sm:text-sm opacity-80 bg-white bg-opacity-30 rounded-full px-3 sm:px-4 py-2 inline-block mx-2">
-            ✨ Panduan Interaktif untuk Pelajar ✨
-        </div>
-    </div>
-
-    <!-- Steps Container -->
-    <div class="p-4 space-y-4" id="stepsContainer">
-        <!-- Step 1 -->
-        <div class="step-card bg-white rounded-2xl p-4 sm:p-6 card-shadow border-l-4 border-rose-400" data-step="1">
-            <div class="flex items-center mb-4 flex-wrap sm:flex-nowrap gap-2 sm:gap-0">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg mr-3 sm:mr-4 shadow-lg flex-shrink-0">1</div>
-                <h3 class="text-base sm:text-lg font-semibold text-gray-800 flex-1 min-w-0">Perhatikan Tajuk dengan Teliti</h3>
-                <div class="text-xl sm:text-2xl wiggle order-first sm:order-last">🎯</div>
-            </div>
-            
-            <!-- Visual Example -->
-            <div class="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-4 mb-4 border border-rose-200">
-                <div class="text-center mb-3">
-                    <div class="inline-block bg-white rounded-lg p-4 shadow-md border-2 border-dashed border-rose-300">
-                        <div class="text-lg font-bold text-rose-700 mb-2">📊 BILANGAN PELAJAR HADIR KE SEKOLAH</div>
-                        <div class="text-sm text-gray-600">Minggu Pertama Januari 2024</div>
-                        <div class="mt-2 flex justify-center space-x-2">
-                            <div class="w-4 h-8 bg-rose-300 rounded"></div>
-                            <div class="w-4 h-12 bg-rose-400 rounded"></div>
-                            <div class="w-4 h-10 bg-rose-500 rounded"></div>
-                            <div class="w-4 h-14 bg-rose-600 rounded"></div>
-                            <div class="w-4 h-9 bg-rose-700 rounded"></div>
+        <div class="steps-container">
+            <!-- Step 1 -->
+            <div class="step-card" onclick="toggleStep(this, 0)">
+                <div class="step-header">
+                    <div class="step-visual">🎯</div>
+                    <div class="step-info">
+                        <div class="step-title">Kenal pasti tajuk dan sektor</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Tajuk</span>
+                            <span class="keyword-tag">Sektor</span>
+                            <span class="keyword-tag">Komponen</span>
+                        </div>
+                    </div>
+                    <div class="expand-indicator">›</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>📋</span>
+                                <span>Komponen Asas</span>
+                            </div>
+                            <div class="key-points">
+                                <div class="key-point">
+                                    <span>📌</span>
+                                    <span><strong>Tajuk:</strong> Nama carta dan topik utama</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🔢</span>
+                                    <span><strong>Sektor:</strong> Bahagian-bahagian dalam carta</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🏷️</span>
+                                    <span><strong>Label:</strong> Nama setiap sektor</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-text">
+                            "Carta pai ini menunjukkan taburan penduduk mengikut kaum di Malaysia. Sektor-sektor yang terdapat ialah Melayu, Cina, India, dan lain-lain."
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center mb-2">
-                    <span class="text-2xl mr-2">💬</span>
-                    <span class="font-medium text-rose-700">Contoh Ayat:</span>
-                </div>
-                <p class="text-rose-800 italic bg-white rounded-lg p-3 shadow-sm">"Graf bar menunjukkan bilangan pelajar yang hadir ke sekolah sepanjang seminggu."</p>
             </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">✅</span>
-                    <p>Tajuk memberitahu kita tentang apa yang ditunjukkan oleh data</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🔍</span>
-                    <p>Ia membantu kita memahami konteks maklumat</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📖</span>
-                    <p>Sentiasa baca tajuk sebelum menganalisis data</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Step 2 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-orange-400" data-step="2">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">2</div>
-                <h3 class="text-lg font-semibold text-gray-800">Perhatikan Maklumat dalam Jadual</h3>
-                <div class="ml-auto text-2xl wiggle">📋</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-4 mb-4 border border-orange-200">
-                <div class="text-center mb-3">
-                    <div class="inline-block bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-sm font-semibold text-orange-700 mb-2">📊 Contoh Jadual</div>
-                        <table class="text-sm border-collapse">
-                            <tr class="bg-gradient-to-r from-orange-100 to-amber-100">
-                                <th class="px-4 py-2 border-2 border-orange-300 font-semibold">🗓️ Hari</th>
-                                <th class="px-4 py-2 border-2 border-orange-300 font-semibold">👥 Kehadiran</th>
-                            </tr>
-                            <tr class="hover:bg-orange-50 transition-colors">
-                                <td class="px-4 py-2 border border-orange-200">Isnin</td>
-                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">45</td>
-                            </tr>
-                            <tr class="hover:bg-orange-50 transition-colors">
-                                <td class="px-4 py-2 border border-orange-200">Selasa</td>
-                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">48</td>
-                            </tr>
-                            <tr class="hover:bg-orange-50 transition-colors">
-                                <td class="px-4 py-2 border border-orange-200">Rabu</td>
-                                <td class="px-4 py-2 border border-orange-200 text-center font-bold text-orange-600">52</td>
-                            </tr>
-                        </table>
+            <!-- Step 2 -->
+            <div class="step-card" onclick="toggleStep(this, 1)">
+                <div class="step-header">
+                    <div class="step-visual">🔢</div>
+                    <div class="step-info">
+                        <div class="step-title">Nyatakan nilai keseluruhan dan setiap sektor</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Jumlah</span>
+                            <span class="keyword-tag">Peratusan</span>
+                            <span class="keyword-tag">Nilai</span>
+                        </div>
                     </div>
+                    <div class="expand-indicator">›</div>
                 </div>
-            </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">👀</span>
-                    <p>Lihat setiap baris dan lajur dengan teliti</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🔗</span>
-                    <p>Fahami hubungan antara data</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📏</span>
-                    <p>Perhatikan unit pengukuran yang digunakan</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-yellow-400" data-step="3">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">3</div>
-                <h3 class="text-lg font-semibold text-gray-800">Perhatikan Paksi Menegak dan Mendatar</h3>
-                <div class="ml-auto text-2xl wiggle">📐</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-4 mb-4 border border-yellow-200">
-                <div class="text-center mb-3">
-                    <svg viewBox="0 0 250 180" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-4" style="height: auto;">
-                        <defs>
-                            <linearGradient id="axisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#fbbf24"/>
-                                <stop offset="100%" style="stop-color:#f59e0b"/>
-                            </linearGradient>
-                            <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#60a5fa"/>
-                                <stop offset="100%" style="stop-color:#3b82f6"/>
-                            </linearGradient>
-                        </defs>
-                        
-                        <!-- Grid lines -->
-                        <defs>
-                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f3f4f6" stroke-width="1"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.5"/>
-                        
-                        <!-- Axes -->
-                        <line x1="40" y1="20" x2="40" y2="140" stroke="url(#axisGradient)" stroke-width="4"/>
-                        <line x1="40" y1="140" x2="200" y2="140" stroke="url(#axisGradient)" stroke-width="4"/>
-                        
-                        <!-- Sample bars -->
-                        <rect x="60" y="100" width="20" height="40" fill="url(#barGradient)" rx="2"/>
-                        <rect x="90" y="80" width="20" height="60" fill="url(#barGradient)" rx="2"/>
-                        <rect x="120" y="70" width="20" height="70" fill="url(#barGradient)" rx="2"/>
-                        <rect x="150" y="90" width="20" height="50" fill="url(#barGradient)" rx="2"/>
-                        
-                        <!-- Labels with backgrounds -->
-                        <rect x="5" y="65" width="30" height="20" fill="white" stroke="#fbbf24" stroke-width="1" rx="10"/>
-                        <text x="20" y="78" font-size="10" fill="#92400e" text-anchor="middle" font-weight="bold">Paksi Y</text>
-                        
-                        <rect x="110" y="150" width="30" height="20" fill="white" stroke="#fbbf24" stroke-width="1" rx="10"/>
-                        <text x="125" y="163" font-size="10" fill="#92400e" text-anchor="middle" font-weight="bold">Paksi X</text>
-                        
-                        <!-- Arrow heads -->
-                        <polygon points="40,15 35,25 45,25" fill="url(#axisGradient)"/>
-                        <polygon points="205,140 195,135 195,145" fill="url(#axisGradient)"/>
-                        
-                        <!-- Value labels -->
-                        <text x="30" y="145" font-size="8" fill="#666">0</text>
-                        <text x="30" y="125" font-size="8" fill="#666">20</text>
-                        <text x="30" y="105" font-size="8" fill="#666">40</text>
-                        <text x="30" y="85" font-size="8" fill="#666">60</text>
-                        
-                        <!-- Category labels -->
-                        <text x="70" y="155" font-size="8" fill="#666" text-anchor="middle">Isn</text>
-                        <text x="100" y="155" font-size="8" fill="#666" text-anchor="middle">Sel</text>
-                        <text x="130" y="155" font-size="8" fill="#666" text-anchor="middle">Rab</text>
-                        <text x="160" y="155" font-size="8" fill="#666" text-anchor="middle">Kha</text>
-                    </svg>
-                </div>
-            </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3 bg-blue-50 rounded-lg p-3">
-                    <span class="text-xl">➡️</span>
-                    <p><strong>Paksi X (mendatar):</strong> Biasanya menunjukkan kategori atau masa</p>
-                </div>
-                <div class="flex items-center space-x-3 bg-green-50 rounded-lg p-3">
-                    <span class="text-xl">⬆️</span>
-                    <p><strong>Paksi Y (menegak):</strong> Biasanya menunjukkan nilai atau kuantiti</p>
-                </div>
-                <div class="flex items-center space-x-3 bg-purple-50 rounded-lg p-3">
-                    <span class="text-xl">🎯</span>
-                    <p>Pastikan anda faham apa yang diwakili oleh setiap paksi</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-emerald-400" data-step="4">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">4</div>
-                <h3 class="text-lg font-semibold text-gray-800">Kenal Pasti Nilai Maksimum dan Minimum</h3>
-                <div class="ml-auto text-2xl wiggle">🏔️</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border border-emerald-200">
-                <div class="text-center mb-3">
-                    <svg viewBox="0 0 250 120" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-3" style="height: auto;">
-                        <defs>
-                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#10b981"/>
-                                <stop offset="100%" style="stop-color:#059669"/>
-                            </linearGradient>
-                        </defs>
-                        
-                        <!-- Line chart -->
-                        <polyline points="30,80 70,60 110,40 150,90 190,50" 
-                                  fill="none" stroke="url(#lineGradient)" stroke-width="3"/>
-                        
-                        <!-- Points -->
-                        <circle cx="30" cy="80" r="4" fill="#ef4444"/>
-                        <circle cx="70" cy="60" r="4" fill="#3b82f6"/>
-                        <circle cx="110" cy="40" r="6" fill="#10b981" stroke="white" stroke-width="2"/>
-                        <circle cx="150" cy="90" r="6" fill="#ef4444" stroke="white" stroke-width="2"/>
-                        <circle cx="190" cy="50" r="4" fill="#3b82f6"/>
-                        
-                        <!-- Max label -->
-                        <rect x="85" y="25" width="50" height="18" fill="#10b981" rx="9"/>
-                        <text x="110" y="37" font-size="10" fill="white" text-anchor="middle" font-weight="bold">MAX: 50</text>
-                        <line x1="110" y1="43" x2="110" y2="40" stroke="#10b981" stroke-width="2"/>
-                        
-                        <!-- Min label -->
-                        <rect x="125" y="95" width="50" height="18" fill="#ef4444" rx="9"/>
-                        <text x="150" y="107" font-size="10" fill="white" text-anchor="middle" font-weight="bold">MIN: 42</text>
-                        <line x1="150" y1="95" x2="150" y2="90" stroke="#ef4444" stroke-width="2"/>
-                    </svg>
-                </div>
-                
-                <div class="space-y-2">
-                    <div class="flex items-center mb-2">
-                        <span class="text-2xl mr-2">💬</span>
-                        <span class="font-medium text-emerald-700">Contoh Ayat:</span>
-                    </div>
-                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
-                        <p class="text-emerald-800 italic flex items-center">
-                            <span class="text-green-500 mr-2">🔺</span>
-                            "Nilai tertinggi ialah 50 pelajar pada hari Rabu."
-                        </p>
-                        <p class="text-emerald-800 italic flex items-center">
-                            <span class="text-red-500 mr-2">🔻</span>
-                            "Nilai terendah ialah 42 pelajar pada hari Khamis."
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🔍</span>
-                    <p>Cari titik tertinggi dan terendah dalam data</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📝</span>
-                    <p>Nyatakan nilai dan kategori/masa yang berkaitan</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📊</span>
-                    <p>Ini membantu memahami julat data</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-blue-400" data-step="5">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">5</div>
-                <h3 class="text-lg font-semibold text-gray-800">Huraikan Aliran Perubahan Data (Graf Garisan Mudah)</h3>
-                <div class="ml-auto text-2xl wiggle">📈</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border border-blue-200">
-                <div class="text-center mb-3">
-                    <svg viewBox="0 0 250 140" class="w-full max-w-xs sm:max-w-sm mx-auto bg-white rounded-lg shadow-md p-2 sm:p-3" style="height: auto;">
-                        <!-- Trend arrows and lines -->
-                        <defs>
-                            <linearGradient id="trendUp" x1="0%" y1="100%" x2="0%" y2="0%">
-                                <stop offset="0%" style="stop-color:#10b981"/>
-                                <stop offset="100%" style="stop-color:#34d399"/>
-                            </linearGradient>
-                            <linearGradient id="trendDown" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#ef4444"/>
-                                <stop offset="100%" style="stop-color:#f87171"/>
-                            </linearGradient>
-                        </defs>
-                        
-                        <!-- Trend sections -->
-                        <polyline points="20,100 60,70 100,50" fill="none" stroke="url(#trendUp)" stroke-width="4"/>
-                        <polyline points="100,50 140,80 180,110" fill="none" stroke="url(#trendDown)" stroke-width="4"/>
-                        <polyline points="180,110 220,105" fill="none" stroke="#6b7280" stroke-width="4"/>
-                        
-                        <!-- Trend labels -->
-                        <rect x="30" y="55" width="60" height="16" fill="#10b981" rx="8"/>
-                        <text x="60" y="66" font-size="9" fill="white" text-anchor="middle" font-weight="bold">📈 NAIK</text>
-                        
-                        <rect x="120" y="85" width="60" height="16" fill="#ef4444" rx="8"/>
-                        <text x="150" y="96" font-size="9" fill="white" text-anchor="middle" font-weight="bold">📉 TURUN</text>
-                        
-                        <rect x="185" y="100" width="50" height="16" fill="#6b7280" rx="8"/>
-                        <text x="210" y="111" font-size="9" fill="white" text-anchor="middle" font-weight="bold">➡️ STABIL</text>
-                        
-                        <!-- Points -->
-                        <circle cx="20" cy="100" r="3" fill="#3b82f6"/>
-                        <circle cx="60" cy="70" r="3" fill="#3b82f6"/>
-                        <circle cx="100" cy="50" r="3" fill="#3b82f6"/>
-                        <circle cx="140" cy="80" r="3" fill="#3b82f6"/>
-                        <circle cx="180" cy="110" r="3" fill="#3b82f6"/>
-                        <circle cx="220" cy="105" r="3" fill="#3b82f6"/>
-                    </svg>
-                </div>
-                
-                <div class="space-y-2">
-                    <div class="flex items-center mb-2">
-                        <span class="text-2xl mr-2">💬</span>
-                        <span class="font-medium text-blue-700">Contoh Ayat:</span>
-                    </div>
-                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
-                        <p class="text-blue-800 italic flex items-center">
-                            <span class="text-green-500 mr-2">📈</span>
-                            "Kehadiran pelajar menunjukkan <strong>peningkatan</strong> dari Isnin ke Rabu."
-                        </p>
-                        <p class="text-blue-800 italic flex items-center">
-                            <span class="text-red-500 mr-2">📉</span>
-                            "Terdapat <strong>penurunan mendadak</strong> pada hari Khamis."
-                        </p>
-                        <p class="text-blue-800 italic flex items-center">
-                            <span class="text-gray-500 mr-2">➡️</span>
-                            "Graf menunjukkan <strong>trend yang stabil</strong> pada akhir minggu."
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">👁️</span>
-                    <p>Lihat sama ada data naik, turun, atau kekal</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📝</span>
-                    <p>Gunakan kata-kata seperti: meningkat, menurun, stabil, mendadak</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🔍</span>
-                    <p>Huraikan corak yang anda nampak</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 6 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-purple-400" data-step="6">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">6</div>
-                <h3 class="text-lg font-semibold text-gray-800">Huraikan Isi Tersirat</h3>
-                <div class="ml-auto text-2xl wiggle">🤔</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4 border border-purple-200">
-                <div class="text-center mb-3">
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="flex justify-center space-x-4 mb-3">
-                            <div class="text-center">
-                                <div class="text-3xl mb-1">🌧️</div>
-                                <div class="text-xs text-gray-600">Khamis</div>
-                                <div class="text-xs font-bold text-red-600">↓ 42</div>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>🎯</span>
+                                <span>Carta Pai Interaktif</span>
                             </div>
-                            <div class="text-center">
-                                <div class="text-3xl mb-1">🎉</div>
-                                <div class="text-xs text-gray-600">Jumaat</div>
-                                <div class="text-xs font-bold text-green-600">↑ 50</div>
+                            <div class="pie-chart-container">
+                                <div class="pie-chart">
+                                    <svg class="pie-svg" viewBox="0 0 200 200">
+                                        <!-- Melayu 40% -->
+                                        <path d="M 100,100 L 100,20 A 80,80 0 0,1 156.56,43.44 Z" 
+                                              fill="#ec4899" class="pie-slice" stroke="white" stroke-width="2"></path>
+                                        <!-- Lain-lain 25% -->
+                                        <path d="M 100,100 L 156.56,43.44 A 80,80 0 0,1 156.56,156.56 Z" 
+                                              fill="#10b981" class="pie-slice" stroke="white" stroke-width="2"></path>
+                                        <!-- Cina 20% -->
+                                        <path d="M 100,100 L 156.56,156.56 A 80,80 0 0,1 100,180 Z" 
+                                              fill="#06b6d4" class="pie-slice" stroke="white" stroke-width="2"></path>
+                                        <!-- India 15% -->
+                                        <path d="M 100,100 L 100,180 A 80,80 0 0,1 100,20 Z" 
+                                              fill="#8b5cf6" class="pie-slice" stroke="white" stroke-width="2"></path>
+                                    </svg>
+                                </div>
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background: #ec4899;"></div>
+                                        <span>Melayu 40%</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background: #10b981;"></div>
+                                        <span>Lain-lain 25%</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background: #06b6d4;"></div>
+                                        <span>Cina 20%</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background: #8b5cf6;"></div>
+                                        <span>India 15%</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-sm text-purple-700 font-medium">Sebab & Akibat</div>
-                    </div>
-                </div>
-                
-                <div class="space-y-2">
-                    <div class="flex items-center mb-2">
-                        <span class="text-2xl mr-2">💬</span>
-                        <span class="font-medium text-purple-700">Contoh Ayat:</span>
-                    </div>
-                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
-                        <p class="text-purple-800 italic flex items-start">
-                            <span class="text-blue-500 mr-2 mt-1">🌧️</span>
-                            "Penurunan kehadiran pada hari Khamis mungkin disebabkan oleh cuaca buruk."
-                        </p>
-                        <p class="text-purple-800 italic flex items-start">
-                            <span class="text-yellow-500 mr-2 mt-1">🎉</span>
-                            "Kehadiran tinggi pada hari Jumaat menunjukkan pelajar bersemangat untuk aktiviti kokurikulum."
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">💭</span>
-                    <p>Fikirkan sebab-sebab di sebalik data</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🔗</span>
-                    <p>Buat inferens berdasarkan maklumat yang ada</p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🧠</span>
-                    <p>Hubungkan dengan pengetahuan am atau konteks</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 7 -->
-        <div class="step-card bg-white rounded-2xl p-6 card-shadow border-l-4 border-pink-400" data-step="7">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">7</div>
-                <h3 class="text-lg font-semibold text-gray-800">Buat Rumusan Keseluruhan</h3>
-                <div class="ml-auto text-2xl wiggle">📋</div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-4 mb-4 border border-pink-200">
-                <div class="text-center mb-3">
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-lg font-bold text-pink-700 mb-2">📊 RINGKASAN</div>
-                        <div class="space-y-2 sm:grid sm:grid-cols-3 sm:gap-2 sm:space-y-0">
-                            <div class="bg-green-100 rounded-lg p-3 text-center flex items-center justify-between sm:block">
-                                <div class="font-bold text-green-700 text-sm">📊 Purata</div>
-                                <div class="text-green-600 text-sm font-semibold">46 orang</div>
-                            </div>
-                            <div class="bg-blue-100 rounded-lg p-3 text-center flex items-center justify-between sm:block">
-                                <div class="font-bold text-blue-700 text-sm">🔺 Tertinggi</div>
-                                <div class="text-blue-600 text-sm font-semibold">50 orang</div>
-                            </div>
-                            <div class="bg-red-100 rounded-lg p-3 text-center flex items-center justify-between sm:block">
-                                <div class="font-bold text-red-700 text-sm">🔻 Terendah</div>
-                                <div class="text-red-600 text-sm font-semibold">42 orang</div>
-                            </div>
+                        <div class="example-text">
+                            "Jumlah keseluruhan penduduk ialah 100%. Kaum Melayu mewakili 40%, Cina 20%, India 15%, dan lain-lain 25%."
                         </div>
                     </div>
                 </div>
-                
-                <div class="space-y-2">
-                    <div class="flex items-center mb-2">
-                        <span class="text-2xl mr-2">💬</span>
-                        <span class="font-medium text-pink-700">Contoh Ayat:</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card" onclick="toggleStep(this, 2)">
+                <div class="step-header">
+                    <div class="step-visual">🏆</div>
+                    <div class="step-info">
+                        <div class="step-title">Nyatakan nilai sektor tertinggi dan terendah</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Maksimum</span>
+                            <span class="keyword-tag">Minimum</span>
+                            <span class="keyword-tag">Dominan</span>
+                        </div>
                     </div>
-                    <div class="bg-white rounded-lg p-3 shadow-sm space-y-2">
-                        <p class="text-pink-800 italic flex items-start">
-                            <span class="text-green-500 mr-2 mt-1">✅</span>
-                            "Secara keseluruhannya, kehadiran pelajar adalah baik dengan purata 46 orang sehari."
-                        </p>
-                        <p class="text-pink-800 italic flex items-start">
-                            <span class="text-blue-500 mr-2 mt-1">📈</span>
-                            "Kesimpulannya, terdapat variasi kehadiran sepanjang minggu dengan corak tertentu."
-                        </p>
+                    <div class="expand-indicator">›</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>🏆</span>
+                                <span>Perbandingan Ekstrem</span>
+                            </div>
+                            <div class="comparison-visual">
+                                <div class="comparison-item">
+                                    <div class="comparison-label">TERTINGGI</div>
+                                    <div class="comparison-bar" style="background: #ec4899; width: 80px;"></div>
+                                    <div class="comparison-value">40%</div>
+                                    <div style="font-size: 11px; color: #64748b;">Melayu</div>
+                                </div>
+                                <div style="font-size: 24px; color: #e2e8f0;">VS</div>
+                                <div class="comparison-item">
+                                    <div class="comparison-label">TERENDAH</div>
+                                    <div class="comparison-bar" style="background: #8b5cf6; width: 30px;"></div>
+                                    <div class="comparison-value">15%</div>
+                                    <div style="font-size: 11px; color: #64748b;">India</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-text">
+                            "Sektor tertinggi ialah kaum Melayu dengan 40%, manakala sektor terendah ialah kaum India dengan 15%."
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="space-y-3 text-gray-700">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">📝</span>
-                    <p>Ringkaskan penemuan utama anda</p>
+
+            <!-- Step 4 -->
+            <div class="step-card" onclick="toggleStep(this, 3)">
+                <div class="step-header">
+                    <div class="step-visual">⚖️</div>
+                    <div class="step-info">
+                        <div class="step-title">Nyatakan perbezaan nilai antara sektor</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Selisih</span>
+                            <span class="keyword-tag">Jurang</span>
+                            <span class="keyword-tag">Banding</span>
+                        </div>
+                    </div>
+                    <div class="expand-indicator">›</div>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">🎯</span>
-                    <p>Nyatakan kesimpulan umum tentang data</p>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>⚖️</span>
+                                <span>Pengiraan Perbezaan</span>
+                            </div>
+                            <div class="key-points">
+                                <div class="key-point">
+                                    <span>➖</span>
+                                    <span><strong>Melayu - Cina:</strong> 40% - 20% = 20%</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>📏</span>
+                                    <span><strong>Tertinggi - Terendah:</strong> 40% - 15% = 25%</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🔄</span>
+                                    <span><strong>Cina - India:</strong> 20% - 15% = 5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-text">
+                            "Perbezaan antara kaum Melayu dan Cina ialah 20%. Perbezaan antara sektor tertinggi dan terendah ialah 25%."
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-xl">💬</span>
-                    <p>Gunakan frasa seperti: "Secara keseluruhannya..." atau "Kesimpulannya..."</p>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step-card" onclick="toggleStep(this, 4)">
+                <div class="step-header">
+                    <div class="step-visual">🔍</div>
+                    <div class="step-info">
+                        <div class="step-title">Huraikan isi tersirat berdasarkan dapatan data</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Analisis</span>
+                            <span class="keyword-tag">Interpretasi</span>
+                            <span class="keyword-tag">Konteks</span>
+                        </div>
+                    </div>
+                    <div class="expand-indicator">›</div>
                 </div>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>🔍</span>
+                                <span>Analisis Mendalam</span>
+                            </div>
+                            <div class="key-points">
+                                <div class="key-point">
+                                    <span>🏛️</span>
+                                    <span><strong>Sejarah:</strong> Migrasi dan dasar kerajaan</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🌍</span>
+                                    <span><strong>Geografi:</strong> Taburan mengikut wilayah</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🤝</span>
+                                    <span><strong>Sosial:</strong> Kepelbagaian budaya</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-text">
+                            "Data menunjukkan Malaysia adalah negara majmuk dengan kaum Melayu sebagai majoriti. Kepelbagaian kaum ini mencerminkan sejarah migrasi dan dasar kerajaan."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step-card" onclick="toggleStep(this, 5)">
+                <div class="step-header">
+                    <div class="step-visual">📝</div>
+                    <div class="step-info">
+                        <div class="step-title">Buat rumusan keseluruhan</div>
+                        <div class="step-keywords">
+                            <span class="keyword-tag">Kesimpulan</span>
+                            <span class="keyword-tag">Ringkasan</span>
+                            <span class="keyword-tag">Rumusan</span>
+                        </div>
+                    </div>
+                    <div class="expand-indicator">›</div>
+                </div>
+                <div class="step-content">
+                    <div class="step-body">
+                        <div class="visual-example">
+                            <div class="example-header">
+                                <span>🎯</span>
+                                <span>Poin Utama Rumusan</span>
+                            </div>
+                            <div class="key-points">
+                                <div class="key-point">
+                                    <span>📊</span>
+                                    <span><strong>Data:</strong> Gabungan semua fakta</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>🔗</span>
+                                    <span><strong>Hubungan:</strong> Kaitan antara sektor</span>
+                                </div>
+                                <div class="key-point">
+                                    <span>💭</span>
+                                    <span><strong>Implikasi:</strong> Kesan dan makna</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="example-text">
+                            "Secara keseluruhannya, carta pai menunjukkan taburan penduduk Malaysia yang pelbagai dengan kaum Melayu mendominasi. Kepelbagaian ini adalah kekuatan negara."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-icon">🎓</div>
+            <div class="summary-title">Kata Kunci Penting</div>
+            <div class="summary-keywords">
+                <span class="summary-keyword">Sistematik</span>
+                <span class="summary-keyword">Analisis</span>
+                <span class="summary-keyword">Interpretasi</span>
+                <span class="summary-keyword">Kontekstual</span>
+                <span class="summary-keyword">Bermakna</span>
+                <span class="summary-keyword">Peratusan</span>
+                <span class="summary-keyword">Sektor</span>
+                <span class="summary-keyword">Perbandingan</span>
             </div>
         </div>
     </div>
 
-    <!-- Enhanced Keywords Section -->
-    <div class="p-4">
-        <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-6 text-white card-shadow">
-            <div class="flex items-center mb-4">
-                <span class="text-4xl mr-3 float">🔑</span>
-                <h3 class="text-xl font-semibold">Kata Kunci Penting</h3>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <!-- Jenis Graf -->
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-2">📊</span>
-                        <h4 class="font-semibold">Jenis Graf</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Bar</span>
-                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Garisan</span>
-                        <span class="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">Graf Gabungan</span>
-                    </div>
-                </div>
-                
-                <!-- Kata Perubahan -->
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-2">📈</span>
-                        <h4 class="font-semibold">Kata Perubahan</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-green-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Meningkat</span>
-                        <span class="bg-red-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Menurun</span>
-                        <span class="bg-gray-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Stabil</span>
-                        <span class="bg-yellow-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Mendadak</span>
-                    </div>
-                </div>
-                
-                <!-- Kata Nilai -->
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-2">🏔️</span>
-                        <h4 class="font-semibold">Kata Nilai</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-green-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Tertinggi</span>
-                        <span class="bg-red-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Terendah</span>
-                        <span class="bg-blue-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Purata</span>
-                        <span class="bg-purple-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Julat</span>
-                    </div>
-                </div>
-                
-                <!-- Kata Rumusan -->
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-2">📝</span>
-                        <h4 class="font-semibold">Kata Rumusan</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-pink-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Secara keseluruhannya</span>
-                        <span class="bg-indigo-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Kesimpulannya</span>
-                        <span class="bg-teal-400 bg-opacity-70 px-3 py-1 rounded-full text-sm">Oleh itu</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tips -->
-            <div class="mt-4 sm:mt-6 bg-white bg-opacity-20 rounded-xl p-3 sm:p-4">
-                <div class="flex items-center mb-3">
-                    <span class="text-2xl mr-2">💡</span>
-                    <h4 class="font-semibold">Tips Berguna</h4>
-                </div>
-                <div class="space-y-2 text-sm">
-                    <p class="flex items-center">
-                        <span class="mr-2">✨</span>
-                        Sentiasa rujuk kembali kepada tajuk dan paksi untuk memastikan tafsiran yang betul!
-                    </p>
-                    <p class="flex items-center">
-                        <span class="mr-2">🎯</span>
-                        Gunakan data konkrit (nombor) dalam huraian anda untuk lebih tepat.
-                    </p>
-                    <p class="flex items-center">
-                        <span class="mr-2">🔍</span>
-                        Cari corak atau trend yang menarik untuk dibincangkan.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="text-center p-6 text-gray-500 text-sm">
-        <div class="flex justify-center items-center space-x-2 mb-2">
-            <span class="text-2xl">📚</span>
-            <p class="font-medium">Panduan Interaktif untuk Pembelajaran Geografi</p>
-        </div>
-        <p class="text-xs opacity-75">Panduan lengkap untuk mentafsir jadual dan graf!</p>
+    <div class="floating-action" onclick="scrollToTop()" title="Kembali ke atas">
+        ↑
     </div>
 
     <script>
-        // Intersection Observer for smooth animations as cards come into view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, { threshold: 0.1 });
+        let completedSteps = 0;
+        const totalSteps = 6;
 
-        // Apply animation observer to all step cards
-        const stepCards = document.querySelectorAll('.step-card');
-        stepCards.forEach(card => {
-            observer.observe(card);
+        function toggleStep(element, stepIndex) {
+            const content = element.querySelector('.step-content');
+            const isActive = element.classList.contains('active');
+            
+            // Toggle current step only (don't close others)
+            if (isActive) {
+                element.classList.remove('active');
+                content.classList.remove('expanded');
+            } else {
+                element.classList.add('active');
+                content.classList.add('expanded');
+                
+                // Add haptic feedback for mobile
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                
+                // Animate pie chart if it's step 2
+                if (stepIndex === 1) {
+                    animatePieChart();
+                }
+            }
+        }
+
+        function animatePieChart() {
+            const slices = document.querySelectorAll('.pie-slice');
+            slices.forEach((slice, index) => {
+                slice.style.opacity = '0';
+                slice.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    slice.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    slice.style.opacity = '1';
+                    slice.style.transform = 'scale(1)';
+                }, index * 200);
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add touch feedback
+        document.querySelectorAll('.step-card').forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            item.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = '';
+                    }
+                }, 100);
+            });
+        });
+
+        // Floating action button scroll behavior
+        let lastScrollTop = 0;
+        const floatingAction = document.querySelector('.floating-action');
+
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                floatingAction.style.transform = 'translateY(100px)';
+            } else {
+                floatingAction.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Add hover effects for pie slices
+        document.addEventListener('DOMContentLoaded', function() {
+            const pieSlices = document.querySelectorAll('.pie-slice');
+            pieSlices.forEach(slice => {
+                slice.addEventListener('mouseenter', function() {
+                    this.style.filter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.2)) brightness(1.1)';
+                });
+                
+                slice.addEventListener('mouseleave', function() {
+                    this.style.filter = 'drop-shadow(0 2px 8px rgba(0,0,0,0.1))';
+                });
+            });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983e7349932b8066',t:'MTc1ODY3NjczMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983ebe1944489103',t:'MTc1ODY3OTc5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
