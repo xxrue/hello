@@ -3,91 +3,1167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenis Tanih - Kuiz Interaktif</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Graf Master - Ciri-ciri dan Kegunaan Graf</title>
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
-        
-        .soil-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, 
+                #667eea 0%, 
+                #764ba2 25%, 
+                #f093fb 50%, 
+                #f5576c 75%, 
+                #4facfe 100%
+            );
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+            touch-action: manipulation;
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.8s ease;
+        }
+
+        body.redemption-mode {
+            background: linear-gradient(135deg, 
+                #0c0c0c 0%, 
+                #1a1a1a 25%, 
+                #2d1b69 50%, 
+                #8b0000 75%, 
+                #ff0000 100%
+            );
+            animation: redemptionPulse 3s ease-in-out infinite;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .container.redemption-mode {
+            background: rgba(20, 20, 20, 0.95);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.5);
+            border: 2px solid rgba(255, 0, 0, 0.7);
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+                background: linear-gradient(135deg, 
+                    #667eea 0%, 
+                    #764ba2 25%, 
+                    #f093fb 50%, 
+                    #f5576c 75%, 
+                    #4facfe 100%
+                );
+            }
+
+            body.redemption-mode {
+                background: linear-gradient(135deg, 
+                    #0c0c0c 0%, 
+                    #1a1a1a 25%, 
+                    #2d1b69 50%, 
+                    #8b0000 75%, 
+                    #ff0000 100%
+                );
+            }
+
+            .container {
+                max-width: 1200px;
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .header {
+                border-radius: 20px;
+                margin-bottom: 20px;
+            }
+
+            .progress-bar {
+                margin: 0 0 20px 0;
+                background: rgba(255,255,255,0.3);
+                backdrop-filter: blur(10px);
+                border-radius: 10px;
+                padding: 3px;
+                height: 20px;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .game-area {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .left-panel {
+                background: white;
+                border-radius: 20px;
+                padding: 25px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                backdrop-filter: blur(10px);
+                width: 100%;
+            }
+
+            .left-panel.redemption-mode {
+                background: rgba(30, 30, 30, 0.95);
+                box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.5);
+                color: #ffffff;
+            }
+
+            .right-panel {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .classification-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                margin-bottom: 0;
+            }
+
+            .graph-section {
+                background: white;
+                border-radius: 15px;
+                padding: 15px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                backdrop-filter: blur(10px);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border: 2px solid transparent;
+                height: fit-content;
+            }
+
+            .graph-section.redemption-mode {
+                background: rgba(40, 40, 40, 0.95);
+                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.4);
+                color: #ffffff;
+            }
+
+            .graph-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            }
+
+            .graph-visual {
+                height: 60px;
+                margin-bottom: 12px;
+            }
+
+            .graph-title {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            .desktop-submit-area {
+                background: white;
+                border-radius: 20px;
+                padding: 20px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+
+            .desktop-submit-area.redemption-mode {
+                background: rgba(30, 30, 30, 0.95);
+                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
+                border: 2px solid rgba(255, 0, 0, 0.5);
+                color: #ffffff;
+            }
+
+            .category-buttons {
+                gap: 12px;
+            }
+
+            .category-btn {
+                padding: 12px 16px;
+                font-size: 12px;
+                min-height: 45px;
+                border-radius: 12px;
+            }
+
+            .statement-card {
+                margin-bottom: 0;
+                font-size: 18px;
+            }
+
+            .power-ups {
+                margin-bottom: 0;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .power-up {
+                padding: 10px 16px;
+                font-size: 13px;
+                border-radius: 25px;
+            }
+
+            .submit-btn, .next-btn {
+                margin-top: 20px;
+                padding: 18px 30px;
+                font-size: 16px;
+                border-radius: 30px;
+            }
+
+            .final-score {
+                grid-column: 1 / -1;
+                background: white;
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+
+        .header {
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #533483);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.8s ease;
+            box-shadow: 0 8px 32px rgba(26, 26, 46, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .header.redemption-mode {
+            background: linear-gradient(45deg, #000000, #8b0000, #ff0000, #2d1b69);
+            animation: redemptionHeaderPulse 2s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(255, 0, 0, 0.6);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: shimmer 3s linear infinite;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .level-badge.redemption-mode {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            animation: redemptionBadgePulse 1.5s ease-in-out infinite;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.8);
+        }
+
+        .game-area {
+            padding: 20px;
+            position: relative;
+        }
+
+        .statement-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+            animation: slideIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.8s ease;
+        }
+
+        .statement-card.redemption-mode {
+            background: linear-gradient(135deg, #000000, #2d1b69);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+            animation: redemptionCardPulse 2s ease-in-out infinite;
+            border: 2px solid #ff0000;
+        }
+
+        .statement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 2s infinite;
+        }
+
+        .statement-text {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .statement-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .redemption-announcement {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+            animation: redemptionAnnounce 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .redemption-announcement::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        .redemption-announcement-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .redemption-announcement h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .redemption-announcement p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .redemption-start-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        
-        .soil-card:hover {
+
+        .redemption-start-btn:hover {
+            background: white;
+            color: #ff6b6b;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
-        
-        .quiz-option {
-            transition: all 0.2s ease;
-            transform: scale(1);
+
+        .classification-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 10px;
+            margin-bottom: 25px;
         }
-        
-        .quiz-option:active {
-            transform: scale(0.98);
+
+        .classification-grid .graph-section:nth-child(3) {
+            grid-column: 1 / -1;
         }
-        
-        .correct {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            animation: pulse 0.5s ease-in-out;
+
+        .graph-section {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .incorrect {
-            background: linear-gradient(135deg, #f87171, #ef4444);
-            animation: shake 0.5s ease-in-out;
+
+        .graph-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0,184,148,0.2) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
         }
-        
+
+        .graph-section:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .graph-section.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f2ff, #e8ebff);
+            transform: scale(1.02);
+            animation: selectedPulse 1s infinite;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .graph-section.selected.redemption-mode {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+        }
+
+        .graph-section.correct-answer {
+            animation: correctBounce 0.8s ease-out;
+            border-color: #48cae4;
+            background: linear-gradient(135deg, #e8f9fd, #f0fcff);
+            box-shadow: 0 8px 20px rgba(72, 202, 228, 0.4);
+        }
+
+        .graph-section.correct-answer.redemption-mode {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+        }
+
+        .graph-section.wrong-answer {
+            animation: wrongShake 0.6s ease-out;
+            border-color: #f093fb;
+            background: linear-gradient(135deg, #fef7ff, #fdf2ff);
+        }
+
+        .graph-visual {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            gap: 4px;
+            height: 45px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #ff6b6b, #feca57);
+            width: 10px;
+            border-radius: 2px 2px 0 0;
+            animation: growUp 1s ease-out;
+            position: relative;
+        }
+
+        .bar.redemption-mode {
+            background: linear-gradient(to top, #e74c3c, #c0392b);
+        }
+
+        .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, transparent, rgba(255,255,255,0.3));
+            border-radius: 2px 2px 0 0;
+        }
+
+        .bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 80%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
+
+        .line-chart {
+            position: relative;
+            width: 70px;
+            height: 45px;
+        }
+
+        .line-path {
+            stroke: #48cae4;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            filter: drop-shadow(0 2px 4px rgba(72,202,228,0.3));
+        }
+
+        .line-path.redemption-mode {
+            stroke: #e74c3c;
+            filter: drop-shadow(0 2px 4px rgba(231,76,60,0.5));
+        }
+
+        .combined-chart {
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            height: 45px;
+            position: relative;
+        }
+
+        .combined-chart .bar {
+            width: 7px;
+        }
+
+        .graph-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .graph-section.redemption-mode .graph-title {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-btn {
+            flex: 1;
+            padding: 6px 4px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            font-size: 9px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            position: relative;
+            overflow: hidden;
+            line-height: 1.1;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0,184,148,0.2);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .category-btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .category-btn.redemption-mode::before {
+            background: rgba(255,107,107,0.2);
+        }
+
+        .category-btn.ciri {
+            border-color: #667eea;
+            color: #533483;
+        }
+
+        .category-btn.ciri.redemption-mode {
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+
+        .category-btn.kegunaan {
+            border-color: #48cae4;
+            color: #0077b6;
+        }
+
+        .category-btn.kegunaan.redemption-mode {
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+
+        .category-btn.selected {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .category-btn.ciri.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .category-btn.ciri.selected.redemption-mode {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .category-btn.kegunaan.selected {
+            background: linear-gradient(135deg, #48cae4, #0077b6);
+            color: white;
+        }
+
+        .category-btn.kegunaan.selected.redemption-mode {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn.redemption-mode {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+            animation: feedbackPop 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: feedbackShine 1s ease-out;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, #48cae4, #0077b6);
+            color: white;
+        }
+
+        .feedback.correct.redemption-mode {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+        }
+
+        .feedback.wrong {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .feedback.wrong.redemption-mode {
+            background: linear-gradient(135deg, #ff8e8e, #ffa8a8);
+            color: white;
+        }
+
+        .streak-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: streakGlow 2s infinite;
+            display: none;
+        }
+
+        .streak-indicator.active {
+            display: block;
+        }
+
+        .combo-multiplier {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: comboAppear 1s ease-out;
+            z-index: 1000;
+            display: none;
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 2000;
+            animation: achievementBounce 1s ease-out;
+            display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .power-ups {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .power-up {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .power-up:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .power-up.used {
+            background: #ddd;
+            color: #666;
+        }
+
+        .power-up::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .power-up:hover:not(:disabled)::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn.redemption-mode {
+            background: linear-gradient(135deg, #ff8e8e, #ff6b6b);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            height: 100%;
+            border-radius: 7px;
+            transition: width 0.5s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        .floating-points {
+            position: absolute;
+            color: #a8e6cf;
+            font-weight: bold;
+            font-size: 18px;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .floating-points.redemption-mode {
+            color: #ff6b6b;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffd3a5;
+            border-radius: 50%;
+            animation: particleFloat 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        .particle.redemption-mode {
+            background: #ff6b6b;
+        }
+
+        @keyframes redemptionPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.1); }
+        }
+
+        @keyframes redemptionHeaderPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes redemptionBadgePulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        @keyframes redemptionCardPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 16px rgba(255, 107, 107, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4); }
+        }
+
+        @keyframes redemptionAnnounce {
+            0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+            50% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        
-        @keyframes shake {
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(168, 200, 236, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(168, 200, 236, 0); }
+        }
+
+        @keyframes correctBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1.02); }
+            40% { transform: translateY(-10px) scale(1.05); }
+            60% { transform: translateY(-5px) scale(1.03); }
+        }
+
+        @keyframes wrongShake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
+
+        @keyframes growUp {
+            from { height: 0; opacity: 0; }
+            to { opacity: 1; }
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes feedbackPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        .bounce {
-            animation: bounce 0.6s ease-in-out;
+
+        @keyframes feedbackShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
-        
-        @keyframes bounce {
+
+        @keyframes streakGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(254, 202, 87, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(254, 202, 87, 0.8); }
+        }
+
+        @keyframes comboAppear {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes achievementBounce {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30px) scale(0); opacity: 0; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .final-score {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: finalScoreBounce 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(116, 185, 255, 0.3);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(116, 185, 255, 0.4);
+        }
+
+        @keyframes finalScoreBounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
         }
-        
-        .celebration {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        
+
         .confetti {
             position: absolute;
             width: 10px;
             height: 10px;
-            background: #f39c12;
-            animation: confetti-fall 3s linear infinite;
+            background: #ff6b6b;
+            animation: confettiFall 3s linear infinite;
+            pointer-events: none;
         }
-        
-        @keyframes confetti-fall {
+
+        .confetti:nth-child(odd) {
+            background: #4ecdc4;
+            animation-delay: -0.5s;
+        }
+
+        .confetti:nth-child(3n) {
+            background: #45b7d1;
+            animation-delay: -1s;
+        }
+
+        .confetti:nth-child(4n) {
+            background: #f9ca24;
+            animation-delay: -1.5s;
+        }
+
+        .confetti:nth-child(5n) {
+            background: #6c5ce7;
+            animation-delay: -2s;
+        }
+
+        @keyframes confettiFall {
             0% {
                 transform: translateY(-100vh) rotate(0deg);
                 opacity: 1;
@@ -97,677 +1173,765 @@
                 opacity: 0;
             }
         }
-        
-        .floating-emoji {
-            position: absolute;
-            font-size: 2rem;
-            animation: float-up 2s ease-out forwards;
-            pointer-events: none;
-        }
-        
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-        
-        .wiggle {
-            animation: wiggle 0.5s ease-in-out;
-        }
-        
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
-        }
-        
-        .glow {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            animation: glow-pulse 1s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow-pulse {
-            from { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
-            to { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
-        }
+
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen">
-    <div class="container mx-auto px-4 py-6 max-w-md lg:max-w-2xl">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-2 drop-shadow-lg wiggle">🌍 Jenis Tanih</h1>
-            <p class="text-white/90 text-lg">Kuiz Interaktif Pembelajaran 🎮</p>
-            <div class="mt-2 text-2xl">🎯 🏆 ⭐</div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="bg-white/20 rounded-full h-3 mb-6 backdrop-blur-sm">
-            <div id="progressBar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
-        </div>
-
-        <!-- Score Display -->
-        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 mb-6 text-center glow">
-            <div class="flex justify-between items-center">
-                <div class="text-white">
-                    <span class="text-sm lg:text-base opacity-80">🏅 Skor:</span>
-                    <span id="score" class="text-2xl lg:text-3xl font-bold ml-2 text-yellow-300">0</span>
-                </div>
-                <div class="text-white">
-                    <span class="text-sm lg:text-base opacity-80">📝 Soalan:</span>
-                    <span id="questionCounter" class="text-2xl lg:text-3xl font-bold ml-2">1/10</span>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="level-badge" id="levelBadge">Level 1</div>
+                <h1 id="headerTitle">🎯 Ciri-ciri dan Kegunaan Graf</h1>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div>Skor</div>
+                        <div id="score">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Streak</div>
+                        <div id="streak">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Level</div>
+                        <div id="level">1</div>
+                    </div>
                 </div>
             </div>
-            <div id="streakDisplay" class="mt-2 text-sm lg:text-base text-yellow-200 hidden">
-                🔥 Streak: <span id="streakCount">0</span>
-            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <!-- Stage Header -->
-        <div id="stageHeader" class="bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 mb-4 text-center">
-            <div class="text-3xl lg:text-5xl mb-2" id="stageEmoji">🖤</div>
-            <h3 class="text-lg lg:text-2xl font-bold text-white" id="stageName">Tanih Chernozem</h3>
-            <p class="text-sm lg:text-base text-white/80" id="stageDescription">Tanah Subur Beriklim Sederhana</p>
-            <div class="mt-2 text-xs lg:text-sm text-white/60">
-                Tahap <span id="stageNumber">1</span> daripada 6 • Soalan <span id="questionInStage">1</span> daripada 3
-            </div>
+        <div class="game-area" id="gameArea">
+            <!-- Game content will be inserted here -->
         </div>
 
-        <!-- Quiz Container -->
-        <div id="quizContainer" class="bg-white/10 backdrop-blur-md rounded-3xl p-6 lg:p-8 shadow-2xl">
-            <div id="questionCard" class="fade-in">
-                <h2 id="questionText" class="text-xl lg:text-2xl font-semibold text-white mb-6 lg:mb-8 leading-relaxed"></h2>
-                <div id="optionsContainer" class="space-y-3 lg:space-y-4"></div>
-            </div>
+        <div class="streak-indicator" id="streakIndicator">
+            🔥 Streak x<span id="streakCount">0</span>
         </div>
 
-        <!-- Next Button -->
-        <button id="nextBtn" class="w-full mt-6 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-            Soalan Seterusnya →
-        </button>
-
-        <!-- Stage Complete Modal -->
-        <div id="stageCompleteModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 max-w-sm w-full text-center">
-                <div class="text-6xl mb-4">🎊</div>
-                <h3 class="text-2xl font-bold text-white mb-2">Tahap Selesai!</h3>
-                <p id="stageCompleteText" class="text-white/80 mb-4"></p>
-                <div class="bg-white/20 rounded-xl p-3 mb-4">
-                    <p class="text-yellow-300 font-bold text-lg" id="stageScore">3/3 Betul!</p>
-                </div>
-                <button id="continueBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl">
-                    <span id="continueBtnText">Teruskan ke Tahap Seterusnya 🚀</span>
-                </button>
-            </div>
+        <div class="combo-multiplier" id="comboMultiplier">
+            COMBO x2!
         </div>
 
-        <!-- Results Screen -->
-        <div id="resultsScreen" class="hidden bg-white/10 backdrop-blur-md rounded-3xl p-6 shadow-2xl text-center">
-            <div class="text-6xl mb-4">🏆</div>
-            <h2 class="text-3xl font-bold text-white mb-4">Tahniah Selesai!</h2>
-            
-            <!-- Overall Score -->
-            <div class="bg-white/20 rounded-2xl p-4 mb-6">
-                <p class="text-white text-lg mb-2">Skor Keseluruhan:</p>
-                <p id="finalScore" class="text-4xl font-bold text-yellow-300"></p>
-                <p id="scoreMessage" class="text-white/80 mt-2"></p>
-            </div>
-
-            <!-- Stage Breakdown -->
-            <div class="bg-white/10 rounded-2xl p-4 mb-6">
-                <h3 class="text-white font-bold mb-3">📊 Prestasi Mengikut Tahap:</h3>
-                <div id="stageBreakdown" class="space-y-2 text-sm"></div>
-            </div>
-
-            <button id="restartBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95">
-                🔄 Main Semula
-            </button>
+        <div class="achievement-popup" id="achievementPopup">
+            <h3 id="achievementTitle">🏆 Achievement!</h3>
+            <p id="achievementText">You're doing great!</p>
         </div>
     </div>
 
     <script>
-        const soilStages = [
-            {
-                name: "Tanih Chernozem",
-                emoji: "🖤",
-                description: "Tanah Subur Beriklim Sederhana",
-                theme: "from-gray-800 via-gray-700 to-gray-900",
-                accent: "from-yellow-400 to-amber-500",
-                questions: [
-                    {
-                        question: "🌾 Tanih chernozem membeku pada musim apa?",
-                        options: ["A) Musim Bunga", "B) Musim Panas", "C) Musim Sejuk", "D) Musim Luruh"],
-                        correct: 2,
-                        explanation: "Tanih chernozem membeku pada musim sejuk di kawasan padang rumput hawa sederhana.",
-                        emoji: "❄️"
-                    },
-                    {
-                        question: "🌱 Tumbuhan utama di kawasan tanih chernozem adalah?",
-                        options: ["A) Rumput-rumput", "B) Kaktus", "C) Pokok Pain", "D) Kulat"],
-                        correct: 0,
-                        explanation: "Kawasan ini dipenuhi rumput-rumput, bunga-bungaan dan tumbuhan renek.",
-                        emoji: "🌾"
-                    },
-                    {
-                        question: "🐺 Haiwan manakah yang hidup di kawasan tanih chernozem?",
-                        options: ["A) Penguin", "B) Unta", "C) Beruang Kutub", "D) Coyote"],
-                        correct: 3,
-                        explanation: "Coyote, saiga antelope, badger dan bobcat hidup di kawasan ini.",
-                        emoji: "🐺"
-                    }
-                ]
-            },
-            {
-                name: "Tanih Permafrost",
-                emoji: "🧊",
-                description: "Tanah Kawasan Kutub Utara",
-                theme: "from-blue-600 via-blue-700 to-blue-800",
-                accent: "from-white to-blue-100",
-                questions: [
-                    {
-                        question: "❄️ Tanih permafrost mempunyai ciri-ciri apa?",
-                        options: ["A) Membeku sepanjang tahun", "B) Panas sepanjang tahun", "C) Lembap sahaja", "D) Kering sahaja"],
-                        correct: 0,
-                        explanation: "Tanih permafrost kurang subur, sejuk dan membeku sepanjang tahun.",
-                        emoji: "🧊"
-                    },
-                    {
-                        question: "🍄 Tumbuhan yang boleh hidup di kawasan tundra adalah?",
-                        options: ["A) Pokok Kelapa", "B) Bunga Ros", "C) Liken dan Lumut", "D) Padi"],
-                        correct: 2,
-                        explanation: "Hanya tumbuhan tahan sejuk seperti liken, lumut, kulampair, willow dan birch.",
-                        emoji: "🍄"
-                    },
-                    {
-                        question: "🐻‍❄️ Haiwan Artik yang hidup di kawasan ini adalah?",
-                        options: ["A) Singa", "B) Gajah", "C) Zirafah", "D) Beruang Kutub"],
-                        correct: 3,
-                        explanation: "Beruang kutub, karibu, musang artik, arnab artik dan lemming hidup di sini.",
-                        emoji: "🐻‍❄️"
-                    }
-                ]
-            },
-            {
-                name: "Tanih Aridisols",
-                emoji: "🏜️",
-                description: "Tanah Kawasan Beriklim Panas",
-                theme: "from-yellow-400 via-orange-500 to-red-600",
-                accent: "from-yellow-300 to-orange-400",
-                questions: [
-                    {
-                        question: "🏜️ Ciri utama tanih aridisols adalah?",
-                        options: ["A) Lembap dan subur", "B) Sejuk dan beku", "C) Berair", "D) Kering dan tandus"],
-                        correct: 3,
-                        explanation: "Tanih aridisols adalah tanah yang kering dan tandus di kawasan gurun panas.",
-                        emoji: "🏜️"
-                    },
-                    {
-                        question: "🌵 Tumbuhan yang mampu hidup di gurun adalah?",
-                        options: ["A) Pokok Kaktus", "B) Bunga Orkid", "C) Rumput Biasa", "D) Semanggi"],
-                        correct: 0,
-                        explanation: "Hanya tumbuhan berakar panjang seperti kaktus, akasia dan kurma yang boleh hidup.",
-                        emoji: "🌵"
-                    },
-                    {
-                        question: "🐪 Haiwan gurun yang terkenal adalah?",
-                        options: ["A) Penguin", "B) Katak", "C) Unta", "D) Ikan"],
-                        correct: 2,
-                        explanation: "Unta, rusa gazelle, oryx, musang fennec dan tikus jerboa hidup di gurun.",
-                        emoji: "🐪"
-                    }
-                ]
-            },
-            {
-                name: "Tanih Latosol",
-                emoji: "🌳",
-                description: "Tanah Kawasan Tropika Lembap",
-                theme: "from-green-400 via-emerald-500 to-green-600",
-                accent: "from-red-400 to-yellow-500",
-                questions: [
-                    {
-                        question: "🎨 Warna tanih latosol adalah?",
-                        options: ["A) Hitam", "B) Biru", "C) Merah atau Kuning", "D) Putih"],
-                        correct: 2,
-                        explanation: "Tanih latosol berwarna merah atau kuning, berpasir, liat atau lembap.",
-                        emoji: "🎨"
-                    },
-                    {
-                        question: "🌳 Kawasan tanih latosol terdapat di?",
-                        options: ["A) Hutan Hujan Tropika", "B) Gurun", "C) Kutub", "D) Pergunungan Tinggi"],
-                        correct: 0,
-                        explanation: "Tanih latosol terdapat di Hutan Hujan Tropika dan Hutan Monsun Tropika.",
-                        emoji: "🌳"
-                    },
-                    {
-                        question: "🐘 Haiwan besar yang hidup di hutan tropika adalah?",
-                        options: ["A) Penguin", "B) Beruang Kutub", "C) Unta", "D) Gajah"],
-                        correct: 3,
-                        explanation: "Gajah, harimau, beruang, kancil dan cerpelai hidup di kawasan ini.",
-                        emoji: "🐘"
-                    }
-                ]
-            },
-            {
-                name: "Tanih Podzol",
-                emoji: "🌲",
-                description: "Tanah Kawasan Beriklim Sejuk",
-                theme: "from-green-700 via-green-800 to-green-900",
-                accent: "from-green-400 to-emerald-500",
-                questions: [
-                    {
-                        question: "🌲 Tanih podzol terdapat di kawasan?",
-                        options: ["A) Pantai", "B) Gurun", "C) Hutan Konifer", "D) Padang Rumput"],
-                        correct: 2,
-                        explanation: "Tanih podzol yang nipis, berasid dan beku terdapat di kawasan Hutan Konifer.",
-                        emoji: "🌲"
-                    },
-                    {
-                        question: "🌿 Ciri akar tumbuhan di kawasan ini adalah?",
-                        options: ["A) Panjang dan dalam", "B) Pendek dan tidak menerjah jauh", "C) Terapung di air", "D) Tahan api"],
-                        correct: 1,
-                        explanation: "Akar tumbuhan pendek seperti pokok pain, cedar, birch, fir dan sprus.",
-                        emoji: "🌿"
-                    },
-                    {
-                        question: "🦌 Haiwan hutan konifer yang besar adalah?",
-                        options: ["A) Tikus", "B) Katak", "C) Kupu-kupu", "D) Rusa Besar"],
-                        correct: 3,
-                        explanation: "Rusa besar, elk, lynx, brown bear dan harimau Siberia hidup di sini.",
-                        emoji: "🦌"
-                    }
-                ]
-            },
-            {
-                name: "Tanih Terra Rossa",
-                emoji: "🍇",
-                description: "Tanah Kawasan Beriklim Sederhana",
-                theme: "from-red-400 via-orange-500 to-amber-600",
-                accent: "from-green-500 to-olive-600",
-                questions: [
-                    {
-                        question: "🔍 Tanih terra rossa adalah campuran?",
-                        options: ["A) Ais dan salji", "B) Air dan minyak", "C) Tanah liat dan pasir", "D) Rumput dan daun"],
-                        correct: 2,
-                        explanation: "Terra rossa adalah campuran tanah liat dan pasir, warna merah atau coklat kemerahan.",
-                        emoji: "🔴"
-                    },
-                    {
-                        question: "🌿 Tumbuhan Mediterranean yang wangi adalah?",
-                        options: ["A) Rosemary", "B) Kaktus", "C) Kulat", "D) Padi"],
-                        correct: 0,
-                        explanation: "Rosemary, lavender, laurel dan pain tumbuh di kawasan Mediterranean.",
-                        emoji: "🌿"
-                    },
-                    {
-                        question: "🦌 Haiwan yang hidup di hutan Mediterranean adalah?",
-                        options: ["A) Penguin", "B) Unta", "C) Beruang Kutub", "D) Rusa"],
-                        correct: 3,
-                        explanation: "Serigala, rusa, landak dan helang hidup di kawasan Mediterranean.",
-                        emoji: "🦌"
-                    }
-                ]
-            }
+        const statements = [
+            // Graf Bar - Ciri-ciri
+            { text: "Terdiri daripada paksi menegak dan paksi mendatar", graph: "bar", category: "ciri" },
+            { text: "Bar-bar boleh dilukis secara menegak atau mendatar", graph: "bar", category: "ciri" },
+            { text: "Ketinggian bar menunjukkan kuantiti sesuatu komponen", graph: "bar", category: "ciri" },
+            
+            // Graf Bar - Kegunaan
+            { text: "Mempersembahkan data yang boleh dikira", graph: "bar", category: "kegunaan" },
+            { text: "Menunjukkan perbezaan antara komponen yang dikaji", graph: "bar", category: "kegunaan" },
+            { text: "Sesuai untuk bilangan pelajar mengikut kelas", graph: "bar", category: "kegunaan" },
+            
+            // Graf Garisan - Ciri-ciri
+            { text: "Dilukis secara garisan", graph: "line", category: "ciri" },
+            { text: "Garisan yang curam menggambarkan perubahan yang besar", graph: "line", category: "ciri" },
+            { text: "Garisan yang landai menggambarkan perubahan yang kecil", graph: "line", category: "ciri" },
+            { text: "Garisan yang mendatar bermakna tiada perubahan", graph: "line", category: "ciri" },
+            
+            // Graf Garisan - Kegunaan
+            { text: "Menunjukkan perkara yang mengalami perubahan berterusan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk maklumat min suhu bulanan", graph: "line", category: "kegunaan" },
+            { text: "Sesuai untuk menunjukkan perubahan penduduk", graph: "line", category: "kegunaan" },
+            
+            // Graf Gabungan - Ciri-ciri
+            { text: "Gabungan graf bar mudah dan graf garisan", graph: "combined", category: "ciri" },
+            { text: "Menunjukkan dua maklumat yang berlainan dalam satu graf", graph: "combined", category: "ciri" }
         ];
 
-        let currentStage = 0;
-        let currentQuestionInStage = 0;
+        let currentStatement = 0;
         let score = 0;
-        let answered = false;
         let streak = 0;
-        let maxStreak = 0;
-        let stageScores = [0, 0, 0, 0, 0, 0];
+        let level = 1;
+        let selectedGraph = null;
+        let selectedCategory = null;
+        let gameStatements = [];
+        let powerUps = {
+            hint: 3,
+            doublePoints: 2
+        };
+        let wrongAnswers = [];
+        let achievements = [];
+        let isDoublePoints = false;
+        let isRedemptionMode = false;
+        let redemptionQuestions = [];
+        let currentRedemptionIndex = 0;
 
-        const questionText = document.getElementById('questionText');
-        const optionsContainer = document.getElementById('optionsContainer');
-        const nextBtn = document.getElementById('nextBtn');
-        const scoreElement = document.getElementById('score');
-        const questionCounter = document.getElementById('questionCounter');
-        const progressBar = document.getElementById('progressBar');
-        const quizContainer = document.getElementById('quizContainer');
-        const resultsScreen = document.getElementById('resultsScreen');
-        const finalScore = document.getElementById('finalScore');
-        const scoreMessage = document.getElementById('scoreMessage');
-        const restartBtn = document.getElementById('restartBtn');
-        const streakDisplay = document.getElementById('streakDisplay');
-        const streakCount = document.getElementById('streakCount');
-        
-        // Stage elements
-        const stageHeader = document.getElementById('stageHeader');
-        const stageEmoji = document.getElementById('stageEmoji');
-        const stageName = document.getElementById('stageName');
-        const stageDescription = document.getElementById('stageDescription');
-        const stageNumber = document.getElementById('stageNumber');
-        const questionInStage = document.getElementById('questionInStage');
-        const stageCompleteModal = document.getElementById('stageCompleteModal');
-        const stageCompleteText = document.getElementById('stageCompleteText');
-        const stageScore = document.getElementById('stageScore');
-        const continueBtn = document.getElementById('continueBtn');
-        const continueBtnText = document.getElementById('continueBtnText');
-        const stageBreakdown = document.getElementById('stageBreakdown');
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
-        // Theme and celebration functions
-        function updateTheme() {
-            const stage = soilStages[currentStage];
-            document.body.className = `bg-gradient-to-br ${stage.theme} min-h-screen transition-all duration-1000`;
+        function createGraphVisual(type) {
+            const redemptionClass = isRedemptionMode ? ' redemption-mode' : '';
+            
+            switch(type) {
+                case 'bar':
+                    return `
+                        <div class="bar-chart">
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                            <div class="bar${redemptionClass}"></div>
+                        </div>
+                    `;
+                case 'line':
+                    return `
+                        <svg class="line-chart" viewBox="0 0 70 45">
+                            <polyline class="line-path${redemptionClass}" points="5,35 20,20 35,25 50,15 65,18"/>
+                            <circle cx="5" cy="35" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="20" cy="20" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="35" cy="25" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="50" cy="15" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                            <circle cx="65" cy="18" r="2" fill="${isRedemptionMode ? '#ff6b6b' : '#ff6b6b'}"/>
+                        </svg>
+                    `;
+                case 'combined':
+                    return `
+                        <div class="combined-chart">
+                            <div class="bar${redemptionClass}" style="height: 60%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 80%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 40%;"></div>
+                            <div class="bar${redemptionClass}" style="height: 70%;"></div>
+                            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewBox="0 0 50 45">
+                                <polyline points="6,30 16,18 26,22 36,12" stroke="${isRedemptionMode ? '#ff6b6b' : '#e17055'}" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    `;
+            }
+        }
+
+        function enableRedemptionMode() {
+            isRedemptionMode = true;
+            document.body.classList.add('redemption-mode');
+            document.querySelector('.container').classList.add('redemption-mode');
+            document.querySelector('.header').classList.add('redemption-mode');
+            document.querySelector('.level-badge').classList.add('redemption-mode');
+            document.getElementById('headerTitle').textContent = '🔥 REDEMPTION ROUND';
+        }
+
+        function disableRedemptionMode() {
+            isRedemptionMode = false;
+            document.body.classList.remove('redemption-mode');
+            document.querySelector('.container').classList.remove('redemption-mode');
+            document.querySelector('.header').classList.remove('redemption-mode');
+            document.querySelector('.level-badge').classList.remove('redemption-mode');
+            document.getElementById('headerTitle').textContent = '🎯 Ciri-ciri dan Kegunaan Graf';
+        }
+
+        function showRedemptionAnnouncement() {
+            const gameArea = document.getElementById('gameArea');
+            
+            gameArea.innerHTML = `
+                <div class="redemption-announcement">
+                    <div class="redemption-announcement-content">
+                        <h2>🔥 REDEMPTION ROUND!</h2>
+                        <p>Anda mempunyai peluang untuk menjawab semula soalan yang salah!</p>
+                        <p><strong>Soalan yang boleh diperbaiki: ${wrongAnswers.length}</strong></p>
+                        <p>Setiap jawapan betul akan memberi anda +5 mata bonus!</p>
+                        <button class="redemption-start-btn" onclick="startRedemptionRound()">
+                            🚀 Mula Redemption Round
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function startRedemptionRound() {
+            enableRedemptionMode();
+            redemptionQuestions = [...wrongAnswers];
+            currentRedemptionIndex = 0;
+            displayRedemptionQuestion();
+        }
+
+        function displayRedemptionQuestion() {
+            if (currentRedemptionIndex >= redemptionQuestions.length) {
+                finishRedemptionRound();
+                return;
+            }
+
+            const question = redemptionQuestions[currentRedemptionIndex];
+            const gameArea = document.getElementById('gameArea');
+            
+            gameArea.innerHTML = `
+                <div class="left-panel redemption-mode">
+                    <div style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
+                        <h3>🔥 REDEMPTION - Soalan ${question.questionNumber}</h3>
+                        <p style="font-size: 12px; margin-top: 5px;">${currentRedemptionIndex + 1}/${redemptionQuestions.length}</p>
+                    </div>
+                    
+                    <div class="statement-card redemption-mode">
+                        <div class="statement-text">${question.statement.text}</div>
+                        <div class="statement-counter">Redemption Round</div>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="classification-grid">
+                        <div class="graph-section redemption-mode" onclick="selectGraph('bar')">
+                            <div class="graph-title">Graf Bar</div>
+                            <div class="graph-visual">${createGraphVisual('bar')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section redemption-mode" onclick="selectGraph('line')">
+                            <div class="graph-title">Graf Garisan</div>
+                            <div class="graph-visual">${createGraphVisual('line')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section redemption-mode" onclick="selectGraph('combined')">
+                            <div class="graph-title">Graf Gabungan</div>
+                            <div class="graph-visual">${createGraphVisual('combined')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri redemption-mode" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan redemption-mode" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="desktop-submit-area redemption-mode">
+                        <button class="submit-btn redemption-mode" id="submitBtn" onclick="submitRedemptionAnswer()" disabled>
+                            🔥 Hantar Jawapan Redemption
+                        </button>
+                        
+                        <div class="feedback" id="feedback"></div>
+                        <button class="next-btn redemption-mode" id="nextBtn" onclick="nextRedemptionQuestion()">Soalan Seterusnya 🔥</button>
+                    </div>
+                </div>
+            `;
+            
+            selectedGraph = null;
+            selectedCategory = null;
+        }
+
+        function submitRedemptionAnswer() {
+            const question = redemptionQuestions[currentRedemptionIndex];
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const isCorrect = selectedGraph === question.statement.graph && selectedCategory === question.statement.category;
+            
+            if (isCorrect) {
+                score += 5;
+                
+                showFloatingPoints(5);
+                createParticles();
+                
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('correct-answer', 'redemption-mode');
+                
+                feedback.className = 'feedback correct redemption-mode';
+                feedback.textContent = `🔥 HEBAT! +5 mata bonus! Anda berjaya memperbetulkan jawapan!`;
+                
+            } else {
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('wrong-answer');
+                
+                feedback.className = 'feedback wrong redemption-mode';
+                feedback.textContent = `❌ Masih tidak tepat. Jawapan: ${question.statement.category} Graf ${getGraphName(question.statement.graph)}.`;
+            }
+            
+            updateStats();
+            feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            
+            document.querySelectorAll('.graph-section, .category-btn').forEach(el => {
+                el.style.pointerEvents = 'none';
+            });
+        }
+
+        function nextRedemptionQuestion() {
+            currentRedemptionIndex++;
+            displayRedemptionQuestion();
+        }
+
+        function finishRedemptionRound() {
+            disableRedemptionMode();
+            showFinalScore();
+        }
+
+        function displayStatement() {
+            if (currentStatement >= gameStatements.length) {
+                // Check if there are wrong answers for redemption
+                if (wrongAnswers.length > 0) {
+                    showRedemptionAnnouncement();
+                } else {
+                    showFinalScore();
+                }
+                return;
+            }
+
+            const statement = gameStatements[currentStatement];
+            const gameArea = document.getElementById('gameArea');
+            
+            gameArea.innerHTML = `
+                <div class="left-panel">
+                    <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 154, 158, 0.15)); border-left: 4px solid #ff6b35; padding: 12px; margin-bottom: 15px; border-radius: 12px; font-size: 13px; color: #2d3436; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);">
+                        📋 <strong>Cara Main:</strong> Pilih jenis graf yang betul, kemudian klik sama ada "Ciri-ciri" atau "Kegunaan"
+                        <div style="font-size: 11px; margin-top: 5px; opacity: 0.8;">💡 Garis ini membantu anda memahami langkah-langkah permainan</div>
+                    </div>
+                    
+                    <div class="power-ups">
+                        <button class="power-up" onclick="useHint()" ${powerUps.hint <= 0 ? 'disabled' : ''}>
+                            💡 Hint (${powerUps.hint})
+                        </button>
+                        <button class="power-up" onclick="useDoublePoints()" ${powerUps.doublePoints <= 0 || isDoublePoints ? 'disabled' : ''}>
+                            ⭐ 2x Points (${powerUps.doublePoints})
+                        </button>
+                    </div>
+                    
+                    <div class="statement-card">
+                        <div class="statement-text">${statement.text}</div>
+                        <div class="statement-counter">${currentStatement + 1}/15</div>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="classification-grid">
+                        <div class="graph-section" onclick="selectGraph('bar')">
+                            <div class="graph-title">Graf Bar</div>
+                            <div class="graph-visual">${createGraphVisual('bar')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section" onclick="selectGraph('line')">
+                            <div class="graph-title">Graf Garisan</div>
+                            <div class="graph-visual">${createGraphVisual('line')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-section" onclick="selectGraph('combined')">
+                            <div class="graph-title">Graf Gabungan</div>
+                            <div class="graph-visual">${createGraphVisual('combined')}</div>
+                            <div class="category-buttons">
+                                <button class="category-btn ciri" onclick="selectCategory(event, 'ciri')">Ciri-ciri</button>
+                                <button class="category-btn kegunaan" onclick="selectCategory(event, 'kegunaan')">Kegunaan</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="desktop-submit-area">
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>
+                            🚀 Hantar Jawapan
+                        </button>
+                        
+                        <div class="feedback" id="feedback"></div>
+                        <button class="next-btn" id="nextBtn" onclick="nextStatement()">Soalan Seterusnya ➡️</button>
+                    </div>
+                </div>
+            `;
+            
+            updateProgress();
+            selectedGraph = null;
+            selectedCategory = null;
+        }
+
+        function selectGraph(graphType) {
+            selectedGraph = graphType;
+            
+            // Clear all selections
+            document.querySelectorAll('.graph-section').forEach(section => {
+                section.classList.remove('selected');
+            });
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select the graph
+            document.querySelector(`[onclick="selectGraph('${graphType}')"]`).classList.add('selected');
+            
+            selectedCategory = null;
+            updateSubmitButton();
+        }
+
+        function selectCategory(event, category) {
+            event.stopPropagation();
+            
+            if (!selectedGraph) return;
+            
+            // Clear all category selections
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select the category
+            event.target.classList.add('selected');
+            selectedCategory = category;
+            
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (selectedGraph && selectedCategory) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitAnswer() {
+            const statement = gameStatements[currentStatement];
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const isCorrect = selectedGraph === statement.graph && selectedCategory === statement.category;
+            
+            if (isCorrect) {
+                let points = 10;
+                if (isDoublePoints) {
+                    points *= 2;
+                    isDoublePoints = false;
+                }
+                
+                score += points;
+                streak++;
+                
+                // Show floating points
+                showFloatingPoints(points);
+                createParticles();
+                
+                // Update streak indicator
+                updateStreakIndicator();
+                
+                // Check for combo multiplier
+                if (streak >= 3 && streak % 3 === 0) {
+                    showComboMultiplier();
+                }
+                
+                // Mark correct answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('correct-answer');
+                
+                feedback.className = 'feedback correct';
+                feedback.textContent = `🎉 Betul! +${points} mata! Ini adalah ${selectedCategory} Graf ${getGraphName(selectedGraph)}.`;
+                
+                // Check achievements
+                checkAchievements();
+                
+            } else {
+                streak = 0;
+                document.getElementById('streakIndicator').classList.remove('active');
+                
+                // Track wrong answer for redemption
+                wrongAnswers.push({
+                    statement: statement,
+                    questionNumber: currentStatement + 1
+                });
+                
+                // Mark wrong answer
+                document.querySelector(`[onclick="selectGraph('${selectedGraph}')"]`).classList.add('wrong-answer');
+                
+                feedback.className = 'feedback wrong';
+                feedback.textContent = `❌ Tidak tepat. Ini adalah ${statement.category} Graf ${getGraphName(statement.graph)}.`;
+            }
+            
+            updateStats();
+            feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+            
+            // Disable all interactions
+            document.querySelectorAll('.graph-section, .category-btn').forEach(el => {
+                el.style.pointerEvents = 'none';
+            });
+        }
+
+        function showFloatingPoints(points) {
+            const gameArea = document.getElementById('gameArea');
+            const floatingPoints = document.createElement('div');
+            floatingPoints.className = `floating-points${isRedemptionMode ? ' redemption-mode' : ''}`;
+            floatingPoints.textContent = `+${points}`;
+            floatingPoints.style.left = Math.random() * 200 + 100 + 'px';
+            floatingPoints.style.top = '50%';
+            gameArea.appendChild(floatingPoints);
+            
+            setTimeout(() => {
+                floatingPoints.remove();
+            }, 1000);
+        }
+
+        function createParticles() {
+            const gameArea = document.getElementById('gameArea');
+            for (let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle${isRedemptionMode ? ' redemption-mode' : ''}`;
+                particle.style.left = Math.random() * 300 + 50 + 'px';
+                particle.style.top = Math.random() * 200 + 100 + 'px';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                gameArea.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        function updateStreakIndicator() {
+            const streakIndicator = document.getElementById('streakIndicator');
+            const streakCount = document.getElementById('streakCount');
+            
+            if (streak >= 2) {
+                streakIndicator.classList.add('active');
+                streakCount.textContent = streak;
+            }
+        }
+
+        function showComboMultiplier() {
+            const comboMultiplier = document.getElementById('comboMultiplier');
+            comboMultiplier.style.display = 'block';
+            
+            setTimeout(() => {
+                comboMultiplier.style.display = 'none';
+            }, 1500);
+        }
+
+        function checkAchievements() {
+            if (streak === 5 && !achievements.includes('streak5')) {
+                achievements.push('streak5');
+                showAchievement('🔥 Streak Master!', 'Jawab 5 soalan berturut-turut dengan betul!');
+            }
+            
+            if (score >= 100 && !achievements.includes('score100')) {
+                achievements.push('score100');
+                showAchievement('💯 Century!', 'Capai 100 mata!');
+            }
+            
+            if (currentStatement === 4 && !achievements.includes('firstLevel')) {
+                achievements.push('firstLevel');
+                showAchievement('🎯 Level Up!', 'Selesai 5 soalan pertama!');
+                levelUp();
+            }
+        }
+
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementText').textContent = text;
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        function levelUp() {
+            level++;
+            document.getElementById('level').textContent = level;
+            document.getElementById('levelBadge').textContent = `Level ${level}`;
+            
+            // Progressive power-up system - more power-ups as you advance
+            powerUps.hint += Math.floor(level / 2) + 1; // More hints at higher levels
+            if (level % 2 === 0) {
+                powerUps.doublePoints += Math.floor(level / 3) + 1; // More double points at higher levels
+            }
+            
+            // Bonus power-ups for high streaks
+            if (streak >= 5) {
+                powerUps.hint++;
+            }
+            if (streak >= 10) {
+                powerUps.doublePoints++;
+            }
+        }
+
+        function useHint() {
+            if (powerUps.hint <= 0) return;
+            
+            powerUps.hint--;
+            const statement = gameStatements[currentStatement];
+            
+            // Highlight correct graph type
+            const correctSection = document.querySelector(`[onclick="selectGraph('${statement.graph}')"]`);
+            correctSection.style.border = '3px solid #00b894';
+            correctSection.style.animation = 'selectedPulse 2s infinite';
+            
+            setTimeout(() => {
+                correctSection.style.border = '';
+                correctSection.style.animation = '';
+            }, 3000);
+            
+            event.target.classList.add('used');
+            event.target.disabled = true;
+        }
+
+        function useDoublePoints() {
+            if (powerUps.doublePoints <= 0 || isDoublePoints) return;
+            
+            powerUps.doublePoints--;
+            isDoublePoints = true;
+            event.target.classList.add('used');
+            event.target.disabled = true;
+            
+            // Show visual feedback
+            const gameArea = document.getElementById('gameArea');
+            const doublePointsIndicator = document.createElement('div');
+            doublePointsIndicator.textContent = '⭐ DOUBLE POINTS ACTIVE!';
+            doublePointsIndicator.style.cssText = `
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #feca57, #ff9ff3);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 12px;
+                z-index: 100;
+                animation: pulse 1s infinite;
+            `;
+            gameArea.appendChild(doublePointsIndicator);
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+        }
+
+        function getGraphName(graphType) {
+            switch(graphType) {
+                case 'bar': return 'Bar';
+                case 'line': return 'Garisan';
+                case 'combined': return 'Gabungan';
+            }
+        }
+
+        function nextStatement() {
+            currentStatement++;
+            displayStatement();
+        }
+
+        function updateProgress() {
+            const progress = ((currentStatement + 1) / gameStatements.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
         }
 
         function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
-            for (let i = 0; i < 100; i++) {
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.animationDelay = Math.random() * 3 + 's';
-                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                document.body.appendChild(confetti);
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(confetti);
                 
-                setTimeout(() => confetti.remove(), 5000);
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
             }
         }
 
-        function createStageTransition(stageEmoji) {
-            // Create multiple floating stage emojis
-            for (let i = 0; i < 15; i++) {
-                const floatingEmoji = document.createElement('div');
-                floatingEmoji.className = 'floating-emoji';
-                floatingEmoji.textContent = stageEmoji;
-                floatingEmoji.style.left = Math.random() * window.innerWidth + 'px';
-                floatingEmoji.style.top = Math.random() * window.innerHeight + 'px';
-                floatingEmoji.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
-                floatingEmoji.style.animationDelay = Math.random() * 0.5 + 's';
-                document.body.appendChild(floatingEmoji);
-                
-                setTimeout(() => floatingEmoji.remove(), 2000);
-            }
-        }
-
-        function createFloatingEmoji(emoji, x, y) {
-            const floatingEmoji = document.createElement('div');
-            floatingEmoji.className = 'floating-emoji';
-            floatingEmoji.textContent = emoji;
-            floatingEmoji.style.left = x + 'px';
-            floatingEmoji.style.top = y + 'px';
-            document.body.appendChild(floatingEmoji);
-            
-            setTimeout(() => floatingEmoji.remove(), 2000);
-        }
-
-        function playSuccessAnimation() {
-            scoreElement.classList.add('bounce');
-            setTimeout(() => scoreElement.classList.remove('bounce'), 600);
-        }
-
-        function updateStreak(isCorrect) {
-            if (isCorrect) {
-                streak++;
-                maxStreak = Math.max(maxStreak, streak);
-                if (streak >= 3) {
-                    streakDisplay.classList.remove('hidden');
-                    streakCount.textContent = streak;
-                    if (streak === 5) {
-                        createConfetti();
-                    }
-                }
-            } else {
-                streak = 0;
-                if (streakDisplay.classList.contains('hidden') === false) {
-                    streakDisplay.classList.add('hidden');
-                }
-            }
-        }
-
-        function loadQuestion() {
-            answered = false;
-            nextBtn.disabled = true;
-            
-            const stage = soilStages[currentStage];
-            const question = stage.questions[currentQuestionInStage];
-            
-            // Update theme
-            updateTheme();
-            
-            // Update stage header
-            stageEmoji.textContent = stage.emoji;
-            stageName.textContent = stage.name;
-            stageDescription.textContent = stage.description;
-            stageNumber.textContent = currentStage + 1;
-            questionInStage.textContent = currentQuestionInStage + 1;
-            
-            // Update question
-            questionText.textContent = question.question;
-            const totalQuestions = soilStages.length * 3;
-            const currentQuestionNumber = (currentStage * 3) + currentQuestionInStage + 1;
-            questionCounter.textContent = `${currentQuestionNumber}/${totalQuestions}`;
-            
-            // Update progress bar
-            const progress = ((currentQuestionNumber - 1) / totalQuestions) * 100;
-            progressBar.style.width = `${progress}%`;
-            
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'quiz-option w-full bg-white/20 backdrop-blur-sm text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left hover:bg-white/30 border border-white/20';
-                button.textContent = option;
-                button.onclick = () => selectAnswer(index, button);
-                optionsContainer.appendChild(button);
-            });
-        }
-
-        function selectAnswer(selectedIndex, buttonElement) {
-            if (answered) return;
-            
-            answered = true;
-            const stage = soilStages[currentStage];
-            const question = stage.questions[currentQuestionInStage];
-            const isCorrect = selectedIndex === question.correct;
-            
-            // Update streak
-            updateStreak(isCorrect);
-            
-            // Style all buttons
-            const allButtons = optionsContainer.querySelectorAll('button');
-            allButtons.forEach((btn, index) => {
-                btn.disabled = true;
-                if (index === question.correct) {
-                    btn.className = 'quiz-option w-full text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left correct border border-green-300';
-                } else if (index === selectedIndex && !isCorrect) {
-                    btn.className = 'quiz-option w-full text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left incorrect border border-red-300';
-                } else {
-                    btn.className = 'quiz-option w-full bg-white/10 text-white/60 font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left border border-white/10';
-                }
-            });
-            
-            if (isCorrect) {
-                score += 10;
-                stageScores[currentStage] += 10;
-                scoreElement.textContent = score;
-                playSuccessAnimation();
-                
-                // Create floating emoji at button position
-                const rect = buttonElement.getBoundingClientRect();
-                createFloatingEmoji(question.emoji, rect.left + rect.width/2, rect.top);
-                
-                // No extra points for streaks - keeping it fair
-            }
-            
-            // Show explanation with fun styling
-            setTimeout(() => {
-                const explanation = document.createElement('div');
-                explanation.className = 'mt-4 p-4 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30 fade-in';
-                const emojiReaction = isCorrect ? '🎉' : '🤔';
-                explanation.innerHTML = `<p class="text-white text-sm"><strong>${emojiReaction} Penjelasan:</strong> ${question.explanation}</p>`;
-                optionsContainer.appendChild(explanation);
-            }, 500);
-            
-            nextBtn.disabled = false;
-        }
-
-        function showStageComplete() {
-            const stage = soilStages[currentStage];
-            const stageScoreValue = stageScores[currentStage];
-            
-            stageCompleteText.textContent = `Anda telah selesaikan ${stage.name}!`;
-            stageScore.textContent = `${stageScoreValue}/30 Mata`;
-            
-            // Check if this is the final stage
-            if (currentStage === soilStages.length - 1) {
-                continueBtnText.textContent = "Lihat Keputusan Akhir 🏆";
-                // Change to results theme
-                document.body.className = 'bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-700 min-h-screen transition-all duration-1000';
-            } else {
-                continueBtnText.textContent = "Teruskan ke Tahap Seterusnya 🚀";
-            }
-            
-            stageCompleteModal.classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            currentQuestionInStage++;
-            
-            // Check if stage is complete
-            if (currentQuestionInStage >= 3) {
-                showStageComplete();
-                return;
-            }
-            
-            // Continue to next question in same stage
-            document.getElementById('questionCard').classList.remove('fade-in');
-            setTimeout(() => {
-                loadQuestion();
-                document.getElementById('questionCard').classList.add('fade-in');
-            }, 100);
-        }
-
-        function nextStage() {
-            currentStage++;
-            currentQuestionInStage = 0;
-            
-            stageCompleteModal.classList.add('hidden');
-            
-            if (currentStage >= soilStages.length) {
-                showResults();
-                return;
-            }
-            
-            // Create stage transition animation
-            const nextStage = soilStages[currentStage];
-            createStageTransition(nextStage.emoji);
-            
-            // Load first question of next stage
-            document.getElementById('questionCard').classList.remove('fade-in');
-            setTimeout(() => {
-                loadQuestion();
-                document.getElementById('questionCard').classList.add('fade-in');
-            }, 100);
-        }
-
-        function showResults() {
-            // Update progress to 100%
-            progressBar.style.width = '100%';
-            
-            // Set final results theme (different from all stages)
-            document.body.className = 'bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-700 min-h-screen transition-all duration-1000';
-            
-            // Hide quiz elements
-            quizContainer.classList.add('hidden');
-            nextBtn.classList.add('hidden');
-            stageHeader.classList.add('hidden');
-            resultsScreen.classList.remove('hidden');
-            
-            const totalPossible = soilStages.length * 30;
-            const percentage = (score / totalPossible) * 100;
-            finalScore.textContent = `${score}/${totalPossible}`;
-            
+        function showFinalScore() {
+            const gameArea = document.getElementById('gameArea');
+            const percentage = Math.round((score / 150) * 100);
             let message = '';
-            let celebration = '';
+            let rank = '';
+            
             if (percentage >= 90) {
-                message = '🌟 Cemerlang! Anda pakar tanih!';
-                celebration = '🎊🎉🏆';
-                createConfetti();
-            } else if (percentage >= 70) {
-                message = '👍 Bagus! Pengetahuan yang baik!';
-                celebration = '🎉✨🌟';
-            } else if (percentage >= 50) {
-                message = '📚 Tidak buruk, teruskan belajar!';
-                celebration = '💪📖✨';
+                message = '🌟 LEGEND! Anda adalah Graf Master!';
+                rank = '👑 GRAF MASTER';
+            } else if (percentage >= 80) {
+                message = '🔥 CEMERLANG! Anda memahami graf dengan sangat baik!';
+                rank = '🥇 GRAF EXPERT';
+            } else if (percentage >= 60) {
+                message = '👍 BAGUS! Anda faham konsep asas graf!';
+                rank = '🥈 GRAF SCHOLAR';
             } else {
-                message = '💪 Jangan putus asa, cuba lagi!';
-                celebration = '🌱💪🎯';
+                message = '💪 Teruskan belajar! Anda semakin memahami graf!';
+                rank = '🥉 GRAF STUDENT';
             }
             
-            scoreMessage.innerHTML = `${celebration}<br>${message}<br><br>🔥 Streak Terbaik: ${maxStreak}`;
+            // Create confetti celebration
+            createConfetti();
             
-            // Show stage breakdown
-            stageBreakdown.innerHTML = '';
-            soilStages.forEach((stage, index) => {
-                const stageResult = document.createElement('div');
-                const stagePercentage = (stageScores[index] / 30) * 100;
-                let stageEmoji = '';
-                if (stagePercentage === 100) stageEmoji = '🏆';
-                else if (stagePercentage >= 67) stageEmoji = '⭐';
-                else if (stagePercentage >= 33) stageEmoji = '👍';
-                else stageEmoji = '📚';
-                
-                stageResult.className = 'flex justify-between items-center text-white/80 bg-white/5 rounded-lg p-2';
-                stageResult.innerHTML = `
-                    <span>${stage.emoji} ${stage.name}</span>
-                    <span>${stageEmoji} ${stageScores[index]}/30</span>
-                `;
-                stageBreakdown.appendChild(stageResult);
-            });
+            gameArea.innerHTML = `
+                <div class="final-score">
+                    <h2>🎯 TAMAT!</h2>
+                    <div class="score-circle">
+                        ${score}/150
+                    </div>
+                    <h3 style="color: #fd79a8; margin-bottom: 10px;">${rank}</h3>
+                    <p style="font-size: 18px; margin-bottom: 15px;">${percentage}%</p>
+                    <p style="margin-bottom: 20px; color: #636e72;">${message}</p>
+                    
+                    <div style="background: linear-gradient(135deg, #e8f4f8, #d1ecf1); padding: 15px; border-radius: 10px; margin: 20px 0; color: #2d3436;">
+                        <h4 style="color: #2d3436;">📊 Statistik Anda:</h4>
+                        <p>🎯 Skor Akhir: ${score}</p>
+                        <p>🔥 Streak Terbaik: ${Math.max(...[streak, 0])}</p>
+                        <p>🏆 Achievement: ${achievements.length}</p>
+                        <p>📈 Level Dicapai: ${level}</p>
+                        <p>🔄 Soalan Diperbaiki: ${redemptionQuestions.length || 0}</p>
+                    </div>
+                    
+                    <button class="restart-btn" onclick="restartGame()">🔄 Main Semula</button>
+                </div>
+            `;
             
-            // Add celebration animation to results
-            resultsScreen.classList.add('bounce');
-            setTimeout(() => resultsScreen.classList.remove('bounce'), 600);
+            document.getElementById('progressFill').style.width = '100%';
         }
 
-        function restartQuiz() {
-            currentStage = 0;
-            currentQuestionInStage = 0;
+        function restartGame() {
+            currentStatement = 0;
             score = 0;
             streak = 0;
-            maxStreak = 0;
-            stageScores = [0, 0, 0, 0, 0, 0];
-            scoreElement.textContent = '0';
-            streakDisplay.classList.add('hidden');
+            level = 1;
+            selectedGraph = null;
+            selectedCategory = null;
+            powerUps = { hint: 3, doublePoints: 2 };
+            wrongAnswers = [];
+            achievements = [];
+            isDoublePoints = false;
+            isRedemptionMode = false;
+            redemptionQuestions = [];
+            currentRedemptionIndex = 0;
+            gameStatements = shuffleArray(statements);
             
-            // Show quiz elements
-            quizContainer.classList.remove('hidden');
-            nextBtn.classList.remove('hidden');
-            stageHeader.classList.remove('hidden');
-            resultsScreen.classList.add('hidden');
-            stageCompleteModal.classList.add('hidden');
+            disableRedemptionMode();
+            updateStats();
+            document.getElementById('level').textContent = '1';
+            document.getElementById('levelBadge').textContent = 'Level 1';
+            document.getElementById('streakIndicator').classList.remove('active');
             
-            // Reset to first stage theme
-            document.body.className = 'bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 min-h-screen';
-            
-            loadQuestion();
-            
-            // Show entry animation for first stage (like when starting fresh)
-            setTimeout(() => {
-                createStageTransition(soilStages[0].emoji);
-            }, 500);
+            displayStatement();
         }
 
-        // Event listeners
-        nextBtn.addEventListener('click', nextQuestion);
-        restartBtn.addEventListener('click', restartQuiz);
-        continueBtn.addEventListener('click', nextStage);
+        // Initialize game
+        function initGame() {
+            gameStatements = shuffleArray(statements);
+            displayStatement();
+        }
 
-        // Initialize quiz
-        loadQuestion();
-        
-        // Show entry animation for first stage
-        setTimeout(() => {
-            createStageTransition(soilStages[0].emoji);
-        }, 500);
+        // Start the game
+        initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98485a9b83af55a9',t:'MTc1ODc4MDU3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840e7e5075411c9',t:'MTc1ODcwMjQ4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
