@@ -14,11 +14,11 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, 
-                #0f0f23 0%, 
-                #2d1b69 25%, 
-                #ff006e 50%, 
-                #8338ec 75%, 
-                #3a86ff 100%
+                #ff9a9e 0%, 
+                #fecfef 25%, 
+                #fecfef 50%, 
+                #ff6b9d 75%, 
+                #c44569 100%
             );
             min-height: 100vh;
             padding: 10px;
@@ -37,22 +37,47 @@
             width: 100%;
             height: 100%;
             background: 
-                linear-gradient(90deg, transparent 98%, rgba(255, 0, 110, 0.3) 100%),
-                linear-gradient(0deg, transparent 98%, rgba(131, 56, 236, 0.3) 100%);
-            background-size: 50px 50px;
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 157, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(196, 69, 105, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 10%, rgba(254, 207, 239, 0.4) 0%, transparent 60%);
             pointer-events: none;
             z-index: 1;
         }
 
+        .sakura-petal {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-radius: 50% 0 50% 0;
+            animation: sakuraPetalFall 8s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.8;
+            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
+        }
+
+        .wisteria-petal {
+            position: fixed;
+            width: 6px;
+            height: 12px;
+            background: linear-gradient(180deg, #9370db, #663399);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: wisteriaPetalFall 10s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.7;
+            box-shadow: 0 2px 6px rgba(147, 112, 219, 0.5);
+        }
+
         body.redemption-mode {
             background: linear-gradient(135deg, 
-                #0c0c0c 0%, 
-                #1a1a1a 25%, 
-                #2d1b69 50%, 
-                #8b0000 75%, 
-                #ff0000 100%
+                #a8e6cf 0%, 
+                #dcedc1 25%, 
+                #c8a2c8 50%, 
+                #9370db 75%, 
+                #663399 100%
             );
-            animation: redemptionPulse 3s ease-in-out infinite;
         }
 
         .container {
@@ -67,30 +92,30 @@
         }
 
         .container.redemption-mode {
-            background: rgba(20, 20, 20, 0.95);
-            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.5);
-            border: 2px solid rgba(255, 0, 0, 0.7);
+            background: rgba(250, 245, 255, 0.95);
+            box-shadow: 0 20px 40px rgba(230, 215, 255, 0.3);
+            border: 2px solid rgba(230, 215, 255, 0.4);
         }
 
         @media (min-width: 768px) {
             body {
                 padding: 20px;
                 background: linear-gradient(135deg, 
-                    #0f0f23 0%, 
-                    #2d1b69 25%, 
-                    #ff006e 50%, 
-                    #8338ec 75%, 
-                    #3a86ff 100%
+                    #fef7f7 0%, 
+                    #ffe4e6 25%, 
+                    #ffc2cc 50%, 
+                    #ffb3d1 75%, 
+                    #ffa8d8 100%
                 );
             }
 
             body.redemption-mode {
                 background: linear-gradient(135deg, 
-                    #0c0c0c 0%, 
-                    #1a1a1a 25%, 
-                    #2d1b69 50%, 
-                    #8b0000 75%, 
-                    #ff0000 100%
+                    #f8f0ff 0%, 
+                    #f0e6ff 25%, 
+                    #e6d7ff 50%, 
+                    #dcc9ff 75%, 
+                    #d2bbff 100%
                 );
             }
 
@@ -108,13 +133,13 @@
 
             .progress-bar {
                 margin: 0 0 20px 0;
-                background: rgba(15, 15, 35, 0.9);
+                background: rgba(255, 255, 255, 0.3);
                 backdrop-filter: blur(10px);
                 border-radius: 12px;
                 padding: 6px;
                 height: 28px;
-                box-shadow: inset 0 2px 4px rgba(255, 0, 110, 0.3), 0 0 20px rgba(0, 245, 255, 0.4);
-                border: 2px solid #00f5ff;
+                box-shadow: inset 0 2px 4px rgba(255, 182, 193, 0.1), 0 0 15px rgba(255, 192, 203, 0.2);
+                border: 2px solid rgba(255, 182, 193, 0.3);
             }
 
             .game-area {
@@ -137,10 +162,10 @@
             }
 
             .left-panel.redemption-mode {
-                background: rgba(30, 30, 30, 0.95);
-                box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
-                border: 2px solid rgba(255, 0, 0, 0.5);
-                color: #ffffff;
+                background: rgba(250, 245, 255, 0.95);
+                box-shadow: 0 8px 25px rgba(196, 181, 253, 0.2);
+                border: 2px solid rgba(196, 181, 253, 0.3);
+                color: #6b4c93;
             }
 
             .right-panel {
@@ -169,10 +194,10 @@
             }
 
             .graph-section.redemption-mode {
-                background: rgba(40, 40, 40, 0.95);
-                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
-                border: 2px solid rgba(255, 0, 0, 0.4);
-                color: #ffffff;
+                background: rgba(250, 245, 255, 0.95);
+                box-shadow: 0 8px 20px rgba(230, 215, 255, 0.2);
+                border: 2px solid rgba(230, 215, 255, 0.3);
+                color: #6b4c93;
             }
 
             .graph-section:hover {
@@ -199,10 +224,10 @@
             }
 
             .desktop-submit-area.redemption-mode {
-                background: rgba(30, 30, 30, 0.95);
-                box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
-                border: 2px solid rgba(255, 0, 0, 0.5);
-                color: #ffffff;
+                background: rgba(250, 245, 255, 0.95);
+                box-shadow: 0 8px 20px rgba(196, 181, 253, 0.2);
+                border: 2px solid rgba(196, 181, 253, 0.3);
+                color: #6b4c93;
             }
 
             .category-buttons {
@@ -242,11 +267,9 @@
 
             .final-score {
                 grid-column: 1 / -1;
-                background: linear-gradient(135deg, #0f0f23, #2d1b69);
-                border: 2px solid rgba(0, 245, 255, 0.5);
-                box-shadow: 
-                    0 20px 40px rgba(255, 0, 110, 0.3),
-                    0 0 60px rgba(131, 56, 236, 0.2);
+                background: linear-gradient(135deg, #fef9fc, #fdf2f8, #fce7f3, #fbcfe8);
+                border: 2px solid rgba(251, 207, 232, 0.4);
+                box-shadow: 0 8px 25px rgba(249, 168, 212, 0.2);
                 border-radius: 20px;
                 padding: 40px;
                 max-width: 600px;
@@ -257,21 +280,29 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ff9a9e 100%);
             padding: 20px;
             text-align: center;
-            color: white;
+            color: #fff;
             position: relative;
             overflow: hidden;
             transition: all 0.8s ease;
-            box-shadow: 0 8px 32px rgba(255, 0, 110, 0.6), 0 0 20px rgba(131, 56, 236, 0.4);
-            border: 2px solid rgba(255, 0, 110, 0.5);
+            box-shadow: 
+                0 8px 32px rgba(255, 107, 157, 0.5), 
+                0 0 20px rgba(196, 69, 105, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(255, 107, 157, 0.3);
+            border: 2px solid rgba(255, 107, 157, 0.4);
         }
 
         .header.redemption-mode {
-            background: linear-gradient(45deg, #000000, #8b0000, #ff0000, #2d1b69);
-            animation: redemptionHeaderPulse 2s ease-in-out infinite;
-            box-shadow: 0 8px 32px rgba(255, 0, 0, 0.6);
+            background: linear-gradient(135deg, #9370db 0%, #663399 50%, #c8a2c8 100%);
+            box-shadow: 
+                0 8px 32px rgba(147, 112, 219, 0.5),
+                0 0 20px rgba(102, 51, 153, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(147, 112, 219, 0.3);
+            color: #fff;
         }
 
         .header::before {
@@ -299,12 +330,19 @@
         .header h1 {
             font-size: 18px;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-            background: rgba(255, 255, 255, 0.15);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             padding: 8px 16px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .header.redemption-mode h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
 
         .stats-row {
@@ -326,25 +364,26 @@
         }
 
         .level-badge {
-            background: linear-gradient(135deg, #00f5ff, #ff006e);
-            color: white;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: #fff;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
             display: inline-block;
             margin-bottom: 10px;
-            animation: pulse 2s infinite;
-            box-shadow: 0 4px 12px rgba(0, 245, 255, 0.6), 0 0 20px rgba(255, 0, 110, 0.4);
-            border: 2px solid rgba(0, 245, 255, 0.7);
+            animation: sakuraPulse 2s infinite;
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.5), 0 0 20px rgba(196, 69, 105, 0.3);
+            border: 2px solid rgba(255, 107, 157, 0.6);
             backdrop-filter: blur(10px);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .level-badge.redemption-mode {
-            background: linear-gradient(135deg, #ff0000, #8b0000);
-            animation: redemptionBadgePulse 1.5s ease-in-out infinite;
-            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.8);
+            background: linear-gradient(135deg, #9370db, #663399);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(147, 112, 219, 0.5);
+            border: 2px solid rgba(147, 112, 219, 0.6);
         }
 
         .game-area {
@@ -353,26 +392,34 @@
         }
 
         .statement-card {
-            background: linear-gradient(135deg, #8338ec, #ff006e);
-            color: white;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: #fff;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 25px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(131, 56, 236, 0.5), 0 0 30px rgba(255, 0, 110, 0.3);
+            box-shadow: 
+                0 8px 25px rgba(255, 107, 157, 0.4), 
+                0 0 30px rgba(196, 69, 105, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(255, 107, 157, 0.4);
             animation: slideIn 0.5s ease-out;
             position: relative;
             overflow: hidden;
             transition: all 0.8s ease;
-            border: 2px solid rgba(0, 245, 255, 0.4);
+            border: 2px solid rgba(255, 107, 157, 0.5);
             backdrop-filter: blur(10px);
         }
 
         .statement-card.redemption-mode {
-            background: linear-gradient(135deg, #000000, #2d1b69);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
-            animation: redemptionCardPulse 2s ease-in-out infinite;
-            border: 2px solid #ff0000;
+            background: linear-gradient(135deg, #9370db, #663399);
+            color: #fff;
+            box-shadow: 
+                0 8px 16px rgba(147, 112, 219, 0.4),
+                0 0 25px rgba(102, 51, 153, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(147, 112, 219, 0.4);
+            border: 2px solid rgba(147, 112, 219, 0.5);
         }
 
         .statement-card::before {
@@ -406,37 +453,29 @@
         }
 
         .redemption-announcement {
-            background: linear-gradient(135deg, #000000, #2d1b69, #8b0000, #ff0000);
-            color: white;
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff, #e9d5ff, #ddd6fe);
+            color: #6b4c93;
             padding: 40px 20px;
             border-radius: 20px;
             text-align: center;
             margin: 20px;
-            box-shadow: 
-                0 20px 40px rgba(255, 0, 0, 0.8),
-                0 0 60px rgba(139, 0, 0, 0.6),
-                0 0 80px rgba(255, 0, 0, 0.4);
-            animation: redemptionAnnounce 1s ease-out, redemptionGlow 2s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(196, 181, 253, 0.2);
             position: relative;
             overflow: hidden;
-            border: 3px solid rgba(255, 0, 0, 0.8);
+            border: 2px solid rgba(196, 181, 253, 0.3);
         }
 
         .redemption-announcement::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                transparent, 
-                rgba(255, 0, 0, 0.6), 
-                transparent, 
-                rgba(139, 0, 0, 0.4), 
-                transparent
-            );
-            animation: rotate 3s linear infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(196, 181, 253, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(221, 214, 254, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         @keyframes synthwaveGlow {
@@ -477,18 +516,15 @@
         .redemption-announcement h2 {
             font-size: 28px;
             margin-bottom: 15px;
-            text-shadow: 
-                0 0 10px rgba(255, 0, 0, 0.8),
-                0 0 20px rgba(139, 0, 0, 0.6),
-                2px 2px 4px rgba(0,0,0,0.8);
-            animation: redemptionTextGlow 2s ease-in-out infinite;
+            color: #8b5cf6;
+            text-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
         }
 
         .redemption-announcement p {
             font-size: 16px;
             margin-bottom: 10px;
-            opacity: 0.95;
-            text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+            opacity: 0.9;
+            color: #6b4c93;
         }
 
         @keyframes textGlow {
@@ -522,9 +558,9 @@
         }
 
         .redemption-start-btn {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(139, 0, 0, 0.2));
-            color: white;
-            border: 2px solid rgba(255, 0, 0, 0.8);
+            background: linear-gradient(135deg, #c4b5fd, #ddd6fe);
+            color: #6b4c93;
+            border: 2px solid rgba(196, 181, 253, 0.6);
             padding: 15px 30px;
             border-radius: 25px;
             font-size: 16px;
@@ -533,17 +569,16 @@
             margin-top: 20px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(196, 181, 253, 0.3);
             position: relative;
             z-index: 2;
         }
 
         .redemption-start-btn:hover {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.5), rgba(139, 0, 0, 0.4));
-            border-color: rgba(255, 0, 0, 1);
+            background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+            border-color: rgba(167, 139, 250, 0.8);
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.8), 0 0 40px rgba(139, 0, 0, 0.6);
+            box-shadow: 0 6px 20px rgba(196, 181, 253, 0.4);
         }
 
         .classification-grid {
@@ -568,6 +603,10 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(224, 224, 224, 0.2);
         }
 
         .graph-section::before {
@@ -589,46 +628,61 @@
         }
 
         .graph-section.selected {
-            border-color: #ff6b35;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(131, 56, 236, 0.1));
+            border-color: #ffb3d1;
+            background: linear-gradient(135deg, rgba(255, 179, 209, 0.2), rgba(255, 194, 204, 0.15));
             transform: scale(1.02);
-            animation: selectedPulse 1s infinite;
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.6), 0 0 30px rgba(131, 56, 236, 0.4);
+            animation: sakuraSelectedPulse 1s infinite;
+            box-shadow: 0 8px 20px rgba(255, 179, 209, 0.2), 0 0 30px rgba(255, 194, 204, 0.15);
         }
 
         .graph-section.selected .graph-title {
-            color: #ff6b35;
+            color: #d1477a;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 107, 53, 0.8);
         }
 
         .graph-section.selected.redemption-mode {
-            border-color: #ff6b6b;
-            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+            border-color: #e6d7ff;
+            background: linear-gradient(135deg, rgba(230, 215, 255, 0.2), rgba(220, 201, 255, 0.15));
+            box-shadow: 0 8px 20px rgba(230, 215, 255, 0.2), 0 0 30px rgba(220, 201, 255, 0.15);
+        }
+
+        .graph-section.selected.redemption-mode .graph-title {
+            color: #9370db;
         }
 
         .graph-section.correct-answer {
             animation: correctBounce 0.8s ease-out;
-            border-color: #ff6b35;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 107, 53, 0.25));
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.8), 0 0 40px rgba(255, 107, 53, 0.6);
+            border-color: #ffb3d1;
+            background: linear-gradient(135deg, rgba(255, 179, 209, 0.3), rgba(255, 194, 204, 0.2));
+            box-shadow: 0 8px 20px rgba(255, 179, 209, 0.3), 0 0 40px rgba(255, 194, 204, 0.2);
         }
 
         .graph-section.correct-answer .graph-title {
-            color: #ff6b35;
+            color: #d1477a;
             font-weight: bold;
-            text-shadow: 0 0 15px rgba(255, 107, 53, 1);
         }
 
         .graph-section.correct-answer.redemption-mode {
-            border-color: #ff6b6b;
-            background: linear-gradient(135deg, #ff6b6b20, #ff8e8e20);
+            border-color: #e6d7ff;
+            background: linear-gradient(135deg, rgba(230, 215, 255, 0.3), rgba(220, 201, 255, 0.2));
+            box-shadow: 0 8px 20px rgba(230, 215, 255, 0.3), 0 0 40px rgba(220, 201, 255, 0.2);
+        }
+
+        .graph-section.correct-answer.redemption-mode .graph-title {
+            color: #9370db;
         }
 
         .graph-section.wrong-answer {
             animation: wrongShake 0.6s ease-out;
-            border-color: #ff6b9d;
-            background: linear-gradient(135deg, #ffe8f0, #ffd4e5);
+            border-color: #f8d7da;
+            background: linear-gradient(135deg, rgba(248, 215, 218, 0.3), rgba(252, 233, 235, 0.2));
+            box-shadow: 0 4px 15px rgba(248, 215, 218, 0.2);
+        }
+
+        .graph-section.wrong-answer.redemption-mode {
+            border-color: #e2d5f1;
+            background: linear-gradient(135deg, rgba(226, 213, 241, 0.3), rgba(238, 229, 247, 0.2));
+            box-shadow: 0 4px 15px rgba(226, 213, 241, 0.2);
         }
 
         .graph-visual {
@@ -649,16 +703,17 @@
         }
 
         .bar {
-            background: linear-gradient(to top, #ff006e, #00f5ff);
+            background: linear-gradient(to top, #ff6b9d, #c44569);
             width: 10px;
             border-radius: 4px;
             animation: growUp 1s ease-out;
             position: relative;
-            box-shadow: 0 2px 8px rgba(255, 0, 110, 0.5), 0 0 15px rgba(0, 245, 255, 0.4);
+            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4), 0 0 15px rgba(196, 69, 105, 0.3);
         }
 
         .bar.redemption-mode {
-            background: linear-gradient(to top, #e74c3c, #c0392b);
+            background: linear-gradient(to top, #9370db, #663399);
+            box-shadow: 0 2px 8px rgba(147, 112, 219, 0.4), 0 0 15px rgba(102, 51, 153, 0.3);
         }
 
         .bar::after {
@@ -684,16 +739,16 @@
         }
 
         .line-path {
-            stroke: #00f5ff;
+            stroke: #ff6b9d;
             stroke-width: 3;
             fill: none;
             stroke-linecap: round;
-            filter: drop-shadow(0 2px 4px rgba(0,245,255,0.6)) drop-shadow(0 0 10px rgba(255,0,110,0.4));
+            filter: drop-shadow(0 2px 4px rgba(255,107,157,0.4)) drop-shadow(0 0 10px rgba(196,69,105,0.3));
         }
 
         .line-path.redemption-mode {
-            stroke: #e74c3c;
-            filter: drop-shadow(0 2px 4px rgba(231,76,60,0.5));
+            stroke: #9370db;
+            filter: drop-shadow(0 2px 4px rgba(147,112,219,0.4)) drop-shadow(0 0 10px rgba(102,51,153,0.3));
         }
 
         .combined-chart {
@@ -718,8 +773,8 @@
         }
 
         .graph-section.redemption-mode .graph-title {
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            color: #6b4c93;
+            text-shadow: 1px 1px 2px rgba(107, 76, 147, 0.2);
         }
 
         .category-buttons {
@@ -748,6 +803,10 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            box-shadow: 
+                0 2px 6px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -1px 0 rgba(221, 221, 221, 0.3);
         }
 
         .category-btn::before {
@@ -769,29 +828,27 @@
         }
 
         .category-btn.redemption-mode::before {
-            background: rgba(255,107,107,0.2);
+            background: rgba(196, 181, 253, 0.2);
         }
 
         .category-btn.ciri {
-            border-color: #ff6b35;
-            color: #ff6b35;
-            text-shadow: 0 0 5px rgba(255, 107, 53, 0.5);
+            border-color: #ffb3d1;
+            color: #d1477a;
         }
 
         .category-btn.ciri.redemption-mode {
-            border-color: #e74c3c;
-            color: #c0392b;
+            border-color: #e6d7ff;
+            color: #9370db;
         }
 
         .category-btn.kegunaan {
-            border-color: #8338ec;
-            color: #8338ec;
-            text-shadow: 0 0 5px rgba(131, 56, 236, 0.5);
+            border-color: #ffc2cc;
+            color: #d1477a;
         }
 
         .category-btn.kegunaan.redemption-mode {
-            border-color: #e74c3c;
-            color: #c0392b;
+            border-color: #dcc9ff;
+            color: #8a2be2;
         }
 
         .category-btn.selected {
@@ -800,35 +857,33 @@
         }
 
         .category-btn.ciri.selected {
-            background: linear-gradient(135deg, #ff6b35, #ff8c42);
-            color: white;
-            border-color: #ff6b35;
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #ffb3d1, #ffc2cc);
+            color: #8b4a6b;
+            border-color: #ffb3d1;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.3);
         }
 
         .category-btn.ciri.selected.redemption-mode {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
+            background: linear-gradient(135deg, #e6d7ff, #dcc9ff);
+            color: #6b4c93;
         }
 
         .category-btn.kegunaan.selected {
-            background: linear-gradient(135deg, #8338ec, #9b59b6);
-            color: white;
-            border-color: #8338ec;
-            box-shadow: 0 0 20px rgba(131, 56, 236, 0.6);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #ffc2cc, #ffe4e6);
+            color: #8b4a6b;
+            border-color: #ffc2cc;
+            box-shadow: 0 0 20px rgba(255, 192, 203, 0.3);
         }
 
         .category-btn.kegunaan.selected.redemption-mode {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
+            background: linear-gradient(135deg, #dcc9ff, #f0e6ff);
+            color: #6b4c93;
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #ff006e, #8338ec);
-            color: white;
-            border: 2px solid rgba(0, 245, 255, 0.5);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: #fff;
+            border: 2px solid rgba(255, 107, 157, 0.5);
             padding: 15px 30px;
             border-radius: 25px;
             font-size: 16px;
@@ -839,13 +894,24 @@
             margin-bottom: 15px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.5), 0 0 25px rgba(131, 56, 236, 0.3);
+            box-shadow: 
+                0 4px 15px rgba(255, 107, 157, 0.4), 
+                0 0 25px rgba(196, 69, 105, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(255, 107, 157, 0.4);
             backdrop-filter: blur(10px);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .submit-btn.redemption-mode {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            background: linear-gradient(135deg, #9370db, #663399);
+            color: #fff;
+            border: 2px solid rgba(147, 112, 219, 0.5);
+            box-shadow: 
+                0 4px 15px rgba(147, 112, 219, 0.4), 
+                0 0 25px rgba(102, 51, 153, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(147, 112, 219, 0.4);
         }
 
         .submit-btn::before {
@@ -901,45 +967,53 @@
         }
 
         .feedback.correct {
-            background: linear-gradient(135deg, #ff6b35, #ff8c42);
-            color: white;
-            border: 2px solid rgba(255, 107, 53, 0.5);
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border: 2px solid rgba(200, 230, 201, 0.5);
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 25px rgba(200, 230, 201, 0.2);
         }
 
         .feedback.correct.redemption-mode {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            color: white;
+            background: linear-gradient(135deg, #e8f5e8, #d1f2d1);
+            color: #155724;
         }
 
         .feedback.wrong {
-            background: linear-gradient(135deg, #8338ec, #9b59b6);
-            color: white;
-            border: 2px solid rgba(131, 56, 236, 0.5);
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border: 2px solid rgba(245, 198, 203, 0.5);
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(131, 56, 236, 0.4);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 25px rgba(245, 198, 203, 0.2);
         }
 
         .feedback.wrong.redemption-mode {
-            background: linear-gradient(135deg, #ff8e8e, #ffa8a8);
-            color: white;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            color: #4a148c;
         }
 
         .streak-indicator {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
+            background: linear-gradient(135deg, #ffb3d1, #ffc2cc);
+            color: #8b4a6b;
             padding: 5px 10px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: bold;
             animation: streakGlow 2s infinite;
             display: none;
+            border: 2px solid rgba(255, 182, 193, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .streak-indicator.redemption-mode {
+            background: linear-gradient(135deg, #e6d7ff, #dcc9ff);
+            color: #6b4c93;
+            border: 2px solid rgba(230, 215, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(230, 215, 255, 0.3);
         }
 
         .streak-indicator.active {
@@ -986,9 +1060,9 @@
         }
 
         .power-up {
-            background: linear-gradient(135deg, #8338ec, #3a86ff);
-            color: white;
-            border: 2px solid rgba(0, 245, 255, 0.4);
+            background: linear-gradient(135deg, #f9a8d4, #fbcfe8);
+            color: #8b4a6b;
+            border: 2px solid rgba(251, 207, 232, 0.6);
             padding: 8px 12px;
             border-radius: 20px;
             font-size: 12px;
@@ -996,8 +1070,11 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(131, 56, 236, 0.4);
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 4px 12px rgba(249, 168, 212, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(249, 168, 212, 0.4);
+            backdrop-filter: blur(10px);
         }
 
         .power-up:disabled {
@@ -1029,9 +1106,9 @@
         }
 
         .next-btn {
-            background: linear-gradient(135deg, #8338ec, #ff006e);
-            color: white;
-            border: 2px solid rgba(0, 245, 255, 0.4);
+            background: linear-gradient(135deg, #ffb3d1, #ffc2cc);
+            color: #8b4a6b;
+            border: 2px solid rgba(255, 182, 193, 0.4);
             padding: 12px 24px;
             border-radius: 20px;
             font-size: 14px;
@@ -1040,37 +1117,55 @@
             width: 100%;
             transition: all 0.3s ease;
             display: none;
-            box-shadow: 0 0 20px rgba(131, 56, 236, 0.4);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            text-shadow: none;
+            backdrop-filter: blur(10px);
         }
 
         .next-btn.redemption-mode {
-            background: linear-gradient(135deg, #ff8e8e, #ff6b6b);
+            background: linear-gradient(135deg, #e6d7ff, #dcc9ff);
+            color: #6b4c93;
+            border: 2px solid rgba(230, 215, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(230, 215, 255, 0.3);
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
+        }
+
+        .next-btn.redemption-mode:hover {
+            box-shadow: 0 6px 20px rgba(230, 215, 255, 0.4);
         }
 
         .progress-bar {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.3);
             height: 20px;
             border-radius: 10px;
             margin: 15px 20px;
             overflow: hidden;
             position: relative;
-            border: 3px solid rgba(0, 245, 255, 0.8);
+            border: 3px solid rgba(255, 182, 193, 0.3);
             backdrop-filter: blur(10px);
             box-shadow: 
-                inset 0 2px 4px rgba(0, 0, 0, 0.5),
-                0 0 15px rgba(0, 245, 255, 0.6);
+                inset 0 2px 4px rgba(255, 182, 193, 0.1),
+                0 0 15px rgba(255, 192, 203, 0.2);
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #ff6b35, #8338ec, #00f5ff);
+            background: linear-gradient(90deg, #ff6b9d, #c44569, #ff9a9e);
             height: 100%;
             border-radius: 6px;
             transition: width 0.8s ease;
             position: relative;
-            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.8), 0 0 15px rgba(131, 56, 236, 0.6);
+            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4), 0 0 15px rgba(196, 69, 105, 0.3);
             width: 0%;
             min-width: 0;
+        }
+
+        .progress-fill.redemption-mode {
+            background: linear-gradient(90deg, #9370db, #663399, #c8a2c8);
+            box-shadow: 0 2px 8px rgba(147, 112, 219, 0.4), 0 0 15px rgba(102, 51, 153, 0.3);
         }
 
         .progress-fill::after {
@@ -1095,7 +1190,7 @@
         }
 
         .floating-points.redemption-mode {
-            color: #ff6b6b;
+            color: #9370db;
         }
 
         .particle {
@@ -1109,27 +1204,32 @@
         }
 
         .particle.redemption-mode {
-            background: #ff6b6b;
+            background: #c4b5fd;
         }
 
-        @keyframes redemptionPulse {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.1); }
+        @keyframes wisteriaGlow {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.1) hue-rotate(10deg); }
         }
 
-        @keyframes redemptionHeaderPulse {
+        @keyframes wisteriaHeaderPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.02); }
         }
 
-        @keyframes redemptionBadgePulse {
+        @keyframes wisteriaBadgePulse {
             0%, 100% { transform: scale(1) rotate(0deg); }
             50% { transform: scale(1.1) rotate(2deg); }
         }
 
-        @keyframes redemptionCardPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 16px rgba(255, 107, 107, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4); }
+        @keyframes wisteriaCardPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 16px rgba(138, 43, 226, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 12px 24px rgba(138, 43, 226, 0.4); }
+        }
+
+        @keyframes sakuraPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         @keyframes redemptionAnnounce {
@@ -1158,9 +1258,44 @@
             100% { left: 100%; }
         }
 
-        @keyframes selectedPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(168, 200, 236, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(168, 200, 236, 0); }
+        @keyframes sakuraSelectedPulse {
+            0%, 100% { box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4), 0 0 30px rgba(255, 182, 193, 0.3), 0 0 0 0 rgba(255, 105, 180, 0.5); }
+            50% { box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6), 0 0 30px rgba(255, 182, 193, 0.5), 0 0 0 8px rgba(255, 105, 180, 0); }
+        }
+
+        @keyframes wisteriaSelectedPulse {
+            0%, 100% { box-shadow: 0 8px 20px rgba(147, 112, 219, 0.4), 0 0 30px rgba(138, 43, 226, 0.3), 0 0 0 0 rgba(147, 112, 219, 0.5); }
+            50% { box-shadow: 0 8px 20px rgba(147, 112, 219, 0.6), 0 0 30px rgba(138, 43, 226, 0.5), 0 0 0 8px rgba(147, 112, 219, 0); }
+        }
+
+        @keyframes wisteriaGentleGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 20px 40px rgba(147, 112, 219, 0.3),
+                    0 0 60px rgba(138, 43, 226, 0.2),
+                    0 0 80px rgba(147, 112, 219, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 25px 50px rgba(147, 112, 219, 0.4),
+                    0 0 80px rgba(138, 43, 226, 0.3),
+                    0 0 100px rgba(147, 112, 219, 0.2);
+            }
+        }
+
+        @keyframes wisteriaTextGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(147, 112, 219, 0.6),
+                    0 0 20px rgba(138, 43, 226, 0.4),
+                    2px 2px 4px rgba(75, 0, 130, 0.3);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 15px rgba(147, 112, 219, 0.8),
+                    0 0 30px rgba(138, 43, 226, 0.6),
+                    2px 2px 4px rgba(75, 0, 130, 0.4);
+            }
         }
 
         @keyframes correctBounce {
@@ -1231,13 +1366,12 @@
         .final-score {
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(135deg, #0f0f23, #2d1b69);
-            border: 2px solid rgba(0, 245, 255, 0.5);
-            box-shadow: 
-                0 20px 40px rgba(255, 0, 110, 0.3),
-                0 0 60px rgba(131, 56, 236, 0.2);
+            background: linear-gradient(135deg, #fef9fc, #fdf2f8, #fce7f3, #fbcfe8);
+            border: 2px solid rgba(251, 207, 232, 0.4);
+            box-shadow: 0 8px 25px rgba(249, 168, 212, 0.2);
             position: relative;
             overflow: hidden;
+            border-radius: 20px;
         }
 
         .final-score::before {
@@ -1248,30 +1382,29 @@
             right: 0;
             bottom: 0;
             background: 
-                linear-gradient(90deg, transparent 98%, rgba(0, 245, 255, 0.2) 100%),
-                linear-gradient(0deg, transparent 98%, rgba(255, 0, 110, 0.2) 100%);
-            background-size: 30px 30px;
+                radial-gradient(circle at 20% 30%, rgba(251, 207, 232, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(249, 168, 212, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(253, 242, 248, 0.3) 0%, transparent 70%);
             pointer-events: none;
-            opacity: 0.3;
+            opacity: 0.5;
         }
 
         .final-score h2 {
-            color: #00f5ff;
-            text-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
+            color: #d1477a;
             position: relative;
             z-index: 2;
+            text-shadow: 1px 1px 3px rgba(209, 71, 122, 0.2);
         }
 
         .final-score h3 {
-            color: #ff006e;
-            text-shadow: 0 0 15px rgba(255, 0, 110, 0.8);
+            color: #d1477a;
             position: relative;
             z-index: 2;
+            text-shadow: 1px 1px 3px rgba(209, 71, 122, 0.2);
         }
 
         .final-score p {
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            color: #8b4a6b;
             position: relative;
             z-index: 2;
         }
@@ -1280,24 +1413,21 @@
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff006e, #8338ec, #00f5ff);
+            background: linear-gradient(135deg, #ffc2cc, #ffb3d1, #ffa8d8);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 20px auto;
-            color: white;
+            color: #8b4a6b;
             font-size: 28px;
             font-weight: bold;
-            box-shadow: 
-                0 10px 30px rgba(255, 0, 110, 0.6),
-                0 0 40px rgba(131, 56, 236, 0.4),
-                0 0 60px rgba(0, 245, 255, 0.3);
-            animation: finalScoreBounce 1s ease-out, synthwavePulse 2s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3), 0 0 30px rgba(255, 192, 203, 0.2);
+            animation: finalScoreBounce 1s ease-out, sakuraWisteriaPulse 2s ease-in-out infinite;
             position: relative;
             overflow: hidden;
-            border: 3px solid rgba(0, 245, 255, 0.7);
+            border: 3px solid rgba(255, 182, 193, 0.4);
             backdrop-filter: blur(10px);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            text-shadow: 0 2px 4px rgba(139, 74, 107, 0.3);
         }
 
         .score-circle::before {
@@ -1309,12 +1439,12 @@
             height: 200%;
             background: conic-gradient(
                 transparent, 
-                rgba(0, 245, 255, 0.4), 
+                rgba(255, 182, 193, 0.2), 
                 transparent, 
-                rgba(255, 0, 110, 0.4), 
+                rgba(255, 192, 203, 0.15), 
                 transparent
             );
-            animation: rotate 3s linear infinite;
+            animation: rotate 6s linear infinite;
         }
 
         .score-circle::after {
@@ -1328,27 +1458,21 @@
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
-                transparent 2px,
-                rgba(0, 245, 255, 0.1) 2px,
-                rgba(0, 245, 255, 0.1) 4px
+                transparent 3px,
+                rgba(255, 182, 193, 0.1) 3px,
+                rgba(255, 182, 193, 0.1) 6px
             );
-            animation: scanLines 1s linear infinite;
+            animation: scanLines 2s linear infinite;
         }
 
-        @keyframes synthwavePulse {
+        @keyframes sakuraWisteriaPulse {
             0%, 100% { 
                 transform: scale(1);
-                box-shadow: 
-                    0 10px 30px rgba(255, 0, 110, 0.6),
-                    0 0 40px rgba(131, 56, 236, 0.4),
-                    0 0 60px rgba(0, 245, 255, 0.3);
+                box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3), 0 0 30px rgba(255, 192, 203, 0.2);
             }
             50% { 
-                transform: scale(1.05);
-                box-shadow: 
-                    0 15px 40px rgba(255, 0, 110, 0.8),
-                    0 0 60px rgba(131, 56, 236, 0.6),
-                    0 0 80px rgba(0, 245, 255, 0.5);
+                transform: scale(1.02);
+                box-shadow: 0 12px 35px rgba(255, 182, 193, 0.4), 0 0 40px rgba(255, 192, 203, 0.3);
             }
         }
 
@@ -1358,25 +1482,25 @@
         }
 
         .restart-btn {
-            background: linear-gradient(135deg, #00f5ff, #ff006e);
-            color: white;
-            border: 2px solid rgba(0, 245, 255, 0.5);
+            background: linear-gradient(135deg, #ffb3d1, #ffc2cc);
+            color: #8b4a6b;
+            border: 2px solid rgba(255, 182, 193, 0.4);
             padding: 15px 30px;
             border-radius: 25px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 245, 255, 0.6), 0 0 25px rgba(255, 0, 110, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3), 0 0 25px rgba(255, 192, 203, 0.2);
             backdrop-filter: blur(10px);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 4px rgba(139, 74, 107, 0.2);
             position: relative;
             z-index: 2;
         }
 
         .restart-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 245, 255, 0.8), 0 0 35px rgba(255, 0, 110, 0.6);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4), 0 0 35px rgba(255, 192, 203, 0.3);
         }
 
         @keyframes finalScoreBounce {
@@ -1421,6 +1545,48 @@
             }
             100% {
                 transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sakuraPetalFall {
+            0% {
+                transform: translateY(-100vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translateY(-75vh) translateX(20px) rotate(90deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(-10px) rotate(180deg);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translateY(-25vh) translateX(15px) rotate(270deg);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-5px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes wisteriaPetalFall {
+            0% {
+                transform: translateY(-100vh) translateX(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            30% {
+                transform: translateY(-70vh) translateX(-15px) rotate(120deg) scale(0.8);
+                opacity: 0.9;
+            }
+            60% {
+                transform: translateY(-40vh) translateX(25px) rotate(240deg) scale(0.6);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-10px) rotate(360deg) scale(0.3);
                 opacity: 0;
             }
         }
@@ -1567,13 +1733,48 @@
             }
         }
 
+        function createSakuraPetals() {
+            for (let i = 0; i < 15; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'sakura-petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 8 + 's';
+                petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                document.body.appendChild(petal);
+                
+                setTimeout(() => {
+                    if (petal.parentNode) petal.remove();
+                }, 12000);
+            }
+        }
+
+        function createWisteriaPetals() {
+            for (let i = 0; i < 12; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'wisteria-petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 10 + 's';
+                petal.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                document.body.appendChild(petal);
+                
+                setTimeout(() => {
+                    if (petal.parentNode) petal.remove();
+                }, 15000);
+            }
+        }
+
         function enableRedemptionMode() {
             isRedemptionMode = true;
             document.body.classList.add('redemption-mode');
             document.querySelector('.container').classList.add('redemption-mode');
             document.querySelector('.header').classList.add('redemption-mode');
             document.querySelector('.level-badge').classList.add('redemption-mode');
-            document.getElementById('headerTitle').textContent = '🔥 REDEMPTION ROUND';
+            document.getElementById('headerTitle').textContent = 'REDEMPTION ROUND';
+            
+            // Clear sakura petals and start wisteria petals
+            document.querySelectorAll('.sakura-petal').forEach(petal => petal.remove());
+            setInterval(createWisteriaPetals, 3000);
+            createWisteriaPetals();
         }
 
         function disableRedemptionMode() {
@@ -1582,7 +1783,10 @@
             document.querySelector('.container').classList.remove('redemption-mode');
             document.querySelector('.header').classList.remove('redemption-mode');
             document.querySelector('.level-badge').classList.remove('redemption-mode');
-            document.getElementById('headerTitle').textContent = '🎯 Ciri-ciri dan Kegunaan Graf';
+            document.getElementById('headerTitle').textContent = 'Ciri-ciri dan Kegunaan Graf';
+            
+            // Clear wisteria petals and restart sakura petals
+            document.querySelectorAll('.wisteria-petal').forEach(petal => petal.remove());
         }
 
         function showRedemptionAnnouncement() {
@@ -1622,9 +1826,9 @@
             
             gameArea.innerHTML = `
                 <div class="left-panel redemption-mode">
-                    <div style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
-                        <h3>🔥 REDEMPTION - Soalan ${question.questionNumber}</h3>
-                        <p style="font-size: 12px; margin-top: 5px;">${currentRedemptionIndex + 1}/${redemptionQuestions.length}</p>
+                    <div style="background: linear-gradient(135deg, #e6d7ff, #dcc9ff); color: #6b4c93; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; border: 2px solid rgba(230, 215, 255, 0.4); box-shadow: 0 4px 15px rgba(230, 215, 255, 0.3);">
+                        <h3>REDEMPTION - Soalan ${question.questionNumber}</h3>
+                        <p style="font-size: 12px; margin-top: 5px; color: #8b5cf6;">${currentRedemptionIndex + 1}/${redemptionQuestions.length}</p>
                     </div>
                     
                     <div class="statement-card redemption-mode">
@@ -1743,12 +1947,12 @@
             
             gameArea.innerHTML = `
                 <div class="left-panel">
-                    <div style="background: rgba(255, 255, 255, 0.95); border: 2px solid #667eea; padding: 15px; margin-bottom: 20px; border-radius: 15px; font-size: 14px; color: #2d3436; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); backdrop-filter: blur(10px);">
-                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 16px; color: #667eea;">🎮 ARAHAN PERMAINAN:</div>
-                        <div style="margin-bottom: 6px; color: #2d3436;"><strong>LANGKAH 1:</strong> Baca kenyataan dengan teliti</div>
-                        <div style="margin-bottom: 6px; color: #2d3436;"><strong>LANGKAH 2:</strong> Klik pada SATU jenis graf (Bar/Garisan/Gabungan)</div>
-                        <div style="margin-bottom: 6px; color: #2d3436;"><strong>LANGKAH 3:</strong> Klik pada kategori yang betul (Ciri-ciri/Kegunaan)</div>
-                        <div style="font-size: 12px; margin-top: 8px; padding: 8px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; color: #856404;">
+                    <div style="background: rgba(255, 255, 255, 0.95); border: 2px solid #f9a8d4; padding: 15px; margin-bottom: 20px; border-radius: 15px; font-size: 14px; color: #8b4a6b; box-shadow: 0 4px 15px rgba(249, 168, 212, 0.3); backdrop-filter: blur(10px); font-family: 'Segoe UI', sans-serif;">
+                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 16px; color: #d1477a;">ARAHAN PERMAINAN:</div>
+                        <div style="margin-bottom: 6px; color: #8b4a6b;"><strong>LANGKAH 1:</strong> Baca kenyataan dengan teliti</div>
+                        <div style="margin-bottom: 6px; color: #8b4a6b;"><strong>LANGKAH 2:</strong> Klik pada SATU jenis graf (Bar/Garisan/Gabungan)</div>
+                        <div style="margin-bottom: 6px; color: #8b4a6b;"><strong>LANGKAH 3:</strong> Klik pada kategori yang betul (Ciri-ciri/Kegunaan)</div>
+                        <div style="font-size: 12px; margin-top: 8px; padding: 8px; background: #fce7f3; border: 1px solid #f9a8d4; border-radius: 8px; color: #8b4a6b;">
                             ⚠️ <strong>PENTING:</strong> Anda mesti pilih graf DAHULU sebelum pilih kategori!
                         </div>
                     </div>
@@ -1824,8 +2028,16 @@
                 btn.classList.remove('selected');
             });
             
-            // Select the graph
-            document.querySelector(`[onclick="selectGraph('${graphType}')"]`).classList.add('selected');
+            // Select the graph with proper animation
+            const selectedSection = document.querySelector(`[onclick="selectGraph('${graphType}')"]`);
+            selectedSection.classList.add('selected');
+            
+            // Apply correct animation based on mode
+            if (isRedemptionMode) {
+                selectedSection.style.animation = 'wisteriaSelectedPulse 1s infinite';
+            } else {
+                selectedSection.style.animation = 'sakuraSelectedPulse 1s infinite';
+            }
             
             selectedCategory = null;
             updateSubmitButton();
@@ -1838,8 +2050,8 @@
             if (!selectedGraph) {
                 // Show warning animation on the clicked button
                 event.target.style.animation = 'wrongShake 0.6s ease-out';
-                event.target.style.background = '#ff0040';
-                event.target.style.color = 'white';
+                event.target.style.background = '#f8d7da';
+                event.target.style.color = '#8b4a6b';
                 
                 setTimeout(() => {
                     event.target.style.animation = '';
@@ -1855,14 +2067,15 @@
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    background: #ff0040;
-                    color: white;
+                    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+                    color: #8b4a6b;
                     padding: 10px 20px;
-                    border-radius: 8px;
+                    border-radius: 12px;
                     font-weight: bold;
                     z-index: 1000;
-                    border: 3px solid #000;
-                    font-family: 'Courier New', monospace;
+                    border: 2px solid #f8d7da;
+                    font-family: 'Segoe UI', sans-serif;
+                    box-shadow: 0 4px 12px rgba(248, 215, 218, 0.3);
                 `;
                 document.body.appendChild(warningMsg);
                 
@@ -1900,14 +2113,15 @@
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    background: #ff6b35;
-                    color: white;
+                    background: linear-gradient(135deg, #f9a8d4, #fbcfe8);
+                    color: #8b4a6b;
                     padding: 10px 20px;
-                    border-radius: 8px;
+                    border-radius: 12px;
                     font-weight: bold;
                     z-index: 1000;
-                    border: 3px solid #000;
-                    font-family: 'Courier New', monospace;
+                    border: 2px solid #f9a8d4;
+                    font-family: 'Segoe UI', sans-serif;
+                    box-shadow: 0 4px 12px rgba(249, 168, 212, 0.3);
                 `;
                 document.body.appendChild(feedbackMsg);
                 
@@ -2040,6 +2254,12 @@
             
             if (streak >= 2) {
                 streakIndicator.classList.add('active');
+                // Remove existing theme classes first
+                streakIndicator.classList.remove('redemption-mode');
+                // Add redemption theme if in redemption mode
+                if (isRedemptionMode) {
+                    streakIndicator.classList.add('redemption-mode');
+                }
                 streakCount.textContent = streak;
             }
         }
@@ -2176,6 +2396,13 @@
             const progressText = document.getElementById('progressText');
             
             if (progressFill) {
+                // Update theme class
+                if (isRedemptionMode) {
+                    progressFill.classList.add('redemption-mode');
+                } else {
+                    progressFill.classList.remove('redemption-mode');
+                }
+                
                 // Force immediate update with multiple methods
                 progressFill.style.width = progress + '%';
                 progressFill.style.minWidth = progress + '%';
@@ -2200,7 +2427,9 @@
         function updateRedemptionProgress() {
             if (currentRedemptionIndex < redemptionQuestions.length) {
                 const progress = ((currentRedemptionIndex + 1) / redemptionQuestions.length) * 100;
-                document.getElementById('progressFill').style.width = progress + '%';
+                const progressFill = document.getElementById('progressFill');
+                progressFill.classList.add('redemption-mode');
+                progressFill.style.width = progress + '%';
             }
         }
 
@@ -2245,16 +2474,16 @@
             
             gameArea.innerHTML = `
                 <div class="final-score">
-                    <h2>🎯 TAMAT!</h2>
+                    <h2>TAMAT!</h2>
                     <div class="score-circle">
                         ${score}/150
                     </div>
                     <h3 style="color: #ff006e; margin-bottom: 10px;">${rank}</h3>
                     <p style="font-size: 18px; margin-bottom: 15px;">${percentage}%</p>
-                    <p style="margin-bottom: 20px; color: #ffffff;">${message}</p>
+                    <p style="margin-bottom: 20px; color: #8b4a6b; font-weight: 600; text-shadow: 1px 1px 2px rgba(139, 74, 107, 0.2);">${message}</p>
                     
-                    <div style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 110, 0.1)); padding: 15px; border-radius: 10px; margin: 20px 0; color: #ffffff; border: 1px solid rgba(0, 245, 255, 0.3);">
-                        <h4 style="color: #00f5ff;">📊 Statistik Anda:</h4>
+                    <div style="background: linear-gradient(135deg, rgba(255, 179, 209, 0.2), rgba(230, 215, 255, 0.2)); padding: 15px; border-radius: 10px; margin: 20px 0; color: #8b4a6b; border: 2px solid rgba(255, 179, 209, 0.3); backdrop-filter: blur(10px);">
+                        <h4 style="color: #d1477a; margin-bottom: 10px;">📊 Statistik Anda:</h4>
                         <p>🎯 Skor Akhir: ${score}</p>
                         <p>🔥 Streak Terbaik: ${Math.max(...[streak, 0])}</p>
                         <p>🏆 Achievement: ${achievements.length}</p>
@@ -2298,10 +2527,14 @@
         function initGame() {
             gameStatements = shuffleArray(statements);
             displayStatement();
+            
+            // Start sakura petals for normal mode
+            setInterval(createSakuraPetals, 4000);
+            createSakuraPetals();
         }
 
         // Start the game
         initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98492efba04ff58c',t:'MTc1ODc4OTI3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849849df2b6cf0c',t:'MTc1ODc5Mjc4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
