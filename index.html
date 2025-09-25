@@ -589,17 +589,17 @@
         }
 
         .graph-section.selected {
-            border-color: #00f5ff;
-            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 110, 0.1));
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(131, 56, 236, 0.1));
             transform: scale(1.02);
             animation: selectedPulse 1s infinite;
-            box-shadow: 0 8px 20px rgba(0, 245, 255, 0.6), 0 0 30px rgba(255, 0, 110, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.6), 0 0 30px rgba(131, 56, 236, 0.4);
         }
 
         .graph-section.selected .graph-title {
-            color: #00f5ff;
+            color: #ff6b35;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.8);
         }
 
         .graph-section.selected.redemption-mode {
@@ -609,15 +609,15 @@
 
         .graph-section.correct-answer {
             animation: correctBounce 0.8s ease-out;
-            border-color: #00f5ff;
-            background: linear-gradient(135deg, rgba(0, 245, 255, 0.15), rgba(0, 245, 255, 0.25));
-            box-shadow: 0 8px 20px rgba(0, 245, 255, 0.8), 0 0 40px rgba(0, 245, 255, 0.6);
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 107, 53, 0.25));
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.8), 0 0 40px rgba(255, 107, 53, 0.6);
         }
 
         .graph-section.correct-answer .graph-title {
-            color: #00f5ff;
+            color: #ff6b35;
             font-weight: bold;
-            text-shadow: 0 0 15px rgba(0, 245, 255, 1);
+            text-shadow: 0 0 15px rgba(255, 107, 53, 1);
         }
 
         .graph-section.correct-answer.redemption-mode {
@@ -773,9 +773,9 @@
         }
 
         .category-btn.ciri {
-            border-color: #00f5ff;
-            color: #00f5ff;
-            text-shadow: 0 0 5px rgba(0, 245, 255, 0.5);
+            border-color: #ff6b35;
+            color: #ff6b35;
+            text-shadow: 0 0 5px rgba(255, 107, 53, 0.5);
         }
 
         .category-btn.ciri.redemption-mode {
@@ -784,9 +784,9 @@
         }
 
         .category-btn.kegunaan {
-            border-color: #ff006e;
-            color: #ff006e;
-            text-shadow: 0 0 5px rgba(255, 0, 110, 0.5);
+            border-color: #8338ec;
+            color: #8338ec;
+            text-shadow: 0 0 5px rgba(131, 56, 236, 0.5);
         }
 
         .category-btn.kegunaan.redemption-mode {
@@ -800,10 +800,10 @@
         }
 
         .category-btn.ciri.selected {
-            background: linear-gradient(135deg, #00f5ff, #0099cc);
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
             color: white;
-            border-color: #00f5ff;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
@@ -813,10 +813,10 @@
         }
 
         .category-btn.kegunaan.selected {
-            background: linear-gradient(135deg, #ff006e, #cc0055);
+            background: linear-gradient(135deg, #8338ec, #9b59b6);
             color: white;
-            border-color: #ff006e;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+            border-color: #8338ec;
+            box-shadow: 0 0 20px rgba(131, 56, 236, 0.6);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
@@ -901,11 +901,11 @@
         }
 
         .feedback.correct {
-            background: linear-gradient(135deg, #00f5ff, #0099cc);
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
             color: white;
-            border: 2px solid rgba(0, 245, 255, 0.5);
+            border: 2px solid rgba(255, 107, 53, 0.5);
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(0, 245, 255, 0.4);
+            box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
@@ -915,11 +915,11 @@
         }
 
         .feedback.wrong {
-            background: linear-gradient(135deg, #ff006e, #cc0055);
+            background: linear-gradient(135deg, #8338ec, #9b59b6);
             color: white;
-            border: 2px solid rgba(255, 0, 110, 0.5);
+            border: 2px solid rgba(131, 56, 236, 0.5);
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 25px rgba(255, 0, 110, 0.4);
+            box-shadow: 0 0 25px rgba(131, 56, 236, 0.4);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
@@ -1049,21 +1049,28 @@
         }
 
         .progress-bar {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.8);
+            height: 20px;
+            border-radius: 10px;
             margin: 15px 20px;
             overflow: hidden;
             position: relative;
+            border: 3px solid rgba(0, 245, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(0, 245, 255, 0.6);
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #00f5ff, #ff006e, #8338ec);
+            background: linear-gradient(90deg, #ff6b35, #8338ec, #00f5ff);
             height: 100%;
-            border-radius: 8px;
-            transition: width 0.5s ease;
+            border-radius: 6px;
+            transition: width 0.8s ease;
             position: relative;
-            box-shadow: 0 2px 8px rgba(0, 245, 255, 0.8), 0 0 15px rgba(255, 0, 110, 0.6);
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.8), 0 0 15px rgba(131, 56, 236, 0.6);
+            width: 0%;
+            min-width: 0;
         }
 
         .progress-fill::after {
@@ -1445,6 +1452,7 @@
         
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 11px; font-weight: bold; z-index: 10; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="progressText">0/15</div>
         </div>
 
         <div class="game-area" id="gameArea">
@@ -1730,6 +1738,9 @@
             const statement = gameStatements[currentStatement];
             const gameArea = document.getElementById('gameArea');
             
+            // Update progress immediately when displaying statement
+            updateProgress();
+            
             gameArea.innerHTML = `
                 <div class="left-panel">
                     <div style="background: rgba(255, 255, 255, 0.95); border: 2px solid #667eea; padding: 15px; margin-bottom: 20px; border-radius: 15px; font-size: 14px; color: #2d3436; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); backdrop-filter: blur(10px);">
@@ -1798,9 +1809,6 @@
                 </div>
             `;
             
-            if (!isRedemptionMode) {
-                updateProgress();
-            }
             selectedGraph = null;
             selectedCategory = null;
         }
@@ -2162,8 +2170,31 @@
         }
 
         function updateProgress() {
-            const progress = ((currentStatement + 1) / gameStatements.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
+            const totalQuestions = 15; // Fixed total for consistency
+            const progress = Math.min(((currentStatement + 1) / totalQuestions) * 100, 100);
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressFill) {
+                // Force immediate update with multiple methods
+                progressFill.style.width = progress + '%';
+                progressFill.style.minWidth = progress + '%';
+                progressFill.setAttribute('data-progress', progress);
+                
+                // Force browser reflow
+                progressFill.offsetHeight;
+                
+                console.log(`Progress updated: ${currentStatement + 1}/${totalQuestions} = ${progress}%`);
+                console.log(`Progress bar width set to: ${progressFill.style.width}`);
+            } else {
+                console.error('Progress fill element not found!');
+            }
+            
+            // Update progress text as backup indicator
+            if (progressText) {
+                progressText.textContent = `${currentStatement + 1}/15`;
+                console.log(`Progress text updated: ${progressText.textContent}`);
+            }
         }
 
         function updateRedemptionProgress() {
@@ -2272,5 +2303,5 @@
         // Start the game
         initGame();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849199733c39245',t:'MTc1ODc4ODQwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98492efba04ff58c',t:'MTc1ODc4OTI3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
