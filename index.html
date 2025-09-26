@@ -1504,13 +1504,46 @@
             updateAnswerArea(wordIndex);
         }
 
+        function handleAnswerLetterClick(e) {
+            const answerTile = e.target;
+            const wordIndex = currentWordIndex;
+            const letterIndex = parseInt(answerTile.dataset.index);
+            const letter = answerTile.dataset.letter;
+            
+            // Remove the letter from selected letters array
+            wordStates[wordIndex].selectedLetters.splice(letterIndex, 1);
+            
+            // Find and unselect the corresponding letter in scrambled letters
+            const scrambledLetters = document.querySelectorAll('.scrambled-letters .letter-tile');
+            let foundTile = null;
+            
+            // Find the first selected tile with matching letter
+            for (let tile of scrambledLetters) {
+                if (tile.dataset.letter === letter && tile.classList.contains('selected')) {
+                    foundTile = tile;
+                    break;
+                }
+            }
+            
+            if (foundTile) {
+                foundTile.classList.remove('selected');
+            }
+            
+            updateAnswerArea(wordIndex);
+        }
+
         function updateAnswerArea(wordIndex) {
             const answerArea = document.querySelector(`[data-word-index="${wordIndex}"].answer-area`);
             const selectedLetters = wordStates[wordIndex].selectedLetters;
             
-            answerArea.innerHTML = selectedLetters.map(letter => 
-                `<div class="letter-tile selected">${letter}</div>`
+            answerArea.innerHTML = selectedLetters.map((letter, index) => 
+                `<div class="letter-tile selected answer-letter" data-letter="${letter}" data-index="${index}">${letter}</div>`
             ).join('');
+            
+            // Add click listeners to answer letters for removal
+            answerArea.querySelectorAll('.answer-letter').forEach(tile => {
+                tile.addEventListener('click', handleAnswerLetterClick);
+            });
             
             if (selectedLetters.length > 0) {
                 answerArea.classList.add('has-letters');
@@ -1858,6 +1891,9 @@
             document.querySelector('.stage.active').classList.remove('active');
             document.getElementById('scoreReveal').classList.add('active');
             
+            // Set progress to 100% when showing final score
+            document.getElementById('progressFill').style.width = '100%';
+            
             document.getElementById('finalScoreNumber').textContent = score;
             document.getElementById('stage1Points').textContent = `${stageScores.stage1} mata`;
             document.getElementById('stage2Points').textContent = `${stageScores.stage2} mata`;
@@ -1911,5 +1947,5 @@
         updateProgress();
         initializeStage1();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850ccfe256726b8',t:'MTc1ODg2OTE1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850d76b20789928',t:'MTc1ODg2OTU3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
