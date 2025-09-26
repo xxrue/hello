@@ -1094,14 +1094,18 @@
 
         let wordStates = {};
 
-        // Stage 1: Enhanced Drag and Drop functionality
+        // Stage 1: Enhanced Drag and Drop functionality with mobile support
         let draggedItem = null;
         let draggedFromContainer = null;
+        let touchStartPos = { x: 0, y: 0 };
+        let isDragging = false;
+        let dragClone = null;
 
         function initializeDragAndDrop() {
             const allContainers = document.querySelectorAll('.category, #itemsContainer');
             
             allContainers.forEach(container => {
+                // Desktop events
                 container.addEventListener('dragover', handleDragOver);
                 container.addEventListener('drop', handleDrop);
                 container.addEventListener('dragenter', handleDragEnter);
@@ -1114,19 +1118,143 @@
         function updateAllItemsEventListeners() {
             const allItems = document.querySelectorAll('.draggable-item, .dropped-item');
             allItems.forEach(item => {
+                // Remove existing listeners
                 item.removeEventListener('dragstart', handleItemDragStart);
                 item.removeEventListener('dragend', handleItemDragEnd);
+                item.removeEventListener('touchstart', handleTouchStart);
+                item.removeEventListener('touchmove', handleTouchMove);
+                item.removeEventListener('touchend', handleTouchEnd);
                 
+                // Add desktop drag listeners
                 item.addEventListener('dragstart', handleItemDragStart);
                 item.addEventListener('dragend', handleItemDragEnd);
+                
+                // Add mobile touch listeners
+                item.addEventListener('touchstart', handleTouchStart, { passive: false });
+                item.addEventListener('touchmove', handleTouchMove, { passive: false });
+                item.addEventListener('touchend', handleTouchEnd, { passive: false });
+                
                 item.draggable = !stage1Checked;
                 
                 if (!stage1Checked) {
                     item.style.cursor = 'grab';
+                    item.style.touchAction = 'none';
                 } else {
                     item.style.cursor = 'default';
+                    item.style.touchAction = 'auto';
                 }
             });
+        }
+
+        // Touch event handlers for mobile
+        function handleTouchStart(e) {
+            if (stage1Checked) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            draggedItem = this;
+            draggedFromContainer = this.parentElement;
+            isDragging = false;
+            
+            // Create visual feedback
+            this.style.transform = 'scale(1.05)';
+            this.style.zIndex = '1000';
+        }
+
+        function handleTouchMove(e) {
+            if (stage1Checked || !draggedItem) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaX = Math.abs(touch.clientX - touchStartPos.x);
+            const deltaY = Math.abs(touch.clientY - touchStartPos.y);
+            
+            // Start dragging if moved enough
+            if (!isDragging && (deltaX > 10 || deltaY > 10)) {
+                isDragging = true;
+                draggedItem.classList.add('dragging');
+                
+                // Create a clone for visual feedback
+                dragClone = draggedItem.cloneNode(true);
+                dragClone.style.position = 'fixed';
+                dragClone.style.pointerEvents = 'none';
+                dragClone.style.zIndex = '2000';
+                dragClone.style.opacity = '0.8';
+                dragClone.style.transform = 'rotate(5deg) scale(1.1)';
+                document.body.appendChild(dragClone);
+            }
+            
+            if (isDragging && dragClone) {
+                // Move the clone with the finger
+                dragClone.style.left = (touch.clientX - 50) + 'px';
+                dragClone.style.top = (touch.clientY - 25) + 'px';
+                
+                // Highlight drop zones
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                
+                if (elementBelow) {
+                    const dropZone = elementBelow.closest('.category, #itemsContainer');
+                    if (dropZone && dropZone !== draggedFromContainer) {
+                        dropZone.classList.add('drag-over');
+                    }
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (stage1Checked || !draggedItem) return;
+            
+            e.preventDefault();
+            
+            // Reset visual feedback
+            draggedItem.style.transform = '';
+            draggedItem.style.zIndex = '';
+            draggedItem.classList.remove('dragging');
+            
+            if (dragClone) {
+                dragClone.remove();
+                dragClone = null;
+            }
+            
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+            
+            if (isDragging) {
+                const touch = e.changedTouches[0];
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const dropZone = elementBelow ? elementBelow.closest('.category, #itemsContainer') : null;
+                
+                if (dropZone && dropZone !== draggedFromContainer) {
+                    // Perform the drop
+                    const itemText = draggedItem.textContent;
+                    const itemCategory = draggedItem.dataset.category || draggedItem.dataset.originalCategory;
+                    
+                    const newItem = document.createElement('div');
+                    newItem.textContent = itemText;
+                    
+                    if (dropZone.classList.contains('category')) {
+                        newItem.className = 'dropped-item';
+                        newItem.dataset.originalCategory = itemCategory;
+                        newItem.dataset.targetCategory = dropZone.dataset.category;
+                        
+                        const droppedItems = dropZone.querySelector('.dropped-items');
+                        droppedItems.appendChild(newItem);
+                    } else if (dropZone.id === 'itemsContainer') {
+                        newItem.className = 'draggable-item';
+                        newItem.dataset.category = itemCategory;
+                        dropZone.appendChild(newItem);
+                    }
+                    
+                    draggedItem.remove();
+                    updateAllItemsEventListeners();
+                }
+            }
+            
+            draggedItem = null;
+            draggedFromContainer = null;
+            isDragging = false;
         }
 
         function handleItemDragStart(e) {
@@ -1445,24 +1573,36 @@
             statusElement.classList.remove('correct');
         }
 
-        // Stage 3: Rukun Negara sorting
+        // Stage 3: Rukun Negara sorting with mobile support
         let draggedElement = null;
+        let rukunTouchStartPos = { x: 0, y: 0 };
+        let rukunIsDragging = false;
+        let rukunDragClone = null;
 
         function setupStage3() {
             const rukunItems = document.querySelectorAll('.rukun-item');
             
             rukunItems.forEach(item => {
+                // Desktop drag events
                 item.addEventListener('dragstart', handleRukunDragStart);
                 item.addEventListener('dragover', handleRukunDragOver);
                 item.addEventListener('drop', handleRukunDrop);
                 item.addEventListener('dragend', handleRukunDragEnd);
+                
+                // Mobile touch events
+                item.addEventListener('touchstart', handleRukunTouchStart, { passive: false });
+                item.addEventListener('touchmove', handleRukunTouchMove, { passive: false });
+                item.addEventListener('touchend', handleRukunTouchEnd, { passive: false });
+                
                 item.draggable = true;
+                item.style.touchAction = 'none';
             });
 
             document.getElementById('checkOrder').addEventListener('click', checkRukunOrder);
             document.getElementById('shuffleItems').addEventListener('click', shuffleRukunItems);
         }
 
+        // Desktop drag handlers
         function handleRukunDragStart(e) {
             draggedElement = this;
             this.style.opacity = '0.5';
@@ -1490,6 +1630,114 @@
         function handleRukunDragEnd(e) {
             this.style.opacity = '1';
             draggedElement = null;
+        }
+
+        // Mobile touch handlers for Rukun Negara
+        function handleRukunTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            rukunTouchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            draggedElement = this;
+            rukunIsDragging = false;
+            
+            // Visual feedback
+            this.style.transform = 'scale(1.02)';
+            this.style.zIndex = '1000';
+        }
+
+        function handleRukunTouchMove(e) {
+            if (!draggedElement) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaX = Math.abs(touch.clientX - rukunTouchStartPos.x);
+            const deltaY = Math.abs(touch.clientY - rukunTouchStartPos.y);
+            
+            // Start dragging if moved enough
+            if (!rukunIsDragging && (deltaX > 15 || deltaY > 15)) {
+                rukunIsDragging = true;
+                
+                // Create visual clone
+                rukunDragClone = draggedElement.cloneNode(true);
+                rukunDragClone.style.position = 'fixed';
+                rukunDragClone.style.pointerEvents = 'none';
+                rukunDragClone.style.zIndex = '2000';
+                rukunDragClone.style.opacity = '0.8';
+                rukunDragClone.style.transform = 'rotate(2deg) scale(1.05)';
+                rukunDragClone.style.width = draggedElement.offsetWidth + 'px';
+                document.body.appendChild(rukunDragClone);
+                
+                draggedElement.style.opacity = '0.3';
+            }
+            
+            if (rukunIsDragging && rukunDragClone) {
+                // Move clone with finger
+                rukunDragClone.style.left = (touch.clientX - rukunDragClone.offsetWidth / 2) + 'px';
+                rukunDragClone.style.top = (touch.clientY - 30) + 'px';
+                
+                // Highlight potential drop targets
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const rukunItems = document.querySelectorAll('.rukun-item');
+                
+                rukunItems.forEach(item => {
+                    item.style.borderColor = '';
+                    item.style.backgroundColor = '';
+                });
+                
+                if (elementBelow) {
+                    const targetItem = elementBelow.closest('.rukun-item');
+                    if (targetItem && targetItem !== draggedElement) {
+                        targetItem.style.borderColor = '#9333ea';
+                        targetItem.style.backgroundColor = 'rgba(147, 51, 234, 0.1)';
+                    }
+                }
+            }
+        }
+
+        function handleRukunTouchEnd(e) {
+            if (!draggedElement) return;
+            
+            e.preventDefault();
+            
+            // Reset visual feedback
+            draggedElement.style.transform = '';
+            draggedElement.style.zIndex = '';
+            draggedElement.style.opacity = '1';
+            
+            if (rukunDragClone) {
+                rukunDragClone.remove();
+                rukunDragClone = null;
+            }
+            
+            // Reset all item styles
+            const rukunItems = document.querySelectorAll('.rukun-item');
+            rukunItems.forEach(item => {
+                item.style.borderColor = '';
+                item.style.backgroundColor = '';
+            });
+            
+            if (rukunIsDragging) {
+                const touch = e.changedTouches[0];
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const targetItem = elementBelow ? elementBelow.closest('.rukun-item') : null;
+                
+                if (targetItem && targetItem !== draggedElement) {
+                    // Perform the reorder
+                    const container = draggedElement.parentNode;
+                    const draggedIndex = Array.from(container.children).indexOf(draggedElement);
+                    const targetIndex = Array.from(container.children).indexOf(targetItem);
+                    
+                    if (draggedIndex < targetIndex) {
+                        container.insertBefore(draggedElement, targetItem.nextSibling);
+                    } else {
+                        container.insertBefore(draggedElement, targetItem);
+                    }
+                }
+            }
+            
+            draggedElement = null;
+            rukunIsDragging = false;
         }
 
         function checkRukunOrder() {
@@ -1663,5 +1911,5 @@
         updateProgress();
         initializeStage1();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850c679535b26b8',t:'MTc1ODg2ODg4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850ccfe256726b8',t:'MTc1ODg2OTE1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
