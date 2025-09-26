@@ -3,1950 +3,1728 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumber Moral - Permainan Interaktif</title>
+    <title>Bola Sepak - Permainan Interaktif</title>
     <style>
         body {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 50%, #e9d5ff 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2E8B57, #228B22, #32CD32);
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
-            color: #581c87;
+            user-select: none;
         }
 
-        body::before {
-            content: '';
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '⚽';
+            position: absolute;
+            font-size: 60px;
+            top: -10px;
+            right: 20px;
+            opacity: 0.3;
+            animation: bounce 2s infinite;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .game-area {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            min-height: 600px;
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stage-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #2E8B57;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            background: #E0E0E0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #32CD32, #228B22);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Football Field Simulation */
+        .football-field {
+            background: linear-gradient(135deg, #228B22, #32CD32);
+            border: 4px solid white;
+            border-radius: 15px;
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .field-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            border: 3px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .goal-left, .goal-right {
+            position: absolute;
+            top: 40%;
+            width: 20px;
+            height: 20%;
+            background: rgba(255,255,255,0.8);
+            border: 2px solid white;
+        }
+
+        .goal-left { left: 0; }
+        .goal-right { right: 0; }
+
+        .player {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+        }
+
+        .player:hover {
+            transform: scale(1.1);
+        }
+
+        .player.blue { background: #2196F3; }
+        .player.red { background: #F44336; }
+        .player.selected { 
+            animation: pulse 1s infinite;
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        .ball {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.5s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Stage 1: Advanced Skill Challenge */
+        .skill-challenge {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            align-items: start;
+        }
+
+        .skills-panel {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .skills-panel h4 {
+            margin: 0 0 15px 0;
+            color: #1976D2;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .skill-item {
+            background: white;
+            border: 3px solid #2196F3;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.3;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .skill-item.selected {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            border-color: #FF9800;
+            transform: scale(1.02);
+        }
+
+        .skill-item.correct {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            border-color: #4CAF50;
+            pointer-events: none;
+        }
+
+        .skill-item.wrong {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border-color: #F44336;
+            animation: shake 0.5s;
+        }
+
+        .functions-panel {
+            background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .functions-panel h4 {
+            margin: 0 0 15px 0;
+            color: #7B1FA2;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .function-item {
+            background: white;
+            border: 3px solid #9C27B0;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .function-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+
+        .function-item.correct {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            border-color: #4CAF50;
+            pointer-events: none;
+        }
+
+        .function-item.wrong {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border-color: #F44336;
+            animation: shake 0.5s;
+        }
+
+        /* Timer and Lives */
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .timer, .lives, .combo {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .lives.danger { 
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            animation: pulse 1s infinite;
+        }
+
+        /* Goal Animation */
+        .goal-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: clamp(15px, 3vw, 25px);
-            width: 100%;
-        }
-
-        .title {
-            text-align: center;
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 700;
-            margin-bottom: clamp(20px, 4vw, 40px);
-            color: #581c87;
-            letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            line-height: 1.2;
-            padding: 0 10px;
-        }
-
-        .game-header {
-            display: flex;
-            justify-content: space-between;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
             align-items: center;
-            margin-bottom: clamp(25px, 4vw, 40px);
-            flex-wrap: wrap;
-            gap: clamp(15px, 3vw, 20px);
-            background: rgba(255, 255, 255, 0.9);
-            padding: clamp(20px, 4vw, 35px);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.15);
-            border: 1px solid rgba(196, 181, 253, 0.5);
-            backdrop-filter: blur(10px);
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .goal-animation.show {
+            display: flex;
+            animation: goalCelebration 3s ease;
+        }
+
+        .goal-text {
+            font-size: 4rem;
+            color: #FFD700;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            animation: goalBounce 1s infinite;
+        }
+
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: fireworkExplode 2s ease-out;
+        }
+
+        /* Equipment Game Enhanced */
+        .equipment-field {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            position: relative;
+            min-height: 350px;
+            overflow: hidden;
+        }
+
+        .player-avatar {
+            width: 120px;
+            height: 120px;
+            background: #FF6B35;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            border: 6px solid white;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         }
 
-        .progress-container {
-            flex: 1;
-            min-width: clamp(200px, 40vw, 300px);
-            order: 1;
+        .equipment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: clamp(10px, 2vw, 14px);
-            background: #e9d5ff;
-            border-radius: 12px;
-            overflow: hidden;
+        .equipment-item {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
             position: relative;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #9333ea, #a855f7);
-            width: 0%;
-            transition: width 0.8s ease;
-            border-radius: 12px;
+        .equipment-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        .score {
-            background: linear-gradient(135deg, #fef7ff, #f3e8ff);
-            color: #581c87;
-            padding: clamp(15px, 3vw, 25px) clamp(20px, 4vw, 35px);
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            box-shadow: 0 2px 10px rgba(147, 51, 234, 0.1);
-            border: 1px solid #c4b5fd;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            order: 2;
+        .equipment-item.selected {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            transform: scale(1.05);
         }
 
-        .stage {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: clamp(15px, 3vw, 25px);
-            padding: clamp(20px, 4vw, 50px);
-            margin: clamp(20px, 4vw, 35px) 0;
-            box-shadow: 0 4px 25px rgba(147, 51, 234, 0.12);
-            border: 1px solid rgba(196, 181, 253, 0.4);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
-            width: 100%;
-            box-sizing: border-box;
+        .equipment-item.correct {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            animation: equipmentCorrect 0.8s;
         }
 
-        .stage.active {
+        .equipment-item.incorrect {
+            border-color: #F44336;
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            animation: shake 0.8s;
+        }
+
+        .equipment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
             display: block;
-            animation: stageSlideIn 0.5s ease-out;
         }
 
-        @keyframes stageSlideIn {
+        /* Enhanced Buttons */
+        .start-btn, .next-stage-btn, .restart-btn {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px;
+            font-weight: bold;
+        }
+
+        .start-btn:hover, .next-stage-btn:hover, .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .stage-complete {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .stage-complete.show {
+            display: block;
+            animation: celebrateIn 1s ease;
+        }
+
+        .intro-screen {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+
+        .game-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes slideIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .stage-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: #581c87;
-            text-align: center;
-            margin-bottom: clamp(25px, 4vw, 40px);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            line-height: 1.3;
-            padding: 0 10px;
-        }
-
-        /* Stage 1 Styles */
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: clamp(20px, 4vw, 35px);
-            margin-bottom: clamp(30px, 5vw, 45px);
-        }
-
-        .category {
-            min-height: clamp(300px, 50vw, 400px);
-            border: 2px dashed #c4b5fd;
-            border-radius: clamp(12px, 2vw, 18px);
-            padding: clamp(25px, 4vw, 40px);
-            text-align: center;
-            transition: all 0.3s ease;
-            background: #fef7ff;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(147, 51, 234, 0.08);
-        }
-
-        .category.drag-over {
-            border-color: #9333ea;
-            background: #f3e8ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.2);
-        }
-
-        .category h3 {
-            color: #581c87;
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            margin-bottom: clamp(20px, 4vw, 35px);
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            line-height: 1.3;
-        }
-
-        .dropped-items {
-            display: flex;
-            flex-direction: column;
-            gap: clamp(10px, 2vw, 15px);
-            min-height: clamp(150px, 30vw, 200px);
-        }
-
-        .items-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 40vw, 250px), 1fr));
-            gap: clamp(15px, 3vw, 25px);
-            margin-bottom: clamp(30px, 5vw, 45px);
-        }
-
-        .draggable-item {
-            background: linear-gradient(135deg, #e9d5ff, #d8b4fe);
-            color: #581c87;
-            padding: clamp(15px, 3vw, 25px) clamp(20px, 4vw, 30px);
-            border-radius: clamp(10px, 2vw, 15px);
-            cursor: grab;
-            user-select: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.15);
-            text-align: center;
-            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-            border: 1px solid #c4b5fd;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.4;
-        }
-
-        .draggable-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25);
-            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-        }
-
-        .draggable-item.dragging {
-            opacity: 0.7;
-            transform: rotate(2deg) scale(1.02);
-            z-index: 1000;
-        }
-
-        .dropped-item {
-            background: linear-gradient(135deg, #c4b5fd, #a78bfa);
-            color: #581c87;
-            padding: clamp(15px, 3vw, 22px) clamp(18px, 3.5vw, 25px);
-            border-radius: clamp(10px, 2vw, 15px);
-            font-weight: 500;
-            animation: dropSuccess 0.4s ease-out;
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            cursor: grab;
-            user-select: none;
-            transition: all 0.3s ease;
-            border: 1px solid #a78bfa;
-            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.2);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.4;
-        }
-
-        @keyframes dropSuccess {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .dropped-item:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
-        }
-
-        .dropped-item.correct {
-            background: linear-gradient(135deg, #bbf7d0, #86efac);
-            color: #166534;
-            border-color: #86efac;
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
-        }
-
-        .dropped-item.incorrect {
-            background: linear-gradient(135deg, #fecaca, #fca5a5);
-            color: #991b1b;
-            border-color: #fca5a5;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
-        }
-
-        /* Stage 2 Styles - Word Scramble */
-        .word-scramble-container {
-            max-width: 900px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .scramble-words {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: clamp(25px, 4vw, 35px);
-            margin-bottom: clamp(30px, 5vw, 45px);
-        }
-
-        .word-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: clamp(25px, 4vw, 35px);
-            border-radius: clamp(12px, 2vw, 18px);
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.12);
-            border: 1px solid #c4b5fd;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .word-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(147, 51, 234, 0.18);
-        }
-
-        .word-title {
-            color: #9333ea;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            font-weight: 600;
-            margin-bottom: clamp(15px, 3vw, 25px);
-        }
-
-        .scrambled-letters {
-            display: flex;
-            justify-content: center;
-            gap: clamp(6px, 1.5vw, 10px);
-            margin-bottom: clamp(15px, 3vw, 25px);
-            flex-wrap: wrap;
-            padding: 0 10px;
-        }
-
-        .letter-tile {
-            background: linear-gradient(135deg, #e9d5ff, #d8b4fe);
-            color: #581c87;
-            width: clamp(38px, 8vw, 48px);
-            height: clamp(38px, 8vw, 48px);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: clamp(0.9rem, 2.2vw, 1.2rem);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.15);
-            border: 1px solid #c4b5fd;
-            min-width: 38px;
-            min-height: 38px;
-        }
-
-        .letter-tile:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
-            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-        }
-
-        .letter-tile.selected {
-            background: linear-gradient(135deg, #c4b5fd, #a78bfa);
-            color: #581c87;
-            transform: translateY(-3px) scale(1.08);
-            border-color: #a78bfa;
-            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.35);
-        }
-
-        .answer-area {
-            min-height: clamp(55px, 12vw, 70px);
-            background: #fef7ff;
-            border: 2px dashed #c4b5fd;
-            border-radius: clamp(10px, 2vw, 15px);
-            padding: clamp(12px, 2.5vw, 18px);
-            margin-bottom: clamp(15px, 3vw, 25px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(4px, 1vw, 8px);
-            flex-wrap: wrap;
-            transition: all 0.3s ease;
-        }
-
-        .answer-area.has-letters {
-            border-color: #9333ea;
-            background: #f3e8ff;
-        }
-
-        .word-status {
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            font-weight: 700;
-            margin-top: clamp(8px, 2vw, 15px);
-            min-height: clamp(25px, 6vw, 35px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.3;
-            padding: 0 10px;
-        }
-
-        .word-status.correct {
-            color: #059669;
-            background: #d1fae5;
-            padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 18px);
-            border-radius: clamp(6px, 1.5vw, 10px);
-            border: 1px solid #86efac;
-        }
-
-        /* Stage 3 Styles */
-        .sorting-container {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .rukun-items {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .rukun-item {
-            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-            color: white;
-            padding: 25px;
-            border-radius: 20px;
-            cursor: grab;
-            user-select: none;
-            font-weight: 700;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(162, 155, 254, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-            animation: rukunFloat 5s ease-in-out infinite;
-        }
-
-        @keyframes rukunFloat {
-            0%, 100% { transform: translateX(0px); }
-            25% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-
-        .rukun-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .rukun-item:hover::before {
-            left: 100%;
-        }
-
-        .rukun-item:hover {
-            transform: translateX(15px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(162, 155, 254, 0.6);
-            animation: none;
-        }
-
-        .rukun-item.correct-position {
-            background: linear-gradient(135deg, #00d4aa, #00b894);
-            animation: correctRukun 1s ease;
-            box-shadow: 0 0 40px rgba(0, 212, 170, 0.8);
-        }
-
-        @keyframes correctRukun {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.05) rotate(1deg); }
-            50% { transform: scale(0.98) rotate(-1deg); }
-            75% { transform: scale(1.02) rotate(0.5deg); }
-        }
-
-        .drag-handle {
-            background: rgba(255,255,255,0.25);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.8rem;
-            backdrop-filter: blur(10px);
-            color: rgba(255,255,255,0.9);
-            cursor: grab;
-            transition: all 0.3s ease;
-            animation: handleSpin 4s linear infinite;
-        }
-
-        @keyframes handleSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .drag-handle:hover {
-            background: rgba(255,255,255,0.4);
-            transform: scale(1.1);
-            animation: none;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #9333ea, #7c3aed);
-            color: white;
-            border: none;
-            padding: clamp(15px, 3vw, 25px) clamp(25px, 5vw, 45px);
-            border-radius: clamp(20px, 4vw, 35px);
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin: clamp(10px, 2vw, 18px);
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.3vw, 2px);
-            position: relative;
-            overflow: hidden;
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.6);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn.restart {
-            background: linear-gradient(135deg, #a855f7, #8b5cf6);
-        }
-
-        .btn.restart:hover {
-            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.6);
-        }
-
-        .celebration {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #2c3e50;
-            padding: 40px 50px;
-            border-radius: 20px;
-            text-align: center;
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: 700;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
-            z-index: 2000;
-            animation: celebrationSlide 0.6s ease-out;
-            display: none;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            max-width: 500px;
-            width: 90%;
-        }
-
-        @keyframes celebrationSlide {
-            0% { transform: translate(-50%, -60px); opacity: 0; }
-            100% { transform: translate(-50%, -50%); opacity: 1; }
-        }
-
-        .confetti {
-            position: fixed;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            animation: confettiFall 5s linear infinite;
-        }
-
-        @keyframes confettiFall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(1080deg); opacity: 0; }
-        }
-
-        .game-instructions {
-            background: rgba(255, 255, 255, 0.95);
-            padding: clamp(20px, 4vw, 35px) clamp(25px, 4vw, 40px);
-            border-radius: clamp(15px, 3vw, 25px);
-            margin-bottom: clamp(25px, 4vw, 40px);
-            border-left: clamp(4px, 1vw, 6px) solid #a855f7;
-            font-size: clamp(1rem, 2.2vw, 1.3rem);
-            color: #581c87;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.15);
-            border: 3px solid rgba(168, 85, 247, 0.3);
-            backdrop-filter: blur(15px);
-            animation: instructionsGlow 3s ease-in-out infinite alternate;
-            line-height: 1.5;
-            text-align: left;
-        }
-
-        @keyframes instructionsGlow {
-            0% { box-shadow: 0 10px 25px rgba(147, 51, 234, 0.15); }
-            100% { box-shadow: 0 15px 35px rgba(168, 85, 247, 0.25); }
-        }
-
-        /* Score Reveal Styles */
-        .score-reveal-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 500px;
-        }
-
-        .final-score-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
-            border-radius: 35px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(147, 51, 234, 0.2);
-            border: 3px solid rgba(196, 181, 253, 0.5);
-            max-width: 600px;
-            width: 100%;
-            backdrop-filter: blur(20px);
-            animation: finalCardFloat 4s ease-in-out infinite;
-        }
-
-        @keyframes finalCardFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .score-icon {
-            font-size: 5rem;
-            margin-bottom: 25px;
-            animation: scoreIconSpin 3s ease-in-out infinite;
-        }
-
-        @keyframes scoreIconSpin {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(180deg); }
-        }
-
-        .final-score-card h3 {
-            font-size: 2.5rem;
-            color: #581c87;
-            margin-bottom: 25px;
-            font-family: 'Georgia', serif;
-            text-shadow: none;
-            font-weight: 700;
-        }
-
-        .final-score-number {
-            font-size: 5rem;
-            font-weight: 900;
-            color: #9333ea;
-            margin-bottom: 35px;
-            text-shadow: 3px 3px 6px rgba(147, 51, 234, 0.3);
-            animation: finalScorePulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes finalScorePulse {
+        @keyframes pulse {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        .score-breakdown {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
         }
 
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            font-weight: 700;
-            color: #fff;
-            font-size: 1.1rem;
+        @keyframes goalCelebration {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
         }
 
-        .performance-message {
-            font-size: 1.4rem;
-            color: #00d4aa;
-            font-weight: 700;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 212, 170, 0.2);
-            border-radius: 15px;
-            animation: messageGlow 2s ease-in-out infinite alternate;
+        @keyframes goalBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        @keyframes messageGlow {
-            0% { box-shadow: 0 0 20px rgba(0, 212, 170, 0.3); }
-            100% { box-shadow: 0 0 30px rgba(0, 212, 170, 0.6); }
-        }
-
-        /* Stage Complete Modal */
-        .stage-complete-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9));
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            backdrop-filter: blur(15px);
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 50px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            max-width: 500px;
-            width: 90%;
-            animation: modalSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-        }
-
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(-80px) scale(0.8); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .modal-content h3 {
-            font-size: 2.2rem;
-            color: #fff;
-            margin-bottom: 20px;
-            font-family: 'Georgia', serif;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-content p {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .game-header { 
-                flex-direction: column; 
-                text-align: center;
-                gap: 15px;
+        @keyframes fireworkExplode {
+            0% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
             }
-            
-            .progress-container {
-                order: 1;
-                width: 100%;
-                min-width: unset;
-            }
-            
-            .score {
-                order: 2;
-                align-self: center;
-            }
-            
-            .categories { 
-                grid-template-columns: 1fr; 
-                gap: 20px;
-            }
-            
-            .items-container { 
-                grid-template-columns: 1fr; 
-                gap: 15px;
-            }
-            
-            .category {
-                min-height: 250px;
-            }
-            
-            .btn {
-                margin: 8px 5px;
-                padding: 12px 20px;
-                font-size: 0.95rem;
-                letter-spacing: 1px;
+            100% { 
+                transform: scale(20) rotate(360deg);
+                opacity: 0;
             }
         }
 
+        @keyframes equipmentCorrect {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            50% { transform: scale(1.05) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes celebrateIn {
+            0% { opacity: 0; transform: scale(0.8) rotate(-10deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* Enhanced Touch Interactions */
+        .skill-item, .equipment-item, .function-item, .action-btn, .game-card, .start-btn, .next-stage-btn, .restart-btn {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        /* Mobile-first responsive design */
         @media (max-width: 480px) {
-            .title {
-                font-size: 2rem;
-                margin-bottom: 20px;
+            .container { 
+                padding: 10px; 
+                max-width: 100%;
             }
             
-            .stage-title {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-            
-            .game-instructions {
-                font-size: 0.95rem;
-                padding: 18px 22px;
-                line-height: 1.4;
-            }
-            
-            .btn { 
-                padding: 12px 18px; 
-                font-size: 0.9rem;
-                margin: 6px 3px;
-                min-height: 40px;
-            }
-            
-            .letter-tile { 
-                width: 36px; 
-                height: 36px; 
-                font-size: 0.9rem;
-                min-width: 36px;
-                min-height: 36px;
-            }
-            
-            .category {
-                min-height: 220px;
-                padding: 20px;
-            }
-            
-            .category h3 {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
-            }
-            
-            .draggable-item, .dropped-item {
-                font-size: 0.85rem;
-                padding: 12px 15px;
-                min-height: 40px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .container {
-                padding: 12px;
-            }
-            
-            .title {
-                font-size: 1.8rem;
-            }
-            
-            .stage {
+            .header {
                 padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 { 
+                font-size: 1.8rem; 
+                line-height: 1.2;
+            }
+            
+            .header p {
+                font-size: 0.9rem;
+                margin: 5px 0 0 0;
+            }
+            
+            .header::before {
+                font-size: 40px;
+                top: 5px;
+                right: 15px;
+            }
+            
+            /* Game cards stack - mobile optimized */
+            .games-stack {
+                gap: 15px !important;
+                margin: 20px 0 !important;
+            }
+            
+            .game-card {
+                flex-direction: column !important;
+                text-align: center !important;
+                padding: 20px 15px !important;
+                gap: 15px !important;
+            }
+            
+            .game-card h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .game-card p {
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+            }
+            
+            .game-btn {
+                width: 100% !important;
+                padding: 15px 20px !important;
+                font-size: 1rem !important;
+            }
+            
+            /* Game area optimizations */
+            .game-area {
+                padding: 15px;
+                min-height: auto;
+            }
+            
+            .stage-header h2 {
+                font-size: 1.2rem;
+                padding: 10px;
+            }
+            
+            .score-board { 
+                flex-direction: column; 
+                gap: 8px; 
+                text-align: center;
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .timer, .lives, .combo {
+                padding: 8px 16px;
+                font-size: 1rem;
+                width: fit-content;
+            }
+            
+            /* Stage 1 - Skills mobile layout */
+            .skill-challenge { 
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+            
+            .skills-panel, .functions-panel {
+                padding: 15px;
+            }
+            
+            .skills-panel h4, .functions-panel h4 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            .skill-item, .function-item {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+                margin: 8px 0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .football-field {
+                height: 250px;
                 margin: 15px 0;
             }
             
-            .btn {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-                margin: 5px 2px;
+            #current-situation {
+                top: 5px;
+                left: 5px;
+                right: 5px;
+                padding: 10px;
+                font-size: 0.9rem;
             }
             
-            .letter-tile {
-                width: 32px;
-                height: 32px;
+            .center-circle {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .ball {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+            }
+            
+            .start-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                margin: 10px 0;
+                width: 100%;
+            }
+            
+            /* Stage 2 - Equipment mobile layout */
+            .equipment-field {
+                padding: 20px;
+                min-height: 200px;
+            }
+            
+            .player-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .equipment-options { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .equipment-item {
+                padding: 15px 10px;
+                min-height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .equipment-icon {
+                font-size: 2rem;
+                margin-bottom: 8px;
+            }
+            
+            .equipment-item div:last-child {
                 font-size: 0.8rem;
-                min-width: 32px;
-                min-height: 32px;
+                text-align: center;
+                line-height: 1.2;
             }
             
-            .scrambled-letters {
-                gap: 4px;
+            /* Stage 3 - Ethics mobile layout */
+            .scenario-container {
+                padding: 15px !important;
+                margin: 15px 0 !important;
+            }
+            
+            .scenario-container h4 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            .scenario-text {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 15px !important;
+            }
+            
+            .action-buttons {
+                gap: 10px !important;
+            }
+            
+            .action-btn {
+                padding: 12px 15px !important;
+                font-size: 0.9rem !important;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                text-align: left !important;
+            }
+            
+            /* Completion screens */
+            .stage-complete, .final-completion {
+                padding: 20px;
+                margin: 15px 0;
+            }
+            
+            .stage-complete h3 {
+                font-size: 1.3rem;
+            }
+            
+            .goal-text { 
+                font-size: 2rem; 
+            }
+            
+            .intro-screen {
+                padding: 20px 15px;
+            }
+            
+            .intro-screen h2 {
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Tablet responsive design */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container { 
+                padding: 20px; 
+            }
+            
+            .header h1 { 
+                font-size: 2.2rem; 
+            }
+            
+            .games-stack {
+                max-width: 600px !important;
+            }
+            
+            .game-card {
+                padding: 25px 20px !important;
+            }
+            
+            .skill-challenge { 
+                grid-template-columns: 1fr 2fr; 
+                gap: 20px;
+            }
+            
+            .functions-panel {
+                grid-column: 1 / -1;
+            }
+            
+            .equipment-options { 
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .score-board { 
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            
+            .game-stats {
+                flex-direction: row;
+                justify-content: space-around;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Large tablet and small desktop */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .games-stack {
+                max-width: 700px !important;
+            }
+            
+            .skill-challenge {
+                grid-template-columns: 1fr 2fr 1fr;
+            }
+            
+            .equipment-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Large desktop optimizations */
+        @media (min-width: 1025px) {
+            .container {
+                padding: 30px;
+            }
+            
+            .games-stack {
+                max-width: 900px !important;
+            }
+            
+            .game-card:hover {
+                transform: translateY(-3px) !important;
+            }
+            
+            .skill-item:hover, .equipment-item:hover, .action-btn:hover {
+                transform: translateY(-2px);
+            }
+            
+            .equipment-options {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        /* Touch-friendly sizing for all interactive elements */
+        @media (pointer: coarse) {
+            .skill-item, .equipment-item, .function-item, .action-btn {
+                min-height: 48px;
+                padding: 12px 16px;
+            }
+            
+            .game-btn, .start-btn, .next-stage-btn, .restart-btn {
+                min-height: 48px;
+                padding: 15px 25px;
+            }
+            
+            .ball, .player {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        /* High DPI display optimizations */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .header::before {
+                transform: translateZ(0);
+            }
+            
+            .ball, .player {
+                backface-visibility: hidden;
+                transform: translateZ(0);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">🌟 SUMBER MORAL 🌟</h1>
-        
-        <div class="game-header">
-            <div class="progress-container">
+        <div class="header">
+            <h1>🏆 Bola Sepak 🏆</h1>
+            <p>Permainan Interaktif Pembelajaran</p>
+        </div>
+
+        <!-- Game Selection Screen -->
+        <div id="intro-screen" class="intro-screen">
+            <h2>🎮 Selamat Datang ke Dunia Bola Sepak! 🎮</h2>
+            <p>Pilih permainan yang ingin anda mainkan:</p>
+            
+            <div class="games-stack" style="display: flex; flex-direction: column; gap: 20px; margin: 30px 0; max-width: 800px; margin-left: auto; margin-right: auto;">
+                
+                <!-- Game 1: Skills -->
+                <div class="game-card" style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); border: 3px solid #2196F3; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(1)">
+                    <div style="font-size: 3rem; flex-shrink: 0;">⚽</div>
+                    <div style="flex-grow: 1; text-align: left;">
+                        <h3 style="color: #1976D2; margin: 0 0 8px 0;">Permainan 1: Kemahiran Bola Sepak</h3>
+                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Simulasi padang bola sepak - padankan kemahiran dengan situasi permainan yang betul</p>
+                        <div style="background: rgba(25, 118, 210, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
+                            <strong>📊 8 Situasi</strong> • <small>Tiada had masa • 3 Nyawa</small>
+                        </div>
+                    </div>
+                    <button class="game-btn" style="background: linear-gradient(135deg, #2196F3, #1976D2); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
+                </div>
+
+                <!-- Game 2: Safety -->
+                <div class="game-card" style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); border: 3px solid #4CAF50; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(2)">
+                    <div style="font-size: 3rem; flex-shrink: 0;">🛡️</div>
+                    <div style="flex-grow: 1; text-align: left;">
+                        <h3 style="color: #388E3C; margin: 0 0 8px 0;">Permainan 2: Keselamatan</h3>
+                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Pilih peralatan keselamatan yang betul untuk bermain bola sepak dengan selamat</p>
+                        <div style="background: rgba(56, 142, 60, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
+                            <strong>📊 5 Peralatan Wajib</strong> • <small>45 Saat • 3 Nyawa</small>
+                        </div>
+                    </div>
+                    <button class="game-btn" style="background: linear-gradient(135deg, #4CAF50, #388E3C); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
+                </div>
+
+                <!-- Game 3: Ethics -->
+                <div class="game-card" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border: 3px solid #9C27B0; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(3)">
+                    <div style="font-size: 3rem; flex-shrink: 0;">🤝</div>
+                    <div style="flex-grow: 1; text-align: left;">
+                        <h3 style="color: #7B1FA2; margin: 0 0 8px 0;">Permainan 3: Etika Sukan</h3>
+                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Buat keputusan etika yang betul dalam pelbagai situasi permainan bola sepak</p>
+                        <div style="background: rgba(123, 31, 162, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
+                            <strong>📊 8 Situasi</strong> • <small>30s permulaan permainan • +10s betul, -2s salah</small>
+                        </div>
+                    </div>
+                    <button class="game-btn" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 15px;">
+                <h4 style="color: #2E8B57; margin-bottom: 15px;">🏆 Sistem Markah</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: left;">
+                    <div><strong>Permainan 1:</strong> 8 markah maksimum</div>
+                    <div><strong>Permainan 2:</strong> 5 markah maksimum</div>
+                    <div><strong>Permainan 3:</strong> 8 markah maksimum</div>
+                </div>
+                <p style="margin-top: 15px; color: #666;"><strong>Jumlah Maksimum:</strong> 21 markah • Dapatkan markah penuh untuk animasi gol istimewa! ⚽</p>
+            </div>
+        </div>
+
+        <!-- Goal Animation -->
+        <div id="goal-animation" class="goal-animation">
+            <div class="goal-text">⚽ GOL! ⚽</div>
+            <div class="fireworks" id="fireworks"></div>
+            <p style="color: white; font-size: 1.5rem; margin-top: 20px;">Skor Sempurna! Anda Cemerlang!</p>
+        </div>
+
+        <!-- Game Area -->
+        <div id="game-area" class="game-area">
+            <div class="stage-header">
+                <h2 id="stage-title">Tahap 1: Kemahiran Asas Permainan Bola Sepak</h2>
+            </div>
+
+            <div class="score-board">
+                <div>🏅 Skor Permainan: <span id="stage-score">0</span>/<span id="max-score">8</span></div>
+                <div>📊 Kemajuan: <span id="current-round">0</span>/<span id="total-rounds">8</span></div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-            </div>
-            <div class="score">
-                Skor: <span id="score">0</span> ⭐
-            </div>
-        </div>
-
-        <!-- Stage 1: Drag and Drop -->
-        <div class="stage active" id="stage1">
-            <h2 class="stage-title">🎯 Tahap 1: Kategorikan Sumber Moral</h2>
-            <div class="game-instructions">
-                📝 <strong>Arahan:</strong> Seret setiap item ke kategori yang betul - Agama atau Kepercayaan!<br>
-                💡 <strong>Cara main:</strong> Klik dan seret item → Lepaskan di kategori yang sesuai<br>
-                🔄 <strong>Untuk ubah:</strong> Seret semula item ke kategori lain atau kembali ke bawah
-            </div>
-            
-            <div class="categories">
-                <div class="category" data-category="agama">
-                    <h3>🕌 AGAMA</h3>
-                    <div class="dropped-items"></div>
-                </div>
-                <div class="category" data-category="kepercayaan">
-                    <h3>🙏 KEPERCAYAAN</h3>
-                    <div class="dropped-items"></div>
+                    <div id="progress-fill" class="progress-fill"></div>
                 </div>
             </div>
 
-            <div class="items-container" id="itemsContainer">
-                <div class="draggable-item" data-category="agama" draggable="true">Islam (Al-Quran)</div>
-                <div class="draggable-item" data-category="kepercayaan" draggable="true">Confucius (Lun Yu)</div>
-                <div class="draggable-item" data-category="agama" draggable="true">Kristian (Bible)</div>
-                <div class="draggable-item" data-category="kepercayaan" draggable="true">Taoisme (Tao Te Ching)</div>
-                <div class="draggable-item" data-category="agama" draggable="true">Buddha (Tripitaka)</div>
-                <div class="draggable-item" data-category="kepercayaan" draggable="true">Kepercayaan Orang Asli</div>
-                <div class="draggable-item" data-category="agama" draggable="true">Hindu (Bhagavad Gita)</div>
-                <div class="draggable-item" data-category="agama" draggable="true">Sikh (Sri Guru Granth Sahib)</div>
-                <div class="draggable-item" data-category="kepercayaan" draggable="true">Kepercayaan Pribumi Sabah & Sarawak</div>
+            <div class="game-stats">
+                <div class="timer" id="timer-display" style="display: none;">⏰ Masa: <span id="timer">60</span>s</div>
+                <div class="lives" id="lives-display">❤️ Nyawa: <span id="lives">3</span></div>
+                <div class="combo">🔥 Kombo: <span id="combo">0</span></div>
             </div>
 
-            <div style="text-align: center;">
-                <button class="btn" id="checkStage1">Semak Jawapan</button>
-                <button class="btn restart" id="restartStage1">Set Semula</button>
-            </div>
-        </div>
-
-        <!-- Stage 2: Word Scramble -->
-        <div class="stage" id="stage2">
-            <h2 class="stage-title">🔤 Tahap 2: Susun Huruf Norma Masyarakat</h2>
-            <div class="game-instructions">
-                🧩 <strong>Arahan:</strong> Susun huruf-huruf untuk membentuk perkataan berkaitan Norma Masyarakat!<br>
-                💡 <strong>Cara main:</strong> Klik huruf mengikut urutan yang betul → Huruf akan tersusun di kotak jawapan<br>
-                🔄 <strong>Untuk ubah:</strong> Klik huruf yang sudah dipilih untuk batalkan pilihan<br>
-                ⏭️ <strong>Nota:</strong> Selesaikan satu perkataan sebelum ke perkataan seterusnya
-            </div>
-            
-            <div class="word-scramble-container">
-                <div class="scramble-words" id="scrambleWords">
-                    <!-- Word cards will be populated by JavaScript -->
+            <!-- Stage 1: Advanced Skill Challenge -->
+            <div id="stage1-content" class="stage-content">
+                <h3>🎯 Permainan 1: Kemahiran Bola Sepak</h3>
+                <div style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <h4 style="color: #1976D2; margin: 0 0 15px 0;">📋 Arahan Permainan:</h4>
+                    <ol style="text-align: left; color: #555; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Klik "Mula Simulasi"</strong> untuk memulakan situasi permainan</li>
+                        <li><strong>Baca situasi</strong> yang ditunjukkan di padang bola sepak</li>
+                        <li><strong>Pilih kemahiran yang betul</strong> dari senarai di sebelah kiri</li>
+                        <li><strong>Ulangi untuk 8 situasi</strong> yang berbeza</li>
+                        <li><strong>Anda mempunyai 3 nyawa</strong> - berhati-hati dengan pilihan!</li>
+                    </ol>
                 </div>
                 
-                <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn" id="checkWords">Semak Jawapan</button>
-                    <button class="btn restart" id="resetWords">Set Semula</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stage 3: Rukun Negara Sorting -->
-        <div class="stage" id="stage3">
-            <h2 class="stage-title">🏆 Tahap 3: Susun Rukun Negara</h2>
-            <div class="game-instructions">
-                🔢 <strong>Arahan:</strong> Susun Rukun Negara mengikut urutan yang betul (1-5)!<br>
-                💡 <strong>Cara main:</strong> Seret item menggunakan ikon ⋮⋮ → Susun dari atas ke bawah<br>
-                🔄 <strong>Untuk ubah:</strong> Seret semula item ke kedudukan yang diingini<br>
-                ✅ <strong>Petua:</strong> Item akan bertukar warna hijau apabila berada di kedudukan yang betul
-            </div>
-            
-            <div class="sorting-container">
-                <div class="rukun-items" id="rukunItems">
-                    <div class="rukun-item" data-order="5">
-                        <span>Kesopanan dan Kesusilaan</span>
-                        <div class="drag-handle">⋮⋮</div>
+                <div class="skill-challenge">
+                    <div class="skills-panel">
+                        <h4>Kemahiran Tersedia</h4>
+                        <div id="skills-list"></div>
                     </div>
-                    <div class="rukun-item" data-order="1">
-                        <span>Kepercayaan kepada Tuhan</span>
-                        <div class="drag-handle">⋮⋮</div>
-                    </div>
-                    <div class="rukun-item" data-order="3">
-                        <span>Keluhuran Perlembagaan</span>
-                        <div class="drag-handle">⋮⋮</div>
-                    </div>
-                    <div class="rukun-item" data-order="4">
-                        <span>Kedaulatan Undang-Undang</span>
-                        <div class="drag-handle">⋮⋮</div>
-                    </div>
-                    <div class="rukun-item" data-order="2">
-                        <span>Kesetiaan kepada Raja dan Negara</span>
-                        <div class="drag-handle">⋮⋮</div>
-                    </div>
-                </div>
-                <div style="text-align: center;">
-                    <button class="btn" id="checkOrder">Semak Susunan</button>
-                    <button class="btn restart" id="shuffleItems">Kacau Semula</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Score Reveal Page -->
-        <div class="stage" id="scoreReveal">
-            <h2 class="stage-title">🏆 Keputusan Akhir</h2>
-            
-            <div class="score-reveal-container">
-                <div class="final-score-card">
-                    <div class="score-icon">🌟</div>
-                    <h3>Skor Akhir Anda</h3>
-                    <div class="final-score-number" id="finalScoreNumber">0</div>
-                    <div class="score-breakdown">
-                        <div class="breakdown-item">
-                            <span>Tahap 1 - Kategorikan:</span>
-                            <span id="stage1Points">0 mata</span>
+                    
+                    <div class="football-field">
+                        <div class="field-lines">
+                            <div class="center-circle"></div>
+                            <div class="goal-left"></div>
+                            <div class="goal-right"></div>
                         </div>
-                        <div class="breakdown-item">
-                            <span>Tahap 2 - Susun Huruf:</span>
-                            <span id="stage2Points">0 mata</span>
+                        <div id="current-situation" style="position: absolute; top: 10px; left: 10px; right: 10px; background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; font-weight: bold; color: #2E8B57;">
+                            Klik "Mula" untuk memulakan simulasi!
                         </div>
-                        <div class="breakdown-item">
-                            <span>Tahap 3 - Rukun Negara:</span>
-                            <span id="stage3Points">0 mata</span>
+                        <div class="ball" id="ball" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">⚽</div>
+                    </div>
+                    
+                    <div class="functions-panel">
+                        <h4>Situasi Permainan</h4>
+                        <div id="situation-description" style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #7B1FA2;">
+                            Tunggu situasi permainan...
                         </div>
+                        <button id="start-simulation" class="start-btn" onclick="startSimulation()" style="margin: 10px 0; padding: 15px 25px; font-size: 1rem;">▶️ Mula Simulasi</button>
                     </div>
-                    <div class="performance-message" id="performanceMessage">
-                        Tahniah! Anda telah menyelesaikan semua tahap!
-                    </div>
-                    <button class="btn" id="playAgain">Main Lagi</button>
+                </div>
+            </div>
+
+            <!-- Stage 2: Timed Equipment Game -->
+            <div id="stage2-content" class="stage-content" style="display: none;">
+                <h3>🛡️ Cabaran Peralatan Keselamatan Berkelajuan!</h3>
+                <p>Pilih 5 peralatan WAJIB secepat mungkin sebelum masa tamat!</p>
+                
+                <div class="equipment-field">
+                    <div class="player-avatar" id="player-avatar">👤</div>
+                </div>
+                <div class="equipment-options" id="equipment-options"></div>
+                <div style="margin-top: 20px;">
+                    <p><strong>Dipilih:</strong> <span id="selected-count">0</span>/5 | <strong>Betul:</strong> <span id="correct-count">0</span>/5</p>
+                </div>
+            </div>
+
+            <!-- Stage 3: Ethics Scenario Game -->
+            <div id="stage3-content" class="stage-content" style="display: none;">
+                <h3>🤝 Cabaran Etika Berkelajuan</h3>
+                <div id="scenario-container"></div>
+            </div>
+
+            <!-- Stage Complete Screen -->
+            <div id="stage-complete" class="stage-complete">
+                <h3>🎉 Tahniah! Permainan Selesai! 🎉</h3>
+                <p>Skor Permainan: <span id="complete-stage-score">0</span>/<span id="complete-max-score">8</span></p>
+                <p>Masa Diambil: <span id="time-taken">0</span> saat</p>
+                <p id="stage-feedback"></p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                    <button class="next-stage-btn" onclick="backToMenu()" style="background: linear-gradient(135deg, #2E8B57, #228B22);">🏠 Kembali ke Menu</button>
+                    <button class="next-stage-btn" onclick="restartCurrentGame()" style="background: linear-gradient(135deg, #FF6B35, #F7931E);">🔄 Main Lagi</button>
                 </div>
             </div>
         </div>
 
-        <!-- Stage Completion Modal -->
-        <div class="stage-complete-modal" id="stageCompleteModal">
-            <div class="modal-content">
-                <h3 id="modalTitle">Tahap Selesai!</h3>
-                <p id="modalMessage">Anda telah berjaya menyelesaikan tahap ini!</p>
-                <div class="modal-buttons">
-                    <button class="btn" id="continueBtn">Tahap Seterusnya</button>
-                    <button class="btn restart" id="viewScoreBtn">Main Semula</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="celebration" id="celebration">
-            🎉 Tahniah! Anda telah berjaya! 🎉
+        <!-- Final Completion -->
+        <div id="final-completion" class="final-completion" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #2E8B57; padding: 40px; border-radius: 20px; display: none;">
+            <h2>🏆 TAHNIAH! JUARA BOLA SEPAK! 🏆</h2>
+            <p>Anda telah menyelesaikan semua 3 tahap dengan cemerlang!</p>
+            <p><strong>Jumlah Skor Akhir: <span id="final-total-score">0</span>/24</strong></p>
+            <div id="final-grade"></div>
+            <p>Anda kini seorang pemain bola sepak yang lengkap dengan kemahiran, keselamatan, dan etika yang baik!</p>
+            <button class="restart-btn" onclick="restartGame()">🔄 Main Semula</button>
         </div>
     </div>
 
     <script>
         let currentStage = 1;
-        let score = 0;
-        let stage1Complete = false;
-        let stage2Complete = false;
-        let stage3Complete = false;
-        let stage1Checked = false;
-        let stageScores = { stage1: 0, stage2: 0, stage3: 0 };
+        let stageScore = 0;
+        let totalScore = 0;
+        let gameTimer = 60;
+        let lives = 3;
+        let combo = 0;
+        let timerInterval;
+        let currentSituation = 0;
+        let simulationActive = false;
+        let selectedEquipment = [];
+        let currentScenario = 0;
+        let startTime;
 
-        // Word scramble data for Stage 2
-        const baseWords = [
-            "PERATURAN",
-            "UNDANG-UNDANG", 
-            "PANTANG LARANG",
-            "ADAT RESAM MASYARAKAT"
+        const stage1Situations = [
+            {
+                description: "Bola datang dari udara ke arah anda dengan kelajuan tinggi",
+                correctSkill: "Menanduk",
+                ballPosition: {top: "20%", left: "60%"},
+                situation: "Bola lambung tinggi menuju ke arah anda!"
+            },
+            {
+                description: "Lawan cuba merampas bola dari kaki anda",
+                correctSkill: "Mengelecek", 
+                ballPosition: {top: "60%", left: "40%"},
+                situation: "Lawan menghampiri untuk tackle!"
+            },
+            {
+                description: "Rakan sepasukan berada di kedudukan baik untuk menerima umpan",
+                correctSkill: "Menghantar",
+                ballPosition: {top: "70%", left: "30%"},
+                situation: "Rakan anda dalam kedudukan terbuka!"
+            },
+            {
+                description: "Bola melantun di hadapan anda dan perlu dikawal",
+                correctSkill: "Menyerkap",
+                ballPosition: {top: "50%", left: "70%"},
+                situation: "Bola longgar di hadapan anda!"
+            },
+            {
+                description: "Lawan memegang bola dan anda perlu merebutnya",
+                correctSkill: "Takel",
+                ballPosition: {top: "40%", left: "80%"},
+                situation: "Lawan membawa bola menghampiri!"
+            },
+            {
+                description: "Anda berada di kotak penalti dengan peluang menjaringkan gol",
+                correctSkill: "Menanduk",
+                ballPosition: {top: "30%", left: "85%"},
+                situation: "Peluang gol dari sepakan sudut!"
+            },
+            {
+                description: "Bola perlu dihantar jauh ke hadapan untuk serangan balas",
+                correctSkill: "Menghantar",
+                ballPosition: {top: "80%", left: "20%"},
+                situation: "Peluang serangan balas pantas!"
+            },
+            {
+                description: "Anda perlu mengelak dari dua orang pemain lawan",
+                correctSkill: "Mengelecek",
+                ballPosition: {top: "45%", left: "55%"},
+                situation: "Dikepung oleh dua pemain lawan!"
+            }
         ];
 
-        let scrambleWords = [];
+        const skillsData = [
+            "Menghantar", "Menyerkap", "Menanduk", "Mengelecek", "Takel"
+        ];
 
-        function generateScrambledWords() {
-            scrambleWords = baseWords.map(word => {
-                // Create array of characters
-                let chars = word.split('');
-                
-                // Shuffle the characters randomly
-                for (let i = chars.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [chars[i], chars[j]] = [chars[j], chars[i]];
-                }
-                
-                // Make sure it's actually scrambled (not the same as original)
-                let scrambled = chars.join('');
-                let attempts = 0;
-                while (scrambled === word && attempts < 10) {
-                    for (let i = chars.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [chars[i], chars[j]] = [chars[j], chars[i]];
-                    }
-                    scrambled = chars.join('');
-                    attempts++;
-                }
-                
-                return { word: word, scrambled: scrambled };
-            });
-        }
+        const stage2Equipment = [
+            {name: "But Bola Sepak", icon: "👟", required: true},
+            {name: "Pelapik Tulang Kering", icon: "🦵", required: true},
+            {name: "Stoking Panjang", icon: "🧦", required: true},
+            {name: "Jersi Pasukan", icon: "👕", required: true},
+            {name: "Seluar Pendek", icon: "🩳", required: true},
+            {name: "Topi Baseball", icon: "🧢", required: false},
+            {name: "Jam Tangan Pintar", icon: "⌚", required: false},
+            {name: "Sarung Tangan Penjaga Gol", icon: "🧤", required: false},
+            {name: "Kacamata Hitam", icon: "🕶️", required: false},
+            {name: "Rantai Emas", icon: "📿", required: false}
+        ];
 
-        let wordStates = {};
-
-        // Stage 1: Enhanced Drag and Drop functionality with mobile support
-        let draggedItem = null;
-        let draggedFromContainer = null;
-        let touchStartPos = { x: 0, y: 0 };
-        let isDragging = false;
-        let dragClone = null;
-
-        function initializeDragAndDrop() {
-            const allContainers = document.querySelectorAll('.category, #itemsContainer');
-            
-            allContainers.forEach(container => {
-                // Desktop events
-                container.addEventListener('dragover', handleDragOver);
-                container.addEventListener('drop', handleDrop);
-                container.addEventListener('dragenter', handleDragEnter);
-                container.addEventListener('dragleave', handleDragLeave);
-            });
-
-            updateAllItemsEventListeners();
-        }
-
-        function updateAllItemsEventListeners() {
-            const allItems = document.querySelectorAll('.draggable-item, .dropped-item');
-            allItems.forEach(item => {
-                // Remove existing listeners
-                item.removeEventListener('dragstart', handleItemDragStart);
-                item.removeEventListener('dragend', handleItemDragEnd);
-                item.removeEventListener('touchstart', handleTouchStart);
-                item.removeEventListener('touchmove', handleTouchMove);
-                item.removeEventListener('touchend', handleTouchEnd);
-                
-                // Add desktop drag listeners
-                item.addEventListener('dragstart', handleItemDragStart);
-                item.addEventListener('dragend', handleItemDragEnd);
-                
-                // Add mobile touch listeners
-                item.addEventListener('touchstart', handleTouchStart, { passive: false });
-                item.addEventListener('touchmove', handleTouchMove, { passive: false });
-                item.addEventListener('touchend', handleTouchEnd, { passive: false });
-                
-                item.draggable = !stage1Checked;
-                
-                if (!stage1Checked) {
-                    item.style.cursor = 'grab';
-                    item.style.touchAction = 'none';
-                } else {
-                    item.style.cursor = 'default';
-                    item.style.touchAction = 'auto';
-                }
-            });
-        }
-
-        // Touch event handlers for mobile
-        function handleTouchStart(e) {
-            if (stage1Checked) return;
-            
-            e.preventDefault();
-            const touch = e.touches[0];
-            touchStartPos = { x: touch.clientX, y: touch.clientY };
-            
-            draggedItem = this;
-            draggedFromContainer = this.parentElement;
-            isDragging = false;
-            
-            // Create visual feedback
-            this.style.transform = 'scale(1.05)';
-            this.style.zIndex = '1000';
-        }
-
-        function handleTouchMove(e) {
-            if (stage1Checked || !draggedItem) return;
-            
-            e.preventDefault();
-            const touch = e.touches[0];
-            const deltaX = Math.abs(touch.clientX - touchStartPos.x);
-            const deltaY = Math.abs(touch.clientY - touchStartPos.y);
-            
-            // Start dragging if moved enough
-            if (!isDragging && (deltaX > 10 || deltaY > 10)) {
-                isDragging = true;
-                draggedItem.classList.add('dragging');
-                
-                // Create a clone for visual feedback
-                dragClone = draggedItem.cloneNode(true);
-                dragClone.style.position = 'fixed';
-                dragClone.style.pointerEvents = 'none';
-                dragClone.style.zIndex = '2000';
-                dragClone.style.opacity = '0.8';
-                dragClone.style.transform = 'rotate(5deg) scale(1.1)';
-                document.body.appendChild(dragClone);
+        const stage3Scenarios = [
+            {
+                situation: "Semasa permainan, lawan melakukan faul kasar dan anda terjatuh. Anda berasa marah dan ingin membalas.",
+                actions: [
+                    {text: "Bangun dan teruskan bermain dengan tenang", correct: true},
+                    {text: "Membalas dengan faul yang lebih kasar", correct: false},
+                    {text: "Marah dan menolak pemain lawan", correct: false}
+                ]
+            },
+            {
+                situation: "Pengadil membuat keputusan offside yang anda rasa salah dan merugikan pasukan anda.",
+                actions: [
+                    {text: "Menghormati keputusan dan sambung bermain", correct: true},
+                    {text: "Berteriak dan mempersoalkan pengadil", correct: false},
+                    {text: "Berhenti bermain sebagai protes", correct: false}
+                ]
+            },
+            {
+                situation: "Penonton dari pasukan lawan menjerit kata-kata kesat dan mengejek anda sepanjang permainan.",
+                actions: [
+                    {text: "Fokus pada permainan dan abaikan provokasi", correct: true},
+                    {text: "Membalas ejekan dan berteriak kepada penonton", correct: false},
+                    {text: "Meminta pengadil menghentikan permainan", correct: false}
+                ]
+            },
+            {
+                situation: "Rakan sepasukan melakukan kesilapan besar yang menyebabkan lawan menjaringkan gol kemenangan.",
+                actions: [
+                    {text: "Memberi semangat dan berkata 'Tidak mengapa'", correct: true},
+                    {text: "Memarahi dan menyalahkan rakan sepasukan", correct: false},
+                    {text: "Mengabaikan rakan dan tidak bercakap dengannya", correct: false}
+                ]
+            },
+            {
+                situation: "Anda melihat rakan sepasukan menyentuh bola dengan tangan tetapi pengadil tidak nampak.",
+                actions: [
+                    {text: "Memberitahu pengadil tentang pelanggaran tersebut", correct: true},
+                    {text: "Biarkan sahaja kerana menguntungkan pasukan", correct: false},
+                    {text: "Berpura-pura tidak nampak apa-apa", correct: false}
+                ]
+            },
+            {
+                situation: "Pasukan anda ketinggalan 2-0 dan masa hampir tamat. Rakan minta anda bermain kasar.",
+                actions: [
+                    {text: "Menolak dan teruskan bermain dengan adil", correct: true},
+                    {text: "Mengikut cadangan dan bermain kasar", correct: false},
+                    {text: "Bermain kasar tetapi pastikan pengadil tidak nampak", correct: false}
+                ]
+            },
+            {
+                situation: "Selepas permainan, pasukan lawan datang untuk berjabat tangan walaupun mereka bermain kasar tadi.",
+                actions: [
+                    {text: "Berjabat tangan dengan sportif dan hormat", correct: true},
+                    {text: "Menolak untuk berjabat tangan", correct: false},
+                    {text: "Berjabat tangan tetapi dengan kasar", correct: false}
+                ]
+            },
+            {
+                situation: "Anda tidak bersetuju dengan taktik jurulatih tetapi beliau tetap dengan keputusannya.",
+                actions: [
+                    {text: "Menghormati keputusan dan ikut arahan", correct: true},
+                    {text: "Teruskan bermain mengikut cara sendiri", correct: false},
+                    {text: "Mempersoalkan jurulatih di hadapan rakan", correct: false}
+                ]
             }
+        ];
+
+        function startGame(gameNumber = 1) {
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('game-area').classList.add('active');
             
-            if (isDragging && dragClone) {
-                // Move the clone with the finger
-                dragClone.style.left = (touch.clientX - 50) + 'px';
-                dragClone.style.top = (touch.clientY - 25) + 'px';
-                
-                // Highlight drop zones
-                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-                
-                if (elementBelow) {
-                    const dropZone = elementBelow.closest('.category, #itemsContainer');
-                    if (dropZone && dropZone !== draggedFromContainer) {
-                        dropZone.classList.add('drag-over');
-                    }
-                }
+            // Hide all game content first
+            document.getElementById('stage1-content').style.display = 'none';
+            document.getElementById('stage2-content').style.display = 'none';
+            document.getElementById('stage3-content').style.display = 'none';
+            
+            if (gameNumber === 1) {
+                initStage1();
+            } else if (gameNumber === 2) {
+                initStage2();
+            } else if (gameNumber === 3) {
+                initStage3();
             }
         }
 
-        function handleTouchEnd(e) {
-            if (stage1Checked || !draggedItem) return;
+        function initStage1() {
+            currentStage = 1;
+            stageScore = 0;
+            lives = 3;
+            combo = 0;
+            currentSituation = 0;
+            simulationActive = false;
+            startTime = Date.now();
             
-            e.preventDefault();
+            // Show Game 1 content and hide timer, show lives
+            document.getElementById('stage1-content').style.display = 'block';
+            document.getElementById('timer-display').style.display = 'none';
+            document.getElementById('lives-display').style.display = 'block';
+            document.getElementById('stage-title').textContent = 'Permainan 1: Kemahiran Bola Sepak';
             
-            // Reset visual feedback
-            draggedItem.style.transform = '';
-            draggedItem.style.zIndex = '';
-            draggedItem.classList.remove('dragging');
+            updateDisplay();
             
-            if (dragClone) {
-                dragClone.remove();
-                dragClone = null;
-            }
-            
-            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-            
-            if (isDragging) {
-                const touch = e.changedTouches[0];
-                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                const dropZone = elementBelow ? elementBelow.closest('.category, #itemsContainer') : null;
-                
-                if (dropZone && dropZone !== draggedFromContainer) {
-                    // Perform the drop
-                    const itemText = draggedItem.textContent;
-                    const itemCategory = draggedItem.dataset.category || draggedItem.dataset.originalCategory;
-                    
-                    const newItem = document.createElement('div');
-                    newItem.textContent = itemText;
-                    
-                    if (dropZone.classList.contains('category')) {
-                        newItem.className = 'dropped-item';
-                        newItem.dataset.originalCategory = itemCategory;
-                        newItem.dataset.targetCategory = dropZone.dataset.category;
-                        
-                        const droppedItems = dropZone.querySelector('.dropped-items');
-                        droppedItems.appendChild(newItem);
-                    } else if (dropZone.id === 'itemsContainer') {
-                        newItem.className = 'draggable-item';
-                        newItem.dataset.category = itemCategory;
-                        dropZone.appendChild(newItem);
-                    }
-                    
-                    draggedItem.remove();
-                    updateAllItemsEventListeners();
-                }
-            }
-            
-            draggedItem = null;
-            draggedFromContainer = null;
-            isDragging = false;
-        }
-
-        function handleItemDragStart(e) {
-            if (stage1Checked) return false;
-            
-            draggedItem = this;
-            draggedFromContainer = this.parentElement;
-            
-            this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.outerHTML);
-            
-            e.dataTransfer.setData('item-text', this.textContent);
-            e.dataTransfer.setData('item-category', this.dataset.category || this.dataset.originalCategory);
-        }
-
-        function handleItemDragEnd(e) {
-            this.classList.remove('dragging');
-            
-            document.querySelectorAll('.drag-over').forEach(el => {
-                el.classList.remove('drag-over');
-            });
-            
-            draggedItem = null;
-            draggedFromContainer = null;
-        }
-
-        function handleDragOver(e) {
-            if (stage1Checked || !draggedItem) return;
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function handleDragEnter(e) {
-            if (stage1Checked || !draggedItem) return;
-            e.preventDefault();
-            
-            if (this.classList.contains('category') || this.id === 'itemsContainer') {
-                this.classList.add('drag-over');
-            }
-        }
-
-        function handleDragLeave(e) {
-            if (!this.contains(e.relatedTarget)) {
-                this.classList.remove('drag-over');
-            }
-        }
-
-        function handleDrop(e) {
-            if (stage1Checked || !draggedItem) return;
-            
-            e.preventDefault();
-            this.classList.remove('drag-over');
-            
-            const itemText = e.dataTransfer.getData('item-text');
-            const itemCategory = e.dataTransfer.getData('item-category');
-            
-            if (this === draggedFromContainer) return;
-            
-            const newItem = document.createElement('div');
-            newItem.textContent = itemText;
-            newItem.draggable = true;
-            
-            if (this.classList.contains('category')) {
-                newItem.className = 'dropped-item';
-                newItem.dataset.originalCategory = itemCategory;
-                newItem.dataset.targetCategory = this.dataset.category;
-                
-                const droppedItems = this.querySelector('.dropped-items');
-                droppedItems.appendChild(newItem);
-            } else if (this.id === 'itemsContainer') {
-                newItem.className = 'draggable-item';
-                newItem.dataset.category = itemCategory;
-                this.appendChild(newItem);
-            }
-            
-            if (draggedItem && draggedItem.parentElement) {
-                draggedItem.remove();
-            }
-            
-            updateAllItemsEventListeners();
-        }
-
-        document.getElementById('checkStage1').addEventListener('click', checkStage1Answers);
-        document.getElementById('restartStage1').addEventListener('click', restartStage1);
-        
-        initializeDragAndDrop();
-
-        function checkStage1Answers() {
-            if (stage1Checked) return;
-            
-            stage1Checked = true;
-            let correctCount = 0;
-            let totalCount = 0;
-            
-            updateAllItemsEventListeners();
-            
-            const droppedItems = document.querySelectorAll('.dropped-item');
-            droppedItems.forEach(item => {
-                totalCount++;
-                const isCorrect = item.dataset.originalCategory === item.dataset.targetCategory;
-                
-                if (isCorrect) {
-                    item.classList.add('correct');
-                    correctCount++;
-                } else {
-                    item.classList.add('incorrect');
-                }
-            });
-            
-            const points = correctCount * 10;
-            updateScore(points);
-            stageScores.stage1 = points;
-            
-            const percentage = Math.round((correctCount / totalCount) * 100);
-            showCelebration(`Keputusan: ${correctCount}/${totalCount} betul (${percentage}%)`);
-            
-            document.getElementById('checkStage1').style.display = 'none';
-            
-            if (correctCount === totalCount) {
-                setTimeout(() => {
-                    stage1Complete = true;
-                    showStageCompleteModal('Tahap 1 Selesai!', `Anda berjaya kategorikan semua item dengan betul! Skor: ${correctCount}/${totalCount}`);
-                }, 2000);
-            }
-        }
-
-        function restartStage1() {
-            stage1Checked = false;
-            
-            const droppedContainers = document.querySelectorAll('.dropped-items');
-            droppedContainers.forEach(container => {
-                container.innerHTML = '';
-            });
-            
-            const originalItems = [
-                { text: "Islam (Al-Quran)", category: "agama" },
-                { text: "Kristian (Bible)", category: "agama" },
-                { text: "Buddha (Tripitaka)", category: "agama" },
-                { text: "Hindu (Bhagavad Gita)", category: "agama" },
-                { text: "Sikh (Sri Guru Granth Sahib)", category: "agama" },
-                { text: "Confucius (Lun Yu)", category: "kepercayaan" },
-                { text: "Taoisme (Tao Te Ching)", category: "kepercayaan" },
-                { text: "Kepercayaan Orang Asli", category: "kepercayaan" },
-                { text: "Kepercayaan Pribumi Sabah & Sarawak", category: "kepercayaan" }
-            ];
-            
-            // Shuffle the items randomly
-            for (let i = originalItems.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [originalItems[i], originalItems[j]] = [originalItems[j], originalItems[i]];
-            }
-            
-            const itemsContainer = document.getElementById('itemsContainer');
-            itemsContainer.innerHTML = '';
-            
-            originalItems.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'draggable-item';
-                div.setAttribute('data-category', item.category);
-                div.setAttribute('draggable', 'true');
-                div.textContent = item.text;
-                itemsContainer.appendChild(div);
-            });
-            
-            updateAllItemsEventListeners();
-            
-            document.getElementById('checkStage1').style.display = 'inline-block';
-            document.getElementById('restartStage1').style.display = 'none';
-        }
-
-        // Initialize Stage 1 with random order
-        function initializeStage1() {
-            restartStage1();
-        }
-
-        // Stage 2: Word Scramble functionality - One by one
-        let currentWordIndex = 0;
-        let stage2WordsCompleted = 0;
-
-        function setupStage2() {
-            // Generate new scrambled words each time
-            generateScrambledWords();
-            
-            const scrambleContainer = document.getElementById('scrambleWords');
-            scrambleContainer.innerHTML = '';
-            wordStates = {};
-            currentWordIndex = 0;
-            stage2WordsCompleted = 0;
-            
-            // Initialize all word states
-            scrambleWords.forEach((wordData, index) => {
-                wordStates[index] = {
-                    selectedLetters: [],
-                    isComplete: false
-                };
-            });
-            
-            // Show first word
-            showCurrentWord();
-            
-            document.getElementById('checkWords').addEventListener('click', checkCurrentWord);
-            document.getElementById('resetWords').addEventListener('click', resetCurrentWord);
-        }
-
-        function showCurrentWord() {
-            const scrambleContainer = document.getElementById('scrambleWords');
-            const wordData = scrambleWords[currentWordIndex];
-            
-            scrambleContainer.innerHTML = `
-                <div class="word-card">
-                    <div class="word-title">Perkataan ${currentWordIndex + 1} daripada ${scrambleWords.length}</div>
-                    <div class="scrambled-letters" data-word-index="${currentWordIndex}">
-                        ${wordData.scrambled.split('').map(letter => 
-                            `<div class="letter-tile" data-letter="${letter}">${letter}</div>`
-                        ).join('')}
-                    </div>
-                    <div class="answer-area" data-word-index="${currentWordIndex}"></div>
-                    <div class="word-status" data-word-index="${currentWordIndex}"></div>
-                </div>
-            `;
-            
-            // Add event listeners to letter tiles
-            document.querySelectorAll('.letter-tile').forEach(tile => {
-                tile.addEventListener('click', handleLetterClick);
-            });
-        }
-
-        function handleLetterClick(e) {
-            const tile = e.target;
-            const wordIndex = parseInt(tile.closest('.scrambled-letters').dataset.wordIndex);
-            const letter = tile.dataset.letter;
-            
-            if (tile.classList.contains('selected')) {
-                // Remove letter from answer
-                tile.classList.remove('selected');
-                const letterIndex = wordStates[wordIndex].selectedLetters.indexOf(letter);
-                if (letterIndex > -1) {
-                    wordStates[wordIndex].selectedLetters.splice(letterIndex, 1);
-                }
-            } else {
-                // Add letter to answer
-                tile.classList.add('selected');
-                wordStates[wordIndex].selectedLetters.push(letter);
-            }
-            
-            updateAnswerArea(wordIndex);
-        }
-
-        function handleAnswerLetterClick(e) {
-            const answerTile = e.target;
-            const wordIndex = currentWordIndex;
-            const letterIndex = parseInt(answerTile.dataset.index);
-            const letter = answerTile.dataset.letter;
-            
-            // Remove the letter from selected letters array
-            wordStates[wordIndex].selectedLetters.splice(letterIndex, 1);
-            
-            // Find and unselect the corresponding letter in scrambled letters
-            const scrambledLetters = document.querySelectorAll('.scrambled-letters .letter-tile');
-            let foundTile = null;
-            
-            // Find the first selected tile with matching letter
-            for (let tile of scrambledLetters) {
-                if (tile.dataset.letter === letter && tile.classList.contains('selected')) {
-                    foundTile = tile;
-                    break;
-                }
-            }
-            
-            if (foundTile) {
-                foundTile.classList.remove('selected');
-            }
-            
-            updateAnswerArea(wordIndex);
-        }
-
-        function updateAnswerArea(wordIndex) {
-            const answerArea = document.querySelector(`[data-word-index="${wordIndex}"].answer-area`);
-            const selectedLetters = wordStates[wordIndex].selectedLetters;
-            
-            answerArea.innerHTML = selectedLetters.map((letter, index) => 
-                `<div class="letter-tile selected answer-letter" data-letter="${letter}" data-index="${index}">${letter}</div>`
+            const skillsList = document.getElementById('skills-list');
+            skillsList.innerHTML = skillsData.map((skill, index) => 
+                `<div class="skill-item" onclick="selectSkill('${skill}')" data-skill="${skill}">${skill}</div>`
             ).join('');
             
-            // Add click listeners to answer letters for removal
-            answerArea.querySelectorAll('.answer-letter').forEach(tile => {
-                tile.addEventListener('click', handleAnswerLetterClick);
+            document.getElementById('start-simulation').style.display = 'block';
+        }
+
+        function startSimulation() {
+            if (currentSituation >= stage1Situations.length) {
+                completeStage();
+                return;
+            }
+            
+            simulationActive = true;
+            document.getElementById('start-simulation').style.display = 'none';
+            
+            const situation = stage1Situations[currentSituation];
+            document.getElementById('current-situation').textContent = situation.situation;
+            document.getElementById('situation-description').textContent = situation.description;
+            
+            // Animate ball to position
+            const ball = document.getElementById('ball');
+            ball.style.top = situation.ballPosition.top;
+            ball.style.left = situation.ballPosition.left;
+            
+            // Reset skill items
+            document.querySelectorAll('.skill-item').forEach(item => {
+                item.classList.remove('selected', 'correct', 'wrong');
+            });
+        }
+
+        function selectSkill(skillName) {
+            if (!simulationActive || gameTimer <= 0 || lives <= 0) return;
+            
+            const situation = stage1Situations[currentSituation];
+            const skillElement = document.querySelector(`[data-skill="${skillName}"]`);
+            
+            // Clear previous selections
+            document.querySelectorAll('.skill-item').forEach(item => {
+                item.classList.remove('selected');
             });
             
-            if (selectedLetters.length > 0) {
-                answerArea.classList.add('has-letters');
-            } else {
-                answerArea.classList.remove('has-letters');
-            }
-        }
-
-        function checkCurrentWord() {
-            const wordData = scrambleWords[currentWordIndex];
-            const userAnswer = wordStates[currentWordIndex].selectedLetters.join('');
-            const correctAnswer = wordData.word;
-            const statusElement = document.querySelector(`[data-word-index="${currentWordIndex}"].word-status`);
-            
-            if (userAnswer === correctAnswer) {
-                statusElement.textContent = `✅ Betul! ${correctAnswer}`;
-                statusElement.classList.add('correct');
-                wordStates[currentWordIndex].isComplete = true;
-                updateScore(25);
-                stageScores.stage2 += 25;
-                stage2WordsCompleted++;
-                
-                // Check if this was the last word
-                if (stage2WordsCompleted === scrambleWords.length) {
-                    setTimeout(() => {
-                        stage2Complete = true;
-                        showStageCompleteModal('Tahap 2 Selesai!', `Anda berjaya susun semua ${scrambleWords.length} perkataan dengan betul!`);
-                    }, 1500);
-                } else {
-                    // Show next word after a delay
-                    setTimeout(() => {
-                        currentWordIndex++;
-                        showCurrentWord();
-                    }, 2000);
-                }
-            } else {
-                statusElement.textContent = `❌ Cuba lagi! Susun semula huruf-huruf.`;
-                statusElement.classList.remove('correct');
-            }
-        }
-
-        function resetCurrentWord() {
-            // Reset current word state
-            wordStates[currentWordIndex] = {
-                selectedLetters: [],
-                isComplete: false
-            };
-            
-            // Clear UI
-            document.querySelectorAll('.letter-tile').forEach(tile => {
-                tile.classList.remove('selected');
-            });
-            
-            const answerArea = document.querySelector(`[data-word-index="${currentWordIndex}"].answer-area`);
-            answerArea.innerHTML = '';
-            answerArea.classList.remove('has-letters');
-            
-            const statusElement = document.querySelector(`[data-word-index="${currentWordIndex}"].word-status`);
-            statusElement.textContent = '';
-            statusElement.classList.remove('correct');
-        }
-
-        // Stage 3: Rukun Negara sorting with mobile support
-        let draggedElement = null;
-        let rukunTouchStartPos = { x: 0, y: 0 };
-        let rukunIsDragging = false;
-        let rukunDragClone = null;
-
-        function setupStage3() {
-            const rukunItems = document.querySelectorAll('.rukun-item');
-            
-            rukunItems.forEach(item => {
-                // Desktop drag events
-                item.addEventListener('dragstart', handleRukunDragStart);
-                item.addEventListener('dragover', handleRukunDragOver);
-                item.addEventListener('drop', handleRukunDrop);
-                item.addEventListener('dragend', handleRukunDragEnd);
-                
-                // Mobile touch events
-                item.addEventListener('touchstart', handleRukunTouchStart, { passive: false });
-                item.addEventListener('touchmove', handleRukunTouchMove, { passive: false });
-                item.addEventListener('touchend', handleRukunTouchEnd, { passive: false });
-                
-                item.draggable = true;
-                item.style.touchAction = 'none';
-            });
-
-            document.getElementById('checkOrder').addEventListener('click', checkRukunOrder);
-            document.getElementById('shuffleItems').addEventListener('click', shuffleRukunItems);
-        }
-
-        // Desktop drag handlers
-        function handleRukunDragStart(e) {
-            draggedElement = this;
-            this.style.opacity = '0.5';
-        }
-
-        function handleRukunDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleRukunDrop(e) {
-            e.preventDefault();
-            if (this !== draggedElement) {
-                const container = this.parentNode;
-                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
-                const targetIndex = Array.from(container.children).indexOf(this);
-                
-                if (draggedIndex < targetIndex) {
-                    container.insertBefore(draggedElement, this.nextSibling);
-                } else {
-                    container.insertBefore(draggedElement, this);
-                }
-            }
-        }
-
-        function handleRukunDragEnd(e) {
-            this.style.opacity = '1';
-            draggedElement = null;
-        }
-
-        // Mobile touch handlers for Rukun Negara
-        function handleRukunTouchStart(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            rukunTouchStartPos = { x: touch.clientX, y: touch.clientY };
-            
-            draggedElement = this;
-            rukunIsDragging = false;
-            
-            // Visual feedback
-            this.style.transform = 'scale(1.02)';
-            this.style.zIndex = '1000';
-        }
-
-        function handleRukunTouchMove(e) {
-            if (!draggedElement) return;
-            
-            e.preventDefault();
-            const touch = e.touches[0];
-            const deltaX = Math.abs(touch.clientX - rukunTouchStartPos.x);
-            const deltaY = Math.abs(touch.clientY - rukunTouchStartPos.y);
-            
-            // Start dragging if moved enough
-            if (!rukunIsDragging && (deltaX > 15 || deltaY > 15)) {
-                rukunIsDragging = true;
-                
-                // Create visual clone
-                rukunDragClone = draggedElement.cloneNode(true);
-                rukunDragClone.style.position = 'fixed';
-                rukunDragClone.style.pointerEvents = 'none';
-                rukunDragClone.style.zIndex = '2000';
-                rukunDragClone.style.opacity = '0.8';
-                rukunDragClone.style.transform = 'rotate(2deg) scale(1.05)';
-                rukunDragClone.style.width = draggedElement.offsetWidth + 'px';
-                document.body.appendChild(rukunDragClone);
-                
-                draggedElement.style.opacity = '0.3';
-            }
-            
-            if (rukunIsDragging && rukunDragClone) {
-                // Move clone with finger
-                rukunDragClone.style.left = (touch.clientX - rukunDragClone.offsetWidth / 2) + 'px';
-                rukunDragClone.style.top = (touch.clientY - 30) + 'px';
-                
-                // Highlight potential drop targets
-                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                const rukunItems = document.querySelectorAll('.rukun-item');
-                
-                rukunItems.forEach(item => {
-                    item.style.borderColor = '';
-                    item.style.backgroundColor = '';
-                });
-                
-                if (elementBelow) {
-                    const targetItem = elementBelow.closest('.rukun-item');
-                    if (targetItem && targetItem !== draggedElement) {
-                        targetItem.style.borderColor = '#9333ea';
-                        targetItem.style.backgroundColor = 'rgba(147, 51, 234, 0.1)';
-                    }
-                }
-            }
-        }
-
-        function handleRukunTouchEnd(e) {
-            if (!draggedElement) return;
-            
-            e.preventDefault();
-            
-            // Reset visual feedback
-            draggedElement.style.transform = '';
-            draggedElement.style.zIndex = '';
-            draggedElement.style.opacity = '1';
-            
-            if (rukunDragClone) {
-                rukunDragClone.remove();
-                rukunDragClone = null;
-            }
-            
-            // Reset all item styles
-            const rukunItems = document.querySelectorAll('.rukun-item');
-            rukunItems.forEach(item => {
-                item.style.borderColor = '';
-                item.style.backgroundColor = '';
-            });
-            
-            if (rukunIsDragging) {
-                const touch = e.changedTouches[0];
-                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                const targetItem = elementBelow ? elementBelow.closest('.rukun-item') : null;
-                
-                if (targetItem && targetItem !== draggedElement) {
-                    // Perform the reorder
-                    const container = draggedElement.parentNode;
-                    const draggedIndex = Array.from(container.children).indexOf(draggedElement);
-                    const targetIndex = Array.from(container.children).indexOf(targetItem);
-                    
-                    if (draggedIndex < targetIndex) {
-                        container.insertBefore(draggedElement, targetItem.nextSibling);
-                    } else {
-                        container.insertBefore(draggedElement, targetItem);
-                    }
-                }
-            }
-            
-            draggedElement = null;
-            rukunIsDragging = false;
-        }
-
-        function checkRukunOrder() {
-            const items = document.querySelectorAll('.rukun-item');
-            let correct = true;
-            
-            items.forEach((item, index) => {
-                const expectedOrder = index + 1;
-                const actualOrder = parseInt(item.dataset.order);
-                
-                if (actualOrder === expectedOrder) {
-                    item.classList.add('correct-position');
-                } else {
-                    item.classList.remove('correct-position');
-                    correct = false;
-                }
-            });
-            
-            if (correct) {
-                updateScore(50);
-                stageScores.stage3 = 50;
-                stage3Complete = true;
-                createConfetti();
-                setTimeout(() => {
-                    showStageCompleteModal('Semua Tahap Selesai!', 'Tahniah! Anda telah berjaya menyusun Rukun Negara dengan betul!');
-                }, 1000);
-            } else {
-                showCelebration('Cuba lagi! Susunan belum betul. 🤔');
-            }
-        }
-
-        function shuffleRukunItems() {
-            const container = document.getElementById('rukunItems');
-            const items = Array.from(container.children);
-            
-            items.forEach(item => item.classList.remove('correct-position'));
-            
-            // Shuffle multiple times for better randomization
-            for (let shuffle = 0; shuffle < 3; shuffle++) {
-                for (let i = items.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [items[i], items[j]] = [items[j], items[i]];
-                }
-            }
-            
-            // Clear container and re-add shuffled items
-            container.innerHTML = '';
-            items.forEach(item => container.appendChild(item));
-        }
-
-        // Utility functions
-        function updateScore(points) {
-            score += points;
-            document.getElementById('score').textContent = score;
-        }
-
-        function updateProgress() {
-            const progress = (currentStage - 1) * 33.33;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        function showStageCompleteModal(title, message) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalMessage').textContent = message;
-            document.getElementById('stageCompleteModal').style.display = 'flex';
-            
-            // Update button text based on stage
-            const continueBtn = document.getElementById('continueBtn');
-            const viewScoreBtn = document.getElementById('viewScoreBtn');
-            
-            if (currentStage < 3) {
-                continueBtn.textContent = 'Tahap Seterusnya';
-                viewScoreBtn.textContent = 'Main Semula';
-                
-                continueBtn.onclick = () => {
-                    document.getElementById('stageCompleteModal').style.display = 'none';
-                    nextStage();
-                };
-                
-                viewScoreBtn.onclick = () => {
-                    document.getElementById('stageCompleteModal').style.display = 'none';
-                    location.reload();
-                };
-            } else {
-                continueBtn.textContent = 'Lihat Skor';
-                viewScoreBtn.textContent = 'Main Semula';
-                
-                continueBtn.onclick = () => {
-                    document.getElementById('stageCompleteModal').style.display = 'none';
-                    showScoreReveal();
-                };
-                
-                viewScoreBtn.onclick = () => {
-                    document.getElementById('stageCompleteModal').style.display = 'none';
-                    location.reload();
-                };
-            }
-        }
-
-        function nextStage() {
-            document.querySelector('.stage.active').classList.remove('active');
-            currentStage++;
-            
-            if (currentStage <= 3) {
-                document.getElementById(`stage${currentStage}`).classList.add('active');
-                updateProgress();
-                
-                if (currentStage === 2) {
-                    setupStage2();
-                } else if (currentStage === 3) {
-                    setupStage3();
-                    shuffleRukunItems();
-                }
-            }
-        }
-
-        function showScoreReveal() {
-            document.querySelector('.stage.active').classList.remove('active');
-            document.getElementById('scoreReveal').classList.add('active');
-            
-            // Set progress to 100% when showing final score
-            document.getElementById('progressFill').style.width = '100%';
-            
-            document.getElementById('finalScoreNumber').textContent = score;
-            document.getElementById('stage1Points').textContent = `${stageScores.stage1} mata`;
-            document.getElementById('stage2Points').textContent = `${stageScores.stage2} mata`;
-            document.getElementById('stage3Points').textContent = `${stageScores.stage3} mata`;
-            
-            let message = '';
-            if (score >= 300) {
-                message = '🏆 Cemerlang! Anda seorang pakar Sumber Moral!';
-            } else if (score >= 250) {
-                message = '🌟 Bagus sekali! Pengetahuan anda sangat baik!';
-            } else if (score >= 200) {
-                message = '👍 Baik! Teruskan usaha untuk lebih baik!';
-            } else {
-                message = '💪 Cuba lagi untuk meningkatkan skor anda!';
-            }
-            document.getElementById('performanceMessage').textContent = message;
-            
-            document.getElementById('playAgain').onclick = () => {
-                location.reload();
-            };
-        }
-
-        function showCelebration(message) {
-            const celebration = document.getElementById('celebration');
-            celebration.textContent = message;
-            celebration.style.display = 'block';
+            skillElement.classList.add('selected');
             
             setTimeout(() => {
-                celebration.style.display = 'none';
+                if (skillName === situation.correctSkill) {
+                    skillElement.classList.add('correct');
+                    stageScore++;
+                    combo++;
+                    
+                    // Animate ball to goal for correct answer
+                    const ball = document.getElementById('ball');
+                    ball.style.top = '50%';
+                    ball.style.right = '10px';
+                    ball.style.left = 'auto';
+                    
+                    setTimeout(() => {
+                        currentSituation++;
+                        simulationActive = false;
+                        
+                        if (currentSituation < stage1Situations.length) {
+                            document.getElementById('start-simulation').style.display = 'block';
+                            document.getElementById('current-situation').textContent = 'Klik "Mula" untuk situasi seterusnya!';
+                            document.getElementById('situation-description').textContent = 'Tunggu situasi permainan...';
+                            
+                            // Reset ball position
+                            ball.style.top = '50%';
+                            ball.style.left = '50%';
+                            ball.style.right = 'auto';
+                        } else {
+                            completeStage();
+                        }
+                    }, 1500);
+                } else {
+                    skillElement.classList.add('wrong');
+                    lives--;
+                    combo = 0;
+                    
+                    if (lives <= 0) {
+                        gameOver();
+                        return;
+                    }
+                    
+                    setTimeout(() => {
+                        skillElement.classList.remove('wrong', 'selected');
+                        simulationActive = true;
+                    }, 1000);
+                }
+                
+                updateDisplay();
+            }, 500);
+        }
+
+        function initStage2() {
+            currentStage = 2;
+            stageScore = 0;
+            gameTimer = 45;
+            lives = 3;
+            selectedEquipment = [];
+            startTime = Date.now();
+            
+            updateDisplay();
+            startTimer();
+            
+            // Show timer and lives for Game 2
+            document.getElementById('timer-display').style.display = 'block';
+            document.getElementById('lives-display').style.display = 'block';
+            
+            document.getElementById('stage1-content').style.display = 'none';
+            document.getElementById('stage2-content').style.display = 'block';
+            document.getElementById('stage-title').textContent = 'Permainan 2: Keselamatan Bola Sepak';
+            
+            // Shuffle equipment for challenge
+            const shuffledEquipment = [...stage2Equipment].sort(() => Math.random() - 0.5);
+            
+            const equipmentOptions = document.getElementById('equipment-options');
+            equipmentOptions.innerHTML = shuffledEquipment.map((item, index) => 
+                `<div class="equipment-item" onclick="selectEquipment(${index}, ${stage2Equipment.indexOf(item)})">
+                    <div class="equipment-icon">${item.icon}</div>
+                    <div>${item.name}</div>
+                </div>`
+            ).join('');
+        }
+
+        function selectEquipment(displayIndex, equipmentIndex) {
+            if (selectedEquipment.includes(equipmentIndex) || gameTimer <= 0) return;
+            
+            const equipmentElement = document.querySelectorAll('.equipment-item')[displayIndex];
+            const equipment = stage2Equipment[equipmentIndex];
+            
+            selectedEquipment.push(equipmentIndex);
+            equipmentElement.classList.add('selected');
+            
+            setTimeout(() => {
+                if (equipment.required) {
+                    equipmentElement.classList.add('correct');
+                    stageScore++;
+                    combo++;
+                    
+                    // Update player avatar
+                    const avatar = document.getElementById('player-avatar');
+                    avatar.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                    setTimeout(() => {
+                        avatar.style.transform = 'translate(-50%, -50%) scale(1)';
+                    }, 300);
+                } else {
+                    equipmentElement.classList.add('incorrect');
+                    lives--;
+                    combo = 0;
+                    
+                    if (lives <= 0) {
+                        gameOver();
+                        return;
+                    }
+                }
+                
+                document.getElementById('selected-count').textContent = selectedEquipment.length;
+                document.getElementById('correct-count').textContent = stageScore;
+                updateDisplay();
+                
+                if (stageScore === 5) {
+                    setTimeout(() => completeStage(), 1000);
+                }
+            }, 500);
+        }
+
+        function initStage3() {
+            currentStage = 3;
+            stageScore = 0;
+            gameTimer = 30; // Start with 30 seconds for first question
+            currentScenario = 0;
+            startTime = Date.now();
+            
+            // Show Game 3 content and timer, hide lives display
+            document.getElementById('stage3-content').style.display = 'block';
+            document.getElementById('timer-display').style.display = 'block';
+            document.getElementById('lives-display').style.display = 'none';
+            document.getElementById('stage-title').textContent = 'Permainan 3: Etika Sukan Bola Sepak';
+            
+            updateDisplay();
+            startTimer();
+            
+            loadScenario();
+        }
+
+        function loadScenario() {
+            if (currentScenario >= stage3Scenarios.length || gameTimer <= 0) {
+                completeStage();
+                return;
+            }
+            
+            const scenario = stage3Scenarios[currentScenario];
+            const container = document.getElementById('scenario-container');
+            
+            container.innerHTML = `
+                <div class="scenario-container" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: left;">
+                    <h4>⚡ Situasi Pantas ${currentScenario + 1}/8:</h4>
+                    <div class="scenario-text" style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; color: #4A148C;">${scenario.situation}</div>
+                    <p><strong>Pilih tindakan yang betul dengan pantas:</strong></p>
+                    <div class="action-buttons" style="display: grid; gap: 15px; margin-top: 20px;">
+                        ${scenario.actions.map((action, index) => 
+                            `<button class="action-btn" onclick="selectAction(${index})" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white; border: none; padding: 15px 20px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; text-align: left;">${action.text}</button>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAction(actionIndex) {
+            const scenario = stage3Scenarios[currentScenario];
+            const buttons = document.querySelectorAll('.action-btn');
+            
+            // Stop current timer
+            clearInterval(timerInterval);
+            
+            buttons.forEach((btn, index) => {
+                btn.style.pointerEvents = 'none';
+                if (scenario.actions[index].correct) {
+                    btn.style.background = 'linear-gradient(135deg, #4CAF50, #388E3C)';
+                } else if (index === actionIndex && !scenario.actions[index].correct) {
+                    btn.style.background = 'linear-gradient(135deg, #F44336, #D32F2F)';
+                }
+            });
+            
+            if (scenario.actions[actionIndex].correct) {
+                stageScore++;
+                combo++;
+                // Add 10 seconds for next question (but don't exceed 60 seconds)
+                gameTimer = Math.min(gameTimer + 10, 60);
+            } else {
+                combo = 0;
+                // Subtract 2 seconds for next question (but don't go below 5 seconds)
+                gameTimer = Math.max(gameTimer - 2, 5);
+            }
+            
+            updateDisplay();
+            
+            setTimeout(() => {
+                currentScenario++;
+                if (currentScenario < stage3Scenarios.length) {
+                    // Reset timer to calculated time for next question
+                    gameTimer = currentScenario === 0 ? 30 : gameTimer; // First question always 30s
+                    document.getElementById('timer').textContent = gameTimer;
+                    
+                    // Reset timer styling
+                    document.querySelector('.timer').style.background = 'linear-gradient(135deg, #FF6B35, #F7931E)';
+                    document.querySelector('.timer').style.animation = 'none';
+                    
+                    startTimer();
+                }
+                loadScenario();
+            }, 2000);
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                gameTimer--;
+                document.getElementById('timer').textContent = gameTimer;
+                
+                if (gameTimer <= 10) {
+                    document.querySelector('.timer').style.background = 'linear-gradient(135deg, #F44336, #D32F2F)';
+                    document.querySelector('.timer').style.animation = 'pulse 1s infinite';
+                }
+                
+                if (gameTimer <= 0) {
+                    gameOver();
+                }
+            }, 1000);
+        }
+
+        function updateDisplay() {
+            document.getElementById('stage-score').textContent = stageScore;
+            document.getElementById('lives').textContent = lives;
+            document.getElementById('combo').textContent = combo;
+            
+            const livesDisplay = document.getElementById('lives-display');
+            if (lives <= 1) {
+                livesDisplay.classList.add('danger');
+            } else {
+                livesDisplay.classList.remove('danger');
+            }
+            
+            // Update max score and rounds based on current game
+            let maxScore, totalRounds, currentRound;
+            if (currentStage === 1) {
+                maxScore = 8;
+                totalRounds = 8;
+                currentRound = currentSituation;
+            } else if (currentStage === 2) {
+                maxScore = 5;
+                totalRounds = 5;
+                currentRound = selectedEquipment.length;
+            } else {
+                maxScore = 8;
+                totalRounds = 8;
+                currentRound = currentScenario;
+            }
+            
+            document.getElementById('max-score').textContent = maxScore;
+            document.getElementById('total-rounds').textContent = totalRounds;
+            document.getElementById('current-round').textContent = currentRound;
+            
+            let progress = (currentRound / totalRounds) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        function completeStage() {
+            clearInterval(timerInterval);
+            
+            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('complete-stage-score').textContent = stageScore;
+            document.getElementById('time-taken').textContent = timeTaken;
+            
+            let maxScore = currentStage === 1 ? 8 : currentStage === 2 ? 5 : 8;
+            document.getElementById('complete-max-score').textContent = maxScore;
+            
+            // Show goal animation for perfect score
+            if (stageScore === maxScore) {
+                showGoalAnimation();
+                setTimeout(() => {
+                    document.getElementById('stage-complete').classList.add('show');
+                }, 3000);
+            } else {
+                document.getElementById('stage-complete').classList.add('show');
+            }
+            
+            let feedback = '';
+            if (stageScore === maxScore) feedback = '🌟 SEMPURNA! Prestasi yang luar biasa!';
+            else if (stageScore >= maxScore * 0.75) feedback = '👍 BAGUS! Prestasi yang baik!';
+            else if (stageScore >= maxScore * 0.5) feedback = '💪 BOLEH! Teruskan usaha!';
+            else feedback = '📚 Cuba lagi! Anda pasti boleh buat lebih baik!';
+            
+            document.getElementById('stage-feedback').textContent = feedback;
+            updateDisplay();
+        }
+
+        function backToMenu() {
+            clearInterval(timerInterval);
+            document.getElementById('game-area').classList.remove('active');
+            document.getElementById('stage-complete').classList.remove('show');
+            document.getElementById('intro-screen').style.display = 'block';
+            
+            // Reset all content visibility
+            document.getElementById('stage1-content').style.display = 'block';
+            document.getElementById('stage2-content').style.display = 'none';
+            document.getElementById('stage3-content').style.display = 'none';
+            document.getElementById('timer-display').style.display = 'none';
+        }
+
+        function restartCurrentGame() {
+            document.getElementById('stage-complete').classList.remove('show');
+            
+            if (currentStage === 1) {
+                initStage1();
+            } else if (currentStage === 2) {
+                initStage2();
+            } else if (currentStage === 3) {
+                initStage3();
+            }
+        }
+
+        function showGoalAnimation() {
+            const goalAnimation = document.getElementById('goal-animation');
+            const fireworks = document.getElementById('fireworks');
+            
+            goalAnimation.classList.add('show');
+            
+            // Create fireworks
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.background = ['#FFD700', '#FF6B35', '#4CAF50', '#2196F3', '#9C27B0'][Math.floor(Math.random() * 5)];
+                    fireworks.appendChild(firework);
+                    
+                    setTimeout(() => firework.remove(), 2000);
+                }, i * 100);
+            }
+            
+            setTimeout(() => {
+                goalAnimation.classList.remove('show');
             }, 3000);
         }
 
-        function createConfetti() {
-            for (let i = 0; i < 80; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.backgroundColor = ['#ffd700', '#ff6b9d', '#74b9ff', '#00d4aa', '#a29bfe'][Math.floor(Math.random() * 5)];
-                    confetti.style.animationDelay = Math.random() * 2 + 's';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 5000);
-                }, i * 30);
+        function gameOver() {
+            clearInterval(timerInterval);
+            alert('Permainan Tamat! Masa atau nyawa telah habis. Cuba lagi!');
+            restartGame();
+        }
+
+        function nextStage() {
+            document.getElementById('stage-complete').classList.remove('show');
+            
+            if (currentStage === 1) {
+                initStage2();
+            } else if (currentStage === 2) {
+                initStage3();
+            } else {
+                showFinalCompletion();
             }
         }
 
-        // Initialize
-        updateProgress();
-        initializeStage1();
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850d76b20789928',t:'MTc1ODg2OTU3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+        function showFinalCompletion() {
+            document.getElementById('game-area').classList.remove('active');
+            document.getElementById('final-completion').style.display = 'block';
+            document.getElementById('final-total-score').textContent = totalScore;
+            
+            let grade = '';
+            if (totalScore >= 20) grade = '🏆 JUARA DUNIA! Anda seorang pemain bola sepak yang sempurna!';
+            else if (totalScore >= 16) grade = '🥈 CEMERLANG! Prestasi yang sangat baik!';
+            else if (totalScore >= 12) grade = '🥉 BAGUS! Anda mempunyai asas yang kukuh!';
+            else grade = '📚 Teruskan berlatih! Anda pasti akan menjadi lebih baik!';
+            
+            document.getElementById('final-grade').innerHTML = `<h3>${grade}</h3>`;
+        }
 
+        function restartGame() {
+            clearInterval(timerInterval);
+            currentStage = 1;
+            stageScore = 0;
+            totalScore = 0;
+            gameTimer = 60;
+            lives = 3;
+            combo = 0;
+            currentSituation = 0;
+            simulationActive = false;
+            selectedEquipment = [];
+            currentScenario = 0;
+            
+            document.getElementById('final-completion').style.display = 'none';
+            document.getElementById('intro-screen').style.display = 'block';
+            document.getElementById('game-area').classList.remove('active');
+            
+            // Reset all content visibility
+            document.getElementById('stage1-content').style.display = 'block';
+            document.getElementById('stage2-content').style.display = 'none';
+            document.getElementById('stage3-content').style.display = 'none';
+            document.getElementById('stage-complete').classList.remove('show');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9850ff56703e5e23',t:'MTc1ODg3MTIxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
