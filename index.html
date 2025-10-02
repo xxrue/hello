@@ -2,697 +2,772 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="mobile-web-app-capable" content="yes">
-    <title>🦁Flashcard Tarian Singa🦁</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis Tanih - Kuiz Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 15px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8edea 50%, #fed6e3 75%, #ffecd2 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            min-height: 100vh;
-            overflow-x: hidden;
         }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        .soil-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
         }
-
-        .flashcard-container {
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: center;
+        
+        .soil-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
-
-        .header {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #a8edea 100%);
-            color: #2c3e50;
-            padding: 25px 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        .quiz-option {
+            transition: all 0.2s ease;
+            transform: scale(1);
         }
-
-        .header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        
+        .quiz-option:active {
+            transform: scale(0.98);
         }
-
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1rem;
+        
+        .correct {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            animation: pulse 0.5s ease-in-out;
         }
-
-        .progress-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        
+        .incorrect {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            animation: shake 0.5s ease-in-out;
         }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: 600;
-            color: #2c3e50;
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-
-        .progress-bar {
-            background: #f0f0f0;
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bounce {
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
             height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
+            background: #f39c12;
+            animation: confetti-fall 3s linear infinite;
         }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #a8edea, #fed6e3);
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.5s ease;
-            width: 0%;
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
-
-        .card-wrapper {
-            perspective: 1000px;
-            margin-bottom: 30px;
-        }
-
-        .flashcard {
-            width: 100%;
-            height: 400px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s ease;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            touch-action: manipulation;
-        }
-
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
+        
+        .floating-emoji {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            box-sizing: border-box;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            text-align: center;
+            font-size: 2rem;
+            animation: float-up 2s ease-out forwards;
+            pointer-events: none;
         }
-
-        .card-front {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #2c3e50;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #2c3e50;
-            transform: rotateY(180deg);
-        }
-
-        .card-content {
-            width: 100%;
-        }
-
-        .card-type {
-            font-size: 0.9rem;
-            font-weight: 600;
-            opacity: 0.8;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .card-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 20px;
-        }
-
-        .card-hint {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            font-style: italic;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .nav-btn {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #2c3e50;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-width: 60px;
-            min-height: 50px;
-        }
-
-        .nav-btn:hover, .nav-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .nav-btn:disabled {
-            background: #f0f0f0;
-            color: #999;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .card-counter {
-            background: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            color: #2c3e50;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .control-btn {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #2c3e50;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-        }
-
-        .control-btn:hover, .control-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .studied-indicator {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #4caf50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .studied-indicator.show {
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
             }
-            
-            .header h1 {
-                font-size: 1.6rem;
-            }
-            
-            .flashcard {
-                height: 350px;
-            }
-            
-            .card-face {
-                padding: 20px;
-            }
-            
-            .card-text {
-                font-size: 1.1rem;
-            }
-            
-            .nav-btn {
-                padding: 12px 16px;
-                font-size: 1.1rem;
-                min-width: 50px;
-            }
-            
-            .control-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
             }
         }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.4rem;
-            }
-            
-            .flashcard {
-                height: 320px;
-            }
-            
-            .card-text {
-                font-size: 1rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .control-btn {
-                width: 100%;
-            }
+        
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out;
         }
-
-        /* Touch swipe indicators */
-        .swipe-hint {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: #666;
-            opacity: 0.7;
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow-pulse 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow-pulse {
+            from { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
         }
     </style>
 </head>
-<body>
-    <div class="flashcard-container">
-        <div class="header">
-            <h1>🦁Flashcard Tarian Singa🦁</h1>
-            <p>Belajar tentang budaya dan tradisi tarian singa</p>
+<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-md lg:max-w-2xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-2 drop-shadow-lg wiggle">🌍 Jenis Tanih</h1>
+            <p class="text-white/90 text-lg">Kuiz Interaktif Pembelajaran 🎮</p>
+            <div class="mt-2 text-2xl">🎯 🏆 ⭐</div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-info">
-                <span>Kemajuan Pembelajaran</span>
-                <span id="studiedCount">0/10 dikaji</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+        <!-- Progress Bar -->
+        <div class="bg-white/20 rounded-full h-3 mb-6 backdrop-blur-sm">
+            <div id="progressBar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
         </div>
 
-        <div class="navigation">
-            <button class="nav-btn" id="prevBtn" onclick="previousCard()">‹</button>
-            <div class="card-counter">
-                <span id="cardCounter">1 / 10</span>
-            </div>
-            <button class="nav-btn" id="nextBtn" onclick="nextCard()">›</button>
-        </div>
-
-        <div class="card-wrapper" id="cardWrapper">
-            <div class="flashcard" id="flashcard" onclick="flipCard()">
-                <div class="card-face card-front">
-                    <div class="card-content">
-                        <div class="card-type">Soalan</div>
-                        <div class="card-text" id="questionText"></div>
-                        <div class="card-hint">Ketik untuk melihat jawapan</div>
-                    </div>
+        <!-- Score Display -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 mb-6 text-center glow">
+            <div class="flex justify-between items-center">
+                <div class="text-white">
+                    <span class="text-sm lg:text-base opacity-80">🏅 Skor:</span>
+                    <span id="score" class="text-2xl lg:text-3xl font-bold ml-2 text-yellow-300">0</span>
                 </div>
-                <div class="card-face card-back">
-                    <div class="card-content">
-                        <div class="card-type">Jawapan</div>
-                        <div class="card-text" id="answerText"></div>
-                        <div class="card-hint">Ketik untuk kembali ke soalan</div>
-                    </div>
+                <div class="text-white">
+                    <span class="text-sm lg:text-base opacity-80">📝 Soalan:</span>
+                    <span id="questionCounter" class="text-2xl lg:text-3xl font-bold ml-2">1/10</span>
                 </div>
-                <div class="studied-indicator" id="studiedIndicator">✓ Dikaji</div>
             </div>
-            <div class="swipe-hint">Leret kiri/kanan untuk navigasi</div>
+            <div id="streakDisplay" class="mt-2 text-sm lg:text-base text-yellow-200 hidden">
+                🔥 Streak: <span id="streakCount">0</span>
+            </div>
         </div>
 
-        <div class="controls">
-            <button class="control-btn" onclick="shuffleCards()">🔀 Kocok Kad</button>
-            <button class="control-btn" onclick="resetProgress()">🔄 Set Semula</button>
-            <button class="control-btn" onclick="markAsStudied()">✓ Tandai Dikaji</button>
+        <!-- Stage Header -->
+        <div id="stageHeader" class="bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 mb-4 text-center">
+            <div class="text-3xl lg:text-5xl mb-2" id="stageEmoji">🖤</div>
+            <h3 class="text-lg lg:text-2xl font-bold text-white" id="stageName">Tanih Chernozem</h3>
+            <p class="text-sm lg:text-base text-white/80" id="stageDescription">Tanah Subur Beriklim Sederhana</p>
+            <div class="mt-2 text-xs lg:text-sm text-white/60">
+                Tahap <span id="stageNumber">1</span> daripada 6 • Soalan <span id="questionInStage">1</span> daripada 3
+            </div>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quizContainer" class="bg-white/10 backdrop-blur-md rounded-3xl p-6 lg:p-8 shadow-2xl">
+            <div id="questionCard" class="fade-in">
+                <h2 id="questionText" class="text-xl lg:text-2xl font-semibold text-white mb-6 lg:mb-8 leading-relaxed"></h2>
+                <div id="optionsContainer" class="space-y-3 lg:space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- Next Button -->
+        <button id="nextBtn" class="w-full mt-6 bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            Soalan Seterusnya →
+        </button>
+
+        <!-- Stage Complete Modal -->
+        <div id="stageCompleteModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 max-w-sm w-full text-center">
+                <div class="text-6xl mb-4">🎊</div>
+                <h3 class="text-2xl font-bold text-white mb-2">Tahap Selesai!</h3>
+                <p id="stageCompleteText" class="text-white/80 mb-4"></p>
+                <div class="bg-white/20 rounded-xl p-3 mb-4">
+                    <p class="text-yellow-300 font-bold text-lg" id="stageScore">3/3 Betul!</p>
+                </div>
+                <button id="continueBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl">
+                    <span id="continueBtnText">Teruskan ke Tahap Seterusnya 🚀</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="hidden bg-white/10 backdrop-blur-md rounded-3xl p-6 shadow-2xl text-center">
+            <div class="text-6xl mb-4">🏆</div>
+            <h2 class="text-3xl font-bold text-white mb-4">Tahniah Selesai!</h2>
+            
+            <!-- Overall Score -->
+            <div class="bg-white/20 rounded-2xl p-4 mb-6">
+                <p class="text-white text-lg mb-2">Skor Keseluruhan:</p>
+                <p id="finalScore" class="text-4xl font-bold text-yellow-300"></p>
+                <p id="scoreMessage" class="text-white/80 mt-2"></p>
+            </div>
+
+            <!-- Stage Breakdown -->
+            <div class="bg-white/10 rounded-2xl p-4 mb-6">
+                <h3 class="text-white font-bold mb-3">📊 Prestasi Mengikut Tahap:</h3>
+                <div id="stageBreakdown" class="space-y-2 text-sm"></div>
+            </div>
+
+            <button id="restartBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95">
+                🔄 Main Semula
+            </button>
         </div>
     </div>
 
     <script>
-        const flashcards = [
+        const soilStages = [
             {
-                question: "Tarian Singa berasal daripada budaya apa?",
-                answer: "Tarian tradisional dari masyarakat Cina.",
-                icon: "🏮",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="30" r="25" fill="#ff6b6b" opacity="0.8"/>
-                    <rect x="20" y="15" width="20" height="30" fill="#ffd93d" rx="3"/>
-                    <circle cx="25" cy="25" r="3" fill="#ff6b6b"/>
-                    <circle cx="35" cy="25" r="3" fill="#ff6b6b"/>
-                    <path d="M20 35 Q30 40 40 35" stroke="#ff6b6b" stroke-width="2" fill="none"/>
-                </svg>`
+                name: "Tanih Chernozem",
+                emoji: "🖤",
+                description: "Tanah Subur Beriklim Sederhana",
+                theme: "from-gray-800 via-gray-700 to-gray-900",
+                accent: "from-yellow-400 to-amber-500",
+                questions: [
+                    {
+                        question: "🌾 Tanih chernozem membeku pada musim apa?",
+                        options: ["A) Musim Bunga", "B) Musim Panas", "C) Musim Sejuk", "D) Musim Luruh"],
+                        correct: 2,
+                        explanation: "Tanih chernozem membeku pada musim sejuk di kawasan padang rumput hawa sederhana.",
+                        emoji: "❄️"
+                    },
+                    {
+                        question: "🌱 Tumbuhan utama di kawasan tanih chernozem adalah?",
+                        options: ["A) Rumput-rumput", "B) Kaktus", "C) Pokok Pain", "D) Kulat"],
+                        correct: 0,
+                        explanation: "Kawasan ini dipenuhi rumput-rumput, bunga-bungaan dan tumbuhan renek.",
+                        emoji: "🌾"
+                    },
+                    {
+                        question: "🐺 Haiwan manakah yang hidup di kawasan tanih chernozem?",
+                        options: ["A) Penguin", "B) Unta", "C) Beruang Kutub", "D) Coyote"],
+                        correct: 3,
+                        explanation: "Coyote, saiga antelope, badger dan bobcat hidup di kawasan ini.",
+                        emoji: "🐺"
+                    }
+                ]
             },
             {
-                question: "Apakah alat muzik yang mengiringi tarian Singa?",
-                answer: "Muzik iringan ialah gendang, simbal, dan gong.",
-                icon: "🥁",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="20" cy="30" r="12" fill="#8b4513" stroke="#654321" stroke-width="2"/>
-                    <circle cx="20" cy="25" r="8" fill="#daa520"/>
-                    <circle cx="40" cy="25" r="8" fill="#ffd700" stroke="#daa520" stroke-width="2"/>
-                    <rect x="35" y="35" width="10" height="15" fill="#8b4513" rx="2"/>
-                    <circle cx="40" cy="40" r="6" fill="#daa520"/>
-                </svg>`
+                name: "Tanih Permafrost",
+                emoji: "🧊",
+                description: "Tanah Kawasan Kutub Utara",
+                theme: "from-blue-600 via-blue-700 to-blue-800",
+                accent: "from-white to-blue-100",
+                questions: [
+                    {
+                        question: "❄️ Tanih permafrost mempunyai ciri-ciri apa?",
+                        options: ["A) Membeku sepanjang tahun", "B) Panas sepanjang tahun", "C) Lembap sahaja", "D) Kering sahaja"],
+                        correct: 0,
+                        explanation: "Tanih permafrost kurang subur, sejuk dan membeku sepanjang tahun.",
+                        emoji: "🧊"
+                    },
+                    {
+                        question: "🍄 Tumbuhan yang boleh hidup di kawasan tundra adalah?",
+                        options: ["A) Pokok Kelapa", "B) Bunga Ros", "C) Liken dan Lumut", "D) Padi"],
+                        correct: 2,
+                        explanation: "Hanya tumbuhan tahan sejuk seperti liken, lumut, kulampair, willow dan birch.",
+                        emoji: "🍄"
+                    },
+                    {
+                        question: "🐻‍❄️ Haiwan Artik yang hidup di kawasan ini adalah?",
+                        options: ["A) Singa", "B) Gajah", "C) Zirafah", "D) Beruang Kutub"],
+                        correct: 3,
+                        explanation: "Beruang kutub, karibu, musang artik, arnab artik dan lemming hidup di sini.",
+                        emoji: "🐻‍❄️"
+                    }
+                ]
             },
             {
-                question: "Dalam Langkah 1 tarian Singa, apakah posisi asas penari?",
-                answer: "Berdiri dengan kedudukan bersedia dan kaki dirapatkan.",
-                icon: "🧍",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="15" r="8" fill="#ffdbac"/>
-                    <rect x="25" y="20" width="10" height="20" fill="#4a90e2" rx="2"/>
-                    <rect x="20" y="35" width="8" height="15" fill="#2c3e50" rx="1"/>
-                    <rect x="32" y="35" width="8" height="15" fill="#2c3e50" rx="1"/>
-                    <rect x="18" y="48" width="12" height="4" fill="#8b4513" rx="2"/>
-                    <rect x="30" y="48" width="12" height="4" fill="#8b4513" rx="2"/>
-                </svg>`
+                name: "Tanih Aridisols",
+                emoji: "🏜️",
+                description: "Tanah Kawasan Beriklim Panas",
+                theme: "from-yellow-400 via-orange-500 to-red-600",
+                accent: "from-yellow-300 to-orange-400",
+                questions: [
+                    {
+                        question: "🏜️ Ciri utama tanih aridisols adalah?",
+                        options: ["A) Lembap dan subur", "B) Sejuk dan beku", "C) Berair", "D) Kering dan tandus"],
+                        correct: 3,
+                        explanation: "Tanih aridisols adalah tanah yang kering dan tandus di kawasan gurun panas.",
+                        emoji: "🏜️"
+                    },
+                    {
+                        question: "🌵 Tumbuhan yang mampu hidup di gurun adalah?",
+                        options: ["A) Pokok Kaktus", "B) Bunga Orkid", "C) Rumput Biasa", "D) Semanggi"],
+                        correct: 0,
+                        explanation: "Hanya tumbuhan berakar panjang seperti kaktus, akasia dan kurma yang boleh hidup.",
+                        emoji: "🌵"
+                    },
+                    {
+                        question: "🐪 Haiwan gurun yang terkenal adalah?",
+                        options: ["A) Penguin", "B) Katak", "C) Unta", "D) Ikan"],
+                        correct: 2,
+                        explanation: "Unta, rusa gazelle, oryx, musang fennec dan tikus jerboa hidup di gurun.",
+                        emoji: "🐪"
+                    }
+                ]
             },
             {
-                question: "Apakah pergerakan utama dalam Langkah 2?",
-                answer: "Kaki kanan diangkat ke sisi dan tangan kanan menolak ke hadapan sambil menghayun kepala singa.",
-                icon: "🦵",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="25" cy="15" r="8" fill="#ffdbac"/>
-                    <rect x="20" y="20" width="10" height="15" fill="#4a90e2" rx="2"/>
-                    <rect x="15" y="30" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <rect x="35" y="25" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(30 41 29)"/>
-                    <path d="M35 20 L45 15" stroke="#ff6b6b" stroke-width="3" marker-end="url(#arrowhead)"/>
-                    <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/></marker></defs>
-                </svg>`
+                name: "Tanih Latosol",
+                emoji: "🌳",
+                description: "Tanah Kawasan Tropika Lembap",
+                theme: "from-green-400 via-emerald-500 to-green-600",
+                accent: "from-red-400 to-yellow-500",
+                questions: [
+                    {
+                        question: "🎨 Warna tanih latosol adalah?",
+                        options: ["A) Hitam", "B) Biru", "C) Merah atau Kuning", "D) Putih"],
+                        correct: 2,
+                        explanation: "Tanih latosol berwarna merah atau kuning, berpasir, liat atau lembap.",
+                        emoji: "🎨"
+                    },
+                    {
+                        question: "🌳 Kawasan tanih latosol terdapat di?",
+                        options: ["A) Hutan Hujan Tropika", "B) Gurun", "C) Kutub", "D) Pergunungan Tinggi"],
+                        correct: 0,
+                        explanation: "Tanih latosol terdapat di Hutan Hujan Tropika dan Hutan Monsun Tropika.",
+                        emoji: "🌳"
+                    },
+                    {
+                        question: "🐘 Haiwan besar yang hidup di hutan tropika adalah?",
+                        options: ["A) Penguin", "B) Beruang Kutub", "C) Unta", "D) Gajah"],
+                        correct: 3,
+                        explanation: "Gajah, harimau, beruang, kancil dan cerpelai hidup di kawasan ini.",
+                        emoji: "🐘"
+                    }
+                ]
             },
             {
-                question: "Apakah pergerakan badan dalam Langkah 3?",
-                answer: "Badan direbahkan ke bawah, kaki kiri diregangkan ke sisi, dan kepala singa dimusingkan ke kiri dan kanan.",
-                icon: "⬇️",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
-                    <rect x="25" y="25" width="10" height="15" fill="#4a90e2" rx="2" transform="rotate(15 30 32)"/>
-                    <rect x="10" y="35" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(-30 16 39)"/>
-                    <rect x="35" y="38" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <path d="M25 15 Q20 10 15 15" stroke="#ff6b6b" stroke-width="2" fill="none"/>
-                    <path d="M35 15 Q40 10 45 15" stroke="#ff6b6b" stroke-width="2" fill="none"/>
-                </svg>`
+                name: "Tanih Podzol",
+                emoji: "🌲",
+                description: "Tanah Kawasan Beriklim Sejuk",
+                theme: "from-green-700 via-green-800 to-green-900",
+                accent: "from-green-400 to-emerald-500",
+                questions: [
+                    {
+                        question: "🌲 Tanih podzol terdapat di kawasan?",
+                        options: ["A) Pantai", "B) Gurun", "C) Hutan Konifer", "D) Padang Rumput"],
+                        correct: 2,
+                        explanation: "Tanih podzol yang nipis, berasid dan beku terdapat di kawasan Hutan Konifer.",
+                        emoji: "🌲"
+                    },
+                    {
+                        question: "🌿 Ciri akar tumbuhan di kawasan ini adalah?",
+                        options: ["A) Panjang dan dalam", "B) Pendek dan tidak menerjah jauh", "C) Terapung di air", "D) Tahan api"],
+                        correct: 1,
+                        explanation: "Akar tumbuhan pendek seperti pokok pain, cedar, birch, fir dan sprus.",
+                        emoji: "🌿"
+                    },
+                    {
+                        question: "🦌 Haiwan hutan konifer yang besar adalah?",
+                        options: ["A) Tikus", "B) Katak", "C) Kupu-kupu", "D) Rusa Besar"],
+                        correct: 3,
+                        explanation: "Rusa besar, elk, lynx, brown bear dan harimau Siberia hidup di sini.",
+                        emoji: "🦌"
+                    }
+                ]
             },
             {
-                question: "Dalam Langkah 5, bagaimana kedudukan kaki penari?",
-                answer: "Kaki kiri diregangkan ke sisi, lutut kanan dibengkokkan, tangan menggerakkan kepala singa ke atas.",
-                icon: "🦵",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="15" r="6" fill="#ffdbac"/>
-                    <rect x="25" y="20" width="10" height="12" fill="#4a90e2" rx="2"/>
-                    <rect x="10" y="30" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(-20 16 34)"/>
-                    <path d="M35 30 Q40 35 35 40 Q30 35 35 30" fill="#2c3e50"/>
-                    <path d="M30 10 L30 5" stroke="#ff6b6b" stroke-width="3" marker-end="url(#arrowup)"/>
-                    <defs><marker id="arrowup" markerWidth="10" markerHeight="7" refX="5" refY="0" orient="auto"><polygon points="0 7, 5 0, 10 7" fill="#ff6b6b"/></marker></defs>
-                </svg>`
-            },
-            {
-                question: "Apakah pergerakan utama dalam Langkah 6?",
-                answer: "Kepala singa digerakkan ke atas dan bawah sambil badan berposisi rendah, sebanyak empat kali.",
-                icon: "↕️",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="25" r="6" fill="#ffdbac"/>
-                    <rect x="25" y="30" width="10" height="12" fill="#4a90e2" rx="2" transform="rotate(10 30 36)"/>
-                    <rect x="20" y="40" width="8" height="10" fill="#2c3e50" rx="1"/>
-                    <rect x="32" y="40" width="8" height="10" fill="#2c3e50" rx="1"/>
-                    <path d="M30 15 L30 10 M30 15 L30 20" stroke="#ff6b6b" stroke-width="2"/>
-                    <text x="45" y="25" fill="#ff6b6b" font-size="12" font-weight="bold">4x</text>
-                </svg>`
-            },
-            {
-                question: "Bagaimana cara menggerakkan kepala singa dalam Langkah 7?",
-                answer: "Kepala singa disengetkan ke bawah dan digerakkan sedikit ke kiri dan kanan.",
-                icon: "↙️",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
-                    <rect x="25" y="25" width="10" height="15" fill="#4a90e2" rx="2"/>
-                    <rect x="20" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <rect x="32" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <path d="M25 15 Q20 20 25 25" stroke="#ff6b6b" stroke-width="2" fill="none"/>
-                    <path d="M35 15 Q40 20 35 25" stroke="#ff6b6b" stroke-width="2" fill="none"/>
-                    <path d="M30 10 L25 15" stroke="#ff6b6b" stroke-width="2" marker-end="url(#arrowdown)"/>
-                </svg>`
-            },
-            {
-                question: "Apakah pergerakan dalam Langkah 9?",
-                answer: "Kaki dibuka seluas bahu, lutut difleksi, tangan mengangkat kepala singa tinggi sambil menggerakkannya seperti leher singa dipanjangkan.",
-                icon: "🙌",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
-                    <rect x="25" y="25" width="10" height="12" fill="#4a90e2" rx="2"/>
-                    <rect x="15" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <rect x="37" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
-                    <rect x="20" y="15" width="8" height="3" fill="#ffdbac" transform="rotate(-30 24 16)"/>
-                    <rect x="32" y="15" width="8" height="3" fill="#ffdbac" transform="rotate(30 36 16)"/>
-                    <path d="M30 5 Q25 8 30 12 Q35 8 30 5" fill="#ffd93d" stroke="#ff6b6b" stroke-width="1"/>
-                </svg>`
-            },
-            {
-                question: "Konsep pergerakan yang terlibat dalam tarian Singa ialah…",
-                answer: "Kesedaran tubuh badan, hubungan, dan kesedaran ruang.",
-                icon: "🧠",
-                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
-                    <circle cx="30" cy="30" r="20" fill="#e8f4fd" stroke="#4a90e2" stroke-width="2"/>
-                    <circle cx="25" cy="25" r="3" fill="#ff6b6b"/>
-                    <circle cx="35" cy="25" r="3" fill="#ff6b6b"/>
-                    <circle cx="20" cy="35" r="2" fill="#ffd93d"/>
-                    <circle cx="40" cy="35" r="2" fill="#ffd93d"/>
-                    <circle cx="30" cy="40" r="2" fill="#4caf50"/>
-                    <path d="M25 25 Q30 30 35 25" stroke="#4a90e2" stroke-width="2" fill="none"/>
-                    <path d="M20 35 Q30 32 40 35" stroke="#4a90e2" stroke-width="1" fill="none"/>
-                </svg>`
+                name: "Tanih Terra Rossa",
+                emoji: "🍇",
+                description: "Tanah Kawasan Beriklim Sederhana",
+                theme: "from-red-400 via-orange-500 to-amber-600",
+                accent: "from-green-500 to-olive-600",
+                questions: [
+                    {
+                        question: "🔍 Tanih terra rossa adalah campuran?",
+                        options: ["A) Ais dan salji", "B) Air dan minyak", "C) Tanah liat dan pasir", "D) Rumput dan daun"],
+                        correct: 2,
+                        explanation: "Terra rossa adalah campuran tanah liat dan pasir, warna merah atau coklat kemerahan.",
+                        emoji: "🔴"
+                    },
+                    {
+                        question: "🌿 Tumbuhan Mediterranean yang wangi adalah?",
+                        options: ["A) Rosemary", "B) Kaktus", "C) Kulat", "D) Padi"],
+                        correct: 0,
+                        explanation: "Rosemary, lavender, laurel dan pain tumbuh di kawasan Mediterranean.",
+                        emoji: "🌿"
+                    },
+                    {
+                        question: "🦌 Haiwan yang hidup di hutan Mediterranean adalah?",
+                        options: ["A) Penguin", "B) Unta", "C) Beruang Kutub", "D) Rusa"],
+                        correct: 3,
+                        explanation: "Serigala, rusa, landak dan helang hidup di kawasan Mediterranean.",
+                        emoji: "🦌"
+                    }
+                ]
             }
         ];
 
-        let currentCard = 0;
-        let studiedCards = new Set();
-        let isFlipped = false;
-        let startX = 0;
-        let startY = 0;
+        let currentStage = 0;
+        let currentQuestionInStage = 0;
+        let score = 0;
+        let answered = false;
+        let streak = 0;
+        let maxStreak = 0;
+        let stageScores = [0, 0, 0, 0, 0, 0];
 
-        function initializeFlashcards() {
-            displayCard();
-            updateProgress();
-            updateNavigation();
-            setupTouchEvents();
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const nextBtn = document.getElementById('nextBtn');
+        const scoreElement = document.getElementById('score');
+        const questionCounter = document.getElementById('questionCounter');
+        const progressBar = document.getElementById('progressBar');
+        const quizContainer = document.getElementById('quizContainer');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const finalScore = document.getElementById('finalScore');
+        const scoreMessage = document.getElementById('scoreMessage');
+        const restartBtn = document.getElementById('restartBtn');
+        const streakDisplay = document.getElementById('streakDisplay');
+        const streakCount = document.getElementById('streakCount');
+        
+        // Stage elements
+        const stageHeader = document.getElementById('stageHeader');
+        const stageEmoji = document.getElementById('stageEmoji');
+        const stageName = document.getElementById('stageName');
+        const stageDescription = document.getElementById('stageDescription');
+        const stageNumber = document.getElementById('stageNumber');
+        const questionInStage = document.getElementById('questionInStage');
+        const stageCompleteModal = document.getElementById('stageCompleteModal');
+        const stageCompleteText = document.getElementById('stageCompleteText');
+        const stageScore = document.getElementById('stageScore');
+        const continueBtn = document.getElementById('continueBtn');
+        const continueBtnText = document.getElementById('continueBtnText');
+        const stageBreakdown = document.getElementById('stageBreakdown');
+
+        // Theme and celebration functions
+        function updateTheme() {
+            const stage = soilStages[currentStage];
+            document.body.className = `bg-gradient-to-br ${stage.theme} min-h-screen transition-all duration-1000`;
         }
 
-        function displayCard() {
-            const card = flashcards[currentCard];
-            
-            // Update question side with icon and graphic
-            document.getElementById('questionText').innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                    <span style="font-size: 2rem; margin-right: 10px;">${card.icon}</span>
-                    ${card.graphic}
-                </div>
-                ${card.question}
-            `;
-            
-            // Update answer side
-            document.getElementById('answerText').innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                    <span style="font-size: 2rem; margin-right: 10px;">✅</span>
-                </div>
-                ${card.answer}
-            `;
-            
-            // Reset flip state
-            document.getElementById('flashcard').classList.remove('flipped');
-            isFlipped = false;
-            
-            // Update studied indicator
-            const indicator = document.getElementById('studiedIndicator');
-            if (studiedCards.has(currentCard)) {
-                indicator.classList.add('show');
-            } else {
-                indicator.classList.remove('show');
-            }
-            
-            // Update card colors based on position
-            updateCardColors();
-        }
-
-        function updateCardColors() {
-            const progress = currentCard / (flashcards.length - 1);
-            const cardFront = document.querySelector('.card-front');
-            const cardBack = document.querySelector('.card-back');
-            
-            // Create dynamic gradients based on card position
-            const hue1 = 30 + (progress * 60); // From orange to blue
-            const hue2 = 180 + (progress * 60); // From cyan to pink
-            
-            cardFront.style.background = `linear-gradient(135deg, hsl(${hue1}, 70%, 85%) 0%, hsl(${hue1 + 20}, 60%, 80%) 100%)`;
-            cardBack.style.background = `linear-gradient(135deg, hsl(${hue2}, 60%, 85%) 0%, hsl(${hue2 + 30}, 70%, 80%) 100%)`;
-        }
-
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
-            isFlipped = !isFlipped;
-            
-            // Mark as studied when flipped to answer
-            if (isFlipped) {
-                markAsStudied();
-            }
-        }
-
-        function nextCard() {
-            if (currentCard < flashcards.length - 1) {
-                currentCard++;
-                displayCard();
-                updateProgress();
-                updateNavigation();
-            }
-        }
-
-        function previousCard() {
-            if (currentCard > 0) {
-                currentCard--;
-                displayCard();
-                updateProgress();
-                updateNavigation();
-            }
-        }
-
-        function updateNavigation() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const counter = document.getElementById('cardCounter');
-            
-            prevBtn.disabled = currentCard === 0;
-            nextBtn.disabled = currentCard === flashcards.length - 1;
-            
-            counter.textContent = `${currentCard + 1} / ${flashcards.length}`;
-        }
-
-        function updateProgress() {
-            const progressFill = document.getElementById('progressFill');
-            const studiedCount = document.getElementById('studiedCount');
-            
-            const progress = (studiedCards.size / flashcards.length) * 100;
-            progressFill.style.width = progress + '%';
-            studiedCount.textContent = `${studiedCards.size}/${flashcards.length} dikaji`;
-        }
-
-        function markAsStudied() {
-            studiedCards.add(currentCard);
-            document.getElementById('studiedIndicator').classList.add('show');
-            updateProgress();
-        }
-
-        function shuffleCards() {
-            // Fisher-Yates shuffle algorithm
-            for (let i = flashcards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
-            }
-            
-            currentCard = 0;
-            displayCard();
-            updateNavigation();
-        }
-
-        function resetProgress() {
-            studiedCards.clear();
-            currentCard = 0;
-            displayCard();
-            updateProgress();
-            updateNavigation();
-        }
-
-        function setupTouchEvents() {
-            const cardWrapper = document.getElementById('cardWrapper');
-            
-            cardWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
-            cardWrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
-            cardWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
-        }
-
-        function handleTouchStart(e) {
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-        }
-
-        function handleTouchMove(e) {
-            if (!startX || !startY) return;
-            
-            const currentX = e.touches[0].clientX;
-            const currentY = e.touches[0].clientY;
-            
-            const diffX = startX - currentX;
-            const diffY = startY - currentY;
-            
-            // Only handle horizontal swipes (ignore vertical)
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                if (diffX > 0) {
-                    // Swipe left - next card
-                    nextCard();
-                } else {
-                    // Swipe right - previous card
-                    previousCard();
-                }
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(confetti);
                 
-                startX = null;
-                startY = null;
+                setTimeout(() => confetti.remove(), 5000);
             }
         }
 
-        function handleTouchEnd() {
-            startX = null;
-            startY = null;
+        function createStageTransition(stageEmoji) {
+            // Create multiple floating stage emojis
+            for (let i = 0; i < 15; i++) {
+                const floatingEmoji = document.createElement('div');
+                floatingEmoji.className = 'floating-emoji';
+                floatingEmoji.textContent = stageEmoji;
+                floatingEmoji.style.left = Math.random() * window.innerWidth + 'px';
+                floatingEmoji.style.top = Math.random() * window.innerHeight + 'px';
+                floatingEmoji.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                floatingEmoji.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(floatingEmoji);
+                
+                setTimeout(() => floatingEmoji.remove(), 2000);
+            }
         }
 
-        // Initialize when page loads
-        initializeFlashcards();
+        function createFloatingEmoji(emoji, x, y) {
+            const floatingEmoji = document.createElement('div');
+            floatingEmoji.className = 'floating-emoji';
+            floatingEmoji.textContent = emoji;
+            floatingEmoji.style.left = x + 'px';
+            floatingEmoji.style.top = y + 'px';
+            document.body.appendChild(floatingEmoji);
+            
+            setTimeout(() => floatingEmoji.remove(), 2000);
+        }
+
+        function playSuccessAnimation() {
+            scoreElement.classList.add('bounce');
+            setTimeout(() => scoreElement.classList.remove('bounce'), 600);
+        }
+
+        function updateStreak(isCorrect) {
+            if (isCorrect) {
+                streak++;
+                maxStreak = Math.max(maxStreak, streak);
+                if (streak >= 3) {
+                    streakDisplay.classList.remove('hidden');
+                    streakCount.textContent = streak;
+                    if (streak === 5) {
+                        createConfetti();
+                    }
+                }
+            } else {
+                streak = 0;
+                if (streakDisplay.classList.contains('hidden') === false) {
+                    streakDisplay.classList.add('hidden');
+                }
+            }
+        }
+
+        function loadQuestion() {
+            answered = false;
+            nextBtn.disabled = true;
+            
+            const stage = soilStages[currentStage];
+            const question = stage.questions[currentQuestionInStage];
+            
+            // Update theme
+            updateTheme();
+            
+            // Update stage header
+            stageEmoji.textContent = stage.emoji;
+            stageName.textContent = stage.name;
+            stageDescription.textContent = stage.description;
+            stageNumber.textContent = currentStage + 1;
+            questionInStage.textContent = currentQuestionInStage + 1;
+            
+            // Update question
+            questionText.textContent = question.question;
+            const totalQuestions = soilStages.length * 3;
+            const currentQuestionNumber = (currentStage * 3) + currentQuestionInStage + 1;
+            questionCounter.textContent = `${currentQuestionNumber}/${totalQuestions}`;
+            
+            // Update progress bar
+            const progress = ((currentQuestionNumber - 1) / totalQuestions) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option w-full bg-white/20 backdrop-blur-sm text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left hover:bg-white/30 border border-white/20';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedIndex, buttonElement) {
+            if (answered) return;
+            
+            answered = true;
+            const stage = soilStages[currentStage];
+            const question = stage.questions[currentQuestionInStage];
+            const isCorrect = selectedIndex === question.correct;
+            
+            // Update streak
+            updateStreak(isCorrect);
+            
+            // Style all buttons
+            const allButtons = optionsContainer.querySelectorAll('button');
+            allButtons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === question.correct) {
+                    btn.className = 'quiz-option w-full text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left correct border border-green-300';
+                } else if (index === selectedIndex && !isCorrect) {
+                    btn.className = 'quiz-option w-full text-white font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left incorrect border border-red-300';
+                } else {
+                    btn.className = 'quiz-option w-full bg-white/10 text-white/60 font-medium py-4 lg:py-5 px-6 lg:px-8 text-base lg:text-lg rounded-xl text-left border border-white/10';
+                }
+            });
+            
+            if (isCorrect) {
+                score += 10;
+                stageScores[currentStage] += 10;
+                scoreElement.textContent = score;
+                playSuccessAnimation();
+                
+                // Create floating emoji at button position
+                const rect = buttonElement.getBoundingClientRect();
+                createFloatingEmoji(question.emoji, rect.left + rect.width/2, rect.top);
+                
+                // No extra points for streaks - keeping it fair
+            }
+            
+            // Show explanation with fun styling
+            setTimeout(() => {
+                const explanation = document.createElement('div');
+                explanation.className = 'mt-4 p-4 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30 fade-in';
+                const emojiReaction = isCorrect ? '🎉' : '🤔';
+                explanation.innerHTML = `<p class="text-white text-sm"><strong>${emojiReaction} Penjelasan:</strong> ${question.explanation}</p>`;
+                optionsContainer.appendChild(explanation);
+            }, 500);
+            
+            nextBtn.disabled = false;
+        }
+
+        function showStageComplete() {
+            const stage = soilStages[currentStage];
+            const stageScoreValue = stageScores[currentStage];
+            
+            stageCompleteText.textContent = `Anda telah selesaikan ${stage.name}!`;
+            stageScore.textContent = `${stageScoreValue}/30 Mata`;
+            
+            // Check if this is the final stage
+            if (currentStage === soilStages.length - 1) {
+                continueBtnText.textContent = "Lihat Keputusan Akhir 🏆";
+                // Change to results theme
+                document.body.className = 'bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-700 min-h-screen transition-all duration-1000';
+            } else {
+                continueBtnText.textContent = "Teruskan ke Tahap Seterusnya 🚀";
+            }
+            
+            stageCompleteModal.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionInStage++;
+            
+            // Check if stage is complete
+            if (currentQuestionInStage >= 3) {
+                showStageComplete();
+                return;
+            }
+            
+            // Continue to next question in same stage
+            document.getElementById('questionCard').classList.remove('fade-in');
+            setTimeout(() => {
+                loadQuestion();
+                document.getElementById('questionCard').classList.add('fade-in');
+            }, 100);
+        }
+
+        function nextStage() {
+            currentStage++;
+            currentQuestionInStage = 0;
+            
+            stageCompleteModal.classList.add('hidden');
+            
+            if (currentStage >= soilStages.length) {
+                showResults();
+                return;
+            }
+            
+            // Create stage transition animation
+            const nextStage = soilStages[currentStage];
+            createStageTransition(nextStage.emoji);
+            
+            // Load first question of next stage
+            document.getElementById('questionCard').classList.remove('fade-in');
+            setTimeout(() => {
+                loadQuestion();
+                document.getElementById('questionCard').classList.add('fade-in');
+            }, 100);
+        }
+
+        function showResults() {
+            // Update progress to 100%
+            progressBar.style.width = '100%';
+            
+            // Set final results theme (different from all stages)
+            document.body.className = 'bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-700 min-h-screen transition-all duration-1000';
+            
+            // Hide quiz elements
+            quizContainer.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            stageHeader.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            
+            const totalPossible = soilStages.length * 30;
+            const percentage = (score / totalPossible) * 100;
+            finalScore.textContent = `${score}/${totalPossible}`;
+            
+            let message = '';
+            let celebration = '';
+            if (percentage >= 90) {
+                message = '🌟 Cemerlang! Anda pakar tanih!';
+                celebration = '🎊🎉🏆';
+                createConfetti();
+            } else if (percentage >= 70) {
+                message = '👍 Bagus! Pengetahuan yang baik!';
+                celebration = '🎉✨🌟';
+            } else if (percentage >= 50) {
+                message = '📚 Tidak buruk, teruskan belajar!';
+                celebration = '💪📖✨';
+            } else {
+                message = '💪 Jangan putus asa, cuba lagi!';
+                celebration = '🌱💪🎯';
+            }
+            
+            scoreMessage.innerHTML = `${celebration}<br>${message}<br><br>🔥 Streak Terbaik: ${maxStreak}`;
+            
+            // Show stage breakdown
+            stageBreakdown.innerHTML = '';
+            soilStages.forEach((stage, index) => {
+                const stageResult = document.createElement('div');
+                const stagePercentage = (stageScores[index] / 30) * 100;
+                let stageEmoji = '';
+                if (stagePercentage === 100) stageEmoji = '🏆';
+                else if (stagePercentage >= 67) stageEmoji = '⭐';
+                else if (stagePercentage >= 33) stageEmoji = '👍';
+                else stageEmoji = '📚';
+                
+                stageResult.className = 'flex justify-between items-center text-white/80 bg-white/5 rounded-lg p-2';
+                stageResult.innerHTML = `
+                    <span>${stage.emoji} ${stage.name}</span>
+                    <span>${stageEmoji} ${stageScores[index]}/30</span>
+                `;
+                stageBreakdown.appendChild(stageResult);
+            });
+            
+            // Add celebration animation to results
+            resultsScreen.classList.add('bounce');
+            setTimeout(() => resultsScreen.classList.remove('bounce'), 600);
+        }
+
+        function restartQuiz() {
+            currentStage = 0;
+            currentQuestionInStage = 0;
+            score = 0;
+            streak = 0;
+            maxStreak = 0;
+            stageScores = [0, 0, 0, 0, 0, 0];
+            scoreElement.textContent = '0';
+            streakDisplay.classList.add('hidden');
+            
+            // Show quiz elements
+            quizContainer.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            stageHeader.classList.remove('hidden');
+            resultsScreen.classList.add('hidden');
+            stageCompleteModal.classList.add('hidden');
+            
+            // Reset to first stage theme
+            document.body.className = 'bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 min-h-screen';
+            
+            loadQuestion();
+            
+            // Show entry animation for first stage (like when starting fresh)
+            setTimeout(() => {
+                createStageTransition(soilStages[0].emoji);
+            }, 500);
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', restartQuiz);
+        continueBtn.addEventListener('click', nextStage);
+
+        // Initialize quiz
+        loadQuestion();
+        
+        // Show entry animation for first stage
+        setTimeout(() => {
+            createStageTransition(soilStages[0].emoji);
+        }, 500);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98826d0c708fe708',t:'MTc1OTM4OTUwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98485a9b83af55a9',t:'MTc1ODc4MDU3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
