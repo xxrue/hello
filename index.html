@@ -2,1742 +2,697 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bola Sepak - Permainan Interaktif</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>🦁Flashcard Tarian Singa🦁</title>
     <style>
         body {
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #2E8B57, #228B22, #32CD32);
+            padding: 15px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8edea 50%, #fed6e3 75%, #ffecd2 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
             overflow-x: hidden;
-            user-select: none;
         }
 
-        .container {
-            max-width: 1200px;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .flashcard-container {
+            max-width: 500px;
             margin: 0 auto;
-            padding: 20px;
             text-align: center;
         }
 
         .header {
-            background: linear-gradient(45deg, #FF6B35, #F7931E);
-            color: white;
-            padding: 20px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #a8edea 100%);
+            color: #2c3e50;
+            padding: 25px 20px;
             border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '⚽';
-            position: absolute;
-            font-size: 60px;
-            top: -10px;
-            right: 20px;
-            opacity: 0.3;
-            animation: bounce 2s infinite;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .header h1 {
             margin: 0;
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .game-area {
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .progress-container {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
-            min-height: 600px;
-            display: none;
-        }
-
-        .game-area.active {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .stage-header {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 15px;
             border-radius: 15px;
+            padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        .stage-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .score-board {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #2E8B57;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 1.1rem;
+        .progress-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2c3e50;
         }
 
         .progress-bar {
-            background: #E0E0E0;
-            height: 8px;
-            border-radius: 4px;
-            margin: 10px 0;
+            background: #f0f0f0;
+            height: 10px;
+            border-radius: 5px;
             overflow: hidden;
-            width: 100%;
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #32CD32, #228B22);
+            background: linear-gradient(90deg, #a8edea, #fed6e3);
             height: 100%;
-            border-radius: 4px;
+            border-radius: 5px;
             transition: width 0.5s ease;
             width: 0%;
         }
 
-        /* Football Field Simulation */
-        .football-field {
-            background: linear-gradient(135deg, #228B22, #32CD32);
-            border: 4px solid white;
-            border-radius: 15px;
-            position: relative;
+        .card-wrapper {
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
             width: 100%;
             height: 400px;
-            margin: 20px 0;
-            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
         }
 
-        .field-lines {
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-        }
-
-        .center-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80px;
-            height: 80px;
-            border: 3px solid white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .goal-left, .goal-right {
-            position: absolute;
-            top: 40%;
-            width: 20px;
-            height: 20%;
-            background: rgba(255,255,255,0.8);
-            border: 2px solid white;
-        }
-
-        .goal-left { left: 0; }
-        .goal-right { right: 0; }
-
-        .player {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            backface-visibility: hidden;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #2c3e50;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2c3e50;
+            transform: rotateY(180deg);
+        }
+
+        .card-content {
+            width: 100%;
+        }
+
+        .card-type {
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-text {
             font-size: 1.2rem;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid white;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 20px;
         }
 
-        .player:hover {
-            transform: scale(1.1);
-        }
-
-        .player.blue { background: #2196F3; }
-        .player.red { background: #F44336; }
-        .player.selected { 
-            animation: pulse 1s infinite;
-            box-shadow: 0 0 20px rgba(255,255,255,0.8);
-        }
-
-        .ball {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            transition: all 0.5s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            z-index: 1;
-        }
-
-        /* Stage 1: Advanced Skill Challenge */
-        .skill-challenge {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-            align-items: start;
-        }
-
-        .skills-panel {
-            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .skills-panel h4 {
-            margin: 0 0 15px 0;
-            color: #1976D2;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .skill-item {
-            background: white;
-            border: 3px solid #2196F3;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
+        .card-hint {
             font-size: 0.9rem;
-            word-wrap: break-word;
-            hyphens: auto;
-            line-height: 1.3;
+            opacity: 0.7;
+            font-style: italic;
         }
 
-        .skill-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-        }
-
-        .skill-item.selected {
-            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-            border-color: #FF9800;
-            transform: scale(1.02);
-        }
-
-        .skill-item.correct {
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
-            border-color: #4CAF50;
-            pointer-events: none;
-        }
-
-        .skill-item.wrong {
-            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
-            border-color: #F44336;
-            animation: shake 0.5s;
-        }
-
-        .functions-panel {
-            background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .functions-panel h4 {
-            margin: 0 0 15px 0;
-            color: #7B1FA2;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .function-item {
-            background: white;
-            border: 3px solid #9C27B0;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            font-size: 0.9rem;
-            word-wrap: break-word;
-            hyphens: auto;
-            line-height: 1.3;
-            text-align: left;
-        }
-
-        .function-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
-        }
-
-        .function-item.correct {
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
-            border-color: #4CAF50;
-            pointer-events: none;
-        }
-
-        .function-item.wrong {
-            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
-            border-color: #F44336;
-            animation: shake 0.5s;
-        }
-
-        /* Timer and Lives */
-        .game-stats {
+        .navigation {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .timer, .lives, .combo {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .lives.danger { 
-            background: linear-gradient(135deg, #F44336, #D32F2F);
-            animation: pulse 1s infinite;
-        }
-
-        /* Goal Animation */
-        .goal-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
-            flex-direction: column;
-        }
-
-        .goal-animation.show {
-            display: flex;
-            animation: goalCelebration 3s ease;
-        }
-
-        .goal-text {
-            font-size: 4rem;
-            color: #FFD700;
-            font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
             margin-bottom: 20px;
-            animation: goalBounce 1s infinite;
         }
 
-        .fireworks {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .firework {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #FFD700;
-            border-radius: 50%;
-            animation: fireworkExplode 2s ease-out;
-        }
-
-        /* Equipment Game Enhanced */
-        .equipment-field {
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px 0;
-            position: relative;
-            min-height: 350px;
-            overflow: hidden;
-        }
-
-        .player-avatar {
-            width: 120px;
-            height: 120px;
-            background: #FF6B35;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            border: 6px solid white;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .equipment-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .equipment-item {
-            background: white;
-            border: 3px solid #ddd;
-            border-radius: 15px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            position: relative;
-        }
-
-        .equipment-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .equipment-item.selected {
-            border-color: #4CAF50;
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
-            transform: scale(1.05);
-        }
-
-        .equipment-item.correct {
-            border-color: #4CAF50;
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
-            animation: equipmentCorrect 0.8s;
-        }
-
-        .equipment-item.incorrect {
-            border-color: #F44336;
-            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
-            animation: shake 0.8s;
-        }
-
-        .equipment-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        /* Enhanced Buttons */
-        .start-btn, .next-stage-btn, .restart-btn {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
+        .nav-btn {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #2c3e50;
             border: none;
-            padding: 20px 40px;
-            border-radius: 25px;
+            padding: 15px 20px;
+            border-radius: 50px;
             font-size: 1.2rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 20px;
-            font-weight: bold;
-        }
-
-        .start-btn:hover, .next-stage-btn:hover, .restart-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-        }
-
-        .return-menu-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
-        }
-
-        .stage-complete {
-            background: linear-gradient(135deg, #4CAF50, #388E3C);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .stage-complete.show {
-            display: block;
-            animation: celebrateIn 1s ease;
-        }
-
-        .intro-screen {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-        }
-
-        .game-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Animations */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        @keyframes goalCelebration {
-            0% { opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        @keyframes goalBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes fireworkExplode {
-            0% { 
-                transform: scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% { 
-                transform: scale(20) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes equipmentCorrect {
-            0% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.1) rotate(5deg); }
-            50% { transform: scale(1.05) rotate(-5deg); }
-            75% { transform: scale(1.1) rotate(3deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        @keyframes celebrateIn {
-            0% { opacity: 0; transform: scale(0.8) rotate(-10deg); }
-            50% { transform: scale(1.1) rotate(5deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-
-        /* Enhanced Touch Interactions */
-        .skill-item, .equipment-item, .function-item, .action-btn, .game-card, .start-btn, .next-stage-btn, .restart-btn {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            user-select: none;
+            min-width: 60px;
+            min-height: 50px;
         }
 
-        /* Mobile-first responsive design */
-        @media (max-width: 480px) {
-            .container { 
-                padding: 10px; 
-                max-width: 100%;
-            }
-            
-            .header {
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-            
-            .header h1 { 
-                font-size: 1.8rem; 
-                line-height: 1.2;
-            }
-            
-            .header p {
-                font-size: 0.9rem;
-                margin: 5px 0 0 0;
-            }
-            
-            .header::before {
-                font-size: 40px;
-                top: 5px;
-                right: 15px;
-            }
-            
-            /* Game cards stack - mobile optimized */
-            .games-stack {
-                gap: 15px !important;
-                margin: 20px 0 !important;
-            }
-            
-            .game-card {
-                flex-direction: column !important;
-                text-align: center !important;
-                padding: 20px 15px !important;
-                gap: 15px !important;
-            }
-            
-            .game-card h3 {
-                font-size: 1.1rem !important;
-                margin-bottom: 8px !important;
-            }
-            
-            .game-card p {
-                font-size: 0.9rem !important;
-                line-height: 1.4 !important;
-            }
-            
-            .game-btn {
-                width: 100% !important;
-                padding: 15px 20px !important;
-                font-size: 1rem !important;
-            }
-            
-            /* Game area optimizations */
-            .game-area {
-                padding: 15px;
-                min-height: auto;
-            }
-            
-            .stage-header h2 {
-                font-size: 1.2rem;
+        .nav-btn:hover, .nav-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:disabled {
+            background: #f0f0f0;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card-counter {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2c3e50;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 44px;
+        }
+
+        .control-btn:hover, .control-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .studied-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4caf50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .studied-indicator.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            body {
                 padding: 10px;
             }
             
-            .score-board { 
-                flex-direction: column; 
-                gap: 8px; 
-                text-align: center;
-                padding: 12px;
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .flashcard {
+                height: 350px;
+            }
+            
+            .card-face {
+                padding: 20px;
+            }
+            
+            .card-text {
+                font-size: 1.1rem;
+            }
+            
+            .nav-btn {
+                padding: 12px 16px;
+                font-size: 1.1rem;
+                min-width: 50px;
+            }
+            
+            .control-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .flashcard {
+                height: 320px;
+            }
+            
+            .card-text {
                 font-size: 1rem;
             }
             
-            .game-stats {
+            .controls {
                 flex-direction: column;
                 gap: 10px;
-                align-items: center;
             }
             
-            .timer, .lives, .combo {
-                padding: 8px 16px;
-                font-size: 1rem;
-                width: fit-content;
-            }
-            
-            .return-menu-btn {
-                padding: 10px 20px !important;
-                font-size: 0.9rem !important;
-                margin-top: 10px;
-            }
-            
-            /* Stage 1 - Skills mobile layout */
-            .skill-challenge { 
-                grid-template-columns: 1fr; 
-                gap: 15px;
-            }
-            
-            .skills-panel, .functions-panel {
-                padding: 15px;
-            }
-            
-            .skills-panel h4, .functions-panel h4 {
-                font-size: 1rem;
-                margin-bottom: 10px;
-            }
-            
-            .skill-item, .function-item {
-                padding: 12px 10px;
-                font-size: 0.9rem;
-                margin: 8px 0;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .football-field {
-                height: 250px;
-                margin: 15px 0;
-            }
-            
-            #current-situation {
-                top: 5px;
-                left: 5px;
-                right: 5px;
-                padding: 10px;
-                font-size: 0.9rem;
-            }
-            
-            .center-circle {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .ball {
-                width: 20px;
-                height: 20px;
-                font-size: 0.7rem;
-            }
-            
-            .start-btn {
-                padding: 12px 20px;
-                font-size: 1rem;
-                margin: 10px 0;
+            .control-btn {
                 width: 100%;
             }
-            
-            /* Stage 2 - Equipment mobile layout */
-            .equipment-field {
-                padding: 20px;
-                min-height: 200px;
-            }
-            
-            .player-avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 2rem;
-            }
-            
-            .equipment-options { 
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .equipment-item {
-                padding: 15px 10px;
-                min-height: 100px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            .equipment-icon {
-                font-size: 2rem;
-                margin-bottom: 8px;
-            }
-            
-            .equipment-item div:last-child {
-                font-size: 0.8rem;
-                text-align: center;
-                line-height: 1.2;
-            }
-            
-            /* Stage 3 - Ethics mobile layout */
-            .scenario-container {
-                padding: 15px !important;
-                margin: 15px 0 !important;
-            }
-            
-            .scenario-container h4 {
-                font-size: 1rem;
-                margin-bottom: 10px;
-            }
-            
-            .scenario-text {
-                font-size: 1rem !important;
-                line-height: 1.5 !important;
-                margin-bottom: 15px !important;
-            }
-            
-            .action-buttons {
-                gap: 10px !important;
-            }
-            
-            .action-btn {
-                padding: 12px 15px !important;
-                font-size: 0.9rem !important;
-                min-height: 50px;
-                display: flex;
-                align-items: center;
-                text-align: left !important;
-            }
-            
-            /* Completion screens */
-            .stage-complete, .final-completion {
-                padding: 20px;
-                margin: 15px 0;
-            }
-            
-            .stage-complete h3 {
-                font-size: 1.3rem;
-            }
-            
-            .goal-text { 
-                font-size: 2rem; 
-            }
-            
-            .intro-screen {
-                padding: 20px 15px;
-            }
-            
-            .intro-screen h2 {
-                font-size: 1.4rem;
-                margin-bottom: 15px;
-            }
         }
 
-        /* Tablet responsive design */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container { 
-                padding: 20px; 
-            }
-            
-            .header h1 { 
-                font-size: 2.2rem; 
-            }
-            
-            .games-stack {
-                max-width: 600px !important;
-            }
-            
-            .game-card {
-                padding: 25px 20px !important;
-            }
-            
-            .skill-challenge { 
-                grid-template-columns: 1fr 2fr; 
-                gap: 20px;
-            }
-            
-            .functions-panel {
-                grid-column: 1 / -1;
-            }
-            
-            .equipment-options { 
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-            }
-            
-            .score-board { 
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
-            
-            .game-stats {
-                flex-direction: row;
-                justify-content: space-around;
-                flex-wrap: wrap;
-            }
-        }
-
-        /* Large tablet and small desktop */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 25px;
-            }
-            
-            .games-stack {
-                max-width: 700px !important;
-            }
-            
-            .skill-challenge {
-                grid-template-columns: 1fr 2fr 1fr;
-            }
-            
-            .equipment-options {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        /* Large desktop optimizations */
-        @media (min-width: 1025px) {
-            .container {
-                padding: 30px;
-            }
-            
-            .games-stack {
-                max-width: 900px !important;
-            }
-            
-            .game-card:hover {
-                transform: translateY(-3px) !important;
-            }
-            
-            .skill-item:hover, .equipment-item:hover, .action-btn:hover {
-                transform: translateY(-2px);
-            }
-            
-            .equipment-options {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-
-        /* Touch-friendly sizing for all interactive elements */
-        @media (pointer: coarse) {
-            .skill-item, .equipment-item, .function-item, .action-btn {
-                min-height: 48px;
-                padding: 12px 16px;
-            }
-            
-            .game-btn, .start-btn, .next-stage-btn, .restart-btn {
-                min-height: 48px;
-                padding: 15px 25px;
-            }
-            
-            .ball, .player {
-                min-width: 44px;
-                min-height: 44px;
-            }
-        }
-
-        /* High DPI display optimizations */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .header::before {
-                transform: translateZ(0);
-            }
-            
-            .ball, .player {
-                backface-visibility: hidden;
-                transform: translateZ(0);
-            }
+        /* Touch swipe indicators */
+        .swipe-hint {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #666;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="flashcard-container">
         <div class="header">
-            <h1>🏆 Bola Sepak 🏆</h1>
-            <p>Permainan Interaktif Pembelajaran</p>
+            <h1>🦁Flashcard Tarian Singa🦁</h1>
+            <p>Belajar tentang budaya dan tradisi tarian singa</p>
         </div>
 
-        <!-- Game Selection Screen -->
-        <div id="intro-screen" class="intro-screen">
-            <h2>🎮 Selamat Datang ke Dunia Bola Sepak! 🎮</h2>
-            <p>Pilih permainan yang ingin anda mainkan:</p>
-            
-            <div class="games-stack" style="display: flex; flex-direction: column; gap: 20px; margin: 30px 0; max-width: 800px; margin-left: auto; margin-right: auto;">
-                
-                <!-- Game 1: Skills -->
-                <div class="game-card" style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); border: 3px solid #2196F3; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(1)">
-                    <div style="font-size: 3rem; flex-shrink: 0;">⚽</div>
-                    <div style="flex-grow: 1; text-align: left;">
-                        <h3 style="color: #1976D2; margin: 0 0 8px 0;">Permainan 1: Kemahiran Bola Sepak</h3>
-                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Simulasi padang bola sepak - padankan kemahiran dengan situasi permainan yang betul</p>
-                        <div style="background: rgba(25, 118, 210, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                            <strong>📊 8 Situasi</strong> • <small>Tiada had masa • 3 Nyawa</small>
-                        </div>
-                    </div>
-                    <button class="game-btn" style="background: linear-gradient(135deg, #2196F3, #1976D2); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
-                </div>
-
-                <!-- Game 2: Safety -->
-                <div class="game-card" style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); border: 3px solid #4CAF50; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(2)">
-                    <div style="font-size: 3rem; flex-shrink: 0;">🛡️</div>
-                    <div style="flex-grow: 1; text-align: left;">
-                        <h3 style="color: #388E3C; margin: 0 0 8px 0;">Permainan 2: Keselamatan</h3>
-                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Pilih peralatan keselamatan yang betul untuk bermain bola sepak dengan selamat</p>
-                        <div style="background: rgba(56, 142, 60, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                            <strong>📊 5 Peralatan Wajib</strong> • <small>45 Saat • 3 Nyawa</small>
-                        </div>
-                    </div>
-                    <button class="game-btn" style="background: linear-gradient(135deg, #4CAF50, #388E3C); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
-                </div>
-
-                <!-- Game 3: Ethics -->
-                <div class="game-card" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border: 3px solid #9C27B0; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 20px;" onclick="startGame(3)">
-                    <div style="font-size: 3rem; flex-shrink: 0;">🤝</div>
-                    <div style="flex-grow: 1; text-align: left;">
-                        <h3 style="color: #7B1FA2; margin: 0 0 8px 0;">Permainan 3: Etika Sukan</h3>
-                        <p style="color: #555; margin: 0 0 10px 0; line-height: 1.4;">Buat keputusan etika yang betul dalam pelbagai situasi permainan bola sepak</p>
-                        <div style="background: rgba(123, 31, 162, 0.1); padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                            <strong>📊 8 Situasi</strong> • <small>30s permulaan permainan • +10s betul, -2s salah</small>
-                        </div>
-                    </div>
-                    <button class="game-btn" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; flex-shrink: 0;">🚀 Main</button>
-                </div>
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Kemajuan Pembelajaran</span>
+                <span id="studiedCount">0/10 dikaji</span>
             </div>
-
-            <div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 15px;">
-                <h4 style="color: #2E8B57; margin-bottom: 15px;">🏆 Sistem Markah</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: left;">
-                    <div><strong>Permainan 1:</strong> 8 markah maksimum</div>
-                    <div><strong>Permainan 2:</strong> 5 markah maksimum</div>
-                    <div><strong>Permainan 3:</strong> 8 markah maksimum</div>
-                </div>
-                <p style="margin-top: 15px; color: #666;"><strong>Jumlah Maksimum:</strong> 21 markah • Dapatkan markah penuh untuk animasi gol istimewa! ⚽</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
         </div>
 
-        <!-- Goal Animation -->
-        <div id="goal-animation" class="goal-animation">
-            <div class="goal-text">⚽ GOL! ⚽</div>
-            <div class="fireworks" id="fireworks"></div>
-            <p style="color: white; font-size: 1.5rem; margin-top: 20px;">Skor Sempurna! Anda Cemerlang!</p>
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">‹</button>
+            <div class="card-counter">
+                <span id="cardCounter">1 / 10</span>
+            </div>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">›</button>
         </div>
 
-        <!-- Game Area -->
-        <div id="game-area" class="game-area">
-            <div class="stage-header">
-                <h2 id="stage-title">Tahap 1: Kemahiran Asas Permainan Bola Sepak</h2>
-            </div>
-
-            <div class="score-board">
-                <div>🏅 Skor Permainan: <span id="stage-score">0</span>/<span id="max-score">8</span></div>
-                <div>📊 Kemajuan: <span id="current-round">0</span>/<span id="total-rounds">8</span></div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-            </div>
-
-            <div class="game-stats">
-                <div class="timer" id="timer-display" style="display: none;">⏰ Masa: <span id="timer">60</span>s</div>
-                <div class="lives" id="lives-display">❤️ Nyawa: <span id="lives">3</span></div>
-                <div class="combo">🔥 Kombo: <span id="combo">0</span></div>
-                <button class="return-menu-btn" onclick="backToMenu()" style="background: linear-gradient(135deg, #6C757D, #495057); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;">🏠 Kembali ke Menu</button>
-            </div>
-
-            <!-- Stage 1: Advanced Skill Challenge -->
-            <div id="stage1-content" class="stage-content">
-                <h3>🎯 Permainan 1: Kemahiran Bola Sepak</h3>
-                <div style="background: linear-gradient(135deg, #E3F2FD, #BBDEFB); padding: 20px; border-radius: 15px; margin: 20px 0;">
-                    <h4 style="color: #1976D2; margin: 0 0 15px 0;">📋 Arahan Permainan:</h4>
-                    <ol style="text-align: left; color: #555; line-height: 1.6; margin: 0; padding-left: 20px;">
-                        <li><strong>Klik "Mula Simulasi"</strong> untuk memulakan situasi permainan</li>
-                        <li><strong>Baca situasi</strong> yang ditunjukkan di padang bola sepak</li>
-                        <li><strong>Pilih kemahiran yang betul</strong> dari senarai di sebelah kiri</li>
-                        <li><strong>Ulangi untuk 8 situasi</strong> yang berbeza</li>
-                        <li><strong>Anda mempunyai 3 nyawa</strong> - berhati-hati dengan pilihan!</li>
-                    </ol>
-                </div>
-                
-                <div class="skill-challenge">
-                    <div class="skills-panel">
-                        <h4>Kemahiran Tersedia</h4>
-                        <div id="skills-list"></div>
-                    </div>
-                    
-                    <div class="football-field">
-                        <div class="field-lines">
-                            <div class="center-circle"></div>
-                            <div class="goal-left"></div>
-                            <div class="goal-right"></div>
-                        </div>
-                        <div id="current-situation" style="position: absolute; top: 10px; left: 10px; right: 10px; background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; font-weight: bold; color: #2E8B57; z-index: 10;">
-                            Klik "Mula" untuk memulakan simulasi!
-                        </div>
-                        <div class="ball" id="ball" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">⚽</div>
-                    </div>
-                    
-                    <div class="functions-panel">
-                        <h4>Situasi Permainan</h4>
-                        <div id="situation-description" style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; color: #7B1FA2;">
-                            Tunggu situasi permainan...
-                        </div>
-                        <button id="start-simulation" class="start-btn" onclick="startSimulation()" style="margin: 10px 0; padding: 15px 25px; font-size: 1rem;">▶️ Mula Simulasi</button>
+        <div class="card-wrapper" id="cardWrapper">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <div class="card-content">
+                        <div class="card-type">Soalan</div>
+                        <div class="card-text" id="questionText"></div>
+                        <div class="card-hint">Ketik untuk melihat jawapan</div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Stage 2: Timed Equipment Game -->
-            <div id="stage2-content" class="stage-content" style="display: none;">
-                <h3>🛡️ Cabaran Peralatan Keselamatan Berkelajuan!</h3>
-                <p>Pilih 5 peralatan keselamatan WAJIB secepat mungkin sebelum masa tamat!</p>
-                
-                <div class="equipment-field">
-                    <div class="player-avatar" id="player-avatar">👤</div>
+                <div class="card-face card-back">
+                    <div class="card-content">
+                        <div class="card-type">Jawapan</div>
+                        <div class="card-text" id="answerText"></div>
+                        <div class="card-hint">Ketik untuk kembali ke soalan</div>
+                    </div>
                 </div>
-                <div class="equipment-options" id="equipment-options"></div>
-                <div style="margin-top: 20px;">
-                    <p><strong>Dipilih:</strong> <span id="selected-count">0</span>/5 | <strong>Betul:</strong> <span id="correct-count">0</span>/5</p>
-                </div>
+                <div class="studied-indicator" id="studiedIndicator">✓ Dikaji</div>
             </div>
-
-            <!-- Stage 3: Ethics Scenario Game -->
-            <div id="stage3-content" class="stage-content" style="display: none;">
-                <h3>🤝 Cabaran Etika Berkelajuan</h3>
-                <div id="scenario-container"></div>
-            </div>
-
-            <!-- Stage Complete Screen -->
-            <div id="stage-complete" class="stage-complete">
-                <h3>🎉 Tahniah! Permainan Selesai! 🎉</h3>
-                <p>Skor Permainan: <span id="complete-stage-score">0</span>/<span id="complete-max-score">8</span></p>
-                <p>Masa Diambil: <span id="time-taken">0</span> saat</p>
-                <p id="stage-feedback"></p>
-                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-                    <button class="next-stage-btn" onclick="backToMenu()" style="background: linear-gradient(135deg, #2E8B57, #228B22);">🏠 Kembali ke Menu</button>
-                    <button class="next-stage-btn" onclick="restartCurrentGame()" style="background: linear-gradient(135deg, #FF6B35, #F7931E);">🔄 Main Lagi</button>
-                </div>
-            </div>
+            <div class="swipe-hint">Leret kiri/kanan untuk navigasi</div>
         </div>
 
-        <!-- Final Completion -->
-        <div id="final-completion" class="final-completion" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #2E8B57; padding: 40px; border-radius: 20px; display: none;">
-            <h2>🏆 TAHNIAH! JUARA BOLA SEPAK! 🏆</h2>
-            <p>Anda telah menyelesaikan semua 3 tahap dengan cemerlang!</p>
-            <p><strong>Jumlah Skor Akhir: <span id="final-total-score">0</span>/24</strong></p>
-            <div id="final-grade"></div>
-            <p>Anda kini seorang pemain bola sepak yang lengkap dengan kemahiran, keselamatan, dan etika yang baik!</p>
-            <button class="restart-btn" onclick="restartGame()">🔄 Main Semula</button>
+        <div class="controls">
+            <button class="control-btn" onclick="shuffleCards()">🔀 Kocok Kad</button>
+            <button class="control-btn" onclick="resetProgress()">🔄 Set Semula</button>
+            <button class="control-btn" onclick="markAsStudied()">✓ Tandai Dikaji</button>
         </div>
     </div>
 
     <script>
-        let currentStage = 1;
-        let stageScore = 0;
-        let totalScore = 0;
-        let gameTimer = 60;
-        let lives = 3;
-        let combo = 0;
-        let timerInterval;
-        let currentSituation = 0;
-        let simulationActive = false;
-        let selectedEquipment = [];
-        let currentScenario = 0;
-        let startTime;
-
-        const stage1Situations = [
+        const flashcards = [
             {
-                description: "Bola datang dari udara ke arah anda dengan kelajuan tinggi",
-                correctSkill: "Menanduk",
-                ballPosition: {top: "20%", left: "60%"},
-                situation: "Bola lambung tinggi menuju ke arah anda!"
+                question: "Tarian Singa berasal daripada budaya apa?",
+                answer: "Tarian tradisional dari masyarakat Cina.",
+                icon: "🏮",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="30" r="25" fill="#ff6b6b" opacity="0.8"/>
+                    <rect x="20" y="15" width="20" height="30" fill="#ffd93d" rx="3"/>
+                    <circle cx="25" cy="25" r="3" fill="#ff6b6b"/>
+                    <circle cx="35" cy="25" r="3" fill="#ff6b6b"/>
+                    <path d="M20 35 Q30 40 40 35" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+                </svg>`
             },
             {
-                description: "Lawan cuba merampas bola dari kaki anda",
-                correctSkill: "Mengelecek", 
-                ballPosition: {top: "60%", left: "40%"},
-                situation: "Lawan menghampiri untuk takel!"
+                question: "Apakah alat muzik yang mengiringi tarian Singa?",
+                answer: "Muzik iringan ialah gendang, simbal, dan gong.",
+                icon: "🥁",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="20" cy="30" r="12" fill="#8b4513" stroke="#654321" stroke-width="2"/>
+                    <circle cx="20" cy="25" r="8" fill="#daa520"/>
+                    <circle cx="40" cy="25" r="8" fill="#ffd700" stroke="#daa520" stroke-width="2"/>
+                    <rect x="35" y="35" width="10" height="15" fill="#8b4513" rx="2"/>
+                    <circle cx="40" cy="40" r="6" fill="#daa520"/>
+                </svg>`
             },
             {
-                description: "Rakan sepasukan berada di kedudukan baik untuk menerima umpan",
-                correctSkill: "Menghantar",
-                ballPosition: {top: "70%", left: "30%"},
-                situation: "Rakan anda dalam kedudukan terbuka!"
+                question: "Dalam Langkah 1 tarian Singa, apakah posisi asas penari?",
+                answer: "Berdiri dengan kedudukan bersedia dan kaki dirapatkan.",
+                icon: "🧍",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="15" r="8" fill="#ffdbac"/>
+                    <rect x="25" y="20" width="10" height="20" fill="#4a90e2" rx="2"/>
+                    <rect x="20" y="35" width="8" height="15" fill="#2c3e50" rx="1"/>
+                    <rect x="32" y="35" width="8" height="15" fill="#2c3e50" rx="1"/>
+                    <rect x="18" y="48" width="12" height="4" fill="#8b4513" rx="2"/>
+                    <rect x="30" y="48" width="12" height="4" fill="#8b4513" rx="2"/>
+                </svg>`
             },
             {
-                description: "Bola melantun di hadapan anda dan perlu dikawal",
-                correctSkill: "Menyerkap",
-                ballPosition: {top: "50%", left: "70%"},
-                situation: "Bola longgar di hadapan anda!"
+                question: "Apakah pergerakan utama dalam Langkah 2?",
+                answer: "Kaki kanan diangkat ke sisi dan tangan kanan menolak ke hadapan sambil menghayun kepala singa.",
+                icon: "🦵",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="25" cy="15" r="8" fill="#ffdbac"/>
+                    <rect x="20" y="20" width="10" height="15" fill="#4a90e2" rx="2"/>
+                    <rect x="15" y="30" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <rect x="35" y="25" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(30 41 29)"/>
+                    <path d="M35 20 L45 15" stroke="#ff6b6b" stroke-width="3" marker-end="url(#arrowhead)"/>
+                    <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/></marker></defs>
+                </svg>`
             },
             {
-                description: "Lawan memegang bola dan anda perlu merebutnya",
-                correctSkill: "Takel",
-                ballPosition: {top: "40%", left: "80%"},
-                situation: "Lawan membawa bola menghampiri!"
+                question: "Apakah pergerakan badan dalam Langkah 3?",
+                answer: "Badan direbahkan ke bawah, kaki kiri diregangkan ke sisi, dan kepala singa dimusingkan ke kiri dan kanan.",
+                icon: "⬇️",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
+                    <rect x="25" y="25" width="10" height="15" fill="#4a90e2" rx="2" transform="rotate(15 30 32)"/>
+                    <rect x="10" y="35" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(-30 16 39)"/>
+                    <rect x="35" y="38" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <path d="M25 15 Q20 10 15 15" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+                    <path d="M35 15 Q40 10 45 15" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+                </svg>`
             },
             {
-                description: "Anda berada di kotak penalti dengan peluang menjaringkan gol",
-                correctSkill: "Menanduk",
-                ballPosition: {top: "30%", left: "85%"},
-                situation: "Peluang gol dari sepakan sudut!"
+                question: "Dalam Langkah 5, bagaimana kedudukan kaki penari?",
+                answer: "Kaki kiri diregangkan ke sisi, lutut kanan dibengkokkan, tangan menggerakkan kepala singa ke atas.",
+                icon: "🦵",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="15" r="6" fill="#ffdbac"/>
+                    <rect x="25" y="20" width="10" height="12" fill="#4a90e2" rx="2"/>
+                    <rect x="10" y="30" width="12" height="8" fill="#2c3e50" rx="1" transform="rotate(-20 16 34)"/>
+                    <path d="M35 30 Q40 35 35 40 Q30 35 35 30" fill="#2c3e50"/>
+                    <path d="M30 10 L30 5" stroke="#ff6b6b" stroke-width="3" marker-end="url(#arrowup)"/>
+                    <defs><marker id="arrowup" markerWidth="10" markerHeight="7" refX="5" refY="0" orient="auto"><polygon points="0 7, 5 0, 10 7" fill="#ff6b6b"/></marker></defs>
+                </svg>`
             },
             {
-                description: "Bola perlu dihantar jauh ke hadapan untuk serangan balas",
-                correctSkill: "Menghantar",
-                ballPosition: {top: "80%", left: "20%"},
-                situation: "Peluang serangan balas pantas!"
+                question: "Apakah pergerakan utama dalam Langkah 6?",
+                answer: "Kepala singa digerakkan ke atas dan bawah sambil badan berposisi rendah, sebanyak empat kali.",
+                icon: "↕️",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="25" r="6" fill="#ffdbac"/>
+                    <rect x="25" y="30" width="10" height="12" fill="#4a90e2" rx="2" transform="rotate(10 30 36)"/>
+                    <rect x="20" y="40" width="8" height="10" fill="#2c3e50" rx="1"/>
+                    <rect x="32" y="40" width="8" height="10" fill="#2c3e50" rx="1"/>
+                    <path d="M30 15 L30 10 M30 15 L30 20" stroke="#ff6b6b" stroke-width="2"/>
+                    <text x="45" y="25" fill="#ff6b6b" font-size="12" font-weight="bold">4x</text>
+                </svg>`
             },
             {
-                description: "Anda perlu mengelak dari dua orang pemain lawan",
-                correctSkill: "Mengelecek",
-                ballPosition: {top: "45%", left: "55%"},
-                situation: "Dikepung oleh dua pemain lawan!"
+                question: "Bagaimana cara menggerakkan kepala singa dalam Langkah 7?",
+                answer: "Kepala singa disengetkan ke bawah dan digerakkan sedikit ke kiri dan kanan.",
+                icon: "↙️",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
+                    <rect x="25" y="25" width="10" height="15" fill="#4a90e2" rx="2"/>
+                    <rect x="20" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <rect x="32" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <path d="M25 15 Q20 20 25 25" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+                    <path d="M35 15 Q40 20 35 25" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+                    <path d="M30 10 L25 15" stroke="#ff6b6b" stroke-width="2" marker-end="url(#arrowdown)"/>
+                </svg>`
+            },
+            {
+                question: "Apakah pergerakan dalam Langkah 9?",
+                answer: "Kaki dibuka seluas bahu, lutut difleksi, tangan mengangkat kepala singa tinggi sambil menggerakkannya seperti leher singa dipanjangkan.",
+                icon: "🙌",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="20" r="6" fill="#ffdbac"/>
+                    <rect x="25" y="25" width="10" height="12" fill="#4a90e2" rx="2"/>
+                    <rect x="15" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <rect x="37" y="35" width="8" height="12" fill="#2c3e50" rx="1"/>
+                    <rect x="20" y="15" width="8" height="3" fill="#ffdbac" transform="rotate(-30 24 16)"/>
+                    <rect x="32" y="15" width="8" height="3" fill="#ffdbac" transform="rotate(30 36 16)"/>
+                    <path d="M30 5 Q25 8 30 12 Q35 8 30 5" fill="#ffd93d" stroke="#ff6b6b" stroke-width="1"/>
+                </svg>`
+            },
+            {
+                question: "Konsep pergerakan yang terlibat dalam tarian Singa ialah…",
+                answer: "Kesedaran tubuh badan, hubungan, dan kesedaran ruang.",
+                icon: "🧠",
+                graphic: `<svg width="60" height="60" viewBox="0 0 60 60" style="margin: 10px 0;">
+                    <circle cx="30" cy="30" r="20" fill="#e8f4fd" stroke="#4a90e2" stroke-width="2"/>
+                    <circle cx="25" cy="25" r="3" fill="#ff6b6b"/>
+                    <circle cx="35" cy="25" r="3" fill="#ff6b6b"/>
+                    <circle cx="20" cy="35" r="2" fill="#ffd93d"/>
+                    <circle cx="40" cy="35" r="2" fill="#ffd93d"/>
+                    <circle cx="30" cy="40" r="2" fill="#4caf50"/>
+                    <path d="M25 25 Q30 30 35 25" stroke="#4a90e2" stroke-width="2" fill="none"/>
+                    <path d="M20 35 Q30 32 40 35" stroke="#4a90e2" stroke-width="1" fill="none"/>
+                </svg>`
             }
         ];
 
-        const skillsData = [
-            "Menghantar", "Menyerkap", "Menanduk", "Mengelecek", "Takel"
-        ];
+        let currentCard = 0;
+        let studiedCards = new Set();
+        let isFlipped = false;
+        let startX = 0;
+        let startY = 0;
 
-        const stage2Equipment = [
-            {name: "But Bola Sepak", icon: "👟", required: true},
-            {name: "Pelapik Tulang Kering", icon: "🦵", required: true},
-            {name: "Stoking Panjang", icon: "🧦", required: true},
-            {name: "Jersi Pasukan", icon: "👕", required: true},
-            {name: "Seluar Selesa", icon: "🩳", required: true},
-            {name: "Topi Baseball", icon: "🧢", required: false},
-            {name: "Jam Tangan Pintar", icon: "⌚", required: false},
-            {name: "Sarung Tangan Penjaga Gol", icon: "🧤", required: false},
-            {name: "Kacamata Hitam", icon: "🕶️", required: false},
-            {name: "Rantai Emas", icon: "📿", required: false}
-        ];
-
-        const stage3Scenarios = [
-            {
-                situation: "Semasa permainan, lawan bermain dengan kasar dan anda terjatuh. Anda berasa marah dan ingin membalas.",
-                actions: [
-                    {text: "Bangun dan teruskan bermain dengan tenang", correct: true},
-                    {text: "Membalas dengan bermain lebih kasar", correct: false},
-                    {text: "Marah dan menolak pemain lawan", correct: false}
-                ]
-            },
-            {
-                situation: "Pengadil membuat keputusan offside yang anda rasa salah dan merugikan pasukan anda.",
-                actions: [
-                    {text: "Berteriak dan mempersoalkan pengadil", correct: false},
-                    {text: "Menghormati keputusan dan sambung bermain", correct: true},
-                    {text: "Berhenti bermain sebagai protes", correct: false}
-                ]
-            },
-            {
-                situation: "Penonton dari pasukan lawan menjerit kata-kata kesat dan mengejek anda sepanjang permainan.",
-                actions: [
-                    {text: "Membalas ejekan dan berteriak kepada penonton", correct: false},
-                    {text: "Meminta pengadil menghentikan permainan", correct: false},
-                    {text: "Fokus pada permainan dan abaikan provokasi", correct: true}
-                ]
-            },
-            {
-                situation: "Rakan sepasukan melakukan kesilapan besar yang menyebabkan lawan menjaringkan gol kemenangan.",
-                actions: [
-                    {text: "Memarahi dan menyalahkan rakan sepasukan", correct: false},
-                    {text: "Memberi semangat dan berkata 'Tidak mengapa'", correct: true},
-                    {text: "Mengabaikan rakan dan tidak bercakap dengannya", correct: false}
-                ]
-            },
-            {
-                situation: "Anda melihat rakan sepasukan menyentuh bola dengan tangan tetapi pengadil tidak nampak.",
-                actions: [
-                    {text: "Biarkan sahaja kerana menguntungkan pasukan", correct: false},
-                    {text: "Berpura-pura tidak nampak apa-apa", correct: false},
-                    {text: "Memberitahu pengadil tentang pelanggaran tersebut", correct: true}
-                ]
-            },
-            {
-                situation: "Pasukan anda ketinggalan 2-0 dan masa hampir tamat. Rakan minta anda bermain kasar.",
-                actions: [
-                    {text: "Menolak dan teruskan bermain dengan adil", correct: true},
-                    {text: "Mengikut cadangan dan bermain kasar", correct: false},
-                    {text: "Bermain kasar tetapi pastikan pengadil tidak nampak", correct: false}
-                ]
-            },
-            {
-                situation: "Selepas permainan, pasukan lawan datang untuk berjabat tangan walaupun mereka bermain kasar tadi.",
-                actions: [
-                    {text: "Menolak untuk berjabat tangan", correct: false},
-                    {text: "Berjabat tangan dengan hormat", correct: true},
-                    {text: "Berjabat tangan tetapi dengan kasar", correct: false}
-                ]
-            },
-            {
-                situation: "Anda tidak bersetuju dengan taktik jurulatih tetapi beliau tetap dengan keputusannya.",
-                actions: [
-                    {text: "Teruskan bermain mengikut cara sendiri", correct: false},
-                    {text: "Mempersoalkan jurulatih di hadapan rakan", correct: false},
-                    {text: "Menghormati keputusan dan ikut arahan", correct: true}
-                ]
-            }
-        ];
-
-        function startGame(gameNumber = 1) {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('game-area').classList.add('active');
-            
-            // Hide all game content first
-            document.getElementById('stage1-content').style.display = 'none';
-            document.getElementById('stage2-content').style.display = 'none';
-            document.getElementById('stage3-content').style.display = 'none';
-            
-            if (gameNumber === 1) {
-                initStage1();
-            } else if (gameNumber === 2) {
-                initStage2();
-            } else if (gameNumber === 3) {
-                initStage3();
-            }
+        function initializeFlashcards() {
+            displayCard();
+            updateProgress();
+            updateNavigation();
+            setupTouchEvents();
         }
 
-        function initStage1() {
-            currentStage = 1;
-            stageScore = 0;
-            lives = 3;
-            combo = 0;
-            currentSituation = 0;
-            simulationActive = false;
-            startTime = Date.now();
+        function displayCard() {
+            const card = flashcards[currentCard];
             
-            // Show Game 1 content and hide timer, show lives
-            document.getElementById('stage1-content').style.display = 'block';
-            document.getElementById('timer-display').style.display = 'none';
-            document.getElementById('lives-display').style.display = 'block';
-            document.getElementById('stage-title').textContent = 'Permainan 1: Kemahiran Bola Sepak';
-            
-            updateDisplay();
-            
-            const skillsList = document.getElementById('skills-list');
-            skillsList.innerHTML = skillsData.map((skill, index) => 
-                `<div class="skill-item" onclick="selectSkill('${skill}')" data-skill="${skill}">${skill}</div>`
-            ).join('');
-            
-            document.getElementById('start-simulation').style.display = 'block';
-        }
-
-        function startSimulation() {
-            if (currentSituation >= stage1Situations.length) {
-                completeStage();
-                return;
-            }
-            
-            simulationActive = true;
-            document.getElementById('start-simulation').style.display = 'none';
-            
-            const situation = stage1Situations[currentSituation];
-            document.getElementById('current-situation').textContent = situation.situation;
-            document.getElementById('situation-description').textContent = situation.description;
-            
-            // Animate ball to position
-            const ball = document.getElementById('ball');
-            ball.style.top = situation.ballPosition.top;
-            ball.style.left = situation.ballPosition.left;
-            
-            // Reset skill items
-            document.querySelectorAll('.skill-item').forEach(item => {
-                item.classList.remove('selected', 'correct', 'wrong');
-            });
-        }
-
-        function selectSkill(skillName) {
-            if (!simulationActive || gameTimer <= 0 || lives <= 0) return;
-            
-            const situation = stage1Situations[currentSituation];
-            const skillElement = document.querySelector(`[data-skill="${skillName}"]`);
-            
-            // Clear previous selections
-            document.querySelectorAll('.skill-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            skillElement.classList.add('selected');
-            
-            setTimeout(() => {
-                if (skillName === situation.correctSkill) {
-                    skillElement.classList.add('correct');
-                    stageScore++;
-                    combo++;
-                    
-                    // Animate ball to goal for correct answer
-                    const ball = document.getElementById('ball');
-                    ball.style.top = '50%';
-                    ball.style.right = '10px';
-                    ball.style.left = 'auto';
-                    
-                    setTimeout(() => {
-                        currentSituation++;
-                        simulationActive = false;
-                        
-                        if (currentSituation < stage1Situations.length) {
-                            document.getElementById('start-simulation').style.display = 'block';
-                            document.getElementById('current-situation').textContent = 'Klik "Mula" untuk situasi seterusnya!';
-                            document.getElementById('situation-description').textContent = 'Tunggu situasi permainan...';
-                            
-                            // Reset ball position
-                            ball.style.top = '50%';
-                            ball.style.left = '50%';
-                            ball.style.right = 'auto';
-                        } else {
-                            completeStage();
-                        }
-                    }, 1500);
-                } else {
-                    skillElement.classList.add('wrong');
-                    lives--;
-                    combo = 0;
-                    
-                    if (lives <= 0) {
-                        gameOver();
-                        return;
-                    }
-                    
-                    setTimeout(() => {
-                        skillElement.classList.remove('wrong', 'selected');
-                        simulationActive = true;
-                    }, 1000);
-                }
-                
-                updateDisplay();
-            }, 500);
-        }
-
-        function initStage2() {
-            currentStage = 2;
-            stageScore = 0;
-            gameTimer = 45;
-            lives = 3;
-            selectedEquipment = [];
-            startTime = Date.now();
-            
-            updateDisplay();
-            startTimer();
-            
-            // Show timer and lives for Game 2
-            document.getElementById('timer-display').style.display = 'block';
-            document.getElementById('lives-display').style.display = 'block';
-            
-            document.getElementById('stage1-content').style.display = 'none';
-            document.getElementById('stage2-content').style.display = 'block';
-            document.getElementById('stage-title').textContent = 'Permainan 2: Keselamatan Bola Sepak';
-            
-            // Shuffle equipment for challenge
-            const shuffledEquipment = [...stage2Equipment].sort(() => Math.random() - 0.5);
-            
-            const equipmentOptions = document.getElementById('equipment-options');
-            equipmentOptions.innerHTML = shuffledEquipment.map((item, index) => 
-                `<div class="equipment-item" onclick="selectEquipment(${index}, ${stage2Equipment.indexOf(item)})">
-                    <div class="equipment-icon">${item.icon}</div>
-                    <div>${item.name}</div>
-                </div>`
-            ).join('');
-        }
-
-        function selectEquipment(displayIndex, equipmentIndex) {
-            if (selectedEquipment.includes(equipmentIndex) || gameTimer <= 0) return;
-            
-            const equipmentElement = document.querySelectorAll('.equipment-item')[displayIndex];
-            const equipment = stage2Equipment[equipmentIndex];
-            
-            selectedEquipment.push(equipmentIndex);
-            equipmentElement.classList.add('selected');
-            
-            setTimeout(() => {
-                if (equipment.required) {
-                    equipmentElement.classList.add('correct');
-                    stageScore++;
-                    combo++;
-                    
-                    // Update player avatar
-                    const avatar = document.getElementById('player-avatar');
-                    avatar.style.transform = 'translate(-50%, -50%) scale(1.1)';
-                    setTimeout(() => {
-                        avatar.style.transform = 'translate(-50%, -50%) scale(1)';
-                    }, 300);
-                } else {
-                    equipmentElement.classList.add('incorrect');
-                    lives--;
-                    combo = 0;
-                    
-                    if (lives <= 0) {
-                        gameOver();
-                        return;
-                    }
-                }
-                
-                document.getElementById('selected-count').textContent = selectedEquipment.length;
-                document.getElementById('correct-count').textContent = stageScore;
-                updateDisplay();
-                
-                if (stageScore === 5) {
-                    setTimeout(() => completeStage(), 1000);
-                }
-            }, 500);
-        }
-
-        function initStage3() {
-            currentStage = 3;
-            stageScore = 0;
-            gameTimer = 30; // Start with 30 seconds for first question
-            currentScenario = 0;
-            startTime = Date.now();
-            
-            // Show Game 3 content and timer, hide lives display
-            document.getElementById('stage3-content').style.display = 'block';
-            document.getElementById('timer-display').style.display = 'block';
-            document.getElementById('lives-display').style.display = 'none';
-            document.getElementById('stage-title').textContent = 'Permainan 3: Etika Sukan Bola Sepak';
-            
-            updateDisplay();
-            startTimer();
-            
-            loadScenario();
-        }
-
-        function loadScenario() {
-            if (currentScenario >= stage3Scenarios.length || gameTimer <= 0) {
-                completeStage();
-                return;
-            }
-            
-            const scenario = stage3Scenarios[currentScenario];
-            const container = document.getElementById('scenario-container');
-            
-            container.innerHTML = `
-                <div class="scenario-container" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: left;">
-                    <h4>⚡ Situasi Pantas ${currentScenario + 1}/8:</h4>
-                    <div class="scenario-text" style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; color: #4A148C;">${scenario.situation}</div>
-                    <p><strong>Pilih tindakan yang betul dengan pantas:</strong></p>
-                    <div class="action-buttons" style="display: grid; gap: 15px; margin-top: 20px;">
-                        ${scenario.actions.map((action, index) => 
-                            `<button class="action-btn" onclick="selectAction(${index})" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white; border: none; padding: 15px 20px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; text-align: left;">${action.text}</button>`
-                        ).join('')}
-                    </div>
+            // Update question side with icon and graphic
+            document.getElementById('questionText').innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                    <span style="font-size: 2rem; margin-right: 10px;">${card.icon}</span>
+                    ${card.graphic}
                 </div>
+                ${card.question}
             `;
-        }
-
-        function selectAction(actionIndex) {
-            const scenario = stage3Scenarios[currentScenario];
-            const buttons = document.querySelectorAll('.action-btn');
             
-            // Stop current timer
-            clearInterval(timerInterval);
+            // Update answer side
+            document.getElementById('answerText').innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                    <span style="font-size: 2rem; margin-right: 10px;">✅</span>
+                </div>
+                ${card.answer}
+            `;
             
-            buttons.forEach((btn, index) => {
-                btn.style.pointerEvents = 'none';
-                if (scenario.actions[index].correct) {
-                    btn.style.background = 'linear-gradient(135deg, #4CAF50, #388E3C)';
-                } else if (index === actionIndex && !scenario.actions[index].correct) {
-                    btn.style.background = 'linear-gradient(135deg, #F44336, #D32F2F)';
-                }
-            });
+            // Reset flip state
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
             
-            if (scenario.actions[actionIndex].correct) {
-                stageScore++;
-                combo++;
-                // Add 10 seconds for next question (but don't exceed 60 seconds)
-                gameTimer = Math.min(gameTimer + 10, 60);
+            // Update studied indicator
+            const indicator = document.getElementById('studiedIndicator');
+            if (studiedCards.has(currentCard)) {
+                indicator.classList.add('show');
             } else {
-                combo = 0;
-                // Subtract 2 seconds for next question (but don't go below 5 seconds)
-                gameTimer = Math.max(gameTimer - 2, 5);
+                indicator.classList.remove('show');
             }
             
-            updateDisplay();
-            
-            setTimeout(() => {
-                currentScenario++;
-                if (currentScenario < stage3Scenarios.length) {
-                    // Reset timer to calculated time for next question
-                    gameTimer = currentScenario === 0 ? 30 : gameTimer; // First question always 30s
-                    document.getElementById('timer').textContent = gameTimer;
-                    
-                    // Reset timer styling
-                    document.querySelector('.timer').style.background = 'linear-gradient(135deg, #FF6B35, #F7931E)';
-                    document.querySelector('.timer').style.animation = 'none';
-                    
-                    startTimer();
-                }
-                loadScenario();
-            }, 2000);
+            // Update card colors based on position
+            updateCardColors();
         }
 
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                gameTimer--;
-                document.getElementById('timer').textContent = gameTimer;
+        function updateCardColors() {
+            const progress = currentCard / (flashcards.length - 1);
+            const cardFront = document.querySelector('.card-front');
+            const cardBack = document.querySelector('.card-back');
+            
+            // Create dynamic gradients based on card position
+            const hue1 = 30 + (progress * 60); // From orange to blue
+            const hue2 = 180 + (progress * 60); // From cyan to pink
+            
+            cardFront.style.background = `linear-gradient(135deg, hsl(${hue1}, 70%, 85%) 0%, hsl(${hue1 + 20}, 60%, 80%) 100%)`;
+            cardBack.style.background = `linear-gradient(135deg, hsl(${hue2}, 60%, 85%) 0%, hsl(${hue2 + 30}, 70%, 80%) 100%)`;
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+            
+            // Mark as studied when flipped to answer
+            if (isFlipped) {
+                markAsStudied();
+            }
+        }
+
+        function nextCard() {
+            if (currentCard < flashcards.length - 1) {
+                currentCard++;
+                displayCard();
+                updateProgress();
+                updateNavigation();
+            }
+        }
+
+        function previousCard() {
+            if (currentCard > 0) {
+                currentCard--;
+                displayCard();
+                updateProgress();
+                updateNavigation();
+            }
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const counter = document.getElementById('cardCounter');
+            
+            prevBtn.disabled = currentCard === 0;
+            nextBtn.disabled = currentCard === flashcards.length - 1;
+            
+            counter.textContent = `${currentCard + 1} / ${flashcards.length}`;
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const studiedCount = document.getElementById('studiedCount');
+            
+            const progress = (studiedCards.size / flashcards.length) * 100;
+            progressFill.style.width = progress + '%';
+            studiedCount.textContent = `${studiedCards.size}/${flashcards.length} dikaji`;
+        }
+
+        function markAsStudied() {
+            studiedCards.add(currentCard);
+            document.getElementById('studiedIndicator').classList.add('show');
+            updateProgress();
+        }
+
+        function shuffleCards() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            
+            currentCard = 0;
+            displayCard();
+            updateNavigation();
+        }
+
+        function resetProgress() {
+            studiedCards.clear();
+            currentCard = 0;
+            displayCard();
+            updateProgress();
+            updateNavigation();
+        }
+
+        function setupTouchEvents() {
+            const cardWrapper = document.getElementById('cardWrapper');
+            
+            cardWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+            cardWrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
+            cardWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+
+        function handleTouchStart(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }
+
+        function handleTouchMove(e) {
+            if (!startX || !startY) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            
+            const diffX = startX - currentX;
+            const diffY = startY - currentY;
+            
+            // Only handle horizontal swipes (ignore vertical)
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe left - next card
+                    nextCard();
+                } else {
+                    // Swipe right - previous card
+                    previousCard();
+                }
                 
-                if (gameTimer <= 10) {
-                    document.querySelector('.timer').style.background = 'linear-gradient(135deg, #F44336, #D32F2F)';
-                    document.querySelector('.timer').style.animation = 'pulse 1s infinite';
-                }
-                
-                if (gameTimer <= 0) {
-                    gameOver();
-                }
-            }, 1000);
-        }
-
-        function updateDisplay() {
-            document.getElementById('stage-score').textContent = stageScore;
-            document.getElementById('lives').textContent = lives;
-            document.getElementById('combo').textContent = combo;
-            
-            const livesDisplay = document.getElementById('lives-display');
-            if (lives <= 1) {
-                livesDisplay.classList.add('danger');
-            } else {
-                livesDisplay.classList.remove('danger');
-            }
-            
-            // Update max score and rounds based on current game
-            let maxScore, totalRounds, currentRound;
-            if (currentStage === 1) {
-                maxScore = 8;
-                totalRounds = 8;
-                currentRound = currentSituation;
-            } else if (currentStage === 2) {
-                maxScore = 5;
-                totalRounds = 5;
-                currentRound = selectedEquipment.length;
-            } else {
-                maxScore = 8;
-                totalRounds = 8;
-                currentRound = currentScenario;
-            }
-            
-            document.getElementById('max-score').textContent = maxScore;
-            document.getElementById('total-rounds').textContent = totalRounds;
-            document.getElementById('current-round').textContent = currentRound;
-            
-            let progress = (currentRound / totalRounds) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
-        }
-
-        function completeStage() {
-            clearInterval(timerInterval);
-            
-            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('complete-stage-score').textContent = stageScore;
-            document.getElementById('time-taken').textContent = timeTaken;
-            
-            let maxScore = currentStage === 1 ? 8 : currentStage === 2 ? 5 : 8;
-            document.getElementById('complete-max-score').textContent = maxScore;
-            
-            // Show goal animation for perfect score
-            if (stageScore === maxScore) {
-                showGoalAnimation();
-                setTimeout(() => {
-                    document.getElementById('stage-complete').classList.add('show');
-                }, 3000);
-            } else {
-                document.getElementById('stage-complete').classList.add('show');
-            }
-            
-            let feedback = '';
-            if (stageScore === maxScore) feedback = '🌟 SEMPURNA! Prestasi yang luar biasa!';
-            else if (stageScore >= maxScore * 0.75) feedback = '👍 BAGUS! Prestasi yang baik!';
-            else if (stageScore >= maxScore * 0.5) feedback = '💪 BOLEH! Teruskan usaha!';
-            else feedback = '📚 Cuba lagi! Anda pasti boleh buat lebih baik!';
-            
-            document.getElementById('stage-feedback').textContent = feedback;
-            updateDisplay();
-        }
-
-        function backToMenu() {
-            clearInterval(timerInterval);
-            document.getElementById('game-area').classList.remove('active');
-            document.getElementById('stage-complete').classList.remove('show');
-            document.getElementById('intro-screen').style.display = 'block';
-            
-            // Reset all content visibility
-            document.getElementById('stage1-content').style.display = 'block';
-            document.getElementById('stage2-content').style.display = 'none';
-            document.getElementById('stage3-content').style.display = 'none';
-            document.getElementById('timer-display').style.display = 'none';
-        }
-
-        function restartCurrentGame() {
-            document.getElementById('stage-complete').classList.remove('show');
-            
-            if (currentStage === 1) {
-                initStage1();
-            } else if (currentStage === 2) {
-                initStage2();
-            } else if (currentStage === 3) {
-                initStage3();
+                startX = null;
+                startY = null;
             }
         }
 
-        function showGoalAnimation() {
-            const goalAnimation = document.getElementById('goal-animation');
-            const fireworks = document.getElementById('fireworks');
-            
-            goalAnimation.classList.add('show');
-            
-            // Create fireworks
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const firework = document.createElement('div');
-                    firework.className = 'firework';
-                    firework.style.left = Math.random() * 100 + '%';
-                    firework.style.top = Math.random() * 100 + '%';
-                    firework.style.background = ['#FFD700', '#FF6B35', '#4CAF50', '#2196F3', '#9C27B0'][Math.floor(Math.random() * 5)];
-                    fireworks.appendChild(firework);
-                    
-                    setTimeout(() => firework.remove(), 2000);
-                }, i * 100);
-            }
-            
-            setTimeout(() => {
-                goalAnimation.classList.remove('show');
-            }, 3000);
+        function handleTouchEnd() {
+            startX = null;
+            startY = null;
         }
 
-        function gameOver() {
-            clearInterval(timerInterval);
-            alert('Permainan Tamat! Masa atau nyawa telah habis. Cuba lagi!');
-            restartGame();
-        }
-
-        function nextStage() {
-            document.getElementById('stage-complete').classList.remove('show');
-            
-            if (currentStage === 1) {
-                initStage2();
-            } else if (currentStage === 2) {
-                initStage3();
-            } else {
-                showFinalCompletion();
-            }
-        }
-
-        function showFinalCompletion() {
-            document.getElementById('game-area').classList.remove('active');
-            document.getElementById('final-completion').style.display = 'block';
-            document.getElementById('final-total-score').textContent = totalScore;
-            
-            let grade = '';
-            if (totalScore >= 20) grade = '🏆 JUARA DUNIA! Anda seorang pemain bola sepak yang sempurna!';
-            else if (totalScore >= 16) grade = '🥈 CEMERLANG! Prestasi yang sangat baik!';
-            else if (totalScore >= 12) grade = '🥉 BAGUS! Anda mempunyai asas yang kukuh!';
-            else grade = '📚 Teruskan berlatih! Anda pasti akan menjadi lebih baik!';
-            
-            document.getElementById('final-grade').innerHTML = `<h3>${grade}</h3>`;
-        }
-
-        function restartGame() {
-            clearInterval(timerInterval);
-            currentStage = 1;
-            stageScore = 0;
-            totalScore = 0;
-            gameTimer = 60;
-            lives = 3;
-            combo = 0;
-            currentSituation = 0;
-            simulationActive = false;
-            selectedEquipment = [];
-            currentScenario = 0;
-            
-            document.getElementById('final-completion').style.display = 'none';
-            document.getElementById('intro-screen').style.display = 'block';
-            document.getElementById('game-area').classList.remove('active');
-            
-            // Reset all content visibility
-            document.getElementById('stage1-content').style.display = 'block';
-            document.getElementById('stage2-content').style.display = 'none';
-            document.getElementById('stage3-content').style.display = 'none';
-            document.getElementById('stage-complete').classList.remove('show');
-        }
+        // Initialize when page loads
+        initializeFlashcards();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'985132f037a1dce2',t:'MTc1ODg3MzMyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98826d0c708fe708',t:'MTc1OTM4OTUwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
