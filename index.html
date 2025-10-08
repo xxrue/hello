@@ -676,14 +676,14 @@
 
         function checkBallCatch() {
             const currentTime = Date.now();
-            const tolerance = 12; // increased tolerance for catching
+            const tolerance = 18; // increased tolerance for better catching
             
             catchingState.activeBalls.forEach((ballData, index) => {
                 const timePassed = currentTime - ballData.startTime;
                 const fallProgress = timePassed / catchingState.ballSpeed;
                 
-                // Check if ball is at player level (wider range for better catching)
-                if (fallProgress >= 0.75 && fallProgress <= 1.0) {
+                // Check if ball is at player level (much wider range for better catching)
+                if (fallProgress >= 0.65 && fallProgress <= 1.1) {
                     const ballX = ballData.x;
                     const playerX = catchingState.playerPosition;
                     
@@ -780,8 +780,10 @@
 
         function showNextQuestion() {
             if (gameState.currentQuestion <= 5) {
-                // Pick a random skill that hasn't been revealed yet
-                const availableSkills = gameState.cardPositions.filter((_, index) => !gameState.revealedCards[index]);
+                // Pick a random skill that hasn't been revealed yet (excluding decoy cards)
+                const availableSkills = gameState.cardPositions.filter((card, index) => 
+                    !gameState.revealedCards[index] && card.name !== "Kad Kosong"
+                );
                 
                 if (availableSkills.length > 0) {
                     const randomSkill = availableSkills[Math.floor(Math.random() * availableSkills.length)];
@@ -1034,5 +1036,5 @@
             };
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b4c8160503b4d0',t:'MTc1OTkxNzUyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b4e0519606b4d0',t:'MTc1OTkxODUxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
