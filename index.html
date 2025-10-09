@@ -527,7 +527,7 @@
                 gameState.multiplier = 2;
                 showMessage('✅ Betul!', 'Gandaan x2 diaktifkan!', 'success');
             } else {
-                catchingState.ballSpeed = Math.max(800, catchingState.ballSpeed - 300);
+                catchingState.ballSpeed = Math.max(600, catchingState.ballSpeed - 500);
                 showMessage('❌ Salah!', 'Bola jatuh lebih laju!', 'error');
             }
             
@@ -535,7 +535,7 @@
         }
         
         function missedQuestion() {
-            catchingState.ballSpeed = Math.max(800, catchingState.ballSpeed - 300);
+            catchingState.ballSpeed = Math.max(600, catchingState.ballSpeed - 500);
             showMessage('⏰ Terlepas!', 'Masa tamat! Bola jatuh lebih laju!', 'error');
             
             resumeGame();
@@ -676,14 +676,14 @@
 
         function checkBallCatch() {
             const currentTime = Date.now();
-            const tolerance = 18; // increased tolerance for better catching
+            const tolerance = 25; // much larger tolerance for easier catching
             
             catchingState.activeBalls.forEach((ballData, index) => {
                 const timePassed = currentTime - ballData.startTime;
                 const fallProgress = timePassed / catchingState.ballSpeed;
                 
-                // Check if ball is at player level (much wider range for better catching)
-                if (fallProgress >= 0.65 && fallProgress <= 1.1) {
+                // Check if ball is at player level (very wide range for forgiving catching)
+                if (fallProgress >= 0.6 && fallProgress <= 1.2) {
                     const ballX = ballData.x;
                     const playerX = catchingState.playerPosition;
                     
@@ -1036,5 +1036,5 @@
             };
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b4e0519606b4d0',t:'MTc1OTkxODUxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ba058c417b24d2',t:'MTc1OTk3MjQ3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
