@@ -705,26 +705,26 @@
             .notes-cards-container {
                 grid-template-columns: 1fr;
                 gap: 25px;
-                padding: 0 15px;
+                padding: 0 10px;
             }
             
             .notes-card-wrapper .flashcard-container {
                 width: 100%;
-                max-width: 100%;
-                height: 380px;
+                max-width: 95%;
+                height: 350px;
             }
             
             .notes-card-wrapper .card-side {
-                padding: 18px;
+                padding: 15px;
             }
             
             .notes-card-wrapper .card-title {
-                font-size: 1.25rem;
+                font-size: 1.2rem;
             }
             
             .notes-card-wrapper .card-content li {
-                font-size: 0.9rem;
-                padding: 10px 14px;
+                font-size: 0.85rem;
+                padding: 8px 12px;
             }
         }
 
@@ -811,115 +811,42 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 10px;
             }
             
             .main-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 padding: 0 5px;
             }
             
             .welcome-card {
-                padding: 20px;
-                margin-bottom: 25px;
-                margin: 0 0 25px 0;
+                padding: 18px;
+                margin-bottom: 20px;
+                margin: 0 0 20px 0;
             }
             
             .welcome-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
             
             .menu-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 0;
-            }
-            
-            .menu-option {
-                padding: 20px;
-            }
-            
-            .flashcard-container {
-                height: 400px;
-                max-width: 100%;
-                width: 100%;
-            }
-            
-            .card-side {
-                padding: 18px;
-            }
-            
-            .card-title {
-                font-size: 1.4rem;
-            }
-            
-            .card-instruction {
-                font-size: 0.9rem;
-            }
-            
-            .card-content li {
-                font-size: 0.9rem;
-                padding: 10px 14px;
-            }
-            
-            .back-btn {
-                top: 15px;
-                left: 15px;
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-            
-            .game-instructions {
-                margin: 0 0 20px 0;
-                padding: 18px;
-            }
-            
-            .answer-explanation {
-                font-size: 0.95rem;
-                padding: 15px;
-                max-width: 90%;
-            }
-            
-            .section-header {
-                margin-bottom: 30px;
-            }
-            
-            .section-title {
-                font-size: 1.7rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 12px;
-            }
-            
-            .main-title {
-                font-size: 1.4rem;
-                padding: 0;
-            }
-            
-            .welcome-card {
-                padding: 18px;
-                margin: 0 0 20px 0;
-            }
-            
-            .welcome-title {
-                font-size: 1.3rem;
-            }
-            
-            .menu-grid {
-                padding: 0;
                 gap: 15px;
+                padding: 0;
             }
             
             .menu-option {
                 padding: 18px;
             }
             
+            .flashcard-area {
+                padding: 20px 0;
+            }
+            
             .flashcard-container {
-                height: 350px;
-                width: 100%;
+                height: 320px;
+                max-width: 95%;
+                width: 95%;
             }
             
             .card-side {
@@ -931,7 +858,7 @@
             }
             
             .card-instruction {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
             
             .card-content li {
@@ -939,22 +866,11 @@
                 padding: 8px 12px;
             }
             
-            .notes-card-wrapper .card-content li {
-                font-size: 0.75rem;
-                padding: 8px 10px;
-            }
-            
-            .notes-card-wrapper .flashcard-container {
-                height: 320px;
-            }
-            
-            .notes-card-wrapper .card-title {
-                font-size: 1.1rem;
-            }
-            
-            .notes-cards-container {
-                padding: 0 5px;
-                gap: 20px;
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.85rem;
             }
             
             .game-instructions {
@@ -965,17 +881,129 @@
             .answer-explanation {
                 font-size: 0.85rem;
                 padding: 12px;
+                max-width: 90%;
             }
             
-            .back-btn {
-                top: 10px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 0.75rem;
+            .section-header {
+                margin-bottom: 25px;
             }
             
             .section-title {
                 font-size: 1.5rem;
+            }
+            
+            .score-display {
+                margin-top: 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+            
+            .main-title {
+                font-size: 1.3rem;
+                padding: 0;
+            }
+            
+            .welcome-card {
+                padding: 15px;
+                margin: 0 0 15px 0;
+            }
+            
+            .welcome-title {
+                font-size: 1.2rem;
+            }
+            
+            .menu-grid {
+                padding: 0;
+                gap: 12px;
+            }
+            
+            .menu-option {
+                padding: 15px;
+            }
+            
+            .flashcard-area {
+                padding: 15px 0;
+            }
+            
+            .flashcard-container {
+                height: 280px;
+                width: 98%;
+                max-width: 98%;
+            }
+            
+            .card-side {
+                padding: 12px;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+            }
+            
+            .card-instruction {
+                font-size: 0.75rem;
+            }
+            
+            .card-content li {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+            
+            .notes-card-wrapper .card-content li {
+                font-size: 0.7rem;
+                padding: 6px 8px;
+            }
+            
+            .notes-card-wrapper .flashcard-container {
+                height: 280px;
+                max-width: 98%;
+            }
+            
+            .notes-card-wrapper .card-title {
+                font-size: 1rem;
+            }
+            
+            .notes-card-wrapper .card-side {
+                padding: 12px;
+            }
+            
+            .notes-cards-container {
+                padding: 0 5px;
+                gap: 15px;
+            }
+            
+            .game-instructions {
+                margin: 0 0 10px 0;
+                padding: 12px;
+            }
+            
+            .answer-explanation {
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+            
+            .back-btn {
+                top: 8px;
+                left: 8px;
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .section-header {
+                margin-bottom: 20px;
+            }
+            
+            .score-display {
+                margin-top: 20px;
+                font-size: 0.9rem;
             }
         }
 
@@ -1428,5 +1456,5 @@
             startFallingSunflowers();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98c54f92b44e0a32',t:'MTc2MDA5MDg0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98c5573d83780a32',t:'MTc2MDA5MTE2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
