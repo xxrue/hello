@@ -3,1130 +3,1169 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuiz Bola Tampar</title>
+  <title>Flashcard Perkembangan Seksual Sekunder</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      transition: background 0.8s ease;
-    }
-
-    body.dark-mode {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    }
-
-    html {
-      height: 100%;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .volleyball-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .falling-volleyball {
-      position: absolute;
-      font-size: 30px;
-      opacity: 0.3;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-      }
-    }
-
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      top: -10px;
-      z-index: 9999;
-      animation: confettiFall 3s ease-out forwards;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    .header {
-      text-align: center;
-      color: white;
-      margin-bottom: 30px;
-      animation: slideDown 0.6s ease-out;
-      transition: all 0.8s ease;
-    }
-
-    .header h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .header p {
-      font-size: 20px;
-      opacity: 0.95;
-    }
-
-    body.dark-mode .header h1 {
-      color: #f093fb;
-      text-shadow: 0 0 20px rgba(240, 147, 251, 0.5);
-    }
-
-    body.dark-mode .header p {
-      color: #e0e0e0;
-    }
-
-    .volleyball-icon {
-      font-size: 50px;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .quiz-card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
-      animation: fadeIn 0.6s ease-out;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .quiz-card {
-      background: #0f3460;
-      box-shadow: 0 10px 40px rgba(240, 147, 251, 0.3);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .question-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .question-number {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .question-number {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-
-    .score {
-      color: #667eea;
-      font-weight: bold;
-      font-size: 18px;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .score {
-      color: #f093fb;
-    }
-
-    .question-text {
-      font-size: 20px;
-      color: #2d3748;
-      margin-bottom: 25px;
-      line-height: 1.6;
-      font-weight: 500;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .question-text {
-      color: #e0e0e0;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .option {
-      background: #f7fafc;
-      border: 3px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 18px 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 16px;
-      color: #2d3748;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    body.dark-mode .option {
-      background: #1a1a2e;
-      border-color: #2a2a4e;
-      color: #e0e0e0;
-    }
-
-    .option:hover:not(.disabled) {
-      background: #edf2f7;
-      border-color: #667eea;
-      transform: translateX(5px);
-    }
-
-    body.dark-mode .option:hover:not(.disabled) {
-      background: #2a2a4e;
-      border-color: #f093fb;
-    }
-
-    .option.selected {
-      background: #667eea;
-      border-color: #667eea;
-      color: white;
-      font-weight: 600;
-    }
-
-    body.dark-mode .option.selected {
-      background: #f093fb;
-      border-color: #f093fb;
-    }
-
-    .option.correct {
-      background: #48bb78;
-      border-color: #48bb78;
-      color: white;
-      animation: correctPulse 0.5s ease;
-    }
-
-    .option.wrong {
-      background: #f56565;
-      border-color: #f56565;
-      color: white;
-      animation: shake 0.5s ease;
-    }
-
-    .option.disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    @keyframes correctPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
-    body.dark-mode .option.correct {
-      animation: redemptionCorrect 0.8s ease;
-      box-shadow: 0 0 30px rgba(72, 187, 120, 0.8);
-    }
-
-    body.dark-mode .option.wrong {
-      animation: redemptionWrong 0.8s ease;
-      box-shadow: 0 0 30px rgba(245, 101, 101, 0.8);
-    }
-
-    @keyframes redemptionCorrect {
-      0% { transform: scale(1); box-shadow: 0 0 0 rgba(72, 187, 120, 0); }
-      25% { transform: scale(1.05); box-shadow: 0 0 40px rgba(72, 187, 120, 1); }
-      50% { transform: scale(0.98); box-shadow: 0 0 50px rgba(72, 187, 120, 0.8); }
-      75% { transform: scale(1.02); box-shadow: 0 0 40px rgba(72, 187, 120, 1); }
-      100% { transform: scale(1); box-shadow: 0 0 30px rgba(72, 187, 120, 0.8); }
-    }
-
-    @keyframes redemptionWrong {
-      0%, 100% { transform: translateX(0); box-shadow: 0 0 30px rgba(245, 101, 101, 0.8); }
-      10% { transform: translateX(-10px) rotate(-2deg); box-shadow: 0 0 40px rgba(245, 101, 101, 1); }
-      20% { transform: translateX(10px) rotate(2deg); box-shadow: 0 0 50px rgba(245, 101, 101, 0.8); }
-      30% { transform: translateX(-10px) rotate(-2deg); box-shadow: 0 0 40px rgba(245, 101, 101, 1); }
-      40% { transform: translateX(10px) rotate(2deg); box-shadow: 0 0 50px rgba(245, 101, 101, 0.8); }
-      50% { transform: translateX(-5px) rotate(-1deg); box-shadow: 0 0 40px rgba(245, 101, 101, 1); }
-      60% { transform: translateX(5px) rotate(1deg); box-shadow: 0 0 35px rgba(245, 101, 101, 0.8); }
-    }
-
-    .option-letter {
-      background: white;
-      color: #667eea;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
-      transition: all 0.3s ease;
-    }
-
-    body.dark-mode .option-letter {
-      background: #0f3460;
-      color: #f093fb;
-    }
-
-    .option.selected .option-letter,
-    .option.correct .option-letter,
-    .option.wrong .option-letter {
-      background: rgba(255,255,255,0.3);
-      color: white;
-    }
-
-    .next-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 25px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 20px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    body.dark-mode .next-button {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
-    }
-
-    .next-button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-    }
-
-    body.dark-mode .next-button:hover:not(:disabled) {
-      box-shadow: 0 6px 20px rgba(240, 147, 251, 0.5);
-    }
-
-    .next-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .result-card {
-      text-align: center;
-      padding: 40px 30px;
-    }
-
-    .result-icon {
-      font-size: 80px;
-      margin-bottom: 20px;
-      animation: scaleIn 0.6s ease-out;
-    }
-
-    @keyframes scaleIn {
-      from {
-        transform: scale(0);
-      }
-      to {
-        transform: scale(1);
-      }
-    }
-
-    .result-title {
-      font-size: 32px;
-      color: #2d3748;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-
-    .result-score {
-      font-size: 24px;
-      color: #667eea;
-      margin-bottom: 20px;
-    }
-
-    .result-message {
-      font-size: 18px;
-      color: #4a5568;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .restart-button {
-      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 25px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
-    }
-
-    .restart-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
-    }
-
-    .powerups {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .powerup {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
-      border: none;
-    }
-
-    .powerup:hover:not(.used) {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(240, 147, 251, 0.5);
-    }
-
-    .powerup.used {
-      opacity: 0.4;
-      cursor: not-allowed;
-      background: #cbd5e0;
-    }
-
-    .powerup.double-points {
-      background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-    }
-
-    .powerup.double-points:hover:not(.used) {
-      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-    }
-
-    .powerup.active {
-      animation: powerupPulse 1s infinite;
-    }
-
-    @keyframes powerupPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .hint-box {
-      background: #fff3cd;
-      border: 2px solid #ffc107;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      animation: slideIn 0.5s ease-out;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .hint-box {
-      background: #2a2a4e;
-      border-color: #f093fb;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .hint-icon {
-      font-size: 24px;
-    }
-
-    .hint-text {
-      color: #856404;
-      font-size: 15px;
-      line-height: 1.5;
-      flex: 1;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .hint-text {
-      color: #e0e0e0;
-    }
-
-    .round-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-      animation: bounceIn 0.6s ease-out;
-    }
-
-    @keyframes bounceIn {
-      0% {
-        transform: scale(0.3);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.05);
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .points-indicator {
-      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 15px;
-      font-size: 13px;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      animation: pointsGlow 0.5s ease-out;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .points-indicator {
-      background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
-    }
-
-    @keyframes pointsGlow {
-      0% {
-        box-shadow: 0 0 0 rgba(72, 187, 120, 0);
-      }
-      50% {
-        box-shadow: 0 0 20px rgba(72, 187, 120, 0.8);
-      }
-      100% {
-        box-shadow: 0 0 0 rgba(72, 187, 120, 0);
-      }
-    }
-
-    @keyframes scoreGlow {
-      0% {
-        transform: scale(1);
-        text-shadow: 0 0 0 rgba(72, 187, 120, 0);
-      }
-      50% {
-        transform: scale(1.3);
-        text-shadow: 0 0 20px rgba(72, 187, 120, 1);
-      }
-      100% {
-        transform: scale(1);
-        text-shadow: 0 0 0 rgba(72, 187, 120, 0);
-      }
-    }
-
-    @keyframes scorePulseRed {
-      0% {
-        transform: scale(1);
-        text-shadow: 0 0 0 rgba(245, 101, 101, 0);
-      }
-      25% {
-        transform: scale(1.15);
-        text-shadow: 0 0 15px rgba(245, 101, 101, 1);
-      }
-      50% {
-        transform: scale(0.95);
-        text-shadow: 0 0 10px rgba(245, 101, 101, 0.8);
-      }
-      75% {
-        transform: scale(1.05);
-        text-shadow: 0 0 15px rgba(245, 101, 101, 1);
-      }
-      100% {
-        transform: scale(1);
-        text-shadow: 0 0 0 rgba(245, 101, 101, 0);
-      }
-    }
-
-    .progress-bar {
-      background: #e2e8f0;
-      height: 8px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      overflow: hidden;
-      transition: all 0.8s ease;
-    }
-
-    body.dark-mode .progress-bar {
-      background: #2a2a4e;
-    }
-
-    .progress-fill {
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-      height: 100%;
-      border-radius: 10px;
-      transition: width 0.5s ease, background 0.8s ease;
-    }
-
-    body.dark-mode .progress-fill {
-      background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 15px;
-      }
-
-      .header h1 {
-        font-size: 32px;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .header p {
-        font-size: 16px;
-      }
-
-      .quiz-card {
-        padding: 20px;
-      }
-
-      .question-text {
-        font-size: 18px;
-      }
-
-      .option {
-        padding: 15px;
-        font-size: 15px;
-      }
-
-      .result-title {
-        font-size: 26px;
-      }
-
-      .result-icon {
-        font-size: 60px;
-      }
-    }
-  </style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #88d5c0 25%, #6bc4b0 50%, #7dd4c8 75%, #90e0d8 100%);
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(168, 237, 234, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(136, 213, 192, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(144, 224, 216, 0.3) 0%, transparent 60%),
+                linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            color: #1a5645;
+            font-size: 32px;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            color: #2d7a5f;
+            font-size: 18px;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 50%, #e0f5ed 100%);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(107, 196, 176, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+            border: 2px solid rgba(107, 196, 176, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(125, 212, 200, 0.3) 0%, rgba(107, 196, 176, 0.2) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+
+        .menu-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 35px rgba(107, 196, 176, 0.3);
+            border-color: rgba(107, 196, 176, 0.3);
+        }
+
+        .menu-card-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: drop-shadow(2px 2px 4px rgba(107, 196, 176, 0.3));
+        }
+
+        .menu-card h2 {
+            color: #1a5645;
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+
+        .menu-card p {
+            color: #3d8a6f;
+            font-size: 16px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .flashcard-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .flashcard-section.active {
+            display: block;
+        }
+
+        .flashcard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a5645;
+            border: 2px solid #6bc4b0;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.2);
+        }
+
+        .back-btn:hover {
+            background: #6bc4b0;
+            color: white;
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.3);
+        }
+
+        .progress {
+            color: #1a5645;
+            font-size: 18px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.15);
+        }
+
+        .nota-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-wrapper {
+            perspective: 1500px;
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(107, 196, 176, 0.25);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-y: auto;
+            border: 3px solid rgba(107, 196, 176, 0.2);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 40%, #e0f5ed 100%);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(145deg, #7dd4c8 0%, #90e0d8 50%, #a3ece0 100%);
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .flashcard-front .flashcard-title {
+            color: #1a5645;
+        }
+
+        .flashcard-back .flashcard-title {
+            color: #1a5645;
+        }
+
+        .flashcard-content {
+            width: 100%;
+        }
+
+        .change-item {
+            background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 100%);
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 12px;
+            font-size: 17px;
+            color: #1a5645;
+            border-left: 4px solid #6bc4b0;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(107, 196, 176, 0.1);
+        }
+
+        .change-item:hover {
+            transform: translateX(5px);
+            background: linear-gradient(145deg, #e0f5ed 0%, #d0f0e5 100%);
+            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
+        }
+
+        .flashcard-back .change-item {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a5645;
+            border-left-color: #1a5645;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .flashcard-back .change-item:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 50%, #e0f5ed 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a5645;
+            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
+        }
+
+        .quiz-option:hover {
+            background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 50%, #d0f0e5 100%);
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(107, 196, 176, 0.3);
+        }
+
+        .quiz-option.selected {
+            border-color: #6bc4b0;
+            background: linear-gradient(145deg, #6bc4b0 0%, #5ab39f 50%, #4aa28e 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.4);
+        }
+
+        .answer-reveal {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid #1a5645;
+        }
+
+        .answer-reveal h3 {
+            color: #1a5645;
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+
+        .answer-reveal p {
+            color: #1a5645;
+            font-size: 20px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .prev-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a5645;
+            border: 2px solid #6bc4b0;
+        }
+
+        .prev-btn:hover:not(:disabled) {
+            background: #6bc4b0;
+            color: white;
+            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.3);
+        }
+
+        .next-btn {
+            background: linear-gradient(145deg, #6bc4b0 0%, #5ab39f 100%);
+            color: white;
+        }
+
+        .next-btn:hover:not(:disabled) {
+            background: linear-gradient(145deg, #5ab39f 0%, #4aa28e 100%);
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.35);
+        }
+
+        .flip-hint {
+            text-align: center;
+            color: #1a5645;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            display: block;
+        }
+
+        .definition-box {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid rgba(107, 196, 176, 0.3);
+            box-shadow: 0 8px 25px rgba(107, 196, 176, 0.15);
+        }
+
+        .definition-box h3 {
+            color: #1a5645;
+            font-size: 18px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .definition-box p {
+            color: #2d7a5f;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .wellness-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #6bc4b0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
+            border: 2px solid rgba(107, 196, 176, 0.2);
+        }
+
+        .score-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .score-modal.active {
+            display: flex;
+        }
+
+        .score-content {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: scaleIn 0.4s ease-out;
+            border: 4px solid #1a5645;
+        }
+
+        .score-content h2 {
+            color: #1a5645;
+            font-size: 36px;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+        }
+
+        .score-number {
+            font-size: 72px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6bc4b0 0%, #7dd4c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 20px;
+            color: #2d7a5f;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            background: linear-gradient(145deg, #6bc4b0 0%, #7dd4c8 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.3);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.4);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #6bc4b0;
+            position: absolute;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .answer-indicator {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .answer-correct {
+            background: rgba(52, 211, 153, 0.2);
+            color: #059669;
+            border: 2px solid #059669;
+        }
+
+        .answer-wrong {
+            background: rgba(239, 68, 68, 0.2);
+            color: #dc2626;
+            border: 2px solid #dc2626;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .menu-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nota-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flashcard {
+                height: 500px;
+            }
+
+            .flashcard-face {
+                padding: 25px;
+            }
+
+            .flashcard-title {
+                font-size: 22px;
+            }
+
+            .change-item {
+                font-size: 15px;
+                padding: 12px 15px;
+            }
+
+            .quiz-option {
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            .nav-btn {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+            
+            .wellness-badge {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="volleyball-bg" id="volleyballBg"></div>
   <div class="container">
    <div class="header">
-    <h1><span class="volleyball-icon">🏐</span> <span id="mainTitle">Bola Tampar</span></h1>
-    <p id="subtitle">Kuiz Kemahiran Asas untuk Tingkatan 1</p>
+    <h1 id="mainTitle">Perkembangan Seksual Sekunder</h1>
+    <p id="subtitle">Pendidikan Jasmani &amp; Pendidikan Kesihatan • Tingkatan 1</p>
    </div>
-   <div class="progress-bar">
-    <div class="progress-fill" id="progressBar"></div>
-   </div>
-   <div class="quiz-card" id="quizCard">
-    <div style="text-align: center;"><span class="round-badge" id="roundBadge">🎯 Pusingan Utama</span>
-    </div>
-    <div class="powerups" id="powerupsContainer"><button class="powerup hint-powerup" id="hint1" onclick="useHint(1)"> 💡 Petunjuk (2) </button> <button class="powerup double-points" id="double1" onclick="useDoublePoints(1)"> ����� Mata Berganda (2) </button>
-    </div>
-    <div id="hintContainer"></div>
-    <div class="question-header"><span class="question-number" id="questionNumber">Soalan 1/10</span>
-     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;"><span class="score" id="scoreDisplay">Skor: 0</span> <span class="points-indicator" id="pointsIndicator">+1 mata</span>
+   <div id="mainMenu">
+    <div class="menu-container">
+     <div class="menu-card" onclick="startNota()">
+      <div class="wellness-badge">
+       ✨ Pembelajaran
+      </div>
+      <div class="menu-card-icon">
+       💚
+      </div>
+      <h2>Flashcard Nota</h2>
+      <p>Pelajari perubahan fizikal dengan tenang dan yakin</p>
+     </div>
+     <div class="menu-card" onclick="startKuiz()">
+      <div class="wellness-badge">
+       🌱 Interaktif
+      </div>
+      <div class="menu-card-icon">
+       🌟
+      </div>
+      <h2>Flashcard Kuiz</h2>
+      <p>Uji pemahaman anda dalam suasana yang selesa</p>
      </div>
     </div>
-    <div class="question-text" id="questionText"></div>
-    <div class="options" id="optionsContainer"></div><button class="next-button" id="nextButton" disabled>Soalan Seterusnya</button>
+    <div class="definition-box">
+     <h3>💡 Nota Penting</h3>
+     <p id="definitionText"><strong>Seksual sekunder</strong> boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. <em>Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟</em></p>
+    </div>
+   </div>
+   <div id="notaSection" class="flashcard-section">
+    <div class="flashcard-header"><button class="back-btn" onclick="backToMenu()">← Kembali</button>
+    </div>
+    <div class="flip-hint" style="margin-bottom: 20px; margin-top: 0;">
+     👆 Klik kad untuk melihat maklumat lengkap
+    </div>
+    <div class="nota-grid">
+     <div class="flashcard-wrapper">
+      <div class="flashcard" id="notaCard1" onclick="flipCard('notaCard1')">
+       <div class="flashcard-face flashcard-front">
+        <h2 class="flashcard-title">Perubahan Fizikal Lelaki</h2>
+        <div class="flashcard-content">
+         <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 80px; margin-bottom: 20px;">
+           👦
+          </div>
+          <p style="font-size: 18px; color: #1a5645; font-weight: 600;">Klik untuk lihat senarai perubahan →</p>
+          <p style="font-size: 14px; color: #2d7a5f; margin-top: 10px; font-style: italic;">💚 Semua perubahan ini adalah normal dan semula jadi</p>
+         </div>
+        </div>
+       </div>
+       <div class="flashcard-face flashcard-back">
+        <h2 class="flashcard-title">Perubahan Fizikal Lelaki</h2>
+        <div class="flashcard-content">
+         <div class="change-item">
+          ✓ Jerawat mula tumbuh
+         </div>
+         <div class="change-item">
+          ✓ Suara menjadi garau
+         </div>
+         <div class="change-item">
+          ✓ Zakar membesar
+         </div>
+         <div class="change-item">
+          ✓ Tekstur kulit menjadi kasar
+         </div>
+         <div class="change-item">
+          ✓ Berat bertambah
+         </div>
+         <div class="change-item">
+          ✓ Ketinggian meningkat
+         </div>
+         <div class="change-item">
+          ✓ Misai dan janggut mula tumbuh
+         </div>
+         <div class="change-item">
+          ✓ Saiz otot membesar
+         </div>
+         <div class="change-item">
+          ✓ Bulu di ketiak dan kemaluan mula tumbuh
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="flashcard-wrapper">
+      <div class="flashcard" id="notaCard2" onclick="flipCard('notaCard2')">
+       <div class="flashcard-face flashcard-front">
+        <h2 class="flashcard-title">Perubahan Fizikal Perempuan</h2>
+        <div class="flashcard-content">
+         <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 80px; margin-bottom: 20px;">
+           👧
+          </div>
+          <p style="font-size: 18px; color: #1a5645; font-weight: 600;">Klik untuk lihat senarai perubahan →</p>
+          <p style="font-size: 14px; color: #2d7a5f; margin-top: 10px; font-style: italic;">💚 Semua perubahan ini adalah normal dan semula jadi</p>
+         </div>
+        </div>
+       </div>
+       <div class="flashcard-face flashcard-back">
+        <h2 class="flashcard-title">Perubahan Fizikal Perempuan</h2>
+        <div class="flashcard-content">
+         <div class="change-item">
+          ✓ Suara semakin lunak
+         </div>
+         <div class="change-item">
+          ✓ Bulu di ketiak dan kemaluan mula tumbuh
+         </div>
+         <div class="change-item">
+          ✓ Punggul mula membesar
+         </div>
+         <div class="change-item">
+          ✓ Berat bertambah
+         </div>
+         <div class="change-item">
+          ✓ Ketinggian meningkat
+         </div>
+         <div class="change-item">
+          ✓ Jerawat mula tumbuh
+         </div>
+         <div class="change-item">
+          ✓ Payudara mula membesar
+         </div>
+         <div class="change-item">
+          ✓ Keluar haid
+         </div>
+         <div class="change-item">
+          ✓ Bentuk badan berubah
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div id="kuizSection" class="flashcard-section">
+    <div class="flashcard-header"><button class="back-btn" onclick="backToMenu()">← Kembali</button>
+     <div class="progress">
+      <span id="kuizProgress">1 / 11</span>
+     </div>
+    </div>
+    <div class="flip-hint" style="margin-bottom: 20px; margin-top: 0;">
+     👆 Pilih jawapan dan klik kad untuk lihat penyelesaian
+    </div>
+    <div class="flashcard-wrapper">
+     <div class="flashcard" id="kuizCard">
+      <div class="flashcard-face flashcard-front">
+       <h2 class="flashcard-title">Perubahan fizikal ini untuk?</h2>
+       <div class="flashcard-content">
+        <div style="background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 100%); padding: 25px; border-radius: 12px; margin: 20px 0; border: 2px solid rgba(107, 196, 176, 0.2);">
+         <p style="font-size: 22px; color: #1a5645; font-weight: 600; margin: 0; text-align: center;" id="kuizQuestion"></p>
+        </div>
+        <div class="quiz-options">
+         <div class="quiz-option" onclick="selectAnswer('Perempuan')">
+          👧 Perempuan
+         </div>
+         <div class="quiz-option" onclick="selectAnswer('Lelaki')">
+          👦 Lelaki
+         </div>
+         <div class="quiz-option" onclick="selectAnswer('Kedua-duanya')">
+          👫 Kedua-duanya
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flashcard-face flashcard-back">
+       <h2 class="flashcard-title">✅ Jawapan</h2>
+       <div class="flashcard-content">
+        <div style="background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 12px; margin: 20px 0; border: 2px solid #1a5645; backdrop-filter: blur(10px);">
+         <p style="font-size: 22px; color: #1a5645; font-weight: 600; margin: 0; text-align: center;" id="kuizQuestionBack"></p>
+        </div>
+        <div class="answer-reveal">
+         <h3>✓ Jawapan yang betul:</h3>
+         <p id="kuizAnswer"></p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="navigation"><button class="nav-btn prev-btn" id="kuizPrev" onclick="prevKuiz()">← Sebelumnya</button> <button class="nav-btn next-btn" id="kuizNext" onclick="nextKuiz()">Seterusnya →</button>
+    </div>
+   </div>
+   <div id="scoreModal" class="score-modal">
+    <div class="score-content">
+     <h2>🎉 Tahniah! 🎉</h2>
+     <div class="score-number" id="finalScore">
+      0/11
+     </div>
+     <p class="score-message" id="scoreMessage">Kerja yang hebat!</p><button class="restart-btn" onclick="restartKuiz()">🔄 Cuba Lagi</button> <button class="restart-btn" onclick="closeScoreModal()" style="background: linear-gradient(145deg, #5ab39f 0%, #4aa28e 100%);">← Kembali ke Menu</button>
+    </div>
    </div>
   </div>
   <script>
-    const defaultConfig = {
-      quiz_title: "Bola Tampar",
-      quiz_subtitle: "Kuiz Kemahiran Asas untuk Tingkatan 1"
-    };
+        const defaultConfig = {
+            main_title: "Perkembangan Seksual Sekunder",
+            subtitle: "Pendidikan Jasmani & Pendidikan Kesihatan • Tingkatan 1",
+            definition_text: "Seksual sekunder boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟",
+            background_color: "#a8e6cf",
+            card_background: "#ffffff",
+            primary_color: "#6bc4b0",
+            text_color: "#1a5645",
+            accent_color: "#7dd4c8"
+        };
 
-    const originalQuizData = [
-      {
-        question: "Apakah kemahiran yang digunakan untuk menerima servis dan membuat umpanan?",
-        options: ["Merejam", "Menyangga", "Mengadang", "Mengumpan"],
-        correct: 1,
-        hint: "Kemahiran ini melibatkan kedua-dua tangan yang dirapatkan dan lutut yang dibengkokkan untuk menerima bola."
-      },
-      {
-        question: "Semasa menyangga, mata hendaklah fokus kepada _____ dengan kedua-dua tangan dirapatkan.",
-        options: ["Jaring", "Bola", "Rakan", "Gelanggang"],
-        correct: 1,
-        hint: "Fokus adalah penting dalam sukan. Anda perlu melihat objek yang akan anda terima."
-      },
-      {
-        question: "Mengumpan adalah sentuhan yang ke berapa sesuatu pasukan?",
-        options: ["Pertama", "Kedua", "Ketiga", "Keempat"],
-        correct: 1,
-        hint: "Dalam bola tampar, biasanya ada urutan: terima, umpan, kemudian rejam."
-      },
-      {
-        question: "Semasa mengumpan, kedua-dua tangan hendaklah berada di mana?",
-        options: ["Di bawah pinggang", "Melebihi paras dahi", "Di paras dada", "Di belakang badan"],
-        correct: 1,
-        hint: "Tangan perlu berada di atas untuk mengangkat bola ke udara bagi rakan sepassukan."
-      },
-      {
-        question: "Apakah tujuan kemahiran servis dalam permainan bola tampar?",
-        options: ["Untuk mengadang bola", "Untuk memulakan permainan", "Untuk menyangga bola", "Untuk mengumpan bola"],
-        correct: 1,
-        hint: "Servis adalah kemahiran pertama yang dilakukan pada awal setiap mata."
-      },
-      {
-        question: "Dalam servis bawah, bola dilambung pada paras _____ dengan menggunakan tangan bukan dominan.",
-        options: ["Kepala", "Dahi", "Dada", "Pinggang"],
-        correct: 3,
-        hint: "Servis 'bawah' bermaksud lambungan dan pukulan dilakukan di bahagian bawah badan."
-      },
-      {
-        question: "Apakah tujuan kemahiran merejam dilakukan?",
-        options: ["Untuk memulakan permainan", "Untuk mematikan bola ke gelanggang pihak lawan", "Untuk menerima servis", "Untuk mengadang bola"],
-        correct: 1,
-        hint: "Rejaman adalah serangan kuat untuk mendapatkan mata dengan cepat."
-      },
-      {
-        question: "Apakah yang diperlukan dalam menguasai kemahiran merejam?",
-        options: ["Kuasa tangan", "Kuasa lompatan", "Kuasa kaki", "Kuasa bahu"],
-        correct: 1,
-        hint: "Untuk merejam dengan berkesan, pemain perlu melompat tinggi untuk memukul bola dari atas."
-      },
-      {
-        question: "Apakah tujuan kemahiran mengadang?",
-        options: ["Untuk menerima servis", "Untuk memulakan permainan", "Untuk menentang rejaman dari pihak lawan", "Untuk membuat umpanan"],
-        correct: 2,
-        hint: "Adangan adalah kemahiran pertahanan untuk menghalang serangan pihak lawan di jaring."
-      },
-      {
-        question: "Berapa orang pemain dalam setiap pasukan bola tampar?",
-        options: ["Lima orang", "Enam orang", "Tujuh orang", "Lapan orang"],
-        correct: 1,
-        hint: "Dalam bola tampar, pemain disusun dalam dua barisan dengan jumlah yang sama di setiap barisan."
-      }
-    ];
+        const notaData = [
+            {
+                title: "Perubahan Fizikal Lelaki",
+                icon: "👦",
+                changes: [
+                    "Jerawat mula tumbuh",
+                    "Suara menjadi garau",
+                    "Zakar membesar",
+                    "Tekstur kulit menjadi kasar",
+                    "Berat bertambah",
+                    "Ketinggian meningkat",
+                    "Misai dan janggut mula tumbuh",
+                    "Saiz otot membesar",
+                    "Bulu di ketiak dan kemaluan mula tumbuh"
+                ]
+            },
+            {
+                title: "Perubahan Fizikal Perempuan",
+                icon: "👧",
+                changes: [
+                    "Suara semakin lunak",
+                    "Bulu di ketiak dan kemaluan mula tumbuh",
+                    "Punggul mula membesar",
+                    "Berat bertambah",
+                    "Ketinggian meningkat",
+                    "Jerawat mula tumbuh",
+                    "Payudara mula membesar",
+                    "Keluar haid",
+                    "Bentuk badan berubah"
+                ]
+            }
+        ];
 
-    let quizData = [];
+        const kuizData = [
+            { question: "Jerawat mula tumbuh", answer: "Kedua-duanya", emoji: "😊" },
+            { question: "Suara menjadi garau", answer: "Lelaki", emoji: "🎤" },
+            { question: "Zakar membesar", answer: "Lelaki", emoji: "📊" },
+            { question: "Berat bertambah", answer: "Kedua-duanya", emoji: "⚖️" },
+            { question: "Ketinggian meningkat", answer: "Kedua-duanya", emoji: "📏" },
+            { question: "Misai dan janggut mula tumbuh", answer: "Lelaki", emoji: "🧔" },
+            { question: "Payudara mula membesar", answer: "Perempuan", emoji: "🌸" },
+            { question: "Keluar haid", answer: "Perempuan", emoji: "📅" },
+            { question: "Bulu di ketiak dan kemaluan mula tumbuh", answer: "Kedua-duanya", emoji: "🌱" },
+            { question: "Punggul mula membesar", answer: "Perempuan", emoji: "💃" },
+            { question: "Saiz otot membesar", answer: "Lelaki", emoji: "💪" }
+        ];
 
-    let currentQuestion = 0;
-    let score = 0;
-    let selectedOption = null;
-    let answered = false;
-    let hintCount = 2;
-    let doublePointsCount = 2;
-    let isDoublePoints = false;
-    let wrongAnswers = [];
-    let isRedemptionRound = false;
-    let redemptionQuestions = [];
-    let redemptionIndex = 0;
+        let currentNota = 0;
+        let currentKuiz = 0;
+        let selectedQuizAnswer = null;
+        let quizScore = 0;
+        let userAnswers = [];
+        let shuffledKuizData = [];
 
-    function shuffleArray(array) {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    }
+        async function onConfigChange(config) {
+            const mainTitle = config.main_title || defaultConfig.main_title;
+            const subtitle = config.subtitle || defaultConfig.subtitle;
+            const definitionText = config.definition_text || defaultConfig.definition_text;
 
-    function createFallingVolleyballs() {
-      const container = document.getElementById('volleyballBg');
-      for (let i = 0; i < 15; i++) {
-        const volleyball = document.createElement('div');
-        volleyball.className = 'falling-volleyball';
-        volleyball.textContent = '🏐';
-        volleyball.style.left = Math.random() * 100 + '%';
-        volleyball.style.animationDuration = (Math.random() * 3 + 4) + 's';
-        volleyball.style.animationDelay = Math.random() * 5 + 's';
-        container.appendChild(volleyball);
-      }
-    }
+            document.getElementById('mainTitle').textContent = mainTitle;
+            document.getElementById('subtitle').textContent = subtitle;
+            document.getElementById('definitionText').innerHTML = `<strong>Seksual sekunder</strong> boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. <em>Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟</em>`;
+        }
 
-    function createConfetti() {
-      const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f093fb', '#4facfe'];
-      for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3500);
-      }
-    }
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            window.elementSdk.setConfig({ background_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.card_background || defaultConfig.card_background,
+                        set: (value) => {
+                            config.card_background = value;
+                            window.elementSdk.setConfig({ card_background: value });
+                        }
+                    },
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            config.primary_color = value;
+                            window.elementSdk.setConfig({ primary_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            window.elementSdk.setConfig({ text_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            config.accent_color = value;
+                            window.elementSdk.setConfig({ accent_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
 
-    function useHint(num) {
-      if (hintCount <= 0 || answered) return;
-      
-      hintCount--;
-      const button = document.getElementById('hint1');
-      button.textContent = `💡 Petunjuk (${hintCount})`;
-      if (hintCount === 0) {
-        button.classList.add('used');
-      }
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["main_title", config.main_title || defaultConfig.main_title],
+                ["subtitle", config.subtitle || defaultConfig.subtitle],
+                ["definition_text", config.definition_text || defaultConfig.definition_text]
+            ]);
+        }
 
-      const currentQ = isRedemptionRound ? redemptionQuestions[redemptionIndex] : quizData[currentQuestion];
-      const hintContainer = document.getElementById('hintContainer');
-      hintContainer.innerHTML = `
-        <div class="hint-box">
-          <span class="hint-icon">💡</span>
-          <span class="hint-text">${currentQ.hint}</span>
-        </div>
-      `;
-    }
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
 
-    function useDoublePoints(num) {
-      if (doublePointsCount <= 0 || answered || isDoublePoints) return;
-      
-      doublePointsCount--;
-      isDoublePoints = true;
-      const button = document.getElementById('double1');
-      button.textContent = `⭐ Mata Berganda (${doublePointsCount})`;
-      button.classList.add('active');
-      if (doublePointsCount === 0) {
-        button.classList.add('used');
-      }
+        function startNota() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('notaSection').classList.add('active');
+        }
 
-      document.getElementById('pointsIndicator').innerHTML = '⭐ +2 mata';
-    }
+        function startKuiz() {
+            currentKuiz = 0;
+            selectedQuizAnswer = null;
+            quizScore = 0;
+            shuffledKuizData = shuffleArray(kuizData);
+            userAnswers = new Array(shuffledKuizData.length).fill(null);
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('kuizSection').classList.add('active');
+            loadKuiz();
+        }
 
-    function updateUI() {
-      const totalQuestions = isRedemptionRound ? redemptionQuestions.length : quizData.length;
-      const currentQ = isRedemptionRound ? redemptionIndex : currentQuestion;
-      
-      const progress = ((currentQ) / totalQuestions) * 100;
-      document.getElementById('progressBar').style.width = progress + '%';
-      
-      document.getElementById('questionNumber').textContent = `Soalan ${currentQ + 1}/${totalQuestions}`;
-      document.getElementById('scoreDisplay').textContent = `Skor: ${score}`;
-      
-      const question = isRedemptionRound ? redemptionQuestions[redemptionIndex] : quizData[currentQuestion];
-      document.getElementById('questionText').textContent = question.question;
-      
-      document.getElementById('hintContainer').innerHTML = '';
-      
-      if (isDoublePoints) {
-        document.getElementById('pointsIndicator').innerHTML = '⭐ +2 mata';
-      } else {
-        document.getElementById('pointsIndicator').innerHTML = '+1 mata';
-      }
-      
-      const optionsContainer = document.getElementById('optionsContainer');
-      optionsContainer.innerHTML = '';
-      
-      const letters = ['A', 'B', 'C', 'D'];
-      question.options.forEach((option, index) => {
-        const optionDiv = document.createElement('div');
-        optionDiv.className = 'option';
-        optionDiv.innerHTML = `
-          <span class="option-letter">${letters[index]}</span>
-          <span>${option}</span>
-        `;
-        optionDiv.addEventListener('click', () => selectOption(index, optionDiv));
-        optionsContainer.appendChild(optionDiv);
-      });
-      
-      selectedOption = null;
-      answered = false;
-      document.getElementById('nextButton').disabled = true;
-    }
+        function backToMenu() {
+            document.getElementById('notaSection').classList.remove('active');
+            document.getElementById('kuizSection').classList.remove('active');
+            document.getElementById('mainMenu').style.display = 'block';
+            document.getElementById('notaCard1').classList.remove('flipped');
+            document.getElementById('notaCard2').classList.remove('flipped');
+            document.getElementById('kuizCard').classList.remove('flipped');
+        }
 
-    function selectOption(index, element) {
-      if (answered) return;
-      
-      const options = document.querySelectorAll('.option');
-      options.forEach(opt => {
-        opt.classList.remove('selected');
-        opt.classList.add('disabled');
-      });
-      
-      element.classList.add('selected');
-      selectedOption = index;
-      
-      const question = isRedemptionRound ? redemptionQuestions[redemptionIndex] : quizData[currentQuestion];
-      const correctAnswer = question.correct;
-      
-      setTimeout(() => {
-        if (index === correctAnswer) {
-          element.classList.remove('selected');
-          element.classList.add('correct');
-          const points = isDoublePoints ? 2 : 1;
-          score += points;
-          
-          const scoreDisplay = document.getElementById('scoreDisplay');
-          scoreDisplay.textContent = `Skor: ${score}`;
-          
-          if (isRedemptionRound) {
-            scoreDisplay.style.animation = 'none';
-            setTimeout(() => {
-              scoreDisplay.style.animation = 'scoreGlow 0.6s ease-out';
-            }, 10);
-            redemptionQuestions[redemptionIndex].answeredCorrect = true;
-          }
-        } else {
-          element.classList.remove('selected');
-          element.classList.add('wrong');
-          options[correctAnswer].classList.add('correct');
-          
-          if (!isRedemptionRound) {
-            wrongAnswers.push({
-              question: question.question,
-              options: question.options,
-              correct: question.correct,
-              hint: question.hint,
-              originalIndex: currentQuestion
+        function flipCard(cardId) {
+            document.getElementById(cardId).classList.toggle('flipped');
+        }
+
+
+
+        function loadKuiz() {
+            const kuiz = shuffledKuizData[currentKuiz];
+            document.getElementById('kuizQuestion').textContent = kuiz.emoji + ' ' + kuiz.question;
+            document.getElementById('kuizQuestionBack').textContent = kuiz.emoji + ' ' + kuiz.question;
+            document.getElementById('kuizAnswer').textContent = kuiz.answer;
+            document.getElementById('kuizProgress').textContent = `${currentKuiz + 1} / ${shuffledKuizData.length}`;
+            
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            
+            const existingIndicator = document.querySelector('.answer-indicator');
+            if (existingIndicator) {
+                existingIndicator.remove();
+            }
+            
+            selectedQuizAnswer = null;
+            
+            document.getElementById('kuizPrev').disabled = currentKuiz === 0;
+            document.getElementById('kuizNext').disabled = false;
+            document.getElementById('kuizCard').classList.remove('flipped');
+        }
+
+        function selectAnswer(answer) {
+            if (selectedQuizAnswer !== null) return;
+            
+            selectedQuizAnswer = answer;
+            const correctAnswer = shuffledKuizData[currentKuiz].answer;
+            const isCorrect = answer === correctAnswer;
+            
+            userAnswers[currentKuiz] = isCorrect;
+            if (isCorrect) {
+                quizScore++;
+            }
+            
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.textContent.includes(answer)) {
+                    opt.classList.add('selected');
+                }
             });
-          } else {
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            scoreDisplay.style.animation = 'none';
+            
+            document.getElementById('kuizCard').classList.add('flipped');
+            
             setTimeout(() => {
-              scoreDisplay.style.animation = 'scorePulseRed 0.6s ease-out';
-            }, 10);
-          }
+                const indicator = document.createElement('div');
+                indicator.className = `answer-indicator ${isCorrect ? 'answer-correct' : 'answer-wrong'}`;
+                indicator.textContent = isCorrect ? '✓ Betul!' : '✗ Salah';
+                
+                const answerReveal = document.querySelector('.answer-reveal');
+                answerReveal.appendChild(indicator);
+            }, 300);
         }
-        
-        answered = true;
-        
-        const doubleButton = document.getElementById('double1');
-        if (isDoublePoints) {
-          doubleButton.classList.remove('active');
-          isDoublePoints = false;
+
+        function prevKuiz() {
+            if (currentKuiz > 0) {
+                currentKuiz--;
+                loadKuiz();
+            }
         }
-        
-        document.getElementById('nextButton').disabled = false;
-      }, 300);
-    }
 
-    function nextQuestion() {
-      if (isRedemptionRound) {
-        redemptionIndex++;
-        if (redemptionIndex < redemptionQuestions.length) {
-          updateUI();
-        } else {
-          showFinalResults();
+        function nextKuiz() {
+            if (currentKuiz < shuffledKuizData.length - 1) {
+                currentKuiz++;
+                loadKuiz();
+            } else {
+                showScoreModal();
+            }
         }
-      } else {
-        currentQuestion++;
-        if (currentQuestion < quizData.length) {
-          updateUI();
-        } else {
-          if (wrongAnswers.length > 0) {
-            startRedemptionRound();
-          } else {
-            showFinalResults();
-          }
+
+        function showScoreModal() {
+            document.getElementById('finalScore').textContent = `${quizScore}/${shuffledKuizData.length}`;
+            
+            let message = '';
+            const percentage = (quizScore / shuffledKuizData.length) * 100;
+            if (percentage === 100) {
+                message = '🌟 Sempurna! Anda menguasai topik ini sepenuhnya!';
+            } else if (percentage >= 80) {
+                message = '👏 Hebat! Teruskan usaha yang baik!';
+            } else if (percentage >= 60) {
+                message = '💪 Bagus! Masih ada ruang untuk penambahbaikan.';
+            } else {
+                message = '📚 Terus belajar! Anda pasti boleh buat lebih baik.';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            document.getElementById('scoreModal').classList.add('active');
+            
+            if (percentage >= 70) {
+                createConfetti();
+            }
         }
-      }
-    }
 
-    function startRedemptionRound() {
-      isRedemptionRound = true;
-      redemptionQuestions = [...wrongAnswers];
-      redemptionIndex = 0;
-      
-      document.body.classList.add('dark-mode');
-      
-      document.getElementById('roundBadge').innerHTML = '🔄 Pusingan Penebusan';
-      document.getElementById('roundBadge').style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-      
-      document.getElementById('progressBar').style.width = '0%';
-      
-      updateUI();
-    }
+        function createConfetti() {
+            const colors = ['#6bc4b0', '#7dd4c8', '#90e0d8', '#a8e6cf', '#88d5c0', '#5ab39f'];
+            const confettiCount = 150;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = '0s';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 10);
+            }
+        }
 
-    function showFinalResults() {
-      document.body.classList.remove('dark-mode');
-      
-      const maxPossibleScore = 10;
-      const percentage = (score / maxPossibleScore) * 100;
-      let icon, title, message;
-      
-      if (percentage >= 80) {
-        icon = '🏆';
-        title = 'Hebat Sekali!';
-        message = 'Anda telah menguasai kemahiran asas bola tampar dengan cemerlang!';
-        createConfetti();
-      } else if (percentage >= 60) {
-        icon = '⭐';
-        title = 'Bagus!';
-        message = 'Anda memahami kemahiran asas bola tampar dengan baik. Teruskan usaha!';
-        createConfetti();
-      } else {
-        icon = '💪';
-        title = 'Cuba Lagi!';
-        message = 'Jangan putus asa! Baca semula nota dan cuba sekali lagi.';
-      }
-      
-      document.getElementById('progressBar').style.width = '100%';
-      
-      const quizCard = document.getElementById('quizCard');
-      quizCard.innerHTML = `
-        <div class="result-card">
-          <div class="result-icon">${icon}</div>
-          <div class="result-title">${title}</div>
-          <div class="result-score">Skor Anda: ${score}/${maxPossibleScore}</div>
-          <div class="result-message">${message}</div>
-          <button class="restart-button" onclick="restartQuiz()">🔄 Cuba Sekali Lagi</button>
-        </div>
-      `;
-    }
+        function closeScoreModal() {
+            document.getElementById('scoreModal').classList.remove('active');
+            backToMenu();
+        }
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      hintCount = 2;
-      doublePointsCount = 2;
-      isDoublePoints = false;
-      wrongAnswers = [];
-      isRedemptionRound = false;
-      redemptionQuestions = [];
-      redemptionIndex = 0;
-      
-      document.body.classList.remove('dark-mode');
-      
-      quizData = shuffleArray(originalQuizData);
-      
-      const quizCard = document.getElementById('quizCard');
-      quizCard.innerHTML = `
-        <div style="text-align: center;">
-          <span class="round-badge" id="roundBadge">🎯 Pusingan Utama</span>
-        </div>
-        <div class="powerups" id="powerupsContainer">
-          <button class="powerup hint-powerup" id="hint1" onclick="useHint(1)">
-            💡 Petunjuk (2)
-          </button>
-          <button class="powerup double-points" id="double1" onclick="useDoublePoints(1)">
-            ⭐ Mata Berganda (2)
-          </button>
-        </div>
-        <div id="hintContainer"></div>
-        <div class="question-header">
-          <span class="question-number" id="questionNumber">Soalan 1/10</span>
-          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
-            <span class="score" id="scoreDisplay">Skor: 0</span>
-            <span class="points-indicator" id="pointsIndicator">+1 mata</span>
-          </div>
-        </div>
-        <div class="question-text" id="questionText"></div>
-        <div class="options" id="optionsContainer"></div>
-        <button class="next-button" id="nextButton" disabled>Soalan Seterusnya</button>
-      `;
-      document.getElementById('nextButton').addEventListener('click', nextQuestion);
-      updateUI();
-    }
+        function restartKuiz() {
+            document.getElementById('scoreModal').classList.remove('active');
+            startKuiz();
+        }
 
-    quizData = shuffleArray(originalQuizData);
-    
-    document.getElementById('nextButton').addEventListener('click', nextQuestion);
-    
-    createFallingVolleyballs();
-
-    async function onConfigChange(config) {
-      const quizTitle = config.quiz_title || defaultConfig.quiz_title;
-      const subtitle = config.quiz_subtitle || defaultConfig.quiz_subtitle;
-      
-      document.getElementById('mainTitle').textContent = quizTitle;
-      document.getElementById('subtitle').textContent = subtitle;
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ['quiz_title', config.quiz_title || defaultConfig.quiz_title],
-          ['quiz_subtitle', config.quiz_subtitle || defaultConfig.quiz_subtitle]
-        ])
-      });
-    }
-
-    updateUI();
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a05cfb4029b8066',t:'MTc2MzQ1MTUzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0c12ba81e41fe1',t:'MTc2MzUxNzE5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
