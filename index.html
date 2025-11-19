@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcard Perkembangan Seksual Sekunder</title>
+  <title>Flashcard Kesan Ketagihan</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
         body {
@@ -11,28 +11,11 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #a8e6cf 0%, #88d5c0 25%, #6bc4b0 50%, #7dd4c8 75%, #90e0d8 100%);
+            background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
             min-height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(168, 237, 234, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(136, 213, 192, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(144, 224, 216, 0.3) 0%, transparent 60%),
-                linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-            pointer-events: none;
         }
 
         * {
@@ -40,104 +23,87 @@
         }
 
         .container {
-            width: 100%;
-            max-width: 900px;
-            padding: 20px;
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
+            width: 90%;
+            max-width: 800px;
+            padding: 2rem;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             animation: fadeInDown 0.6s ease-out;
         }
 
         .header h1 {
-            color: #1a5645;
-            font-size: 32px;
-            margin: 0 0 10px 0;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
-            font-weight: 700;
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-weight: 800;
             letter-spacing: 0.5px;
         }
 
         .header p {
-            color: #2d7a5f;
-            font-size: 18px;
+            color: #e0e7ff;
+            font-size: 1.1rem;
             margin: 0;
             font-weight: 500;
         }
 
         .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
         }
 
         .menu-card {
-            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 50%, #e0f5ed 100%);
+            background: white;
             border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
+            padding: 2.5rem 2rem;
+            width: 280px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(107, 196, 176, 0.3);
-            animation: fadeInUp 0.6s ease-out;
-            border: 2px solid rgba(107, 196, 176, 0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 3px solid #3b82f6;
             position: relative;
             overflow: hidden;
         }
-        
+
         .menu-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(125, 212, 200, 0.3) 0%, rgba(107, 196, 176, 0.2) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .menu-card:hover::before {
-            opacity: 1;
-        }
-
-        .menu-card:nth-child(2) {
-            animation-delay: 0.1s;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
         }
 
         .menu-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 12px 35px rgba(107, 196, 176, 0.3);
-            border-color: rgba(107, 196, 176, 0.3);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+            border-color: #60a5fa;
         }
 
-        .menu-card-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            filter: drop-shadow(2px 2px 4px rgba(107, 196, 176, 0.3));
+        .menu-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
         }
 
         .menu-card h2 {
-            color: #1a5645;
-            font-size: 24px;
-            margin: 0 0 10px 0;
+            color: #1f2937;
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
             font-weight: 700;
         }
 
         .menu-card p {
-            color: #3d8a6f;
-            font-size: 16px;
+            color: #475569;
+            font-size: 0.95rem;
             margin: 0;
-            line-height: 1.5;
         }
 
         .flashcard-section {
@@ -149,418 +115,235 @@
             display: block;
         }
 
-        .flashcard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a5645;
-            border: 2px solid #6bc4b0;
-            padding: 12px 24px;
-            border-radius: 25px;
+        .back-button {
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            color: #1f2937;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.2);
-        }
-
-        .back-btn:hover {
-            background: #6bc4b0;
-            color: white;
-            transform: translateX(-5px);
-            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.3);
-        }
-
-        .progress {
-            color: #1a5645;
-            font-size: 18px;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 8px 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.15);
         }
 
-        .nota-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+        .back-button:hover {
+            background: #eff6ff;
+            transform: translateX(-5px);
+            border-color: #60a5fa;
+        }
+
+        .category-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .category-btn.active {
+            border-color: #3b82f6;
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .category-btn:hover {
+            transform: scale(1.05);
         }
 
         .flashcard-wrapper {
-            perspective: 1500px;
-            margin-bottom: 30px;
+            perspective: 1000px;
+            margin: 0 auto;
+            max-width: 600px;
         }
 
         .flashcard {
-            position: relative;
             width: 100%;
-            height: 450px;
-            cursor: pointer;
+            height: 500px;
+            position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition: transform 0.6s;
+            cursor: pointer;
         }
 
         .flashcard.flipped {
             transform: rotateY(180deg);
         }
 
-        .flashcard-face {
+        .card-face {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(107, 196, 176, 0.25);
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            overflow-y: auto;
-            border: 3px solid rgba(107, 196, 176, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.2);
         }
 
-        .flashcard-front {
-            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 40%, #e0f5ed 100%);
+        .card-front {
+            background: white;
         }
 
-        .flashcard-back {
-            background: linear-gradient(145deg, #7dd4c8 0%, #90e0d8 50%, #a3ece0 100%);
+        .card-back {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             transform: rotateY(180deg);
+            color: white;
         }
 
-        .flashcard-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
             text-align: center;
-            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .flashcard-front .flashcard-title {
-            color: #1a5645;
+        .card-front .card-title {
+            color: #1f2937;
         }
 
-        .flashcard-back .flashcard-title {
-            color: #1a5645;
-        }
-
-        .flashcard-content {
+        .card-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
             width: 100%;
         }
 
-        .change-item {
-            background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 100%);
-            padding: 15px 20px;
-            margin: 8px 0;
-            border-radius: 12px;
-            font-size: 17px;
-            color: #1a5645;
-            border-left: 4px solid #6bc4b0;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(107, 196, 176, 0.1);
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .change-item:hover {
-            transform: translateX(5px);
-            background: linear-gradient(145deg, #e0f5ed 0%, #d0f0e5 100%);
-            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
+        .card-content li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            font-weight: 500;
         }
 
-        .flashcard-back .change-item {
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a5645;
-            border-left-color: #1a5645;
-            backdrop-filter: blur(10px);
+        .card-content li:before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .card-back .card-content li:before {
+            content: "❌";
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
             font-weight: 600;
         }
 
-        .flashcard-back .change-item:hover {
-            background: rgba(255, 255, 255, 1);
+        .card-front .flip-hint {
+            color: #64748b;
         }
 
         .quiz-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .quiz-option {
-            background: linear-gradient(145deg, #ffffff 0%, #f0faf5 50%, #e0f5ed 100%);
-            padding: 20px;
+            background: white;
+            border: 3px solid #cbd5e1;
             border-radius: 12px;
-            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 3px solid transparent;
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a5645;
-            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
+            font-weight: 700;
+            color: #1f2937;
         }
 
         .quiz-option:hover {
-            background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 50%, #d0f0e5 100%);
+            border-color: #3b82f6;
+            background: #eff6ff;
             transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(107, 196, 176, 0.3);
-        }
-
-        .quiz-option.selected {
-            border-color: #6bc4b0;
-            background: linear-gradient(145deg, #6bc4b0 0%, #5ab39f 50%, #4aa28e 100%);
-            color: white;
-            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.4);
-        }
-
-        .answer-reveal {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 2px solid #1a5645;
-        }
-
-        .answer-reveal h3 {
-            color: #1a5645;
-            font-size: 24px;
-            margin: 0 0 10px 0;
-            font-weight: 700;
-        }
-
-        .answer-reveal p {
-            color: #1a5645;
-            font-size: 20px;
-            margin: 0;
-            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .navigation {
             display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .nav-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.2);
+            font-weight: 700;
+            color: #1f2937;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            background: #eff6ff;
         }
 
         .nav-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
-            box-shadow: none;
+            background: #e5e7eb;
         }
 
-        .next-btn {
-            background: linear-gradient(145deg, #6bc4b0 0%, #5ab39f 100%);
-            color: white;
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .next-btn:hover:not(:disabled) {
-            background: linear-gradient(145deg, #5ab39f 0%, #4aa28e 100%);
-            transform: translateX(5px);
-            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.35);
-        }
-
-        .flip-hint {
+        .card-counter {
             text-align: center;
-            color: #1a5645;
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: 500;
-            animation: pulse 2s infinite;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 10px 20px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-left: auto;
-            margin-right: auto;
-            width: fit-content;
-            display: block;
-        }
-
-        .definition-box {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 2px solid rgba(107, 196, 176, 0.3);
-            box-shadow: 0 8px 25px rgba(107, 196, 176, 0.15);
-        }
-
-        .definition-box h3 {
-            color: #1a5645;
-            font-size: 18px;
-            margin: 0 0 10px 0;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .definition-box p {
-            color: #2d7a5f;
-            font-size: 15px;
-            margin: 0;
-            line-height: 1.7;
-        }
-
-        .wellness-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #6bc4b0;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(107, 196, 176, 0.2);
-            border: 2px solid rgba(107, 196, 176, 0.2);
-        }
-
-        .score-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .score-modal.active {
-            display: flex;
-        }
-
-        .score-content {
-            background: #ffffff;
-            border-radius: 30px;
-            padding: 50px 40px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: scaleIn 0.4s ease-out;
-            border: 4px solid #1a5645;
-        }
-
-        .score-content h2 {
-            color: #1a5645;
-            font-size: 36px;
-            margin: 0 0 20px 0;
-            font-weight: 700;
-        }
-
-        .score-number {
-            font-size: 72px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6bc4b0 0%, #7dd4c8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 20px 0;
-        }
-
-        .score-message {
-            font-size: 20px;
-            color: #2d7a5f;
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-
-        .restart-btn {
-            background: linear-gradient(145deg, #6bc4b0 0%, #7dd4c8 100%);
             color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(107, 196, 176, 0.3);
-        }
-
-        .restart-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(107, 196, 176, 0.4);
-        }
-
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #6bc4b0;
-            position: absolute;
-            animation: confetti-fall 3s linear forwards;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .answer-indicator {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 15px;
-        }
-
-        .answer-correct {
-            background: rgba(52, 211, 153, 0.2);
-            color: #059669;
-            border: 2px solid #059669;
-        }
-
-        .answer-wrong {
-            background: rgba(239, 68, 68, 0.2);
-            color: #dc2626;
-            border: 2px solid #dc2626;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         @keyframes fadeInDown {
@@ -596,64 +379,123 @@
 
         @keyframes pulse {
             0%, 100% {
-                opacity: 1;
+                opacity: 0.7;
+                transform: scale(1);
             }
             50% {
-                opacity: 0.6;
+                opacity: 1;
+                transform: scale(1.05);
             }
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 1rem;
             }
 
             .header h1 {
-                font-size: 24px;
+                font-size: 1.5rem;
             }
 
             .header p {
-                font-size: 16px;
+                font-size: 0.95rem;
             }
 
-            .menu-container {
-                grid-template-columns: 1fr;
+            .menu-card {
+                width: 100%;
+                padding: 2rem 1.5rem;
             }
 
-            .nota-grid {
-                grid-template-columns: 1fr;
+            .menu-card .icon {
+                font-size: 3rem;
+            }
+
+            .menu-card h2 {
+                font-size: 1.3rem;
             }
 
             .flashcard {
-                height: 500px;
+                height: auto;
+                min-height: 450px;
             }
 
-            .flashcard-face {
-                padding: 25px;
+            .card-face {
+                padding: 1.5rem;
             }
 
-            .flashcard-title {
-                font-size: 22px;
+            .card-icon {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
             }
 
-            .change-item {
-                font-size: 15px;
-                padding: 12px 15px;
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .card-content {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .card-content li {
+                margin-bottom: 0.75rem;
+                padding-left: 1.5rem;
+            }
+
+            .card-content li:before {
+                font-size: 1rem;
+            }
+
+            .quiz-options {
+                gap: 0.75rem;
+                margin-top: 1rem;
             }
 
             .quiz-option {
-                font-size: 16px;
-                padding: 15px;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+                width: 100%;
+            }
+
+            .flip-hint {
+                font-size: 0.8rem;
+                bottom: 1rem;
+            }
+
+            .navigation {
+                margin-top: 1rem;
             }
 
             .nav-btn {
-                font-size: 14px;
-                padding: 12px 20px;
+                padding: 0.75rem 1.5rem;
+                font-size: 0.95rem;
             }
-            
-            .wellness-badge {
-                font-size: 11px;
-                padding: 6px 12px;
+
+            .card-counter {
+                font-size: 0.95rem;
+                margin-top: 0.75rem;
+            }
+
+            .back-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .category-selector {
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .category-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            #kuizQuestion {
+                font-size: 1.1rem !important;
+                padding: 0.5rem;
             }
         }
     </style>
@@ -662,492 +504,460 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="container">
-   <div class="header">
-    <h1 id="mainTitle">Perkembangan Seksual Sekunder</h1>
-    <p id="subtitle">Pendidikan Jasmani &amp; Pendidikan Kesihatan • Tingkatan 1</p>
-   </div>
+  <div class="container"><!-- Main Menu -->
    <div id="mainMenu">
+    <div class="header">
+     <h1 id="mainTitle">Kesan Ketagihan kepada Kesihatan</h1>
+     <p id="menuSubtitle">Pilih Mod Pembelajaran</p>
+    </div>
     <div class="menu-container">
-     <div class="menu-card" onclick="startNota()">
-      <div class="wellness-badge">
-       ✨ Pembelajaran
+     <div class="menu-card" onclick="showSection('nota')">
+      <div class="icon">
+       📚
       </div>
-      <div class="menu-card-icon">
-       💚
-      </div>
-      <h2>Flashcard Nota</h2>
-      <p>Pelajari perubahan fizikal dengan tenang dan yakin</p>
+      <h2 id="noteButtonText">Flashcard Nota</h2>
+      <p>Pelajari kesan ketagihan dengan cara interaktif</p>
      </div>
-     <div class="menu-card" onclick="startKuiz()">
-      <div class="wellness-badge">
-       🌱 Interaktif
+     <div class="menu-card" onclick="showSection('kuiz')">
+      <div class="icon">
+       🎯
       </div>
-      <div class="menu-card-icon">
-       🌟
-      </div>
-      <h2>Flashcard Kuiz</h2>
-      <p>Uji pemahaman anda dalam suasana yang selesa</p>
+      <h2 id="quizButtonText">Flashcard Kuiz</h2>
+      <p>Uji pemahaman anda dengan kuiz</p>
      </div>
     </div>
-    <div class="definition-box">
-     <h3>💡 Nota Penting</h3>
-     <p id="definitionText"><strong>Seksual sekunder</strong> boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. <em>Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟</em></p>
-    </div>
-   </div>
-   <div id="notaSection" class="flashcard-section">
-    <div class="flashcard-header"><button class="back-btn" onclick="backToMenu()">← Kembali</button>
-    </div>
-    <div class="flip-hint" style="margin-bottom: 20px; margin-top: 0;">
-     👆 Klik kad untuk melihat maklumat lengkap
-    </div>
-    <div class="nota-grid">
-     <div class="flashcard-wrapper">
-      <div class="flashcard" id="notaCard1" onclick="flipCard('notaCard1')">
-       <div class="flashcard-face flashcard-front">
-        <h2 class="flashcard-title">Perubahan Fizikal Lelaki</h2>
-        <div class="flashcard-content">
-         <div style="text-align: center; margin-bottom: 20px;">
-          <div style="font-size: 80px; margin-bottom: 20px;">
-           👦
-          </div>
-          <p style="font-size: 18px; color: #1a5645; font-weight: 600;">Klik untuk lihat senarai perubahan →</p>
-          <p style="font-size: 14px; color: #2d7a5f; margin-top: 10px; font-style: italic;">💚 Semua perubahan ini adalah normal dan semula jadi</p>
-         </div>
-        </div>
-       </div>
-       <div class="flashcard-face flashcard-back">
-        <h2 class="flashcard-title">Perubahan Fizikal Lelaki</h2>
-        <div class="flashcard-content">
-         <div class="change-item">
-          ✓ Jerawat mula tumbuh
-         </div>
-         <div class="change-item">
-          ✓ Suara menjadi garau
-         </div>
-         <div class="change-item">
-          ✓ Zakar membesar
-         </div>
-         <div class="change-item">
-          ✓ Tekstur kulit menjadi kasar
-         </div>
-         <div class="change-item">
-          ✓ Berat bertambah
-         </div>
-         <div class="change-item">
-          ✓ Ketinggian meningkat
-         </div>
-         <div class="change-item">
-          ✓ Misai dan janggut mula tumbuh
-         </div>
-         <div class="change-item">
-          ✓ Saiz otot membesar
-         </div>
-         <div class="change-item">
-          ✓ Bulu di ketiak dan kemaluan mula tumbuh
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="flashcard-wrapper">
-      <div class="flashcard" id="notaCard2" onclick="flipCard('notaCard2')">
-       <div class="flashcard-face flashcard-front">
-        <h2 class="flashcard-title">Perubahan Fizikal Perempuan</h2>
-        <div class="flashcard-content">
-         <div style="text-align: center; margin-bottom: 20px;">
-          <div style="font-size: 80px; margin-bottom: 20px;">
-           👧
-          </div>
-          <p style="font-size: 18px; color: #1a5645; font-weight: 600;">Klik untuk lihat senarai perubahan →</p>
-          <p style="font-size: 14px; color: #2d7a5f; margin-top: 10px; font-style: italic;">💚 Semua perubahan ini adalah normal dan semula jadi</p>
-         </div>
-        </div>
-       </div>
-       <div class="flashcard-face flashcard-back">
-        <h2 class="flashcard-title">Perubahan Fizikal Perempuan</h2>
-        <div class="flashcard-content">
-         <div class="change-item">
-          ✓ Suara semakin lunak
-         </div>
-         <div class="change-item">
-          ✓ Bulu di ketiak dan kemaluan mula tumbuh
-         </div>
-         <div class="change-item">
-          ✓ Punggul mula membesar
-         </div>
-         <div class="change-item">
-          ✓ Berat bertambah
-         </div>
-         <div class="change-item">
-          ✓ Ketinggian meningkat
-         </div>
-         <div class="change-item">
-          ✓ Jerawat mula tumbuh
-         </div>
-         <div class="change-item">
-          ✓ Payudara mula membesar
-         </div>
-         <div class="change-item">
-          ✓ Keluar haid
-         </div>
-         <div class="change-item">
-          ✓ Bentuk badan berubah
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
-   <div id="kuizSection" class="flashcard-section">
-    <div class="flashcard-header"><button class="back-btn" onclick="backToMenu()">← Kembali</button>
-     <div class="progress">
-      <span id="kuizProgress">1 / 11</span>
-     </div>
-    </div>
-    <div class="flip-hint" style="margin-bottom: 20px; margin-top: 0;">
-     👆 Pilih jawapan dan klik kad untuk lihat penyelesaian
+   </div><!-- Flashcard Nota Section -->
+   <div id="notaSection" class="flashcard-section"><button class="back-button" onclick="showSection('menu')">← Kembali ke Menu</button>
+    <div class="category-selector"><button class="category-btn active" onclick="changeCategory(0)">🚬 Rokok</button> <button class="category-btn" onclick="changeCategory(1)">🍺 Alkohol</button> <button class="category-btn" onclick="changeCategory(2)">💊 Dadah</button>
     </div>
     <div class="flashcard-wrapper">
+     <div class="flashcard" onclick="flipCard('nota')">
+      <div class="card-face card-front">
+       <div class="card-icon" id="notaIcon">
+        🚬
+       </div>
+       <div class="card-title" id="notaTitle">
+        Rokok
+       </div>
+       <div class="card-content">
+        <p style="text-align: center; color: #64748b; font-weight: 600;">Klik untuk lihat kesan kepada kesihatan</p>
+       </div>
+       <div class="flip-hint">
+        👆 Klik untuk flip
+       </div>
+      </div>
+      <div class="card-face card-back">
+       <div class="card-title" id="notaBackTitle">
+        Kesan Ketagihan Rokok
+       </div>
+       <div class="card-content">
+        <ul id="notaEffects">
+         <li>Sakit jantung</li>
+         <li>Kecacatan sperma</li>
+         <li>Pelbagai kanser seperti kanser lidah dan paru-paru</li>
+        </ul>
+       </div>
+       <div class="flip-hint">
+        👆 Klik untuk flip kembali
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Flashcard Kuiz Section -->
+   <div id="kuizSection" class="flashcard-section"><button class="back-button" onclick="showSection('menu')">← Kembali ke Menu</button>
+    <div class="flashcard-wrapper">
      <div class="flashcard" id="kuizCard">
-      <div class="flashcard-face flashcard-front">
-       <h2 class="flashcard-title">Perubahan fizikal ini untuk?</h2>
-       <div class="flashcard-content">
-        <div style="background: linear-gradient(145deg, #f0faf5 0%, #e0f5ed 100%); padding: 25px; border-radius: 12px; margin: 20px 0; border: 2px solid rgba(107, 196, 176, 0.2);">
-         <p style="font-size: 22px; color: #1a5645; font-weight: 600; margin: 0; text-align: center;" id="kuizQuestion"></p>
-        </div>
-        <div class="quiz-options">
-         <div class="quiz-option" onclick="selectAnswer('Perempuan')">
-          👧 Perempuan
-         </div>
-         <div class="quiz-option" onclick="selectAnswer('Lelaki')">
-          👦 Lelaki
-         </div>
-         <div class="quiz-option" onclick="selectAnswer('Kedua-duanya')">
-          👫 Kedua-duanya
-         </div>
+      <div class="card-face card-front">
+       <div class="card-icon">
+        ❓
+       </div>
+       <div class="card-title">
+        Kesan Ini Akibat Ketagihan
+       </div>
+       <div class="card-content">
+        <div style="background: #eff6ff; border: 3px solid #3b82f6; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+         <p id="kuizQuestion" style="text-align: center; font-weight: 700; color: #1f2937; font-size: 1.5rem; margin: 0;"></p>
         </div>
        </div>
+       <div class="quiz-options"><button class="quiz-option" onclick="checkAnswer('rokok')">🚬 Rokok</button> <button class="quiz-option" onclick="checkAnswer('alkohol')">🍺 Alkohol</button> <button class="quiz-option" onclick="checkAnswer('dadah')">💊 Dadah</button>
+       </div>
+       <div class="flip-hint">
+        Pilih jawapan untuk flip
+       </div>
       </div>
-      <div class="flashcard-face flashcard-back">
-       <h2 class="flashcard-title">✅ Jawapan</h2>
-       <div class="flashcard-content">
-        <div style="background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 12px; margin: 20px 0; border: 2px solid #1a5645; backdrop-filter: blur(10px);">
-         <p style="font-size: 22px; color: #1a5645; font-weight: 600; margin: 0; text-align: center;" id="kuizQuestionBack"></p>
-        </div>
-        <div class="answer-reveal">
-         <h3>✓ Jawapan yang betul:</h3>
-         <p id="kuizAnswer"></p>
-        </div>
+      <div class="card-face card-back">
+       <div class="card-icon" id="resultIcon">
+        ✅
+       </div>
+       <div class="card-title" id="resultTitle" style="text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5);">
+        Betul!
+       </div>
+       <div class="card-content">
+        <p id="resultText" style="text-align: center; font-size: 1.2rem;"></p>
+       </div>
+       <div class="flip-hint">
+        👆 Klik untuk soalan seterusnya
        </div>
       </div>
      </div>
     </div>
-    <div class="navigation" style="justify-content: center;"><button class="nav-btn next-btn" id="kuizNext" onclick="nextKuiz()" style="min-width: 200px;">Seterusnya →</button>
+    <div class="navigation"><button class="nav-btn" id="nextBtn" onclick="nextQuestion()" disabled>Seterusnya →</button>
     </div>
-   </div>
-   <div id="scoreModal" class="score-modal">
-    <div class="score-content">
-     <h2>🎉 Tahniah! 🎉</h2>
-     <div class="score-number" id="finalScore">
-      0/11
-     </div>
-     <p class="score-message" id="scoreMessage">Kerja yang hebat!</p><button class="restart-btn" onclick="restartKuiz()">��� Cuba Lagi</button> <button class="restart-btn" onclick="closeScoreModal()" style="background: linear-gradient(145deg, #5ab39f 0%, #4aa28e 100%);">← Kembali ke Menu</button>
+    <div class="card-counter"><span id="questionCounter">Soalan 1 / 9</span>
     </div>
    </div>
   </div>
   <script>
         const defaultConfig = {
-            main_title: "Perkembangan Seksual Sekunder",
-            subtitle: "Pendidikan Jasmani & Pendidikan Kesihatan • Tingkatan 1",
-            definition_text: "Seksual sekunder boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟",
-            background_color: "#a8e6cf",
-            card_background: "#ffffff",
-            primary_color: "#6bc4b0",
-            text_color: "#1a5645",
-            accent_color: "#7dd4c8"
+            main_title: "Kesan Ketagihan kepada Kesihatan",
+            menu_title: "Pilih Mod Pembelajaran",
+            note_button: "📚 Flashcard Nota",
+            quiz_button: "🎯 Flashcard Kuiz"
         };
 
         const notaData = [
             {
-                title: "Perubahan Fizikal Lelaki",
-                icon: "👦",
-                changes: [
-                    "Jerawat mula tumbuh",
-                    "Suara menjadi garau",
-                    "Zakar membesar",
-                    "Tekstur kulit menjadi kasar",
-                    "Berat bertambah",
-                    "Ketinggian meningkat",
-                    "Misai dan janggut mula tumbuh",
-                    "Saiz otot membesar",
-                    "Bulu di ketiak dan kemaluan mula tumbuh"
+                icon: "🚬",
+                title: "Rokok",
+                effects: [
+                    "Sakit jantung",
+                    "Kecacatan sperma",
+                    "Pelbagai kanser seperti kanser lidah dan paru-paru"
                 ]
             },
             {
-                title: "Perubahan Fizikal Perempuan",
-                icon: "👧",
-                changes: [
-                    "Suara semakin lunak",
-                    "Bulu di ketiak dan kemaluan mula tumbuh",
-                    "Punggul mula membesar",
-                    "Berat bertambah",
-                    "Ketinggian meningkat",
-                    "Jerawat mula tumbuh",
-                    "Payudara mula membesar",
-                    "Keluar haid",
-                    "Bentuk badan berubah"
+                icon: "🍺",
+                title: "Alkohol",
+                effects: [
+                    "Kanser usus kecil",
+                    "Kerosakan hati dan otak",
+                    "Degupan jantung tidak sekata"
+                ]
+            },
+            {
+                icon: "💊",
+                title: "Dadah",
+                effects: [
+                    "Sawan",
+                    "Masalah gigi berketap",
+                    "Sistem imun yang lemah"
                 ]
             }
         ];
 
         const kuizData = [
-            { question: "Jerawat mula tumbuh", answer: "Kedua-duanya", emoji: "😊" },
-            { question: "Suara menjadi garau", answer: "Lelaki", emoji: "🎤" },
-            { question: "Zakar membesar", answer: "Lelaki", emoji: "📊" },
-            { question: "Berat bertambah", answer: "Kedua-duanya", emoji: "⚖️" },
-            { question: "Ketinggian meningkat", answer: "Kedua-duanya", emoji: "📏" },
-            { question: "Misai dan janggut mula tumbuh", answer: "Lelaki", emoji: "🧔" },
-            { question: "Payudara mula membesar", answer: "Perempuan", emoji: "🌸" },
-            { question: "Keluar haid", answer: "Perempuan", emoji: "📅" },
-            { question: "Bulu di ketiak dan kemaluan mula tumbuh", answer: "Kedua-duanya", emoji: "🌱" },
-            { question: "Punggul mula membesar", answer: "Perempuan", emoji: "💃" },
-            { question: "Saiz otot membesar", answer: "Lelaki", emoji: "💪" }
+            { question: "Sakit jantung", answer: "rokok" },
+            { question: "Kecacatan sperma", answer: "rokok" },
+            { question: "Kanser lidah dan paru-paru", answer: "rokok" },
+            { question: "Kanser usus kecil", answer: "alkohol" },
+            { question: "Kerosakan hati dan otak", answer: "alkohol" },
+            { question: "Degupan jantung tidak sekata", answer: "alkohol" },
+            { question: "Sawan", answer: "dadah" },
+            { question: "Masalah gigi berketap", answer: "dadah" },
+            { question: "Sistem imun yang lemah", answer: "dadah" }
         ];
 
-        let currentNota = 0;
-        let currentKuiz = 0;
-        let selectedQuizAnswer = null;
-        let quizScore = 0;
-        let userAnswers = [];
-        let shuffledKuizData = [];
+        let currentCategory = 0;
+        let currentQuestion = 0;
+        let currentSection = 'menu';
+        let hasAnswered = false;
+        let score = 0;
+        let shuffledQuestions = [];
 
-        async function onConfigChange(config) {
-            const mainTitle = config.main_title || defaultConfig.main_title;
-            const subtitle = config.subtitle || defaultConfig.subtitle;
-            const definitionText = config.definition_text || defaultConfig.definition_text;
-
-            document.getElementById('mainTitle').textContent = mainTitle;
-            document.getElementById('subtitle').textContent = subtitle;
-            document.getElementById('definitionText').innerHTML = `<strong>Seksual sekunder</strong> boleh didefinisikan sebagai perubahan pada tubuh yang terjadi pada permulaan akil baligh yang melibatkan perkembangan dan perubahan aspek fizikal dan emosi. <em>Ingat: Setiap orang berkembang pada kadar yang berbeza dan itu adalah normal! 🌟</em>`;
-        }
-
-        function mapToCapabilities(config) {
-            return {
-                recolorables: [
-                    {
-                        get: () => config.background_color || defaultConfig.background_color,
-                        set: (value) => {
-                            config.background_color = value;
-                            window.elementSdk.setConfig({ background_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.card_background || defaultConfig.card_background,
-                        set: (value) => {
-                            config.card_background = value;
-                            window.elementSdk.setConfig({ card_background: value });
-                        }
-                    },
-                    {
-                        get: () => config.primary_color || defaultConfig.primary_color,
-                        set: (value) => {
-                            config.primary_color = value;
-                            window.elementSdk.setConfig({ primary_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.text_color || defaultConfig.text_color,
-                        set: (value) => {
-                            config.text_color = value;
-                            window.elementSdk.setConfig({ text_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.accent_color || defaultConfig.accent_color,
-                        set: (value) => {
-                            config.accent_color = value;
-                            window.elementSdk.setConfig({ accent_color: value });
-                        }
-                    }
-                ],
-                borderables: [],
-                fontEditable: undefined,
-                fontSizeable: undefined
-            };
-        }
-
-        function mapToEditPanelValues(config) {
-            return new Map([
-                ["main_title", config.main_title || defaultConfig.main_title],
-                ["subtitle", config.subtitle || defaultConfig.subtitle],
-                ["definition_text", config.definition_text || defaultConfig.definition_text]
-            ]);
-        }
-
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        function startNota() {
+        function showSection(section) {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('notaSection').classList.add('active');
-        }
-
-        function startKuiz() {
-            currentKuiz = 0;
-            selectedQuizAnswer = null;
-            quizScore = 0;
-            shuffledKuizData = shuffleArray(kuizData);
-            userAnswers = new Array(shuffledKuizData.length).fill(null);
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('kuizSection').classList.add('active');
-            loadKuiz();
-        }
-
-        function backToMenu() {
             document.getElementById('notaSection').classList.remove('active');
             document.getElementById('kuizSection').classList.remove('active');
-            document.getElementById('mainMenu').style.display = 'block';
-            document.getElementById('notaCard1').classList.remove('flipped');
-            document.getElementById('notaCard2').classList.remove('flipped');
-            document.getElementById('kuizCard').classList.remove('flipped');
-        }
 
-        function flipCard(cardId) {
-            document.getElementById(cardId).classList.toggle('flipped');
-        }
-
-
-
-        function loadKuiz() {
-            const kuiz = shuffledKuizData[currentKuiz];
-            document.getElementById('kuizQuestion').textContent = kuiz.emoji + ' ' + kuiz.question;
-            document.getElementById('kuizQuestionBack').textContent = kuiz.emoji + ' ' + kuiz.question;
-            document.getElementById('kuizAnswer').textContent = kuiz.answer;
-            document.getElementById('kuizProgress').textContent = `${currentKuiz + 1} / ${shuffledKuizData.length}`;
-            
-            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
-            
-            const existingIndicator = document.querySelector('.answer-indicator');
-            if (existingIndicator) {
-                existingIndicator.remove();
+            if (section === 'menu') {
+                document.getElementById('mainMenu').style.display = 'block';
+                currentSection = 'menu';
+            } else if (section === 'nota') {
+                document.getElementById('notaSection').classList.add('active');
+                currentSection = 'nota';
+                resetFlip('nota');
+            } else if (section === 'kuiz') {
+                document.getElementById('kuizSection').classList.add('active');
+                currentSection = 'kuiz';
+                currentQuestion = 0;
+                score = 0;
+                shuffledQuestions = [...kuizData].sort(() => Math.random() - 0.5);
+                loadQuestion();
+                resetFlip('kuiz');
             }
-            
-            selectedQuizAnswer = null;
-            
-            document.getElementById('kuizNext').disabled = true;
-            document.getElementById('kuizCard').classList.remove('flipped');
         }
 
-        function selectAnswer(answer) {
-            if (selectedQuizAnswer !== null) return;
+        function changeCategory(index) {
+            currentCategory = index;
             
-            selectedQuizAnswer = answer;
-            const correctAnswer = shuffledKuizData[currentKuiz].answer;
-            const isCorrect = answer === correctAnswer;
-            
-            userAnswers[currentKuiz] = isCorrect;
-            if (isCorrect) {
-                quizScore++;
-            }
-            
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected');
-                if (opt.textContent.includes(answer)) {
-                    opt.classList.add('selected');
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
+
+            const data = notaData[index];
+            document.getElementById('notaIcon').textContent = data.icon;
+            document.getElementById('notaTitle').textContent = data.title;
+            document.getElementById('notaBackTitle').textContent = `Kesan Ketagihan ${data.title}`;
             
-            document.getElementById('kuizNext').disabled = false;
+            const effectsList = document.getElementById('notaEffects');
+            effectsList.innerHTML = '';
+            data.effects.forEach(effect => {
+                const li = document.createElement('li');
+                li.textContent = effect;
+                effectsList.appendChild(li);
+            });
+
+            resetFlip('nota');
+        }
+
+        function flipCard(section) {
+            const cardId = section === 'nota' ? '.flashcard' : '#kuizCard';
+            const card = document.querySelector(cardId);
             
-            document.getElementById('kuizCard').classList.add('flipped');
+            if (section === 'kuiz' && !card.classList.contains('flipped')) {
+                return;
+            }
             
-            setTimeout(() => {
-                const indicator = document.createElement('div');
-                indicator.className = `answer-indicator ${isCorrect ? 'answer-correct' : 'answer-wrong'}`;
-                indicator.textContent = isCorrect ? '✓ Betul!' : '✗ Salah';
+            if (card.classList.contains('flipped')) {
+                card.classList.remove('flipped');
                 
-                const answerReveal = document.querySelector('.answer-reveal');
-                answerReveal.appendChild(indicator);
-            }, 300);
-        }
-
-        function nextKuiz() {
-            if (currentKuiz < shuffledKuizData.length - 1) {
-                currentKuiz++;
-                loadKuiz();
+                if (section === 'kuiz') {
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 600);
+                }
             } else {
-                showScoreModal();
+                card.classList.add('flipped');
             }
         }
 
-        function showScoreModal() {
-            document.getElementById('finalScore').textContent = `${quizScore}/${shuffledKuizData.length}`;
+        function resetFlip(section) {
+            const cardId = section === 'nota' ? '.flashcard' : '#kuizCard';
+            const card = document.querySelector(cardId);
+            card.classList.remove('flipped');
+        }
+
+        function loadQuestion() {
+            const question = shuffledQuestions[currentQuestion];
+            document.getElementById('kuizQuestion').textContent = question.question;
+            document.getElementById('questionCounter').textContent = `Soalan ${currentQuestion + 1} / ${shuffledQuestions.length}`;
+            hasAnswered = false;
+            document.getElementById('nextBtn').disabled = true;
+            resetFlip('kuiz');
+        }
+
+        function checkAnswer(answer) {
+            if (hasAnswered) return;
             
+            const question = shuffledQuestions[currentQuestion];
+            const card = document.getElementById('kuizCard');
+            const isCorrect = answer === question.answer;
+
+            const answerNames = {
+                'rokok': 'Rokok 🚬',
+                'alkohol': 'Alkohol 🍺',
+                'dadah': 'Dadah 💊'
+            };
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('resultIcon').textContent = '✅';
+                const titleElement = document.getElementById('resultTitle');
+                titleElement.textContent = 'Betul!';
+                titleElement.style.color = '#10b981';
+                titleElement.style.textShadow = '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5)';
+                document.getElementById('resultText').textContent = `Jawapan yang tepat! "${question.question}" adalah kesan dari ${answerNames[question.answer]}.`;
+            } else {
+                document.getElementById('resultIcon').textContent = '❌';
+                const titleElement = document.getElementById('resultTitle');
+                titleElement.textContent = 'Tidak Tepat';
+                titleElement.style.color = '#fbbf24';
+                titleElement.style.textShadow = '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5)';
+                document.getElementById('resultText').textContent = `Jawapan yang betul adalah ${answerNames[question.answer]}. Cuba lagi!`;
+            }
+
+            hasAnswered = true;
+            document.getElementById('nextBtn').disabled = false;
+            card.classList.add('flipped');
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < shuffledQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showScoreScreen();
+            }
+        }
+
+        function showScoreScreen() {
+            const percentage = (score / shuffledQuestions.length) * 100;
             let message = '';
-            const percentage = (quizScore / shuffledKuizData.length) * 100;
+            let emoji = '';
+            
             if (percentage === 100) {
-                message = '🌟 Sempurna! Anda menguasai topik ini sepenuhnya!';
-            } else if (percentage >= 80) {
-                message = '👏 Hebat! Teruskan usaha yang baik!';
-            } else if (percentage >= 60) {
-                message = '💪 Bagus! Masih ada ruang untuk penambahbaikan.';
-            } else {
-                message = '📚 Terus belajar! Anda pasti boleh buat lebih baik.';
-            }
-            
-            document.getElementById('scoreMessage').textContent = message;
-            document.getElementById('scoreModal').classList.add('active');
-            
-            if (percentage >= 70) {
+                message = 'SEMPURNA! Anda mahir dalam topik ini! 🏆';
+                emoji = '🌟';
                 createConfetti();
+            } else if (percentage >= 80) {
+                message = 'Hebat! Prestasi yang cemerlang! 🎉';
+                emoji = '🎊';
+                createConfetti();
+            } else if (percentage >= 60) {
+                message = 'Bagus! Teruskan usaha anda! 👍';
+                emoji = '💪';
+            } else {
+                message = 'Anda boleh buat lebih baik! Cuba lagi! 📚';
+                emoji = '📖';
             }
+
+            const modal = document.createElement('div');
+            modal.id = 'scoreModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                animation: fadeIn 0.3s ease-out;
+            `;
+
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 24px; padding: 3rem; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: scaleIn 0.4s ease-out; position: relative;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">${emoji}</div>
+                    <h2 style="color: #1f2937; font-size: 2rem; margin-bottom: 1rem; font-weight: 800;">Keputusan Kuiz</h2>
+                    <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 16px; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);">
+                        <div style="font-size: 4rem; color: white; font-weight: 800; margin-bottom: 0.5rem;">${score}/${shuffledQuestions.length}</div>
+                        <div style="color: white; font-size: 1.5rem; font-weight: 700;">${percentage.toFixed(0)}%</div>
+                    </div>
+                    <p style="color: #1f2937; font-size: 1.3rem; font-weight: 700; margin: 1.5rem 0;">${message}</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button onclick="retryQuiz()" style="flex: 1; background: #3b82f6; color: white; border: none; border-radius: 12px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">
+                            🔄 Cuba Lagi
+                        </button>
+                        <button onclick="closeScoreModal()" style="flex: 1; background: white; color: #1f2937; border: 2px solid #3b82f6; border-radius: 12px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                            🏠 Menu Utama
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
         }
 
         function createConfetti() {
-            const colors = ['#6bc4b0', '#7dd4c8', '#90e0d8', '#a8e6cf', '#88d5c0', '#5ab39f'];
-            const confettiCount = 150;
-            
+            const colors = ['#3b82f6', '#60a5fa', '#10b981', '#fbbf24', '#ef4444', '#8b5cf6'];
+            const confettiCount = 100;
+
             for (let i = 0; i < confettiCount; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    confetti.style.animationDelay = '0s';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 10);
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: 10px;
+                    height: 10px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    top: -10px;
+                    left: ${Math.random() * 100}%;
+                    opacity: 1;
+                    transform: rotate(${Math.random() * 360}deg);
+                    animation: confettiFall ${2 + Math.random() * 2}s linear forwards;
+                    z-index: 1001;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                `;
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 4000);
             }
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes confettiFall {
+                    to {
+                        top: 100%;
+                        transform: translateY(100%) rotate(${360 + Math.random() * 360}deg);
+                        opacity: 0;
+                    }
+                }
+                @keyframes scaleIn {
+                    from {
+                        transform: scale(0.8);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function retryQuiz() {
+            closeScoreModal();
+            currentQuestion = 0;
+            score = 0;
+            shuffledQuestions = [...kuizData].sort(() => Math.random() - 0.5);
+            loadQuestion();
+            resetFlip('kuiz');
         }
 
         function closeScoreModal() {
-            document.getElementById('scoreModal').classList.remove('active');
-            backToMenu();
+            const modal = document.getElementById('scoreModal');
+            if (modal) {
+                modal.remove();
+            }
+            showSection('menu');
         }
 
-        function restartKuiz() {
-            document.getElementById('scoreModal').classList.remove('active');
-            startKuiz();
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        async function onConfigChange(config) {
+            const mainTitle = config.main_title || defaultConfig.main_title;
+            const menuTitle = config.menu_title || defaultConfig.menu_title;
+            const noteButton = config.note_button || defaultConfig.note_button;
+            const quizButton = config.quiz_button || defaultConfig.quiz_button;
+
+            document.getElementById('mainTitle').textContent = mainTitle;
+            document.getElementById('menuSubtitle').textContent = menuTitle;
+            document.getElementById('noteButtonText').textContent = noteButton;
+            document.getElementById('quizButtonText').textContent = quizButton;
         }
 
         if (window.elementSdk) {
             window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities,
-                mapToEditPanelValues
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["menu_title", config.menu_title || defaultConfig.menu_title],
+                    ["note_button", config.note_button || defaultConfig.note_button],
+                    ["quiz_button", config.quiz_button || defaultConfig.quiz_button]
+                ])
             });
         }
+
+        onConfigChange(defaultConfig);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0cc23af005c7bd',t:'MTc2MzUyNDM4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0cc92ba0801fe1',t:'MTc2MzUyNDY3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
