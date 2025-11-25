@@ -3,350 +3,40 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcard Kesan Ketagihan</title>
+  <title>Peranan Individu dalam Keluarga</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
         body {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%);
             min-height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
+            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             box-sizing: border-box;
         }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
-            padding: 2rem;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        .header h1 {
-            color: #ffffff;
-            font-size: 2.5rem;
-            margin: 0 0 0.5rem 0;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .header p {
-            color: #e0e7ff;
-            font-size: 1.1rem;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .menu-container {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
-        }
-
-        .menu-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            width: 280px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            text-align: center;
-            border: 3px solid #3b82f6;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .app-wrapper {
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
-            border-color: #60a5fa;
-        }
-
-        .menu-card .icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .menu-card h2 {
-            color: #1f2937;
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem 0;
-            font-weight: 700;
-        }
-
-        .menu-card p {
-            color: #475569;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        .flashcard-section {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .flashcard-section.active {
-            display: block;
-        }
-
-        .back-button {
-            background: white;
-            border: 2px solid #3b82f6;
-            border-radius: 12px;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            color: #1f2937;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            font-weight: 700;
-        }
-
-        .back-button:hover {
-            background: #eff6ff;
-            transform: translateX(-5px);
-            border-color: #60a5fa;
-        }
-
-        .category-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .category-btn {
-            background: white;
-            border: 3px solid #cbd5e1;
-            border-radius: 12px;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 700;
-            color: #475569;
-        }
-
-        .category-btn.active {
-            border-color: #3b82f6;
-            background: #3b82f6;
-            color: white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-
-        .category-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .flashcard-wrapper {
-            perspective: 1000px;
-            margin: 0 auto;
-            max-width: 600px;
-        }
-
-        .flashcard {
-            width: 100%;
-            height: 500px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-            cursor: pointer;
-        }
-
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            padding: 2.5rem;
+            min-height: 100%;
+            padding: 3rem 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 3px solid rgba(255,255,255,0.2);
         }
 
-        .card-front {
-            background: white;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            transform: rotateY(180deg);
-            color: white;
-        }
-
-        .card-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .card-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
+        .hero-section {
             text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
         }
 
-        .card-front .card-title {
-            color: #1f2937;
-        }
-
-        .card-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            text-align: left;
-            width: 100%;
-        }
-
-        .card-content ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .card-content li {
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
-            font-weight: 500;
-        }
-
-        .card-content li:before {
-            content: "⚠️";
-            position: absolute;
-            left: 0;
-            font-size: 1.2rem;
-        }
-
-        .card-back .card-content li:before {
-            content: "❌";
-        }
-
-        .flip-hint {
-            position: absolute;
-            bottom: 1.5rem;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            animation: pulse 2s infinite;
-            font-weight: 600;
-        }
-
-        .card-front .flip-hint {
-            color: #64748b;
-        }
-
-        .quiz-options {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .quiz-option {
-            background: white;
-            border: 3px solid #cbd5e1;
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        .quiz-option:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .nav-btn {
-            background: white;
-            border: 2px solid #3b82f6;
-            border-radius: 12px;
-            padding: 0.8rem 2rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 700;
-            color: #1f2937;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
-            background: #eff6ff;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #e5e7eb;
-        }
-
-        .nav-btn:disabled:hover {
-            transform: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .card-counter {
-            text-align: center;
-            color: white;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        @keyframes fadeInDown {
+        @keyframes slideDown {
             from {
                 opacity: 0;
                 transform: translateY(-30px);
@@ -357,167 +47,457 @@
             }
         }
 
-        @keyframes fadeInUp {
+        .hero-section h1 {
+            font-size: 3rem;
+            margin: 0 0 0.8rem 0;
+            color: white;
+            font-weight: 800;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-card {
+            width: 100%;
+            max-width: 1100px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: scaleIn 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.7;
                 transform: scale(1);
             }
-            50% {
+        }
+
+        .tabs-navigation {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.6);
+            color: #334155;
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #1e293b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: scale(1.02);
+        }
+
+        .nav-tab#tab-bapa.active {
+            color: #2563eb;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        }
+
+        .nav-tab#tab-ibu.active {
+            color: #db2777;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+
+        .nav-tab#tab-anak.active {
+            color: #7c3aed;
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+        }
+
+        .tab-emoji {
+            font-size: 3rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .tab-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .tab-panels {
+            padding: 3rem 2.5rem;
+            min-height: 500px;
+        }
+
+        .panel {
+            display: none;
+            animation: fadeSlide 0.5s ease-out;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
                 opacity: 1;
-                transform: scale(1.05);
+                transform: translateX(0);
             }
         }
 
-        .hint-text {
+        .panel-header {
             text-align: center;
-            color: #e0e7ff;
-            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid;
+        }
+
+        #content-bapa .panel-header {
+            border-color: #3b82f6;
+        }
+
+        #content-ibu .panel-header {
+            border-color: #ec4899;
+        }
+
+        #content-anak .panel-header {
+            border-color: #8b5cf6;
+        }
+
+        .panel-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .section-block {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .section-block:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .section-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-heading::before {
+            content: '';
+            width: 6px;
+            height: 30px;
+            background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+            border-radius: 3px;
+        }
+
+        #content-bapa .section-heading::before {
+            background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+        }
+
+        #content-ibu .section-heading::before {
+            background: linear-gradient(to bottom, #ec4899, #f472b6);
+        }
+
+        #content-anak .section-heading::before {
+            background: linear-gradient(to bottom, #8b5cf6, #a78bfa);
+        }
+
+        .responsibilities-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .responsibility-item {
+            background: white;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            border-radius: 12px;
+            position: relative;
+            color: #334155;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .responsibility-item:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateX(4px);
+        }
+
+        .responsibility-item::before {
+            content: "✓";
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .examples-block {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        #content-bapa .examples-block {
+            border-color: #93c5fd;
+            background: linear-gradient(135deg, #ffffff, #eff6ff);
+        }
+
+        #content-ibu .examples-block {
+            border-color: #f9a8d4;
+            background: linear-gradient(135deg, #ffffff, #fdf2f8);
+        }
+
+        #content-anak .examples-block {
+            border-color: #c4b5fd;
+            background: linear-gradient(135deg, #ffffff, #f5f3ff);
+        }
+
+        .examples-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        #content-bapa .examples-heading {
+            color: #1e40af;
+        }
+
+        #content-ibu .examples-heading {
+            color: #be185d;
+        }
+
+        #content-anak .examples-heading {
+            color: #6d28d9;
+        }
+
+        .example-card {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 16px;
+            border-left: 5px solid;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        #content-bapa .example-card {
+            border-left-color: #3b82f6;
+        }
+
+        #content-ibu .example-card {
+            border-left-color: #ec4899;
+        }
+
+        #content-anak .example-card {
+            border-left-color: #8b5cf6;
+        }
+
+        .example-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transform: translateX(6px);
+        }
+
+        .example-label {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        #content-bapa .example-label {
+            color: #2563eb;
+        }
+
+        #content-ibu .example-label {
+            color: #db2777;
+        }
+
+        #content-anak .example-label {
+            color: #7c3aed;
+        }
+
+        .example-text {
+            color: #475569;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .footer-section {
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 3rem;
+            background: linear-gradient(135deg, #fef9c3, #fef08a);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.6s ease-out 0.4s both;
+        }
+
+        .footer-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 0.8rem 0;
+            color: #854d0e;
+        }
+
+        .footer-subtitle {
+            color: #a16207;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .importance-item {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #fde047;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .importance-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(234, 179, 8, 0.25);
+            border-color: #facc15;
+        }
+
+        .importance-emoji {
+            font-size: 3.5rem;
+            display: block;
             margin-bottom: 1rem;
-            font-weight: 600;
-            opacity: 0.9;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .importance-desc {
+            color: #713f12;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
+            .app-wrapper {
+                padding: 2rem 1rem;
             }
 
-            .header h1 {
-                font-size: 1.5rem;
+            .hero-section h1 {
+                font-size: 2rem;
             }
 
-            .header p {
-                font-size: 0.95rem;
+            .hero-section p {
+                font-size: 1.1rem;
             }
 
-            .menu-card {
-                width: 100%;
+            .tabs-navigation {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+
+            .nav-tab {
+                padding: 1.2rem 0.8rem;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .tab-emoji {
+                font-size: 2rem;
+            }
+
+            .tab-label {
+                font-size: 1rem;
+            }
+
+            .tab-panels {
+                padding: 2rem 1.5rem;
+                min-height: auto;
+            }
+
+            .panel-title {
+                font-size: 1.8rem;
+            }
+
+            .section-block {
+                padding: 1.5rem;
+            }
+
+            .footer-section {
                 padding: 2rem 1.5rem;
             }
 
-            .menu-card .icon {
-                font-size: 3rem;
-            }
-
-            .menu-card h2 {
-                font-size: 1.3rem;
-            }
-
-            .flashcard {
-                height: auto;
-                min-height: 400px;
-            }
-
-            .card-face {
-                padding: 1.2rem;
-            }
-
-            .card-icon {
-                font-size: 2.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .card-title {
-                font-size: 1rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .card-content {
-                font-size: 0.85rem;
-                line-height: 1.5;
-            }
-
-            .card-content li {
-                margin-bottom: 0.6rem;
-                padding-left: 1.5rem;
-            }
-
-            .card-content li:before {
-                font-size: 0.9rem;
-            }
-
-            .quiz-options {
-                gap: 0.6rem;
-                margin-top: 0.75rem;
-            }
-
-            .quiz-option {
-                padding: 0.7rem 0.8rem;
-                font-size: 0.85rem;
-                width: 100%;
-            }
-
-            .flip-hint {
-                display: none;
-            }
-
-            .hint-text {
-                font-size: 0.85rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .navigation {
-                margin-top: 1rem;
-            }
-
-            .nav-btn {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.95rem;
-            }
-
-            .card-counter {
-                font-size: 0.95rem;
-                margin-top: 0.75rem;
-            }
-
-            .back-button {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.95rem;
-                margin-bottom: 1rem;
-            }
-
-            .category-selector {
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .category-btn {
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            #kuizQuestion {
-                font-size: 1rem !important;
-                padding: 0.75rem !important;
-            }
-
-            .card-content > div {
-                padding: 1rem !important;
-                margin: 0.5rem 0 !important;
-            }
-
-            #resultText {
-                font-size: 1rem !important;
+            .importance-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -526,465 +506,293 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="container"><!-- Main Menu -->
-   <div id="mainMenu">
-    <div class="header">
-     <h1 id="mainTitle">Kesan Ketagihan kepada Kesihatan</h1>
-     <p id="menuSubtitle">Pilih Mod Pembelajaran</p>
-    </div>
-    <div class="menu-container">
-     <div class="menu-card" onclick="showSection('nota')">
-      <div class="icon">
-       📚
+  <div class="app-wrapper">
+   <header class="hero-section">
+    <h1 id="main-title">Peranan Individu dalam Keluarga</h1>
+    <p id="subtitle">PJPK Tingkatan 1</p>
+   </header>
+   <main class="content-card">
+    <nav class="tabs-navigation"><button class="nav-tab active" onclick="switchTab('bapa')" id="tab-bapa"> <span class="tab-emoji">👨‍👦</span> <span class="tab-label">Bapa</span> </button> <button class="nav-tab" onclick="switchTab('ibu')" id="tab-ibu"> <span class="tab-emoji">👩‍👧</span> <span class="tab-label">Ibu</span> </button> <button class="nav-tab" onclick="switchTab('anak')" id="tab-anak"> <span class="tab-emoji">👧👦</span> <span class="tab-label">Anak-anak</span> </button>
+    </nav>
+    <div class="tab-panels"><!-- Bapa Panel -->
+     <div class="panel active" id="content-bapa">
+      <div class="panel-header">
+       <h2 class="panel-title">Bapa atau Suami</h2>
       </div>
-      <h2 id="noteButtonText">Flashcard Nota</h2>
-      <p>Pelajari kesan ketagihan dengan cara interaktif</p>
-     </div>
-     <div class="menu-card" onclick="showSection('kuiz')">
-      <div class="icon">
-       🎯
-      </div>
-      <h2 id="quizButtonText">Flashcard Kuiz</h2>
-      <p>Uji pemahaman anda dengan kuiz</p>
-     </div>
-    </div>
-   </div><!-- Flashcard Nota Section -->
-   <div id="notaSection" class="flashcard-section"><button class="back-button" onclick="showSection('menu')">← Kembali ke Menu</button>
-    <div class="category-selector"><button class="category-btn active" onclick="changeCategory(0)">🚬 Rokok</button> <button class="category-btn" onclick="changeCategory(1)">🍺 Alkohol</button> <button class="category-btn" onclick="changeCategory(2)">💊 Dadah</button>
-    </div>
-    <div class="flashcard-wrapper">
-     <div class="flashcard" onclick="flipCard('nota')">
-      <div class="card-face card-front">
-       <div class="card-icon" id="notaIcon">
-        🚬
-       </div>
-       <div class="card-title" id="notaTitle">
-        Rokok
-       </div>
-       <div class="card-content">
-        <p style="text-align: center; color: #64748b; font-weight: 600;">Klik untuk lihat kesan kepada kesihatan</p>
-       </div>
-       <div class="flip-hint">
-        👆 Klik untuk flip
-       </div>
-      </div>
-      <div class="card-face card-back">
-       <div class="card-title" id="notaBackTitle">
-        Kesan Ketagihan Rokok
-       </div>
-       <div class="card-content">
-        <ul id="notaEffects">
-         <li>Sakit jantung</li>
-         <li>Kecacatan sperma</li>
-         <li>Pelbagai kanser seperti kanser lidah dan paru-paru</li>
-        </ul>
-       </div>
-       <div class="flip-hint">
-        👆 Klik untuk flip kembali
-       </div>
-      </div>
-     </div>
-    </div>
-   </div><!-- Flashcard Kuiz Section -->
-   <div id="kuizSection" class="flashcard-section"><button class="back-button" onclick="showSection('menu')">← Kembali ke Menu</button>
-    <div class="hint-text" id="quizHint">
-     Pilih jawapan untuk flip kad
-    </div>
-    <div class="flashcard-wrapper">
-     <div class="flashcard" id="kuizCard">
-      <div class="card-face card-front">
-       <div class="card-icon">
-        ❓
-       </div>
-       <div class="card-title">
-        Kesan Ini Akibat Ketagihan
-       </div>
-       <div class="card-content">
-        <div style="background: #eff6ff; border: 3px solid #3b82f6; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
-         <p id="kuizQuestion" style="text-align: center; font-weight: 700; color: #1f2937; font-size: 1.5rem; margin: 0;"></p>
+      <section class="section-block">
+       <h3 class="section-heading">Tanggungjawab Utama</h3>
+       <div class="responsibilities-grid">
+        <div class="responsibility-item">
+         Merupakan ketua keluarga
+        </div>
+        <div class="responsibility-item">
+         Mendidik dan memupuk disiplin dalam diri anak-anak
+        </div>
+        <div class="responsibility-item">
+         Melindungi keselamatan semua anggota keluarga
+        </div>
+        <div class="responsibility-item">
+         Mencari nafkah untuk isteri dan anak-anak
+        </div>
+        <div class="responsibility-item">
+         Sentiasa bersikap adil dalam membuat keputusan
         </div>
        </div>
-       <div class="quiz-options"><button class="quiz-option" onclick="checkAnswer('rokok')">🚬 Rokok</button> <button class="quiz-option" onclick="checkAnswer('alkohol')">🍺 Alkohol</button> <button class="quiz-option" onclick="checkAnswer('dadah')">💊 Dadah</button>
+      </section>
+      <div class="examples-block">
+       <h3 class="examples-heading">💡 Contoh-contoh Praktikal</h3>
+       <div class="example-card"><span class="example-label">Ketua Keluarga:</span>
+        <p class="example-text">Memimpin perbincangan keluarga untuk membuat keputusan bersama seperti merancang percutian atau bajet rumah.</p>
        </div>
-       <div class="flip-hint">
-        Pilih jawapan untuk flip
+       <div class="example-card"><span class="example-label">Mendidik &amp; Disiplin:</span>
+        <p class="example-text">Mengajar anak-anak tentang tanggungjawab, menetapkan waktu tidur, dan membimbing mereka dalam pembelajaran.</p>
+       </div>
+       <div class="example-card"><span class="example-label">Melindungi:</span>
+        <p class="example-text">Memastikan rumah selamat, menghantar anak ke sekolah, dan menjaga kesejahteraan keluarga.</p>
        </div>
       </div>
-      <div class="card-face card-back">
-       <div class="card-icon" id="resultIcon">
-        ✅
+     </div><!-- Ibu Panel -->
+     <div class="panel" id="content-ibu">
+      <div class="panel-header">
+       <h2 class="panel-title">Ibu atau Isteri</h2>
+      </div>
+      <section class="section-block">
+       <h3 class="section-heading">Tanggungjawab Utama</h3>
+       <div class="responsibilities-grid">
+        <div class="responsibility-item">
+         Mengurus hal ehwal keluarga
+        </div>
+        <div class="responsibility-item">
+         Mengasuh dan memberikan kasih sayang kepada anak-anak
+        </div>
+        <div class="responsibility-item">
+         Taat dan patuh terhadap suami
+        </div>
+        <div class="responsibility-item">
+         Membentuk peribadi anak-anak dengan nilai-nilai murni
+        </div>
+        <div class="responsibility-item">
+         Menjaga keharmonian dan kebersihan diri serta keluarga
+        </div>
        </div>
-       <div class="card-title" id="resultTitle" style="text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5);">
-        Betul!
+      </section>
+      <div class="examples-block">
+       <h3 class="examples-heading">💡 Contoh-contoh Praktikal</h3>
+       <div class="example-card"><span class="example-label">Mengurus Keluarga:</span>
+        <p class="example-text">Menyediakan makanan, menguruskan jadual aktiviti keluarga, dan memastikan keperluan harian dipenuhi.</p>
        </div>
-       <div class="card-content">
-        <p id="resultText" style="text-align: center; font-size: 1.2rem;"></p>
+       <div class="example-card"><span class="example-label">Kasih Sayang:</span>
+        <p class="example-text">Mendengar masalah anak-anak, memeluk mereka ketika sedih, dan sentiasa memberi sokongan moral.</p>
        </div>
-       <div class="flip-hint">
-        👆 Klik untuk soalan seterusnya
+       <div class="example-card"><span class="example-label">Membentuk Peribadi:</span>
+        <p class="example-text">Mengajar anak-anak tentang kejujuran, budi bahasa, hormat-menghormati, dan nilai agama.</p>
+       </div>
+      </div>
+     </div><!-- Anak Panel -->
+     <div class="panel" id="content-anak">
+      <div class="panel-header">
+       <h2 class="panel-title">Anak-anak</h2>
+      </div>
+      <section class="section-block">
+       <h3 class="section-heading">Tanggungjawab Utama</h3>
+       <div class="responsibilities-grid">
+        <div class="responsibility-item">
+         Membantu meringankan kerja ibu bapa
+        </div>
+        <div class="responsibility-item">
+         Menghormati dan mentaati perintah ibu bapa
+        </div>
+        <div class="responsibility-item">
+         Saling berkasih sayang antara adik-beradik
+        </div>
+        <div class="responsibility-item">
+         Belajar dengan bersungguh-sungguh
+        </div>
+        <div class="responsibility-item">
+         Menjaga kebajikan ibu bapa apabila tua kelak
+        </div>
+       </div>
+      </section>
+      <div class="examples-block">
+       <h3 class="examples-heading">💡 Contoh-contoh Praktikal</h3>
+       <div class="example-card"><span class="example-label">Membantu Ibu Bapa:</span>
+        <p class="example-text">Mencuci pinggan, mengemas bilik, menyapu lantai, dan membantu adik-beradik yang lebih kecil.</p>
+       </div>
+       <div class="example-card"><span class="example-label">Menghormati:</span>
+        <p class="example-text">Bercakap dengan sopan, mendengar nasihat ibu bapa, dan meminta izin sebelum keluar rumah.</p>
+       </div>
+       <div class="example-card"><span class="example-label">Belajar Bersungguh-sungguh:</span>
+        <p class="example-text">Membuat kerja rumah tepat pada waktunya, membaca buku, dan berusaha cemerlang dalam peperiksaan.</p>
        </div>
       </div>
      </div>
     </div>
-    <div class="navigation"><button class="nav-btn" id="nextBtn" onclick="nextQuestion()" disabled>Seterusnya →</button>
+   </main>
+   <footer class="footer-section">
+    <div class="footer-header">
+     <h2 class="footer-title" id="importance-title">⭐ Kepentingan Institusi Keluarga ⭐</h2>
+     <p class="footer-subtitle">Nota penting untuk diingati</p>
     </div>
-    <div class="card-counter"><span id="questionCounter">Soalan 1 / 9</span>
+    <div class="importance-grid">
+     <div class="importance-item"><span class="importance-emoji">🏛️</span>
+      <p class="importance-desc">Merupakan asas yang penting kepada pembangunan sesebuah negara</p>
+     </div>
+     <div class="importance-item"><span class="importance-emoji">🌟</span>
+      <p class="importance-desc">Membentuk sikap positif yang menjamin masa depan yang cemerlang</p>
+     </div>
+     <div class="importance-item"><span class="importance-emoji">💝</span>
+      <p class="importance-desc">Menjadi tempat untuk menyemai nilai-nilai moral kepada anak-anak</p>
+     </div>
+     <div class="importance-item"><span class="importance-emoji">🏆</span>
+      <p class="importance-desc">Mewujudkan generasi yang akan menegakkan agama, bangsa dan negara</p>
+     </div>
     </div>
-   </div>
+   </footer>
   </div>
   <script>
         const defaultConfig = {
-            main_title: "Kesan Ketagihan kepada Kesihatan",
-            menu_title: "Pilih Mod Pembelajaran",
-            note_button: "📚 Flashcard Nota",
-            quiz_button: "🎯 Flashcard Kuiz"
+            main_title: "Peranan Individu dalam Keluarga",
+            subtitle: "PJPK Tingkatan 1",
+            importance_title: "⭐ Kepentingan Institusi Keluarga ⭐",
+            background_color: "#3b82f6",
+            card_color: "#ffffff",
+            accent_color: "#2563eb",
+            text_color: "#334155",
+            font_family: "Inter",
+            font_size: 16
         };
 
-        const notaData = [
-            {
-                icon: "🚬",
-                title: "Rokok",
-                effects: [
-                    "Sakit jantung",
-                    "Kecacatan sperma",
-                    "Pelbagai kanser seperti kanser lidah dan paru-paru"
-                ]
+        const roleThemes = {
+            bapa: {
+                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%)'
             },
-            {
-                icon: "🍺",
-                title: "Alkohol",
-                effects: [
-                    "Kanser usus kecil",
-                    "Kerosakan hati dan otak",
-                    "Degupan jantung tidak sekata"
-                ]
+            ibu: {
+                background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fbcfe8 100%)'
             },
-            {
-                icon: "💊",
-                title: "Dadah",
-                effects: [
-                    "Sawan",
-                    "Masalah gigi berketap",
-                    "Sistem imun yang lemah"
-                ]
+            anak: {
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%)'
             }
-        ];
+        };
 
-        const kuizData = [
-            { question: "Sakit jantung", answer: "rokok" },
-            { question: "Kecacatan sperma", answer: "rokok" },
-            { question: "Kanser lidah dan paru-paru", answer: "rokok" },
-            { question: "Kanser usus kecil", answer: "alkohol" },
-            { question: "Kerosakan hati dan otak", answer: "alkohol" },
-            { question: "Degupan jantung tidak sekata", answer: "alkohol" },
-            { question: "Sawan", answer: "dadah" },
-            { question: "Masalah gigi berketap", answer: "dadah" },
-            { question: "Sistem imun yang lemah", answer: "dadah" }
-        ];
+        function switchTab(tabName) {
+            const allPanels = document.querySelectorAll('.panel');
+            allPanels.forEach(panel => panel.classList.remove('active'));
 
-        let currentCategory = 0;
-        let currentQuestion = 0;
-        let currentSection = 'menu';
-        let hasAnswered = false;
-        let score = 0;
-        let shuffledQuestions = [];
+            const allTabs = document.querySelectorAll('.nav-tab');
+            allTabs.forEach(tab => tab.classList.remove('active'));
 
-        function showSection(section) {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('notaSection').classList.remove('active');
-            document.getElementById('kuizSection').classList.remove('active');
+            document.getElementById(`content-${tabName}`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
 
-            if (section === 'menu') {
-                document.getElementById('mainMenu').style.display = 'block';
-                currentSection = 'menu';
-            } else if (section === 'nota') {
-                document.getElementById('notaSection').classList.add('active');
-                currentSection = 'nota';
-                resetFlip('nota');
-            } else if (section === 'kuiz') {
-                document.getElementById('kuizSection').classList.add('active');
-                currentSection = 'kuiz';
-                currentQuestion = 0;
-                score = 0;
-                shuffledQuestions = [...kuizData].sort(() => Math.random() - 0.5);
-                loadQuestion();
-                resetFlip('kuiz');
-            }
-        }
-
-        function changeCategory(index) {
-            currentCategory = index;
-            
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach((btn, i) => {
-                if (i === index) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-
-            const data = notaData[index];
-            document.getElementById('notaIcon').textContent = data.icon;
-            document.getElementById('notaTitle').textContent = data.title;
-            document.getElementById('notaBackTitle').textContent = `Kesan Ketagihan ${data.title}`;
-            
-            const effectsList = document.getElementById('notaEffects');
-            effectsList.innerHTML = '';
-            data.effects.forEach(effect => {
-                const li = document.createElement('li');
-                li.textContent = effect;
-                effectsList.appendChild(li);
-            });
-
-            resetFlip('nota');
-        }
-
-        function flipCard(section) {
-            const cardId = section === 'nota' ? '.flashcard' : '#kuizCard';
-            const card = document.querySelector(cardId);
-            
-            if (section === 'kuiz' && !card.classList.contains('flipped')) {
-                return;
-            }
-            
-            if (card.classList.contains('flipped')) {
-                card.classList.remove('flipped');
-                
-                if (section === 'kuiz') {
-                    setTimeout(() => {
-                        nextQuestion();
-                    }, 600);
-                }
-            } else {
-                card.classList.add('flipped');
-            }
-        }
-
-        function resetFlip(section) {
-            const cardId = section === 'nota' ? '.flashcard' : '#kuizCard';
-            const card = document.querySelector(cardId);
-            card.classList.remove('flipped');
-        }
-
-        function loadQuestion() {
-            const question = shuffledQuestions[currentQuestion];
-            document.getElementById('kuizQuestion').textContent = question.question;
-            document.getElementById('questionCounter').textContent = `Soalan ${currentQuestion + 1} / ${shuffledQuestions.length}`;
-            document.getElementById('quizHint').textContent = 'Pilih jawapan untuk flip kad';
-            hasAnswered = false;
-            document.getElementById('nextBtn').disabled = true;
-            resetFlip('kuiz');
-        }
-
-        function checkAnswer(answer) {
-            if (hasAnswered) return;
-            
-            const question = shuffledQuestions[currentQuestion];
-            const card = document.getElementById('kuizCard');
-            const isCorrect = answer === question.answer;
-
-            const answerNames = {
-                'rokok': 'Rokok 🚬',
-                'alkohol': 'Alkohol 🍺',
-                'dadah': 'Dadah 💊'
-            };
-
-            if (isCorrect) {
-                score++;
-                document.getElementById('resultIcon').textContent = '✅';
-                const titleElement = document.getElementById('resultTitle');
-                titleElement.textContent = 'Betul!';
-                titleElement.style.color = '#10b981';
-                titleElement.style.textShadow = '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5)';
-                document.getElementById('resultText').textContent = `Jawapan yang tepat! "${question.question}" adalah kesan dari ${answerNames[question.answer]}.`;
-            } else {
-                document.getElementById('resultIcon').textContent = '❌';
-                const titleElement = document.getElementById('resultTitle');
-                titleElement.textContent = 'Tidak Tepat';
-                titleElement.style.color = '#fbbf24';
-                titleElement.style.textShadow = '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5)';
-                document.getElementById('resultText').textContent = `Jawapan yang betul adalah ${answerNames[question.answer]}. Cuba lagi!`;
-            }
-
-            hasAnswered = true;
-            document.getElementById('nextBtn').disabled = false;
-            document.getElementById('quizHint').textContent = 'Klik kad untuk soalan seterusnya';
-            card.classList.add('flipped');
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < shuffledQuestions.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            } else {
-                showScoreScreen();
-            }
-        }
-
-        function showScoreScreen() {
-            const percentage = (score / shuffledQuestions.length) * 100;
-            let message = '';
-            let emoji = '';
-            
-            if (percentage === 100) {
-                message = 'SEMPURNA! Anda mahir dalam topik ini! 🏆';
-                emoji = '🌟';
-                createConfetti();
-            } else if (percentage >= 80) {
-                message = 'Hebat! Prestasi yang cemerlang! 🎉';
-                emoji = '🎊';
-                createConfetti();
-            } else if (percentage >= 60) {
-                message = 'Bagus! Teruskan usaha anda! 👍';
-                emoji = '💪';
-            } else {
-                message = 'Anda boleh buat lebih baik! Cuba lagi! 📚';
-                emoji = '📖';
-            }
-
-            const modal = document.createElement('div');
-            modal.id = 'scoreModal';
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.8);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 1000;
-                animation: fadeIn 0.3s ease-out;
-            `;
-
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 24px; padding: 3rem; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: scaleIn 0.4s ease-out; position: relative;">
-                    <div style="font-size: 5rem; margin-bottom: 1rem;">${emoji}</div>
-                    <h2 style="color: #1f2937; font-size: 2rem; margin-bottom: 1rem; font-weight: 800;">Keputusan Kuiz</h2>
-                    <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 16px; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);">
-                        <div style="font-size: 4rem; color: white; font-weight: 800; margin-bottom: 0.5rem;">${score}/${shuffledQuestions.length}</div>
-                        <div style="color: white; font-size: 1.5rem; font-weight: 700;">${percentage.toFixed(0)}%</div>
-                    </div>
-                    <p style="color: #1f2937; font-size: 1.3rem; font-weight: 700; margin: 1.5rem 0;">${message}</p>
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button onclick="retryQuiz()" style="flex: 1; background: #3b82f6; color: white; border: none; border-radius: 12px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">
-                            🔄 Cuba Lagi
-                        </button>
-                        <button onclick="closeScoreModal()" style="flex: 1; background: white; color: #1f2937; border: 2px solid #3b82f6; border-radius: 12px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
-                            🏠 Menu Utama
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-        }
-
-        function createConfetti() {
-            const colors = ['#3b82f6', '#60a5fa', '#10b981', '#fbbf24', '#ef4444', '#8b5cf6'];
-            const confettiCount = 100;
-
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.cssText = `
-                    position: fixed;
-                    width: 10px;
-                    height: 10px;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    top: -10px;
-                    left: ${Math.random() * 100}%;
-                    opacity: 1;
-                    transform: rotate(${Math.random() * 360}deg);
-                    animation: confettiFall ${2 + Math.random() * 2}s linear forwards;
-                    z-index: 1001;
-                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
-                `;
-                document.body.appendChild(confetti);
-
-                setTimeout(() => confetti.remove(), 4000);
-            }
-
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes confettiFall {
-                    to {
-                        top: 100%;
-                        transform: translateY(100%) rotate(${360 + Math.random() * 360}deg);
-                        opacity: 0;
-                    }
-                }
-                @keyframes scaleIn {
-                    from {
-                        transform: scale(0.8);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: scale(1);
-                        opacity: 1;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        function retryQuiz() {
-            closeScoreModal();
-            currentQuestion = 0;
-            score = 0;
-            shuffledQuestions = [...kuizData].sort(() => Math.random() - 0.5);
-            loadQuestion();
-            resetFlip('kuiz');
-        }
-
-        function closeScoreModal() {
-            const modal = document.getElementById('scoreModal');
-            if (modal) {
-                modal.remove();
-            }
-            showSection('menu');
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            }
+            const theme = roleThemes[tabName];
+            document.body.style.background = theme.background;
         }
 
         async function onConfigChange(config) {
-            const mainTitle = config.main_title || defaultConfig.main_title;
-            const menuTitle = config.menu_title || defaultConfig.menu_title;
-            const noteButton = config.note_button || defaultConfig.note_button;
-            const quizButton = config.quiz_button || defaultConfig.quiz_button;
+            const mainTitle = document.getElementById('main-title');
+            const subtitle = document.getElementById('subtitle');
+            const importanceTitle = document.getElementById('importance-title');
 
-            document.getElementById('mainTitle').textContent = mainTitle;
-            document.getElementById('menuSubtitle').textContent = menuTitle;
-            document.getElementById('noteButtonText').textContent = noteButton;
-            document.getElementById('quizButtonText').textContent = quizButton;
+            if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
+            if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+            if (importanceTitle) importanceTitle.textContent = config.importance_title || defaultConfig.importance_title;
+
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'Inter, Segoe UI, sans-serif';
+            const baseSize = config.font_size || defaultConfig.font_size;
+
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+
+            if (mainTitle) mainTitle.style.fontSize = `${baseSize * 3}px`;
+            if (subtitle) subtitle.style.fontSize = `${baseSize * 1.3}px`;
+            if (importanceTitle) importanceTitle.style.fontSize = `${baseSize * 2.5}px`;
+
+            const panelTitles = document.querySelectorAll('.panel-title');
+            panelTitles.forEach(title => {
+                title.style.fontSize = `${baseSize * 2.5}px`;
+            });
+
+            const sectionHeadings = document.querySelectorAll('.section-heading');
+            sectionHeadings.forEach(heading => {
+                heading.style.fontSize = `${baseSize * 1.5}px`;
+            });
+
+            const responsibilityItems = document.querySelectorAll('.responsibility-item');
+            responsibilityItems.forEach(item => {
+                item.style.fontSize = `${baseSize * 1.05}px`;
+                item.style.color = config.text_color || defaultConfig.text_color;
+            });
+
+            const exampleTexts = document.querySelectorAll('.example-text');
+            exampleTexts.forEach(text => {
+                text.style.fontSize = `${baseSize}px`;
+            });
+
+            const importanceDescs = document.querySelectorAll('.importance-desc');
+            importanceDescs.forEach(desc => {
+                desc.style.fontSize = `${baseSize * 1.05}px`;
+                desc.style.color = config.text_color || defaultConfig.text_color;
+            });
         }
 
         if (window.elementSdk) {
             window.elementSdk.init({
-                defaultConfig: defaultConfig,
-                onConfigChange: onConfigChange,
+                defaultConfig,
+                onConfigChange,
                 mapToCapabilities: (config) => ({
-                    recolorables: [],
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.card_color || defaultConfig.card_color,
+                            set: (value) => {
+                                config.card_color = value;
+                                window.elementSdk.setConfig({ card_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.accent_color || defaultConfig.accent_color,
+                            set: (value) => {
+                                config.accent_color = value;
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    ],
                     borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
                 }),
                 mapToEditPanelValues: (config) => new Map([
                     ["main_title", config.main_title || defaultConfig.main_title],
-                    ["menu_title", config.menu_title || defaultConfig.menu_title],
-                    ["note_button", config.note_button || defaultConfig.note_button],
-                    ["quiz_button", config.quiz_button || defaultConfig.quiz_button]
+                    ["subtitle", config.subtitle || defaultConfig.subtitle],
+                    ["importance_title", config.importance_title || defaultConfig.importance_title]
                 ])
             });
         }
-
-        onConfigChange(defaultConfig);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0ceb2eb3480b29',t:'MTc2MzUyNjA2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3db32597afad7a',t:'MTc2NDAzNzU3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
