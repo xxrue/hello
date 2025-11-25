@@ -442,8 +442,21 @@
     }
 
     @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .title-box {
+        padding: 30px 20px;
+        margin-bottom: 30px;
+      }
+
       h1 {
-        font-size: 2.2em;
+        font-size: 2em;
+      }
+
+      .subtitle {
+        font-size: 1em;
       }
 
       .menu-card {
@@ -453,13 +466,15 @@
 
       .cards-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        justify-items: center;
+        gap: 12px;
+        padding: 0 10px;
+        max-width: 100%;
       }
 
       .game-card-wrapper {
         width: 100%;
-        max-width: 180px;
+        height: auto;
+        aspect-ratio: 1;
       }
 
       .flashcard {
@@ -475,16 +490,72 @@
       }
 
       .game-card-front {
-        font-size: 0.85em;
+        font-size: 0.75em;
+        padding: 10px;
+      }
+
+      .game-card-back {
+        font-size: 1.8em;
+      }
+
+      .game-instructions, .description-box {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .game-instructions h3 {
+        font-size: 1.2em;
+      }
+
+      .game-instructions p {
+        font-size: 0.9em;
+      }
+
+      .description-box h3 {
+        font-size: 1.1em;
+        padding: 0 10px;
+      }
+
+      .ready-button {
+        padding: 12px 35px;
+        font-size: 1.1em;
+      }
+
+      .feedback {
+        font-size: 1.5em;
+        padding: 30px 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.6em;
+      }
+
+      .cards-grid {
+        gap: 10px;
+        padding: 0 5px;
+      }
+
+      .game-card-front {
+        font-size: 0.7em;
+        padding: 8px;
       }
 
       .game-card-back {
         font-size: 1.5em;
       }
 
-      .game-instructions, .description-box {
-        width: 100%;
-        max-width: 100%;
+      .description-box h3 {
+        font-size: 1em;
+      }
+
+      .back-button {
+        padding: 10px 20px;
+        font-size: 1em;
       }
     }
   </style>
@@ -516,7 +587,7 @@
      </div>
     </div>
    </div><!-- Nota Mode -->
-   <div id="notaMode" class="hidden"><button class="back-button" onclick="backToMenu()">��� Kembali ke Menu</button>
+   <div id="notaMode" class="hidden"><button class="back-button" onclick="backToMenu()">← Kembali ke Menu</button>
     <div class="title-box">
      <h1>🏐 Flashcard Bola Baling</h1>
      <p class="subtitle">Penggunaan Daya Kemahiran Menghantar</p>
@@ -922,5 +993,5 @@
 
     applyColors();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3e967fd29a26f2',t:'MTc2NDA0Njg4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3effd010209928',t:'MTc2NDA1MTE5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
