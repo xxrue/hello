@@ -3,19 +3,21 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kad Imbas - Menerima Servis</title>
+  <title>Kuiz Kriket</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a472a 0%, #16a085 100%);
       min-height: 100%;
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow-x: hidden;
-      position: relative;
     }
 
     * {
@@ -24,988 +26,361 @@
 
     .app-wrapper {
       width: 100%;
-      min-height: 100vh;
-      padding: 40px 20px;
+      min-height: 100%;
+      padding: 2rem 1rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
     }
 
-    .main-header {
-      text-align: center;
-      margin-bottom: 60px;
-      animation: fadeSlideDown 0.8s ease-out;
-    }
-
-    @keyframes fadeSlideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .main-header h1 {
-      font-size: 48px;
-      margin: 0 0 8px 0;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: -1.5px;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    }
-
-    .main-header p {
-      font-size: 38px;
-      margin: 0;
-      color: #fbbf24;
-      font-weight: 800;
-      letter-spacing: -1px;
-      text-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 40px;
-      max-width: 900px;
-      width: 100%;
-      animation: fadeSlideUp 0.8s ease-out 0.2s both;
-    }
-
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .menu-item {
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.45), rgba(36, 36, 62, 0.45));
-      backdrop-filter: blur(20px);
+    .container {
+      background: white;
       border-radius: 20px;
-      padding: 50px 40px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2.5rem;
+      max-width: 800px;
+      width: 100%;
       position: relative;
       overflow: hidden;
     }
 
-    .menu-item::before {
-      content: '';
-      position: absolute;
+    .cricket-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      color: #1a472a;
+      text-align: center;
+      margin: 0 0 0.5rem 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .welcome-screen, .quiz-screen, .results-screen {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .welcome-screen.active, .quiz-screen.active, .results-screen.active {
+      display: block;
+    }
+
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .cricket-icon-small {
+      font-size: 1.75rem;
+    }
+
+    .quiz-title-small {
+      color: #1a472a;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .quiz-title-small {
+        font-size: 1.25rem;
+      }
+      
+      .cricket-icon-small {
+        font-size: 1.5rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .start-button, .submit-button, .next-button, .restart-button {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.125rem;
+      border-radius: 50px;
+      cursor: pointer;
+      display: block;
+      margin: 2rem auto 0;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+    }
+
+    .start-button:hover, .submit-button:hover, .next-button:hover, .restart-button:hover {
+      background: #229954;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
+    }
+
+    .start-button:disabled, .submit-button:disabled, .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .progress-bar {
+      background: #e0e0e0;
+      height: 8px;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #27ae60 0%, #16a085 100%);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    .question-counter {
+      text-align: center;
+      color: #27ae60;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .question-card {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      border-left: 5px solid #27ae60;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .option {
+      background: white;
+      border: 2px solid #e0e0e0;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .option:hover {
+      border-color: #27ae60;
+      background: #e8f5e9;
+      transform: translateX(5px);
+    }
+
+    .option.selected {
+      background: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+
+    .option.correct {
+      background: #4caf50;
+      color: white;
+      border-color: #4caf50;
+    }
+
+    .option.incorrect {
+      background: #f44336;
+      color: white;
+      border-color: #f44336;
+    }
+
+    .option.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .option-letter {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #27ae60;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .option.selected .option-letter {
+      background: white;
+      color: #27ae60;
+    }
+
+    .option.correct .option-letter,
+    .option.incorrect .option-letter {
+      background: white;
+      color: inherit;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback.correct {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .feedback.incorrect {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .score-display {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a472a 0%, #16a085 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    .score-number {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .performance-message {
+      font-size: 1.5rem;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .performance-emoji {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    canvas {
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .menu-item:hover::before {
-      opacity: 1;
-    }
-
-    .menu-item:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .menu-item .emoji-icon {
-      font-size: 90px;
-      margin-bottom: 30px;
-      display: inline-block;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
-      animation: floatEmoji 3s ease-in-out infinite;
-    }
-
-    @keyframes floatEmoji {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-15px);
-      }
-    }
-
-    .menu-item:hover .emoji-icon {
-      animation-play-state: paused;
-      transform: scale(1.15) rotate(-5deg) translateY(-10px);
-    }
-
-    .menu-item h2 {
-      font-size: 30px;
-      margin: 0 0 16px 0;
-      color: #ffffff;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .menu-item p {
-      font-size: 16px;
-      color: #c4c4d6;
-      margin: 0;
-      line-height: 1.7;
-      font-weight: 400;
-    }
-
-    .content-section {
-      width: 100%;
-      max-width: 1200px;
-      animation: fadeSlideUp 0.6s ease-out;
-    }
-
-    .nav-button {
-      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-      border: none;
-      color: #ffffff;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(139, 92, 246, 0.4);
-      background: linear-gradient(135deg, #9f7aea 0%, #f472b6 100%);
-    }
-
-    .tabs-container {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-
-    .tab-button {
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.5), rgba(36, 36, 62, 0.5));
-      backdrop-filter: blur(10px);
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
-      color: rgba(255, 255, 255, 0.85);
-      padding: 18px 40px;
-      border-radius: 12px;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .tab-button:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.7), rgba(36, 36, 62, 0.7));
-      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .tab-button.active {
-      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-      color: #ffffff;
-      border-color: transparent;
-      box-shadow: 0 6px 28px rgba(139, 92, 246, 0.4);
-    }
-
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
-      gap: 35px;
-      width: 100%;
-      padding: 20px 0;
-      justify-content: center;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: grid;
-    }
-
-    .flip-card {
-      height: 380px;
-      perspective: 2000px;
-      cursor: pointer;
-    }
-
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
-      transform-style: preserve-3d;
-    }
-
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-side {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 20px;
-      padding: 45px 35px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-      border: 1.5px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    .flip-card:hover .card-side {
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-front {
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.6), rgba(36, 36, 62, 0.6));
-      backdrop-filter: blur(20px);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .card-back {
-      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-      transform: rotateY(180deg);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .card-heading {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 24px;
-      color: #a78bfa;
-      letter-spacing: -0.5px;
-      text-transform: uppercase;
-      text-shadow: 0 4px 12px rgba(167, 139, 250, 0.4);
-    }
-    
-    .card-back .card-heading {
-      color: #ffffff;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-
-    .card-steps-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-    }
-
-    .step-box {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 16px 18px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .step-box:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateX(4px);
-    }
-
-    .step-number {
-      background: #fbbf24;
-      color: #1f2937;
-      font-weight: 900;
-      font-size: 16px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
-    }
-
-    .step-text {
-      color: #ffffff;
-      font-size: 15px;
-      line-height: 1.6;
-      margin: 0;
-      font-weight: 500;
-      flex: 1;
-    }
-
-    .stage-header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .progress-info {
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(10px);
-      padding: 12px 30px;
-      border-radius: 50px;
-      margin-bottom: 25px;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .progress-dots {
-      display: flex;
-      gap: 10px;
-    }
-
-    .progress-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .progress-dot.active {
-      background: #ffffff;
-      box-shadow: 0 0 16px rgba(255, 255, 255, 0.8);
-    }
-
-    .progress-text {
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .stage-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-      backdrop-filter: blur(10px);
-      padding: 24px 55px;
-      border-radius: 16px;
-      font-size: 34px;
-      font-weight: 900;
-      color: #ffffff;
-      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      letter-spacing: -0.5px;
-    }
-
-    .game-area {
-      display: flex;
-      gap: 25px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-      padding: 30px 20px;
-    }
-
-    .game-card-wrapper {
-      width: 230px;
-      height: 320px;
-      perspective: 2000px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .game-card-wrapper:hover {
-      transform: scale(1.05);
-    }
-
-    .game-card-wrapper.correct {
       pointer-events: none;
+      z-index: 9999;
     }
 
-    .game-card-wrapper.wrong-shake {
-      animation: shake 0.5s ease;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-      20%, 40%, 60%, 80% { transform: translateX(8px); }
-    }
-
-    @keyframes shuffleMove {
-      0% { transform: translateY(0) scale(1); }
-      25% { transform: translateY(-50px) scale(0.95); }
-      50% { transform: translateY(-60px) scale(0.9) rotate(5deg); }
-      75% { transform: translateY(-50px) scale(0.95) rotate(-5deg); }
-      100% { transform: translateY(0) scale(1) rotate(0deg); }
-    }
-
-    .game-card-wrapper.shuffling {
-      animation: shuffleMove 1s ease-in-out;
-    }
-    
-    .game-card-wrapper.shuffling:nth-child(1) {
-      animation-delay: 0s;
-    }
-    
-    .game-card-wrapper.shuffling:nth-child(2) {
-      animation-delay: 0.1s;
-    }
-    
-    .game-card-wrapper.shuffling:nth-child(3) {
-      animation-delay: 0.2s;
-    }
-
-    .game-card-flip {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
-      transform-style: preserve-3d;
-    }
-
-    .game-card-wrapper.flipped .game-card-flip {
-      transform: rotateY(180deg);
-    }
-
-    .game-card-side {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 20px;
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-      font-size: 17px;
-      line-height: 1.8;
-      font-weight: 700;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
-    }
-
-    .game-card-text {
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.75), rgba(36, 36, 62, 0.75));
-      backdrop-filter: blur(20px);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .game-card-number {
-      transform: rotateY(180deg);
-      color: #ffffff;
-      font-weight: 900;
-      font-size: 90px;
-      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .game-card-color {
-      transform: rotateY(180deg);
-    }
-
-    .color-variant-1 { 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.35);
-    }
-    .color-variant-2 { 
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      box-shadow: 0 12px 40px rgba(240, 147, 251, 0.35);
-    }
-    .color-variant-3 { 
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      box-shadow: 0 12px 40px rgba(79, 172, 254, 0.35);
-    }
-
-    .controls-area {
-      display: flex;
-      gap: 25px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .action-button {
-      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-      border: none;
-      color: #ffffff;
-      padding: 20px 50px;
-      border-radius: 14px;
-      font-size: 22px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 28px rgba(139, 92, 246, 0.35);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      letter-spacing: 0.5px;
-    }
-
-    .action-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 36px rgba(139, 92, 246, 0.45);
-      background: linear-gradient(135deg, #9f7aea 0%, #f472b6 100%);
-    }
-
-    .action-button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .feedback-box {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.88) 100%);
-      backdrop-filter: blur(10px);
-      padding: 28px 60px;
-      border-radius: 50px;
-      font-size: 26px;
-      font-weight: 900;
-      margin-top: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      display: inline-block;
-      border: 3px solid transparent;
-      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes popIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .feedback-success {
-      color: #10b981;
-      border-color: #10b981;
-    }
-
-    .feedback-error {
-      color: #ef4444;
-      border-color: #ef4444;
-    }
-
-    .instructions-box {
-      background: linear-gradient(145deg, rgba(66, 66, 99, 0.5), rgba(36, 36, 62, 0.5));
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 50px 45px;
-      max-width: 750px;
-      margin: 0 auto;
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-      animation: fadeSlideUp 0.8s ease-out;
-    }
-
-    .instructions-title {
-      font-size: 36px;
-      font-weight: 900;
-      color: #ffffff;
-      margin: 0 0 35px 0;
-      text-align: center;
-      letter-spacing: -0.5px;
-      text-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
-    }
-
-    .instruction-section {
-      background: rgba(139, 92, 246, 0.12);
-      padding: 20px 25px;
-      border-radius: 14px;
-      margin-bottom: 30px;
-      border: 1.5px solid rgba(139, 92, 246, 0.25);
-    }
-
-    .instruction-section h3 {
-      color: #fbbf24;
-      font-size: 22px;
-      margin: 0 0 15px 0;
-      font-weight: 800;
-    }
-
-    .instruction-section p {
-      color: #ffffff;
-      font-size: 17px;
-      line-height: 1.8;
-      margin: 0;
-    }
-
-    .instructions-list {
-      text-align: left;
-      font-size: 17px;
-      line-height: 2;
-      color: #ffffff;
-      margin: 0 0 35px 0;
-      padding-left: 30px;
-    }
-
-    .instructions-list li {
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    .instructions-list li::marker {
-      color: #8b5cf6;
-      font-weight: 900;
-      font-size: 20px;
-    }
-
-    .instructions-list strong {
-      color: #fbbf24;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
-    }
-
-    .instructions-tips {
-      background: rgba(245, 158, 11, 0.12);
-      padding: 20px 25px;
-      border-radius: 14px;
-      border: 1.5px solid rgba(245, 158, 11, 0.35);
-      margin-bottom: 35px;
-    }
-
-    .instructions-tips h3 {
-      color: #fbbf24;
-      font-size: 22px;
-      margin: 0 0 15px 0;
-      font-weight: 800;
-    }
-
-    .instructions-tips ul {
-      color: #ffffff;
-      font-size: 16px;
-      line-height: 1.9;
-      margin: 0;
-      padding-left: 25px;
-      list-style-type: none;
-    }
-
-    .instructions-tips ul li {
-      margin-bottom: 12px;
-      position: relative;
-      padding-left: 8px;
-    }
-
-    .instructions-tips ul li::before {
-      content: '•';
-      color: #fbbf24;
-      font-weight: 900;
-      position: absolute;
-      left: -15px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       .app-wrapper {
-        padding: 25px 15px;
+        padding: 1rem 0.5rem;
       }
 
-      .main-header h1 {
-        font-size: 32px;
-        margin-bottom: 12px;
+      .container {
+        padding: 1.5rem;
+        border-radius: 15px;
       }
 
-      .main-header p {
-        font-size: 16px;
+      h1 {
+        font-size: 2rem;
       }
 
-      .instructions-box {
-        padding: 40px 30px;
-        max-width: 100%;
+      .cricket-icon {
+        font-size: 2.5rem;
       }
 
-      .instructions-title {
-        font-size: 28px;
-        margin-bottom: 28px;
+      .question-text {
+        font-size: 1.125rem;
       }
 
-      .instruction-section {
-        padding: 18px 20px;
-        margin-bottom: 25px;
+      .option {
+        padding: 0.875rem 1rem;
+        font-size: 0.938rem;
       }
 
-      .instruction-section h3 {
-        font-size: 20px;
-        margin-bottom: 12px;
+      .start-button, .submit-button, .next-button, .restart-button {
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
       }
 
-      .instruction-section p {
-        font-size: 16px;
+      .score-circle {
+        width: 120px;
+        height: 120px;
       }
 
-      .instructions-list {
-        font-size: 16px;
-        padding-left: 25px;
-        margin-bottom: 30px;
+      .score-number {
+        font-size: 2.5rem;
       }
 
-      .instructions-list li {
-        margin-bottom: 16px;
-      }
-
-      .instructions-tips {
-        padding: 18px 20px;
-        margin-bottom: 30px;
-      }
-
-      .instructions-tips h3 {
-        font-size: 20px;
-      }
-
-      .instructions-tips ul {
-        font-size: 15px;
-      }
-
-      .tabs-container {
-        gap: 12px;
-      }
-
-      .tab-button {
-        padding: 15px 30px;
-        font-size: 18px;
-      }
-
-      .menu-grid {
-        gap: 25px;
-        grid-template-columns: 1fr;
-      }
-
-      .menu-item {
-        padding: 40px 30px;
-      }
-
-      .menu-item .emoji-icon {
-        font-size: 75px;
-        margin-bottom: 25px;
-      }
-
-      .menu-item h2 {
-        font-size: 26px;
-      }
-
-      .menu-item p {
-        font-size: 15px;
-      }
-
-      .cards-container {
-        grid-template-columns: 1fr;
-        gap: 25px;
-      }
-
-      .flip-card {
-        height: 360px;
-      }
-
-      .card-side {
-        padding: 35px 28px;
-      }
-
-      .card-heading {
-        font-size: 22px;
-        margin-bottom: 20px;
-      }
-
-      .card-back .card-heading {
-        font-size: 20px;
-        margin-bottom: 18px;
-      }
-
-      .step-text {
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .step-box {
-        padding: 14px 16px;
-      }
-
-      .step-number {
-        font-size: 13px;
-        padding: 3px 8px;
-      }
-
-      .game-area {
-        gap: 20px;
-        padding: 20px 10px;
-      }
-
-      .game-card-wrapper {
-        width: 260px;
-        height: 240px;
-      }
-
-      .game-card-side {
-        font-size: 14px;
-        padding: 18px;
-        line-height: 1.5;
-      }
-
-      .game-card-number {
-        font-size: 70px;
-      }
-
-      .stage-badge {
-        font-size: 26px;
-        padding: 18px 40px;
-      }
-
-      .progress-text {
-        font-size: 16px;
-      }
-
-      .action-button {
-        font-size: 19px;
-        padding: 18px 40px;
-      }
-
-      .feedback-box {
-        font-size: 22px;
-        padding: 22px 45px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .main-header h1 {
-        font-size: 28px;
-      }
-
-      .main-header p {
-        font-size: 15px;
-      }
-
-      .instructions-box {
-        padding: 35px 25px;
-      }
-
-      .instructions-title {
-        font-size: 26px;
-        margin-bottom: 25px;
-      }
-
-      .instruction-section {
-        padding: 16px 18px;
-        margin-bottom: 22px;
-      }
-
-      .instruction-section h3 {
-        font-size: 19px;
-      }
-
-      .instruction-section p {
-        font-size: 15px;
-      }
-
-      .instructions-list {
-        font-size: 15px;
-        padding-left: 20px;
-        margin-bottom: 28px;
-      }
-
-      .instructions-list li {
-        margin-bottom: 14px;
-      }
-
-      .instructions-tips {
-        padding: 16px 18px;
-        margin-bottom: 28px;
-      }
-
-      .instructions-tips h3 {
-        font-size: 19px;
-      }
-
-      .instructions-tips ul {
-        font-size: 14px;
-      }
-
-      .tab-button {
-        padding: 14px 25px;
-        font-size: 16px;
-      }
-
-      .menu-item {
-        padding: 35px 25px;
-      }
-
-      .menu-item .emoji-icon {
-        font-size: 65px;
-      }
-
-      .menu-item h2 {
-        font-size: 24px;
-      }
-
-      .flip-card {
-        height: 340px;
-      }
-
-      .card-heading {
-        font-size: 20px;
-      }
-
-      .card-back .card-heading {
-        font-size: 19px;
-      }
-
-      .step-text {
-        font-size: 13px;
-      }
-
-      .step-box {
-        padding: 12px 14px;
-        gap: 10px;
-      }
-
-      .step-number {
-        font-size: 12px;
-      }
-
-      .game-card-wrapper {
-        width: 280px;
-        height: 230px;
-      }
-
-      .game-card-number {
-        font-size: 60px;
-      }
-
-      .stage-badge {
-        font-size: 24px;
-        padding: 16px 35px;
-      }
-
-      .action-button {
-        font-size: 18px;
-        padding: 16px 35px;
-      }
-
-      .feedback-box {
-        font-size: 20px;
-        padding: 20px 40px;
+      .performance-message {
+        font-size: 1.25rem;
       }
     }
   </style>
@@ -1014,621 +389,468 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-wrapper"><!-- Main Menu -->
-   <main id="mainMenu">
-    <header class="main-header">
-     <h1>Sepak Takraw:</h1>
-     <p>Lakuan Menerima Servis</p>
-    </header>
-    <div class="menu-grid">
-     <div class="menu-item" onclick="showNotaMode()">
-      <div class="emoji-icon">
-       📚
-      </div>
-      <h2>Flashcard Nota</h2>
-      <p>Belajar teknik menerima servis dengan kad imbas</p>
+  <canvas id="confetti"></canvas>
+  <div class="app-wrapper">
+   <div class="container">
+    <div class="welcome-screen active">
+     <div class="cricket-icon">
+      🏏
      </div>
-     <div class="menu-item" onclick="showGameMode()">
-      <div class="emoji-icon">
-       🎮
-      </div>
-      <h2>Flashcard Permainan</h2>
-      <p>Uji ingatan anda dengan permainan menyusun langkah</p>
-     </div>
+     <h1 id="quiz-title">Kuiz Kriket</h1>
+     <p class="subtitle">Uji pengetahuan anda tentang permainan kriket! 10 soalan rawak daripada 15 soalan.</p><button class="start-button" id="start-btn">Mula Kuiz</button>
     </div>
-   </main><!-- Nota Mode -->
-   <div id="notaMode" class="content-section hidden"><button class="nav-button" onclick="showMainMenu()">← Kembali ke Menu</button>
-    <header class="main-header">
-     <h1>📚 Flashcard Nota</h1>
-     <p>Lakuan Menerima Servis Berdasarkan Bahagian Anggota Badan yang Terlibat</p>
-    </header>
-    <div class="tabs-container"><button class="tab-button active" onclick="switchTab('paha')">🦵 Paha</button> <button class="tab-button" onclick="switchTab('kepala')">👤 Kepala</button> <button class="tab-button" onclick="switchTab('kaki')">👟 Kaki</button>
+    <div class="quiz-screen">
+     <div class="quiz-header">
+      <div class="cricket-icon-small">
+       🏏
+      </div>
+      <h2 class="quiz-title-small" id="quiz-title-small">Kuiz Kriket</h2>
+     </div>
+     <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+     </div>
+     <div class="question-counter" id="counter"></div>
+     <div class="question-card">
+      <div class="question-text" id="question"></div>
+      <div class="options" id="options"></div>
+      <div id="feedback"></div>
+     </div><button class="submit-button" id="submit-btn" style="display: none;">Hantar Jawapan</button> <button class="next-button" id="next-btn" style="display: none;">Soalan Seterusnya</button>
     </div>
-    <div id="pahaTab" class="cards-container tab-content active">
-     <div class="flip-card" onclick="flipCard(this)">
-      <div class="flip-card-inner">
-       <div class="card-side card-front">
-        <div class="card-heading">
-         🦵 PAHA
-        </div>
-        <p style="font-size: 19px; color: #c4c4d6;">Klik untuk lihat lakuan →</p>
+    <div class="results-screen">
+     <div class="cricket-icon">
+      🏆
+     </div>
+     <h1 id="results-title">Keputusan Anda</h1>
+     <div class="score-display">
+      <div class="score-circle">
+       <div class="score-number" id="final-score">
+        0
        </div>
-       <div class="card-side card-back">
-        <div class="card-heading">
-         Lakuan Paha
-        </div>
-        <div class="card-steps-container">
-         <div class="step-box">
-          <div class="step-number">
-           1
-          </div>
-          <p class="step-text">Berat badan diimbang atas kaki sokongan</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           2
-          </div>
-          <p class="step-text">Paras paha hendaklah 90° dengan postur badan</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           3
-          </div>
-          <p class="step-text">Kaki sokongan hendaklah dibengkokkan sedikit</p>
-         </div>
-        </div>
+       <div class="score-label">
+        / 10
        </div>
       </div>
-     </div>
-    </div>
-    <div id="kepalaTab" class="cards-container tab-content">
-     <div class="flip-card" onclick="flipCard(this)">
-      <div class="flip-card-inner">
-       <div class="card-side card-front">
-        <div class="card-heading">
-         👤 KEPALA
-        </div>
-        <p style="font-size: 19px; color: #c4c4d6;">Klik untuk lihat lakuan →</p>
-       </div>
-       <div class="card-side card-back">
-        <div class="card-heading">
-         Lakuan Kepala
-        </div>
-        <div class="card-steps-container">
-         <div class="step-box">
-          <div class="step-number">
-           1
-          </div>
-          <p class="step-text">Bengkokkan lutut</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           2
-          </div>
-          <p class="step-text">Dongakkan kepala ke atas</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           3
-          </div>
-          <p class="step-text">Gunakan dahi untuk menolak bola ke atas sambil lutut diluruskan</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-    <div id="kakiTab" class="cards-container tab-content">
-     <div class="flip-card" onclick="flipCard(this)">
-      <div class="flip-card-inner">
-       <div class="card-side card-front">
-        <div class="card-heading">
-         👟 KAKI
-        </div>
-        <p style="font-size: 19px; color: #c4c4d6;">Klik untuk lihat lakuan →</p>
-       </div>
-       <div class="card-side card-back">
-        <div class="card-heading">
-         Lakuan Kaki
-        </div>
-        <div class="card-steps-container">
-         <div class="step-box">
-          <div class="step-number">
-           1
-          </div>
-          <p class="step-text">Bengkokkan lutut bagi mendapatkan kestabilan</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           2
-          </div>
-          <p class="step-text">Gunakan sepak sila untuk menerima servis</p>
-         </div>
-         <div class="step-box">
-          <div class="step-number">
-           3
-          </div>
-          <p class="step-text">Imbangkan bahagian badan dengan menggunakan tangan</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div><!-- Game Mode -->
-   <div id="gameMode" class="content-section hidden"><button class="nav-button" onclick="showMainMenu()">← Kembali ke Menu</button>
-    <header class="main-header">
-     <h1>🎮 Flashcard Permainan</h1>
-    </header><!-- Instructions Screen -->
-    <div id="instructionsScreen">
-     <div class="instructions-box">
-      <h2 class="instructions-title">📋 Arahan Permainan</h2>
-      <div class="instruction-section">
-       <h3>🎯 Objektif</h3>
-       <p>Klik kad mengikut urutan yang betul: <strong>Langkah 1 → Langkah 2 → Langkah 3</strong></p>
-      </div>
-      <h3 style="color: #fbbf24; font-size: 22px; margin: 0 0 20px 0; font-weight: 800;">📖 Persiapan</h3>
-      <ol class="instructions-list">
-       <li>Permainan ada <strong>3 tahap</strong>: 🦵 Paha, 👤 Kepala, 👟 Kaki</li>
-       <li>Setiap tahap ada <strong>3 kad lakuan</strong> (Langkah 1, 2, 3)</li>
-       <li><strong>Baca dan ingat</strong> isi kandungan setiap langkah</li>
-       <li><strong>Perhatikan warna</strong> setiap kad - setiap langkah ada warna unik</li>
-      </ol>
-      <h3 style="color: #fbbf24; font-size: 22px; margin: 0 0 20px 0; font-weight: 800;">🎮 Cara Bermain</h3>
-      <ol class="instructions-list">
-       <li>Klik butang <strong>"Sedia!"</strong> bila dah hafal</li>
-       <li>Kad akan <strong>diterbalikkan dan diacak secara rawak</strong> (kedudukan berubah!)</li>
-       <li>Klik kad mengikut <strong>urutan: Langkah 1 → Langkah 2 → Langkah 3</strong></li>
-       <li>����� Kad betul akan buka dan kekal terbuka</li>
-       <li>❌ Kad salah akan goyang - cuba lagi!</li>
-      </ol>
-      <div class="instructions-tips">
-       <h3>💡 Tips Penting</h3>
-       <ul>
-        <li><strong>Warna adalah kunci!</strong> Ingat warna untuk kenal pasti langkah</li>
-        <li><strong>Kedudukan kad rawak</strong> - Langkah 1 tak semestinya di kiri</li>
-        <li><strong>Warna bertukar setiap tahap</strong> - Langkah 1 mungkin biru tahap ini, ungu tahap seterusnya</li>
-        <li><strong>Fokus pada kandungan DAN warna</strong> untuk kejayaan!</li>
-       </ul>
-      </div>
-      <div style="text-align: center;"><button class="action-button" onclick="startGameFromInstructions()">Mula Permainan 🚀</button>
-      </div>
-     </div>
-    </div><!-- Game Screen -->
-    <div id="gameScreen" class="hidden">
-     <div class="stage-header">
-      <div class="progress-info">
-       <div class="progress-dots">
-        <div class="progress-dot active"></div>
-        <div class="progress-dot"></div>
-        <div class="progress-dot"></div>
-       </div><span class="progress-text">Tahap <span id="currentStage">1</span> daripada 3</span>
-      </div>
-      <div class="stage-badge" id="stageTitle">
-       🦵 PAHA
-      </div>
-     </div>
-     <div id="gameContent">
-      <div class="game-area" id="gameCards"></div>
-      <div class="controls-area"><button class="action-button" id="readyButton" onclick="startGame()">Sedia!</button> <button class="action-button hidden" id="nextButton" onclick="nextStage()">Tahap Seterusnya →</button>
-      </div>
-      <div style="text-align: center;"><span id="resultMessage"></span>
-      </div>
-     </div>
+      <div class="performance-emoji" id="performance-emoji"></div>
+      <div class="performance-message" id="performance-message"></div>
+     </div><button class="restart-button" id="restart-btn">Cuba Lagi</button>
     </div>
    </div>
   </div>
   <script>
-    const stages = [
-      {
-        title: '🦵 PAHA',
-        steps: [
-          'Berat badan diimbang atas kaki sokongan',
-          'Paras paha hendaklah 90° dengan postur badan',
-          'Kaki sokongan hendaklah dibengkokkan sedikit'
-        ]
-      },
-      {
-        title: '👤 KEPALA',
-        steps: [
-          'Bengkokkan lutut',
-          'Dongakkan kepala ke atas',
-          'Gunakan dahi untuk menolak bola ke atas sambil lutut diluruskan'
-        ]
-      },
-      {
-        title: '👟 KAKI',
-        steps: [
-          'Bengkokkan lutut bagi mendapatkan kestabilan',
-          'Gunakan sepak sila untuk menerima servis',
-          'Imbangkan bahagian badan dengan menggunakan tangan'
-        ]
-      }
-    ];
-
-    const colors = ['color-variant-1', 'color-variant-2', 'color-variant-3'];
-    let currentStageIndex = 0;
-    let gameStarted = false;
-    let currentStep = 0;
-    let shuffledColors = [];
-
-    function showMainMenu() {
-      document.getElementById('mainMenu').classList.remove('hidden');
-      document.getElementById('notaMode').classList.add('hidden');
-      document.getElementById('gameMode').classList.add('hidden');
-    }
-
-    function showNotaMode() {
-      document.getElementById('mainMenu').classList.add('hidden');
-      document.getElementById('notaMode').classList.remove('hidden');
-      document.getElementById('gameMode').classList.add('hidden');
-    }
-
-    function showGameMode() {
-      document.getElementById('mainMenu').classList.add('hidden');
-      document.getElementById('notaMode').classList.add('hidden');
-      document.getElementById('gameMode').classList.remove('hidden');
-      document.getElementById('instructionsScreen').classList.remove('hidden');
-      document.getElementById('gameScreen').classList.add('hidden');
-      currentStageIndex = 0;
-    }
-
-    function startGameFromInstructions() {
-      document.getElementById('instructionsScreen').classList.add('hidden');
-      document.getElementById('gameScreen').classList.remove('hidden');
-      initStage();
-    }
-
-    function flipCard(card) {
-      card.classList.toggle('flipped');
-    }
-
-    function switchTab(tabName) {
-      // Hide all tab contents
-      document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-      });
-      
-      // Remove active class from all buttons
-      document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active');
-      });
-      
-      // Show selected tab content
-      document.getElementById(tabName + 'Tab').classList.add('active');
-      
-      // Add active class to clicked button
-      event.target.classList.add('active');
-    }
-
-    function initStage() {
-      gameStarted = false;
-      currentStep = 0;
-      
-      // Randomize colors for this stage
-      shuffledColors = [...colors].sort(() => Math.random() - 0.5);
-      
-      const stage = stages[currentStageIndex];
-      document.getElementById('currentStage').textContent = currentStageIndex + 1;
-      document.getElementById('stageTitle').textContent = stage.title;
-      document.getElementById('readyButton').classList.remove('hidden');
-      document.getElementById('nextButton').classList.add('hidden');
-      document.getElementById('resultMessage').innerHTML = '';
-      
-      const progressDots = document.querySelectorAll('.progress-dot');
-      progressDots.forEach((dot, index) => {
-        if (index === currentStageIndex) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-      
-      const gameCards = document.getElementById('gameCards');
-      gameCards.innerHTML = '';
-      
-      // Create cards with their data
-      const cardsData = stage.steps.map((step, index) => ({
-        step,
-        correctIndex: index,
-        colorClass: shuffledColors[index]
-      }));
-      
-      // Randomize the initial position of cards
-      const shuffledCardsData = [...cardsData].sort(() => Math.random() - 0.5);
-      
-      shuffledCardsData.forEach((cardData) => {
-        const card = document.createElement('div');
-        card.className = 'game-card-wrapper';
-        card.innerHTML = `
-          <div class="game-card-flip">
-            <div class="game-card-side game-card-text ${cardData.colorClass}">${cardData.step}</div>
-            <div class="game-card-side game-card-color ${cardData.colorClass}"></div>
-          </div>
-        `;
-        card.dataset.correctIndex = cardData.correctIndex;
-        card.addEventListener('click', () => handleCardClick(card));
-        gameCards.appendChild(card);
-      });
-    }
-
-    function getColorGradientForClass(colorClass) {
-      const gradients = {
-        'color-variant-1': 'linear-gradient(145deg, rgba(66, 66, 99, 0.8), rgba(36, 36, 62, 0.8))',
-        'color-variant-2': 'linear-gradient(145deg, rgba(66, 66, 99, 0.8), rgba(36, 36, 62, 0.8))',
-        'color-variant-3': 'linear-gradient(145deg, rgba(66, 66, 99, 0.8), rgba(36, 36, 62, 0.8))'
-      };
-      return gradients[colorClass];
-    }
-
-    function startGame() {
-      gameStarted = true;
-      currentStep = 0;
-      document.getElementById('readyButton').classList.add('hidden');
-      document.getElementById('resultMessage').innerHTML = '';
-      
-      const cards = Array.from(document.querySelectorAll('.game-card-wrapper'));
-      
-      cards.forEach(card => card.classList.add('flipped'));
-      
-      setTimeout(() => {
-        shuffleCards(cards);
-      }, 700);
-    }
-
-    function shuffleCards(cards) {
-      const gameCards = document.getElementById('gameCards');
-      
-      // Add shuffling animation
-      cards.forEach(card => card.classList.add('shuffling'));
-      
-      // Multiple shuffle iterations for more dramatic effect
-      let iterations = 3;
-      let currentIteration = 0;
-      
-      const doShuffle = () => {
-        setTimeout(() => {
-          const shuffled = [...cards].sort(() => Math.random() - 0.5);
-          gameCards.innerHTML = '';
-          shuffled.forEach(card => {
-            gameCards.appendChild(card);
-          });
-          
-          currentIteration++;
-          if (currentIteration < iterations) {
-            doShuffle();
-          } else {
-            setTimeout(() => {
-              cards.forEach(card => card.classList.remove('shuffling'));
-            }, 1000);
-          }
-        }, 400);
-      };
-      
-      doShuffle();
-    }
-
-    function handleCardClick(card) {
-      if (!gameStarted || card.classList.contains('correct')) return;
-      
-      const clickedIndex = parseInt(card.dataset.correctIndex);
-      
-      if (clickedIndex === currentStep) {
-        // Correct card - flip it open and keep it open
-        card.classList.remove('flipped');
-        card.classList.add('correct');
-        currentStep++;
-        
-        if (currentStep === stages[currentStageIndex].steps.length) {
-          setTimeout(() => {
-            showSuccess();
-          }, 500);
-        }
-      } else {
-        // Wrong card - shake and show message
-        card.classList.add('wrong-shake');
-        showWrongMessage();
-        
-        setTimeout(() => {
-          card.classList.remove('wrong-shake');
-        }, 500);
-      }
-    }
-
-    function showWrongMessage() {
-      const resultMessage = document.getElementById('resultMessage');
-      resultMessage.innerHTML = '<div class="feedback-box feedback-error">❌ Cuba Lagi!</div>';
-      
-      setTimeout(() => {
-        resultMessage.innerHTML = '';
-      }, 1500);
-    }
-
-    function showSuccess() {
-      const resultMessage = document.getElementById('resultMessage');
-      resultMessage.innerHTML = '<div class="feedback-box feedback-success">✓ Betul! Tahniah!</div>';
-      
-      if (currentStageIndex < stages.length - 1) {
-        document.getElementById('nextButton').classList.remove('hidden');
-      } else {
-        resultMessage.innerHTML = '<div class="feedback-box feedback-success">🎉 Tahniah! Anda telah selesai semua tahap!</div>';
-        setTimeout(() => {
-          showMainMenu();
-        }, 3000);
-      }
-    }
-
-    function nextStage() {
-      currentStageIndex++;
-      initStage();
-    }
-
     const defaultConfig = {
-      main_title: 'Sepak Takraw:',
-      subtitle: 'Lakuan Menerima Servis',
-      nota_title: 'Flashcard Nota',
-      nota_description: 'Belajar teknik menerima servis dengan kad imbas',
-      game_title: 'Flashcard Permainan',
-      game_description: 'Uji ingatan anda dengan permainan menyusun langkah',
-      background_color: '#0f0c29',
-      surface_color: '#424263',
-      text_color: '#ffffff',
-      primary_action_color: '#8b5cf6',
-      secondary_action_color: '#ec4899',
-      font_family: 'Poppins',
+      quiz_title: "Kuiz Kriket",
+      start_button_text: "Mula Kuiz",
+      submit_button_text: "Hantar Jawapan",
+      next_button_text: "Soalan Seterusnya",
+      restart_button_text: "Cuba Lagi",
+      results_title: "Keputusan Anda",
+      excellent_message: "Cemerlang! Anda menguasai kriket!",
+      good_message: "Bagus! Teruskan berusaha!",
+      try_again_message: "Cuba lagi! Anda boleh buat lebih baik!",
+      background_color: "#1a472a",
+      surface_color: "#f0f7f4",
+      text_color: "#2d3436",
+      primary_action_color: "#27ae60",
+      secondary_action_color: "#16a085",
+      font_family: "Segoe UI",
       font_size: 16
     };
 
+    const allQuestions = [
+      {
+        question: "Berapa kumpulan yang terlibat dalam permainan kriket?",
+        options: ["Satu kumpulan", "Dua kumpulan", "Tiga kumpulan", "Empat kumpulan"],
+        correctAnswer: "Dua kumpulan"
+      },
+      {
+        question: "Apakah peranan kumpulan pemukul dalam kriket?",
+        options: ["Menangkap bola", "Memukul bola dan membuat larian", "Menjaga wiket", "Membaling bola"],
+        correctAnswer: "Memukul bola dan membuat larian"
+      },
+      {
+        question: "Antara berikut, yang manakah BUKAN kemahiran memukul dalam kriket?",
+        options: ["Kemahiran menahan", "Pukulan deras", "Pukulan kilas", "Pukulan melantun"],
+        correctAnswer: "Pukulan melantun"
+      },
+      {
+        question: "Apakah tujuan pemukul melakukan larian dalam kriket?",
+        options: ["Untuk bersenam", "Untuk mendapatkan skor", "Untuk memanaskan badan", "Untuk mengelak bola"],
+        correctAnswer: "Untuk mendapatkan skor"
+      },
+      {
+        question: "Berapakah larian lengkap yang dibuat apabila pemukul berlari dari wiket ke wiket yang bertentangan?",
+        options: ["Setengah larian", "Satu larian", "Dua larian", "Tiga larian"],
+        correctAnswer: "Satu larian"
+      },
+      {
+        question: "Apakah yang diperlukan untuk kesempurnaan larian antara wiket?",
+        options: ["Kekuatan fizikal dan ketahanan stamina", "Konsentrasi, persefahaman dan kerjasama", "Kelajuan berlari dan refleks pantas", "Teknik berlari dan koordinasi mata-kaki"],
+        correctAnswer: "Konsentrasi, persefahaman dan kerjasama"
+      },
+      {
+        question: "Berapakah jenis pegangan bola yang disebutkan dalam kemahiran boling?",
+        options: ["Dua jenis", "Tiga jenis", "Empat jenis", "Lima jenis"],
+        correctAnswer: "Tiga jenis"
+      },
+      {
+        question: "Antara berikut, yang manakah BUKAN fasa dalam kemahiran boling?",
+        options: ["Fasa larian", "Fasa pelepasan", "Fasa ikut lajak", "Fasa ketibaan"],
+        correctAnswer: "Fasa ketibaan"
+      },
+      {
+        question: "Apakah tujuan balingan bola oleh pemadang?",
+        options: ["Untuk menghantar bola kepada pemain lain dengan cepat", "Untuk mengembalikan bola kepada penjaga wiket atau menjatuhkan wiket", "Untuk membuat balingan yang tinggi ke udara", "Untuk memadankan hala tuju bola dengan pemukul"],
+        correctAnswer: "Untuk mengembalikan bola kepada penjaga wiket atau menjatuhkan wiket"
+      },
+      {
+        question: "Kemahiran memadang melibatkan dua kemahiran utama. Apakah dua kemahiran tersebut?",
+        options: ["Berlari dan melompat", "Membaling dan menangkap", "Memukul dan menahan", "Menendang dan menangkis"],
+        correctAnswer: "Membaling dan menangkap"
+      },
+      {
+        question: "Pada aras manakah pemadang boleh menangkap bola?",
+        options: ["Aras buku lali sahaja", "Aras lutut dan pinggang sahaja", "Pelbagai aras termasuk buku lali, lutut, pinggang dan atas kepala", "Aras atas kepala sahaja"],
+        correctAnswer: "Pelbagai aras termasuk buku lali, lutut, pinggang dan atas kepala"
+      },
+      {
+        question: "Mengapakah kemahiran memukul bola penting dalam kriket?",
+        options: ["Untuk menunjukkan teknik pegangan pemukul yang betul", "Untuk memastikan bola melepasi jarak yang mampu ditangkap lawan", "Untuk mengawal hala tuju bola ke arah pasukan sendiri", "Untuk mengelakkan bola daripada melantun terlalu tinggi"],
+        correctAnswer: "Untuk memastikan bola melepasi jarak yang mampu ditangkap lawan"
+      },
+      {
+        question: "Apakah yang perlu dilakukan oleh pemadang untuk 'mematikan' pemukul?",
+        options: ["Berlari ke arah pemukul dengan pantas", "Membuat balingan yang pantas dan tepat", "Menangkap bola sebelum ia menyentuh tanah", "Menghalang pemukul daripada membuat larian"],
+        correctAnswer: "Membuat balingan yang pantas dan tepat"
+      },
+      {
+        question: "Apakah kepentingan ketinggian sudut pelepasan dalam kemahiran boling?",
+        options: ["Untuk menghasilkan balingan yang lebih pantas", "Untuk memastikan bola dilepaskan tepat kepada sasaran", "Untuk mengelakkan bola daripada dilanggar pemukul", "Untuk memaksimumkan jarak balingan bola"],
+        correctAnswer: "Untuk memastikan bola dilepaskan tepat kepada sasaran"
+      },
+      {
+        question: "Di manakah pemadang boleh membaling bola?",
+        options: ["Bahagian depan sahaja", "Pelbagai aras dan arah seperti sisi, atas kepala dan melantun", "Bahagian belakang sahaja", "Terus ke tanah sahaja"],
+        correctAnswer: "Pelbagai aras dan arah seperti sisi, atas kepala dan melantun"
+      }
+    ];
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let answered = false;
+
+    const welcomeScreen = document.querySelector('.welcome-screen');
+    const quizScreen = document.querySelector('.quiz-screen');
+    const resultsScreen = document.querySelector('.results-screen');
+    const startBtn = document.getElementById('start-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const counterEl = document.getElementById('counter');
+    const progressEl = document.getElementById('progress');
+    const feedbackEl = document.getElementById('feedback');
+    const finalScoreEl = document.getElementById('final-score');
+    const performanceMessageEl = document.getElementById('performance-message');
+    const performanceEmojiEl = document.getElementById('performance-emoji');
+
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+
+    function selectRandomQuestions() {
+      const shuffled = shuffleArray(allQuestions);
+      return shuffled.slice(0, 10);
+    }
+
+    function startQuiz() {
+      currentQuestions = selectRandomQuestions();
+      currentQuestionIndex = 0;
+      score = 0;
+      welcomeScreen.classList.remove('active');
+      quizScreen.classList.add('active');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      selectedAnswer = null;
+      feedbackEl.innerHTML = '';
+      submitBtn.style.display = 'block';
+      submitBtn.disabled = true;
+      nextBtn.style.display = 'none';
+
+      const question = currentQuestions[currentQuestionIndex];
+      questionEl.textContent = question.question;
+      counterEl.textContent = `Soalan ${currentQuestionIndex + 1} daripada 10`;
+      progressEl.style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+
+      // Shuffle options and track correct answer position
+      const shuffledOptions = shuffleArray(question.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: opt === question.correctAnswer
+      })));
+
+      // Store correct answer index in shuffled array
+      question.shuffledCorrectIndex = shuffledOptions.findIndex(opt => opt.isCorrect);
+
+      optionsEl.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      shuffledOptions.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.innerHTML = `
+          <div class="option-letter">${letters[index]}</div>
+          <div>${option.text}</div>
+        `;
+        optionDiv.addEventListener('click', () => selectOption(index));
+        optionsEl.appendChild(optionDiv);
+      });
+    }
+
+    function selectOption(index) {
+      if (answered) return;
+      
+      selectedAnswer = index;
+      const options = optionsEl.querySelectorAll('.option');
+      options.forEach((opt, idx) => {
+        opt.classList.remove('selected');
+        if (idx === index) {
+          opt.classList.add('selected');
+        }
+      });
+      submitBtn.disabled = false;
+    }
+
+    function submitAnswer() {
+      if (selectedAnswer === null || answered) return;
+
+      answered = true;
+      const question = currentQuestions[currentQuestionIndex];
+      const options = optionsEl.querySelectorAll('.option');
+
+      options.forEach((opt, idx) => {
+        opt.classList.add('disabled');
+        if (idx === question.shuffledCorrectIndex) {
+          opt.classList.add('correct');
+        }
+        if (idx === selectedAnswer && selectedAnswer !== question.shuffledCorrectIndex) {
+          opt.classList.add('incorrect');
+        }
+      });
+
+      if (selectedAnswer === question.shuffledCorrectIndex) {
+        score++;
+        feedbackEl.innerHTML = '<div class="feedback correct">✓ Betul! Jawapan anda tepat!</div>';
+      } else {
+        feedbackEl.innerHTML = '<div class="feedback incorrect">✗ Tidak tepat. Cuba lagi pada soalan seterusnya!</div>';
+      }
+
+      submitBtn.style.display = 'none';
+      nextBtn.style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < 10) {
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      quizScreen.classList.remove('active');
+      resultsScreen.classList.add('active');
+      finalScoreEl.textContent = score;
+
+      const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+      
+      let message = config.try_again_message || defaultConfig.try_again_message;
+      let emoji = '😊';
+
+      if (score >= 8) {
+        message = config.excellent_message || defaultConfig.excellent_message;
+        emoji = '🎉';
+        launchConfetti();
+      } else if (score >= 5) {
+        message = config.good_message || defaultConfig.good_message;
+        emoji = '👍';
+      } else {
+        emoji = '💪';
+      }
+
+      performanceMessageEl.textContent = message;
+      performanceEmojiEl.textContent = emoji;
+    }
+
+    function restartQuiz() {
+      stopConfetti();
+      resultsScreen.classList.remove('active');
+      welcomeScreen.classList.add('active');
+    }
+
+    let confettiAnimationId = null;
+
+    function launchConfetti() {
+      // Stop any existing confetti animation
+      if (confettiAnimationId) {
+        cancelAnimationFrame(confettiAnimationId);
+        confettiAnimationId = null;
+      }
+
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+      const confettiCount = 150;
+      const colors = ['#27ae60', '#16a085', '#52c41a', '#2ecc71', '#1abc9c'];
+      const startTime = Date.now();
+      const duration = 4000; // 4 seconds
+
+      for (let i = 0; i < confettiCount; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * confettiCount,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          tilt: Math.floor(Math.random() * 10) - 10,
+          tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+          tiltAngle: 0
+        });
+      }
+
+      function draw() {
+        const elapsed = Date.now() - startTime;
+        
+        // Stop animation after duration
+        if (elapsed > duration) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          confettiAnimationId = null;
+          return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        confetti.forEach((c, index) => {
+          ctx.beginPath();
+          ctx.lineWidth = c.r / 2;
+          ctx.strokeStyle = c.color;
+          ctx.moveTo(c.x + c.tilt + c.r / 4, c.y);
+          ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
+          ctx.stroke();
+
+          c.tiltAngle += c.tiltAngleIncremental;
+          c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+          c.x += Math.sin(c.d);
+          c.tilt = Math.sin(c.tiltAngle - index / 3) * 15;
+
+          if (c.y > canvas.height) {
+            confetti[index] = {
+              x: Math.random() * canvas.width,
+              y: -10,
+              r: c.r,
+              d: c.d,
+              color: c.color,
+              tilt: c.tilt,
+              tiltAngleIncremental: c.tiltAngleIncremental,
+              tiltAngle: c.tiltAngle
+            };
+          }
+        });
+
+        confettiAnimationId = requestAnimationFrame(draw);
+      }
+
+      draw();
+    }
+
+    function stopConfetti() {
+      if (confettiAnimationId) {
+        cancelAnimationFrame(confettiAnimationId);
+        confettiAnimationId = null;
+      }
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    startBtn.addEventListener('click', startQuiz);
+    submitBtn.addEventListener('click', submitAnswer);
+    nextBtn.addEventListener('click', nextQuestion);
+    restartBtn.addEventListener('click', restartQuiz);
+
     async function onConfigChange(config) {
-      const bgColor = config.background_color || defaultConfig.background_color;
+      const quizTitle = config.quiz_title || defaultConfig.quiz_title;
+      const startButtonText = config.start_button_text || defaultConfig.start_button_text;
+      const submitButtonText = config.submit_button_text || defaultConfig.submit_button_text;
+      const nextButtonText = config.next_button_text || defaultConfig.next_button_text;
+      const restartButtonText = config.restart_button_text || defaultConfig.restart_button_text;
+      const resultsTitle = config.results_title || defaultConfig.results_title;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
       const surfaceColor = config.surface_color || defaultConfig.surface_color;
       const textColor = config.text_color || defaultConfig.text_color;
-      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
-      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
-      const fontFamily = config.font_family || defaultConfig.font_family;
-      const fontSize = config.font_size || defaultConfig.font_size;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
 
-      document.body.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${primaryColor} 50%, ${bgColor} 100%)`;
-      document.body.style.fontFamily = `${fontFamily}, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
-      document.body.style.fontSize = `${fontSize}px`;
+      document.getElementById('quiz-title').textContent = quizTitle;
+      document.getElementById('quiz-title-small').textContent = quizTitle;
+      document.getElementById('start-btn').textContent = startButtonText;
+      document.getElementById('submit-btn').textContent = submitButtonText;
+      document.getElementById('next-btn').textContent = nextButtonText;
+      document.getElementById('restart-btn').textContent = restartButtonText;
+      document.getElementById('results-title').textContent = resultsTitle;
 
-      const mainHeaders = document.querySelectorAll('.main-header h1');
-      mainHeaders.forEach(h => {
-        h.style.fontSize = `${fontSize * 3}px`;
-        h.style.color = textColor;
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryActionColor} 100%)`;
+      document.querySelector('.container').style.background = surfaceColor;
+      
+      const textElements = document.querySelectorAll('h1, .subtitle, .question-text, .performance-message');
+      textElements.forEach(el => {
+        el.style.color = textColor;
       });
 
-      const headerPs = document.querySelectorAll('.main-header p');
-      headerPs.forEach(p => {
-        p.style.fontSize = `${fontSize * 2.375}px`;
-        p.style.color = '#fbbf24';
+      document.querySelectorAll('h1').forEach(el => {
+        el.style.color = textColor;
       });
 
-      const menuItems = document.querySelectorAll('.menu-item');
-      menuItems.forEach(item => {
-        item.style.background = `linear-gradient(145deg, rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.45), rgba(${parseInt(surfaceColor.slice(1,3), 16) - 30}, ${parseInt(surfaceColor.slice(3,5), 16) - 30}, ${parseInt(surfaceColor.slice(5,7), 16) - 30}, 0.45))`;
+      document.querySelectorAll('.quiz-title-small').forEach(el => {
+        el.style.color = textColor;
       });
 
-      const menuH2s = document.querySelectorAll('.menu-item h2');
-      menuH2s.forEach(h2 => {
-        h2.style.fontSize = `${fontSize * 1.875}px`;
-        h2.style.color = textColor;
+      const buttons = document.querySelectorAll('.start-button, .submit-button, .next-button, .restart-button');
+      buttons.forEach(btn => {
+        btn.style.background = primaryActionColor;
+        btn.style.boxShadow = `0 4px 15px ${primaryActionColor}66`;
       });
 
-      const menuPs = document.querySelectorAll('.menu-item p');
-      menuPs.forEach(p => {
-        p.style.fontSize = `${fontSize}px`;
+      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      document.body.style.fontSize = `${baseSize}px`;
+      document.querySelectorAll('h1').forEach(el => {
+        el.style.fontSize = `${baseSize * 2.5}px`;
       });
-
-      const navButtons = document.querySelectorAll('.nav-button');
-      navButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-        btn.style.color = textColor;
-        btn.style.fontSize = `${fontSize * 1.0625}px`;
+      document.querySelectorAll('.question-text').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.25}px`;
       });
-
-      const cardFronts = document.querySelectorAll('.card-front');
-      cardFronts.forEach(front => {
-        front.style.background = `linear-gradient(145deg, rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.6), rgba(${parseInt(surfaceColor.slice(1,3), 16) - 30}, ${parseInt(surfaceColor.slice(3,5), 16) - 30}, ${parseInt(surfaceColor.slice(5,7), 16) - 30}, 0.6))`;
+      document.querySelectorAll('.subtitle, .option, .question-counter').forEach(el => {
+        el.style.fontSize = `${baseSize}px`;
       });
-
-      const cardHeadings = document.querySelectorAll('.card-heading');
-      cardHeadings.forEach(heading => {
-        heading.style.fontSize = `${fontSize * 1.5}px`;
-        if (heading.closest('.card-back')) {
-          heading.style.fontSize = `${fontSize * 1.375}px`;
-        }
-        heading.style.color = textColor;
+      document.querySelectorAll('.start-button, .submit-button, .next-button, .restart-button').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.125}px`;
       });
-
-      const stepTexts = document.querySelectorAll('.step-text');
-      stepTexts.forEach(text => {
-        text.style.fontSize = `${fontSize * 0.9375}px`;
-        text.style.color = textColor;
-      });
-
-      const stepNumbers = document.querySelectorAll('.step-number');
-      stepNumbers.forEach(num => {
-        num.style.fontSize = `${fontSize * 0.875}px`;
-      });
-
-      const cardBacks = document.querySelectorAll('.card-back');
-      cardBacks.forEach(back => {
-        back.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-      });
-
-      const stageBadges = document.querySelectorAll('.stage-badge');
-      stageBadges.forEach(badge => {
-        badge.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-        badge.style.fontSize = `${fontSize * 2.125}px`;
-        badge.style.color = textColor;
-      });
-
-      const progressTexts = document.querySelectorAll('.progress-text');
-      progressTexts.forEach(text => {
-        text.style.fontSize = `${fontSize * 1.125}px`;
-        text.style.color = textColor;
-      });
-
-      const actionButtons = document.querySelectorAll('.action-button');
-      actionButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-        btn.style.color = textColor;
-        btn.style.fontSize = `${fontSize * 1.375}px`;
-      });
-
-      const gameCardTexts = document.querySelectorAll('.game-card-text');
-      gameCardTexts.forEach(text => {
-        text.style.background = `linear-gradient(145deg, rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.75), rgba(${parseInt(surfaceColor.slice(1,3), 16) - 30}, ${parseInt(surfaceColor.slice(3,5), 16) - 30}, ${parseInt(surfaceColor.slice(5,7), 16) - 30}, 0.75))`;
-        text.style.color = textColor;
-        text.style.fontSize = `${fontSize * 1.0625}px`;
-      });
-
-      const gameCardNumbers = document.querySelectorAll('.game-card-number');
-      gameCardNumbers.forEach(num => {
-        num.style.color = textColor;
-        num.style.fontSize = `${fontSize * 5.625}px`;
-      });
-
-      const feedbackBoxes = document.querySelectorAll('.feedback-box');
-      feedbackBoxes.forEach(box => {
-        box.style.fontSize = `${fontSize * 1.625}px`;
-      });
-
-      const tabButtons = document.querySelectorAll('.tab-button');
-      tabButtons.forEach(btn => {
-        btn.style.fontSize = `${fontSize * 1.25}px`;
-      });
-
-      const mainTitle = document.querySelector('#mainMenu .main-header h1');
-      if (mainTitle) {
-        mainTitle.textContent = config.main_title || defaultConfig.main_title;
-      }
-
-      const subtitle = document.querySelector('#mainMenu .main-header p');
-      if (subtitle) {
-        subtitle.textContent = config.subtitle || defaultConfig.subtitle;
-      }
-
-      const notaTitle = document.querySelector('.menu-item:first-child h2');
-      if (notaTitle) {
-        notaTitle.textContent = config.nota_title || defaultConfig.nota_title;
-      }
-
-      const notaDesc = document.querySelector('.menu-item:first-child p');
-      if (notaDesc) {
-        notaDesc.textContent = config.nota_description || defaultConfig.nota_description;
-      }
-
-      const gameTitle = document.querySelector('.menu-item:last-child h2');
-      if (gameTitle) {
-        gameTitle.textContent = config.game_title || defaultConfig.game_title;
-      }
-
-      const gameDesc = document.querySelector('.menu-item:last-child p');
-      if (gameDesc) {
-        gameDesc.textContent = config.game_description || defaultConfig.game_description;
-      }
     }
 
     if (window.elementSdk) {
@@ -1690,15 +912,18 @@
           }
         }),
         mapToEditPanelValues: (config) => new Map([
-          ['main_title', config.main_title || defaultConfig.main_title],
-          ['subtitle', config.subtitle || defaultConfig.subtitle],
-          ['nota_title', config.nota_title || defaultConfig.nota_title],
-          ['nota_description', config.nota_description || defaultConfig.nota_description],
-          ['game_title', config.game_title || defaultConfig.game_title],
-          ['game_description', config.game_description || defaultConfig.game_description]
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+          ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text],
+          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+          ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text],
+          ["results_title", config.results_title || defaultConfig.results_title],
+          ["excellent_message", config.excellent_message || defaultConfig.excellent_message],
+          ["good_message", config.good_message || defaultConfig.good_message],
+          ["try_again_message", config.try_again_message || defaultConfig.try_again_message]
         ])
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4668a4a18bace9',t:'MTc2NDEyODg5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a469a69d3ab4a9b',t:'MTc2NDEzMDkzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
