@@ -229,10 +229,11 @@
 
     .cards-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
       gap: 35px;
       width: 100%;
       padding: 20px 0;
+      justify-content: center;
     }
 
     .tab-content {
@@ -311,29 +312,53 @@
       margin-bottom: 20px;
     }
 
-    .card-text {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #ffffff;
-      text-align: left;
+    .card-steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       width: 100%;
-      counter-reset: card-counter;
     }
 
-    .card-text li {
-      margin-bottom: 18px;
-      padding-left: 12px;
-      position: relative;
-      counter-increment: card-counter;
+    .step-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 16px 18px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
 
-    .card-text li::before {
-      content: counter(card-counter) '.';
-      position: absolute;
-      left: -28px;
+    .step-box:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(4px);
+    }
+
+    .step-number {
+      background: #fbbf24;
+      color: #1f2937;
+      font-weight: 900;
       font-size: 16px;
-      font-weight: 800;
-      color: #fbbf24;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+    }
+
+    .step-text {
+      color: #ffffff;
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+      font-weight: 500;
+      flex: 1;
     }
 
     .stage-header {
@@ -809,13 +834,18 @@
         margin-bottom: 18px;
       }
 
-      .card-text {
-        font-size: 15px;
-        line-height: 1.7;
+      .step-text {
+        font-size: 14px;
+        line-height: 1.5;
       }
 
-      .card-text li {
-        margin-bottom: 15px;
+      .step-box {
+        padding: 14px 16px;
+      }
+
+      .step-number {
+        font-size: 13px;
+        padding: 3px 8px;
       }
 
       .game-area {
@@ -940,8 +970,17 @@
         font-size: 19px;
       }
 
-      .card-text {
-        font-size: 14px;
+      .step-text {
+        font-size: 13px;
+      }
+
+      .step-box {
+        padding: 12px 14px;
+        gap: 10px;
+      }
+
+      .step-number {
+        font-size: 12px;
       }
 
       .game-card-wrapper {
@@ -1017,11 +1056,26 @@
         <div class="card-heading">
          Lakuan Paha
         </div>
-        <ul class="card-text">
-         <li>Berat badan diimbang atas kaki sokongan</li>
-         <li>Paras paha hendaklah 90° dengan postur badan</li>
-         <li>Kaki sokongan hendaklah dibengkokkan sedikit</li>
-        </ul>
+        <div class="card-steps-container">
+         <div class="step-box">
+          <div class="step-number">
+           1
+          </div>
+          <p class="step-text">Berat badan diimbang atas kaki sokongan</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           2
+          </div>
+          <p class="step-text">Paras paha hendaklah 90° dengan postur badan</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           3
+          </div>
+          <p class="step-text">Kaki sokongan hendaklah dibengkokkan sedikit</p>
+         </div>
+        </div>
        </div>
       </div>
      </div>
@@ -1039,11 +1093,26 @@
         <div class="card-heading">
          Lakuan Kepala
         </div>
-        <ul class="card-text">
-         <li>Bengkokkan lutut</li>
-         <li>Dongakkan kepala ke atas</li>
-         <li>Gunakan dahi untuk menolak bola ke atas sambil lutut diluruskan</li>
-        </ul>
+        <div class="card-steps-container">
+         <div class="step-box">
+          <div class="step-number">
+           1
+          </div>
+          <p class="step-text">Bengkokkan lutut</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           2
+          </div>
+          <p class="step-text">Dongakkan kepala ke atas</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           3
+          </div>
+          <p class="step-text">Gunakan dahi untuk menolak bola ke atas sambil lutut diluruskan</p>
+         </div>
+        </div>
        </div>
       </div>
      </div>
@@ -1061,11 +1130,26 @@
         <div class="card-heading">
          Lakuan Kaki
         </div>
-        <ul class="card-text">
-         <li>Bengkokkan lutut bagi mendapatkan kestabilan</li>
-         <li>Gunakan sepak sila untuk menerima servis</li>
-         <li>Imbangkan bahagian badan dengan menggunakan tangan</li>
-        </ul>
+        <div class="card-steps-container">
+         <div class="step-box">
+          <div class="step-number">
+           1
+          </div>
+          <p class="step-text">Bengkokkan lutut bagi mendapatkan kestabilan</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           2
+          </div>
+          <p class="step-text">Gunakan sepak sila untuk menerima servis</p>
+         </div>
+         <div class="step-box">
+          <div class="step-number">
+           3
+          </div>
+          <p class="step-text">Imbangkan bahagian badan dengan menggunakan tangan</p>
+         </div>
+        </div>
        </div>
       </div>
      </div>
@@ -1093,7 +1177,7 @@
       <ol class="instructions-list">
        <li>Klik butang <strong>"Sedia!"</strong> bila dah hafal</li>
        <li>Kad akan <strong>diterbalikkan dan diacak secara rawak</strong> (kedudukan berubah!)</li>
-       <li>Klik kad mengikut <strong>urutan: Langkah 1 → Langkah 2 → Langkah 3</strong></li>
+       <li>Klik kad mengikut <strong>urutan: Langkah 1 → Langkah 2 �� Langkah 3</strong></li>
        <li>✅ Kad betul akan buka dan kekal terbuka</li>
        <li>❌ Kad salah akan goyang - cuba lagi!</li>
       </ol>
@@ -1454,10 +1538,15 @@
         heading.style.color = textColor;
       });
 
-      const cardTexts = document.querySelectorAll('.card-text');
-      cardTexts.forEach(text => {
-        text.style.fontSize = `${fontSize}px`;
+      const stepTexts = document.querySelectorAll('.step-text');
+      stepTexts.forEach(text => {
+        text.style.fontSize = `${fontSize * 0.9375}px`;
         text.style.color = textColor;
+      });
+
+      const stepNumbers = document.querySelectorAll('.step-number');
+      stepNumbers.forEach(num => {
+        num.style.fontSize = `${fontSize * 0.875}px`;
       });
 
       const cardBacks = document.querySelectorAll('.card-back');
@@ -1608,5 +1697,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a463c8c272c1a53',t:'MTc2NDEyNzA4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a464adff0361a53',t:'MTc2NDEyNzY3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
