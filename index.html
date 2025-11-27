@@ -214,6 +214,8 @@
       animation: gentle-float 3s ease-in-out infinite;
       letter-spacing: 1px;
       transform: perspective(500px) rotateX(5deg);
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes gentle-float {
@@ -247,6 +249,20 @@
 
     .stat-item.timer-ring {
       padding: 10px;
+    }
+
+    .stat-item.stacked {
+      flex-direction: column;
+      padding: 10px 20px;
+      gap: 4px;
+    }
+
+    .stat-item.stacked .stat-label {
+      font-size: 13px;
+    }
+
+    .stat-item.stacked .stat-value {
+      font-size: 20px;
     }
 
     .progress-ring {
@@ -317,6 +333,15 @@
       line-height: 1.7;
       font-weight: 600;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .reminder-line {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .reminder-line:last-child {
+      margin-bottom: 0;
     }
 
     .reminder-text strong {
@@ -769,7 +794,7 @@
       transition: all 0.3s ease;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
-      z-index: 100;
+      z-index: 1001;
       display: none;
     }
 
@@ -949,7 +974,7 @@
       opacity: 0;
       transform: scale(0);
       transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      z-index: 100;
+      z-index: 1001;
       backdrop-filter: blur(10px);
     }
 
@@ -970,8 +995,9 @@
     /* Mobile responsive */
     @media (max-width: 768px) {
       .game-title {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 10px;
+        padding: 0 80px;
       }
 
       .start-title {
@@ -984,7 +1010,7 @@
 
       .stats-bar {
         gap: 8px;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
         margin-bottom: 12px;
       }
@@ -993,21 +1019,40 @@
         padding: 8px 14px;
       }
 
+      .stat-item.stacked {
+        padding: 8px 12px;
+      }
+
+      .stat-item.timer-ring {
+        padding: 6px;
+      }
+
+      .progress-ring {
+        width: 44px;
+        height: 44px;
+      }
+
+      .progress-ring circle {
+        r: 18;
+        cx: 22;
+        cy: 22;
+      }
+
       .stat-label {
-        font-size: 13px;
+        font-size: 11px;
       }
 
       .stat-value {
-        font-size: 18px;
+        font-size: 16px;
       }
 
       .timer-label {
-        font-size: 13px;
+        font-size: 11px;
       }
 
       .question-indicator {
-        font-size: 15px;
-        padding: 8px 16px;
+        font-size: 13px;
+        padding: 6px 12px;
       }
 
       .reminder-box {
@@ -1017,13 +1062,17 @@
       }
 
       .reminder-title {
-        font-size: 14px;
+        font-size: 13px;
         margin-bottom: 8px;
       }
 
       .reminder-text {
         font-size: 11px;
-        line-height: 1.6;
+        line-height: 1.7;
+      }
+
+      .reminder-line {
+        margin-bottom: 8px;
       }
 
       .card-area {
@@ -1231,9 +1280,9 @@
        </defs>
       </svg>
      </div>
-     <div class="stat-item"><span class="stat-label timer-label" id="timerLabel">⏱️ Masa:</span> <span class="stat-value" id="timer">90</span>
+     <div class="stat-item stacked"><span class="stat-label timer-label" id="timerLabel">⏱️ Masa</span> <span class="stat-value" id="timer">90</span>
      </div>
-     <div class="stat-item"><span class="stat-label" id="scoreLabel">⭐ Skor:</span> <span class="stat-value" id="score">0</span>
+     <div class="stat-item stacked"><span class="stat-label" id="scoreLabel">⭐ Skor</span> <span class="stat-value" id="score">0</span>
      </div>
      <div class="question-indicator"><span id="questionCount">1</span>/10
      </div>
@@ -1242,7 +1291,7 @@
      <div class="reminder-title">
       💡 Petua Pantas
      </div>
-     <div class="reminder-text"><strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab<br><strong>Masalah Inventif:</strong> Ada kesan sampingan selepas penambahbaikan<br><strong>Masalah Bukan Inventif:</strong> Tiada kesan sampingan selepas penambahbaikan
+     <div class="reminder-text"><span class="reminder-line"><strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab</span> <span class="reminder-line"><strong>Masalah Inventif:</strong> Ada kesan sampingan selepas penambahbaikan</span> <span class="reminder-line"><strong>Masalah Bukan Inventif:</strong> Tiada kesan sampingan selepas penambahbaikan</span>
      </div>
     </div>
    </div>
@@ -1831,10 +1880,10 @@
       document.getElementById('headerTitle').textContent = gameTitle;
       
       const timerLabelElement = document.getElementById('timerLabel');
-      timerLabelElement.textContent = '⏱️ ' + timerLabel + ':';
+      timerLabelElement.textContent = '⏱️ ' + timerLabel;
       
       const scoreLabelElement = document.getElementById('scoreLabel');
-      scoreLabelElement.textContent = '⭐ ' + scoreLabel + ':';
+      scoreLabelElement.textContent = '⭐ ' + scoreLabel;
     }
 
     function restartGame() {
@@ -1869,5 +1918,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e780b63d28177',t:'MTc2NDIxMzQwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e85fcc1685664',t:'MTc2NDIxMzk4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
