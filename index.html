@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prinsip Inventif - Swipe Game</title>
+  <title>Prinsip Inventif - Space Explorer</title>
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
@@ -12,10 +12,188 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       min-height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       width: 100%;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 15% 25%, rgba(138, 43, 226, 0.4) 0%, transparent 25%),
+        radial-gradient(circle at 85% 75%, rgba(255, 20, 147, 0.3) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(72, 61, 139, 0.25) 0%, transparent 40%),
+        radial-gradient(2px 2px at 10% 20%, white, transparent),
+        radial-gradient(3px 3px at 25% 15%, white, transparent),
+        radial-gradient(1px 1px at 15% 35%, white, transparent),
+        radial-gradient(2px 2px at 35% 10%, white, transparent),
+        radial-gradient(1px 1px at 45% 25%, white, transparent),
+        radial-gradient(2px 2px at 55% 5%, white, transparent),
+        radial-gradient(1px 1px at 60% 30%, white, transparent),
+        radial-gradient(3px 3px at 70% 15%, white, transparent),
+        radial-gradient(2px 2px at 75% 25%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 85% 20%, white, transparent),
+        radial-gradient(1px 1px at 90% 8%, white, transparent),
+        radial-gradient(2px 2px at 20% 50%, white, transparent),
+        radial-gradient(1px 1px at 12% 60%, white, transparent),
+        radial-gradient(3px 3px at 30% 55%, white, transparent),
+        radial-gradient(2px 2px at 40% 65%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 65% 55%, white, transparent),
+        radial-gradient(3px 3px at 75% 60%, white, transparent),
+        radial-gradient(2px 2px at 82% 50%, white, transparent),
+        radial-gradient(1px 1px at 88% 65%, white, transparent),
+        radial-gradient(2px 2px at 15% 80%, white, transparent),
+        radial-gradient(1px 1px at 25% 90%, white, transparent),
+        radial-gradient(3px 3px at 35% 85%, white, transparent),
+        radial-gradient(2px 2px at 45% 92%, white, transparent),
+        radial-gradient(1px 1px at 55% 88%, white, transparent),
+        radial-gradient(2px 2px at 68% 95%, white, transparent),
+        radial-gradient(1px 1px at 78% 82%, white, transparent),
+        radial-gradient(3px 3px at 90% 90%, white, transparent);
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 0;
+      animation: starTwinkle 4s ease-in-out infinite, nebulaShift 30s ease-in-out infinite;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes nebulaShift {
+      0%, 100% { 
+        background-position: 0% 0%;
+        filter: hue-rotate(0deg);
+      }
+      50% { 
+        background-position: 5% 5%;
+        filter: hue-rotate(15deg);
+      }
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 85% 15%, rgba(255, 140, 0, 0.15) 0%, transparent 8%),
+        radial-gradient(circle at 90% 18%, rgba(255, 69, 0, 0.1) 0%, transparent 5%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sparkles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 20px;
+      animation: sparkleAnimation 3s ease-in-out infinite;
+      opacity: 0;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
+    @keyframes sparkleAnimation {
+      0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0) rotate(360deg);
+      }
+    }
+
+    .space-planets {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .planet {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: planetFloat 25s ease-in-out infinite;
+    }
+
+    .planet-1 {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      right: -50px;
+      background: radial-gradient(circle at 30% 30%, #4169E1, #191970);
+      box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(65, 105, 225, 0.3);
+      animation-delay: 0s;
+    }
+
+    .planet-2 {
+      width: 120px;
+      height: 120px;
+      top: 10%;
+      left: 5%;
+      background: radial-gradient(circle at 35% 35%, #FF6347, #8B0000);
+      box-shadow: inset -15px -15px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 99, 71, 0.3);
+      animation-delay: -8s;
+    }
+
+    .planet-3 {
+      width: 150px;
+      height: 150px;
+      top: 60%;
+      left: -30px;
+      background: radial-gradient(circle at 40% 40%, #FFD700, #B8860B);
+      box-shadow: inset -18px -18px 35px rgba(0, 0, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3);
+      animation-delay: -15s;
+    }
+
+    .planet-4 {
+      width: 80px;
+      height: 80px;
+      top: 35%;
+      right: 8%;
+      background: radial-gradient(circle at 30% 30%, #00CED1, #008B8B);
+      box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 206, 209, 0.3);
+      animation-delay: -20s;
+    }
+
+    @keyframes planetFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(15px, -20px) scale(1.05); }
+      50% { transform: translate(-10px, -30px) scale(0.98); }
+      75% { transform: translate(20px, -15px) scale(1.02); }
     }
 
     * {
@@ -29,7 +207,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
     }
 
     .header {
@@ -42,27 +223,32 @@
       color: #ffffff;
       font-size: 38px;
       font-weight: bold;
-      text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 3px 3px 6px rgba(0,0,0,0.5);
       margin: 0 0 15px 0;
+      letter-spacing: 2px;
     }
 
     .timer-display {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
       padding: 15px 30px;
-      border-radius: 15px;
+      border-radius: 20px;
       display: inline-block;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.1);
       margin-bottom: 15px;
     }
 
     .timer-value {
       font-size: 36px;
       font-weight: bold;
-      color: #667eea;
+      color: #00ffff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
     }
 
     .timer-value.warning {
-      color: #f5576c;
+      color: #ff7de3;
+      text-shadow: 0 0 20px rgba(255, 125, 227, 0.9);
       animation: pulse 1s infinite;
     }
 
@@ -72,14 +258,16 @@
     }
 
     .score-board {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
       padding: 15px 25px;
-      border-radius: 15px;
+      border-radius: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 30px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
@@ -92,36 +280,46 @@
 
     .score-label {
       font-size: 14px;
-      color: #667eea;
+      color: #00ffff;
       font-weight: 600;
       margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .score-value {
       font-size: 24px;
       font-weight: bold;
-      color: #764ba2;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
     .instructions {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
       padding: 15px 20px;
-      border-radius: 12px;
-      color: #333;
+      border-radius: 15px;
+      color: #ffffff;
       text-align: center;
       margin-bottom: 25px;
       font-size: 16px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0, 255, 255, 0.2);
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
       font-weight: 500;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .card-container {
       position: relative;
       width: 100%;
       max-width: 400px;
-      height: 500px;
+      height: 280px;
       perspective: 1000px;
     }
 
@@ -129,9 +327,10 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
+      border: 3px solid rgba(0, 255, 255, 0.5);
       border-radius: 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -147,9 +346,9 @@
     }
 
     .principle-text {
-      font-size: 32px;
+      font-size: 24px;
       font-weight: bold;
-      color: #667eea;
+      color: #0f0c29;
       text-align: center;
       margin-bottom: 30px;
     }
@@ -157,6 +356,7 @@
     .principle-icon {
       font-size: 80px;
       margin-bottom: 20px;
+      display: none;
     }
 
     .swipe-indicators {
@@ -171,32 +371,41 @@
     .swipe-hint {
       flex: 1;
       padding: 20px;
-      border-radius: 15px;
+      border-radius: 20px;
       text-align: center;
       font-weight: bold;
       font-size: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease;
+      min-width: 195px;
+      border: 2px solid;
+      backdrop-filter: blur(10px);
     }
 
     .swipe-hint-left {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(0, 150, 255, 0.3) 0%, rgba(0, 255, 255, 0.3) 100%);
+      border-color: #00ffff;
+      color: #00ffff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
 
     .swipe-hint-right {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
+      background: linear-gradient(135deg, rgba(255, 125, 227, 0.3) 0%, rgba(255, 125, 227, 0.3) 100%);
+      border-color: #ff7de3;
+      color: #ff7de3;
+      text-shadow: 0 0 10px rgba(255, 125, 227, 0.5);
     }
 
     .swipe-hint.active-left {
       transform: scale(1.1);
-      box-shadow: 0 8px 24px rgba(79, 172, 254, 0.6);
+      box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.4);
+      background: linear-gradient(135deg, rgba(0, 150, 255, 0.5) 0%, rgba(0, 255, 255, 0.5) 100%);
     }
 
     .swipe-hint.active-right {
       transform: scale(1.1);
-      box-shadow: 0 8px 24px rgba(245, 87, 108, 0.6);
+      box-shadow: 0 8px 30px rgba(255, 125, 227, 0.6), 0 0 30px rgba(255, 125, 227, 0.4);
+      background: linear-gradient(135deg, rgba(255, 125, 227, 0.5) 0%, rgba(255, 125, 227, 0.5) 100%);
     }
 
     .feedback-overlay {
@@ -217,6 +426,7 @@
       opacity: 0;
       transform: scale(0);
       transition: all 0.3s ease;
+      filter: drop-shadow(0 0 20px currentColor);
     }
 
     .feedback-icon.show {
@@ -225,11 +435,13 @@
     }
 
     .game-complete {
-      background: rgba(255, 255, 255, 0.98);
+      background: rgba(15, 12, 41, 0.95);
+      backdrop-filter: blur(20px);
+      border: 3px solid rgba(0, 255, 255, 0.5);
       padding: 50px;
       border-radius: 25px;
       text-align: center;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 50px rgba(0, 255, 255, 0.3);
       max-width: 500px;
       width: 90%;
       animation: slideIn 0.5s ease;
@@ -247,13 +459,16 @@
     }
 
     .game-complete h2 {
-      color: #667eea;
+      color: #00ffff;
       margin: 0 0 25px 0;
       font-size: 38px;
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
     }
 
     .game-complete .final-stats {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
       padding: 25px;
       border-radius: 15px;
       margin: 25px 0;
@@ -264,7 +479,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 12px 0;
-      border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+      border-bottom: 2px solid rgba(0, 255, 255, 0.2);
       font-size: 18px;
     }
 
@@ -272,56 +487,63 @@
       border-bottom: none;
       font-size: 24px;
       font-weight: bold;
-      color: #764ba2;
+      color: #00ffff;
       margin-top: 10px;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
     }
 
     .game-complete .stat-label {
-      color: #667eea;
+      color: #00ffff;
       font-weight: 600;
     }
 
     .game-complete .stat-value {
-      color: #333;
+      color: #ffffff;
       font-weight: bold;
     }
 
     .btn-restart {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: linear-gradient(135deg, #00ffff 0%, #0080ff 100%);
+      color: #0f0c29;
       border: none;
       padding: 18px 45px;
-      border-radius: 12px;
+      border-radius: 15px;
       cursor: pointer;
       font-weight: bold;
       font-size: 18px;
       margin-top: 25px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
       transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .btn-restart:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 30px rgba(0, 255, 255, 0.6);
     }
 
     .keyboard-hints {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
       padding: 12px 20px;
-      border-radius: 12px;
+      border-radius: 15px;
       margin-top: 15px;
       font-size: 14px;
-      color: #666;
+      color: #ffffff;
       text-align: center;
     }
 
     .keyboard-hints kbd {
-      background: #667eea;
-      color: white;
+      background: rgba(0, 255, 255, 0.3);
+      border: 1px solid #00ffff;
+      color: #00ffff;
       padding: 4px 8px;
       border-radius: 5px;
       font-weight: bold;
       margin: 0 5px;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
     }
 
     @media (max-width: 768px) {
@@ -334,7 +556,7 @@
       }
 
       .principle-text {
-        font-size: 24px;
+        font-size: 20px;
       }
 
       .principle-icon {
@@ -347,59 +569,189 @@
       }
     }
 
-    .combo-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 20px;
+    .score-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
       font-weight: bold;
-      font-size: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      animation: bounceIn 0.5s ease;
+      pointer-events: none;
+      z-index: 2000;
+      animation: popupAnimation 1s ease-out forwards;
+      text-shadow: 0 0 20px currentColor;
     }
 
-    @keyframes bounceIn {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+    .score-popup.positive {
+      color: #00ffff;
+    }
+
+    .score-popup.negative {
+      color: #ff7de3;
+    }
+
+    @keyframes popupAnimation {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -80%) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -100%) scale(1);
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 3000;
+      animation: confettiFall 2s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--vx), var(--vy)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .menu-section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+    }
+
+    .menu-section h3 {
+      color: #00ffff;
+      margin: 0 0 20px 0;
+      font-size: 24px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-section p, .menu-section ul {
+      font-size: 16px;
+      color: #ffffff;
+      line-height: 1.8;
+    }
+
+    .menu-section ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .menu-section li {
+      margin-bottom: 10px;
+    }
+
+    .menu-section strong {
+      color: #00ffff;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    }
+
+    .menu-section kbd {
+      background: rgba(0, 255, 255, 0.2);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+
+    .scoring-row {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .scoring-row:last-child {
+      border-bottom: none;
+    }
+
+    .back-button {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #00ffff;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 12px rgba(0, 255, 255, 0.3);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff7de3 0%, #ff7de3 100%);
+      color: #0f0c29;
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 6px 30px rgba(255, 125, 227, 0.6);
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
+  <div class="sparkles" id="sparklesContainer"></div>
+  <div class="space-planets">
+   <div class="planet planet-1"></div>
+   <div class="planet planet-2"></div>
+   <div class="planet planet-3"></div>
+   <div class="planet planet-4"></div>
+  </div>
   <div class="feedback-overlay">
    <div class="feedback-icon" id="feedbackIcon"></div>
   </div>
   <main class="game-container" id="gameContainer"><!-- Main Menu Screen -->
-   <div id="mainMenuScreen" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <div class="game-complete" style="max-width: 600px;">
-     <h2 style="font-size: 48px; margin-bottom: 30px;">🎮 <span id="menuTitle">Prinsip Inventif</span></h2>
-     <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; text-align: left;">
-      <h3 style="color: #667eea; margin: 0 0 20px 0; font-size: 24px; text-align: center;">📋 Objektif</h3>
-      <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0;">Kategorikan prinsip-prinsip inventif dengan betul ke dalam <strong>Kaedah Pemisahan Ruang</strong> atau <strong>Kaedah Pemisahan Masa</strong> secepat mungkin!</p>
+   <div id="mainMenuScreen" style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0;">
+    <div class="game-complete" style="max-width: 600px; margin: auto;">
+     <h2 style="font-size: 48px; margin-bottom: 30px;"><span id="menuTitle">Prinsip Inventif</span></h2>
+     <div class="menu-section">
+      <h3>📋 Objektif</h3>
+      <p style="margin: 0;">Kategorikan prinsip-prinsip inventif dengan betul ke dalam <strong>Kaedah Pemisahan Ruang</strong> atau <strong>Kaedah Pemisahan Masa</strong> secepat mungkin!</p>
      </div>
-     <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: left;">
-      <h3 style="color: #667eea; margin: 0 0 20px 0; font-size: 24px; text-align: center;">⚡ Cara Main</h3>
-      <ul style="font-size: 16px; color: #333; line-height: 1.8; margin: 0; padding-left: 20px;">
-       <li><strong>Swipe KIRI (←)</strong> atau tekan <kbd style="background: #4facfe; color: white; padding: 3px 8px; border-radius: 5px;">←</kbd> untuk <strong>Ruang 🔷</strong></li>
-       <li><strong>Swipe KANAN (→)</strong> atau tekan <kbd style="background: #f093fb; color: white; padding: 3px 8px; border-radius: 5px;">→</kbd> untuk <strong>Masa ⏰</strong></li>
-       <li>Anda ada <strong>1 minit 30 saat</strong> untuk jawab sebanyak mungkin</li>
+     <div class="menu-section">
+      <h3>🎯 Cara Main</h3>
+      <ul>
+       <li><strong>Swipe KIRI (←)</strong> atau tekan <kbd>←</kbd> untuk <strong>Kaedah Pemisahan Ruang 🛸</strong></li>
+       <li><strong>Swipe KANAN (→)</strong> atau tekan <kbd>→</kbd> untuk <strong>Kaedah Pemisahan Masa ⏰</strong></li>
+       <li>Anda ada <strong>1 minit</strong> untuk jawab <strong>14 soalan</strong></li>
       </ul>
      </div>
-     <div style="background: linear-gradient(135deg, #fff5e6 0%, #ffe0b3 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px;">
-      <h3 style="color: #f5576c; margin: 0 0 15px 0; font-size: 22px; text-align: center;">🏆 Sistem Markah</h3>
-      <div style="text-align: left; font-size: 15px; color: #333;">
-       <div style="padding: 8px 0; border-bottom: 1px solid rgba(245, 87, 108, 0.2);">
+     <div class="menu-section">
+      <h3>🏆 Sistem Markah</h3>
+      <div>
+       <div class="scoring-row">
         ✅ <strong>Jawapan Betul:</strong> +5 mata &amp; +5 saat
        </div>
-       <div style="padding: 8px 0; border-bottom: 1px solid rgba(245, 87, 108, 0.2);">
+       <div class="scoring-row">
         🔥 <strong>Streak Bonus:</strong> +5 mata tambahan (2 betul berturut-turut)
        </div>
-       <div style="padding: 8px 0;">
+       <div class="scoring-row">
         ❌ <strong>Jawapan Salah:</strong> -2 mata &amp; streak reset
        </div>
       </div>
@@ -408,13 +760,12 @@
    </div><!-- Game Screen -->
    <div id="gameScreen" style="width: 100%; display: none; flex-direction: column; align-items: center;">
     <header class="header">
-     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 600px; margin-bottom: 15px;"><button onclick="backToMenu()" style="background: rgba(255, 255, 255, 0.9); border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; color: #667eea; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;"> ← Menu </button>
-      <h1 class="game-title" id="gameTitle" style="margin: 0; font-size: 32px;">Prinsip Inventif</h1>
-      <div style="width: 100px;"></div>
+     <div style="display: flex; justify-content: flex-start; align-items: center; width: 100%; max-width: 600px; margin-bottom: 15px;"><button onclick="backToMenu()" class="back-button"> ← Menu </button>
      </div>
+     <h1 class="game-title" id="gameTitle" style="margin: 0 0 15px 0; font-size: 32px;">Prinsip Inventif</h1>
      <div class="timer-display">
       <div class="timer-value" id="timerDisplay">
-       1:30
+       1:00
       </div>
      </div>
      <div class="score-board">
@@ -431,7 +782,7 @@
         Soalan
        </div>
        <div class="score-value" id="questionDisplay">
-        0
+        0/14
        </div>
       </div>
       <div class="score-item">
@@ -459,20 +810,36 @@
     </div>
     <div class="swipe-indicators">
      <div class="swipe-hint swipe-hint-left" id="hintLeft">
-      ← 🔷 Ruang
+      <div>
+       🛸 Kaedah
+      </div>
+      <div>
+       Pemisahan Ruang
+      </div>
+      <div>
+       ←
+      </div>
      </div>
      <div class="swipe-hint swipe-hint-right" id="hintRight">
-      ⏰ Masa →
+      <div>
+       ⏰ Kaedah
+      </div>
+      <div>
+       Pemisahan Masa
+      </div>
+      <div>
+       →
+      </div>
      </div>
     </div>
     <div class="keyboard-hints">
-     Atau tekan <kbd>←</kbd> untuk Ruang, <kbd>→</kbd> untuk Masa
+     Atau tekan <kbd>←</kbd> untuk Kaedah Pemisahan Ruang, <kbd>→</kbd> untuk Kaedah Pemisahan Masa
     </div>
    </div>
    <div id="gameCompleteScreen" style="display: none;">
     <div class="game-complete">
-     <h2>⏱️ Masa Tamat!</h2>
-     <p style="font-size: 18px; color: #666; margin-bottom: 20px;">Tahniah! Berikut keputusan anda:</p>
+     <h2 id="completeTitle">⏱️ Masa Tamat!</h2>
+     <p style="font-size: 18px; color: #ffffff; margin-bottom: 20px;">Tahniah! Berikut keputusan anda:</p>
      <div class="final-stats">
       <div class="stat-row"><span class="stat-label">Soalan Dijawab:</span> <span class="stat-value" id="finalQuestions">0</span>
       </div>
@@ -481,7 +848,7 @@
       <div class="stat-row"><span class="stat-label">Jumlah Skor:</span> <span class="stat-value" id="finalScore">0</span>
       </div>
      </div>
-     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px;"><button class="btn-restart" onclick="restartGame()" style="flex: 1;">Main Semula 🔄</button> <button class="btn-restart" onclick="backToMenuFromEnd()" style="flex: 1; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">Menu Utama 🏠</button>
+     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px;"><button class="btn-restart" onclick="restartGame()" style="flex: 1;">Main Semula 🔄</button> <button class="btn-restart btn-secondary" onclick="backToMenuFromEnd()" style="flex: 1;">Menu Utama 🏠</button>
      </div>
     </div>
    </div>
@@ -489,14 +856,14 @@
   <script>
     const defaultConfig = {
       game_title: "Prinsip Inventif",
-      instruction_text: "Swipe kiri untuk Ruang, kanan untuk Masa"
+      instruction_text: "Swipe kiri untuk Kaedah Pemisahan Ruang, kanan untuk Kaedah Pemisahan Masa"
     };
 
     let config = { ...defaultConfig };
     let currentScore = 0;
     let questionsAnswered = 0;
     let currentStreak = 0;
-    let timeRemaining = 90;
+    let timeRemaining = 60;
     let timerInterval = null;
     let startTime = null;
     let currentPrinciple = null;
@@ -539,7 +906,7 @@
       currentScore = 0;
       questionsAnswered = 0;
       currentStreak = 0;
-      timeRemaining = 90;
+      timeRemaining = 60;
       currentIndex = 0;
       startTime = Date.now();
 
@@ -581,6 +948,11 @@
     }
 
     function showNextPrinciple() {
+      if (questionsAnswered >= 14) {
+        endGame();
+        return;
+      }
+
       if (currentIndex >= allPrinciples.length) {
         allPrinciples = shuffleArray(allPrinciples);
         currentIndex = 0;
@@ -606,7 +978,7 @@
     }
 
     function handleSwipe(direction) {
-      if (isAnimating || timeRemaining <= 0) return;
+      if (isAnimating || timeRemaining <= 0 || questionsAnswered >= 14) return;
       isAnimating = true;
 
       const userAnswer = direction === 'left' ? 'ruang' : 'masa';
@@ -647,14 +1019,17 @@
       currentStreak++;
       timeRemaining += 5;
 
+      showScorePopup(totalPoints, true);
       updateDisplay();
     }
 
     function handleIncorrectAnswer() {
-      currentScore = Math.max(0, currentScore - 2);
+      const pointsLost = 2;
+      currentScore = Math.max(0, currentScore - pointsLost);
       questionsAnswered++;
       currentStreak = 0;
 
+      showScorePopup(pointsLost, false);
       updateDisplay();
     }
 
@@ -668,9 +1043,75 @@
       }, 500);
     }
 
+    function showScorePopup(points, isPositive) {
+      const popup = document.createElement('div');
+      popup.className = 'score-popup ' + (isPositive ? 'positive' : 'negative');
+      
+      if (isPositive) {
+        const streakBonus = currentStreak >= 1 ? 5 : 0;
+        if (streakBonus > 0) {
+          popup.textContent = `+${points} 🔥 +5s ⏱️`;
+        } else {
+          popup.textContent = `+${points} �� +5s ⏱️`;
+        }
+      } else {
+        popup.textContent = `-${Math.abs(points)} 😢`;
+      }
+      
+      document.body.appendChild(popup);
+      
+      setTimeout(() => {
+        popup.remove();
+      }, 1000);
+    }
+
+    function createConfetti(x, y) {
+      const colors = ['#00ffff', '#ff7de3', '#00ff00', '#ffff00', '#ff7de3', '#0080ff'];
+      
+      for (let i = 0; i < 50; i++) {
+        const isStarBurst = Math.random() > 0.4;
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.position = 'fixed';
+        confetti.style.left = x + 'px';
+        confetti.style.top = y + 'px';
+        confetti.style.pointerEvents = 'none';
+        confetti.style.zIndex = '3000';
+        
+        if (isStarBurst) {
+          confetti.textContent = '⭐';
+          confetti.style.fontSize = (40 + Math.random() * 40) + 'px';
+          confetti.style.width = 'auto';
+          confetti.style.height = 'auto';
+          confetti.style.filter = 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.8))';
+        } else {
+          confetti.style.width = '10px';
+          confetti.style.height = '10px';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.boxShadow = `0 0 10px ${colors[Math.floor(Math.random() * colors.length)]}`;
+        }
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 150 + Math.random() * 150;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+        
+        confetti.style.setProperty('--vx', vx + 'px');
+        confetti.style.setProperty('--vy', vy + 'px');
+        confetti.style.animation = `confettiFall ${1.5 + Math.random()}s ease-out forwards`;
+        confetti.style.animationDelay = `${Math.random() * 0.3}s`;
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 2500);
+      }
+    }
+
     function updateDisplay() {
       document.getElementById('scoreDisplay').textContent = currentScore;
-      document.getElementById('questionDisplay').textContent = questionsAnswered;
+      document.getElementById('questionDisplay').textContent = questionsAnswered + '/14';
       document.getElementById('streakDisplay').textContent = currentStreak;
     }
 
@@ -682,7 +1123,14 @@
       const seconds = timeTaken % 60;
       const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-      document.getElementById('finalQuestions').textContent = questionsAnswered;
+      const completeTitleElement = document.getElementById('completeTitle');
+      if (questionsAnswered >= 14) {
+        completeTitleElement.textContent = '🎉 Tahniah! Semua Soalan Dijawab!';
+      } else {
+        completeTitleElement.textContent = '⏱️ Masa Tamat!';
+      }
+
+      document.getElementById('finalQuestions').textContent = questionsAnswered + '/14';
       document.getElementById('finalTime').textContent = timeString;
       document.getElementById('finalScore').textContent = currentScore;
       
@@ -691,6 +1139,12 @@
       document.getElementById('gameCompleteScreen').style.justifyContent = 'center';
       document.getElementById('gameCompleteScreen').style.alignItems = 'center';
       document.getElementById('gameCompleteScreen').style.minHeight = '100%';
+
+      if (currentScore >= 50) {
+        setTimeout(() => {
+          createConfetti(window.innerWidth / 2, window.innerHeight / 2);
+        }, 300);
+      }
 
       saveScore(timeString);
     }
@@ -841,7 +1295,29 @@
       }
     };
 
+    function createSparkles() {
+      const container = document.getElementById('sparklesContainer');
+      const sparkleColors = ['#00ffff', '#ff7de3', '#ffffff', '#ffd700', '#ff69b4'];
+      const sparkleSymbols = ['✨', '⭐', '💫', '✦', '★'];
+      
+      for (let i = 0; i < 25; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+        sparkle.style.color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 3 + 's';
+        sparkle.style.animationDuration = (2 + Math.random() * 2) + 's';
+        sparkle.style.fontSize = (15 + Math.random() * 15) + 'px';
+        
+        container.appendChild(sparkle);
+      }
+    }
+
     window.addEventListener('load', async () => {
+      createSparkles();
+
       if (window.dataSdk) {
         const initResult = await window.dataSdk.init(dataHandler);
         if (!initResult.isOk) {
@@ -870,5 +1346,5 @@
       }
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4ef20b5664b2e8',t:'MTc2NDIxODQwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4fc052b7309103',t:'MTc2NDIyNjg1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
