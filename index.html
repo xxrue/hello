@@ -430,6 +430,8 @@
       border: 3px solid rgba(255, 255, 255, 0.6);
       animation: card-float-in 1s cubic-bezier(0.34, 1.56, 0.64, 1);
       backdrop-filter: blur(10px);
+      touch-action: none;
+      will-change: transform;
     }
 
     @keyframes card-float-in {
@@ -751,7 +753,7 @@
 
     .back-to-menu-btn {
       position: fixed;
-      top: 90px;
+      top: 20px;
       left: 20px;
       padding: 12px 24px;
       font-size: 16px;
@@ -928,8 +930,8 @@
 
     .combo-indicator {
       position: fixed;
-      top: 15%;
-      right: 5%;
+      top: 20px;
+      right: 20px;
       background: linear-gradient(135deg, 
         rgba(255, 138, 101, 0.95) 0%, 
         rgba(255, 112, 67, 0.95) 100%);
@@ -968,92 +970,157 @@
     /* Mobile responsive */
     @media (max-width: 768px) {
       .game-title {
-        font-size: 22px;
+        font-size: 18px;
+        margin-bottom: 10px;
       }
 
       .start-title {
-        font-size: 30px;
+        font-size: 26px;
+      }
+
+      .header {
+        margin-bottom: 15px;
+      }
+
+      .stats-bar {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+
+      .stat-item {
+        padding: 8px 14px;
+      }
+
+      .stat-label {
+        font-size: 13px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+      }
+
+      .timer-label {
+        font-size: 13px;
+      }
+
+      .question-indicator {
+        font-size: 15px;
+        padding: 8px 16px;
+      }
+
+      .reminder-box {
+        padding: 14px 18px;
+        max-width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .reminder-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .reminder-text {
+        font-size: 11px;
+        line-height: 1.6;
       }
 
       .card-area {
-        max-width: 350px;
-        height: 450px;
+        max-width: 320px;
+        height: 420px;
+        margin-bottom: 15px;
       }
 
       .card {
-        padding: 30px;
+        padding: 25px;
       }
 
       .card-content {
-        font-size: 16px;
+        font-size: 15px;
+        line-height: 1.6;
       }
 
       .swipe-indicators {
         max-width: 100%;
-        gap: 10px;
+        gap: 8px;
+        margin-top: 15px;
       }
 
       .swipe-hint {
-        padding: 14px 22px;
-        font-size: 14px;
-      }
-
-      .stats-bar {
-        gap: 10px;
-      }
-
-      .stat-item {
-        padding: 10px 18px;
-      }
-
-      .stat-value {
-        font-size: 20px;
-      }
-
-      .reminder-box {
-        padding: 16px 20px;
-        max-width: 100%;
-      }
-
-      .reminder-text {
+        padding: 10px 16px;
         font-size: 12px;
       }
 
+      .swipe-arrow {
+        font-size: 18px;
+      }
+
       .start-instructions {
-        padding: 28px;
+        padding: 24px;
       }
 
       .instruction-item {
-        font-size: 14px;
-        margin-bottom: 14px;
+        font-size: 13px;
+        margin-bottom: 12px;
       }
 
       .start-btn {
-        padding: 18px 50px;
-        font-size: 20px;
+        padding: 16px 45px;
+        font-size: 18px;
       }
 
       .feedback {
-        font-size: 90px;
+        font-size: 80px;
       }
 
       .score-popup {
-        font-size: 54px;
+        font-size: 48px;
       }
 
       .final-score {
-        font-size: 76px;
+        font-size: 64px;
+      }
+
+      .scoreboard-title {
+        font-size: 32px;
+        margin-bottom: 20px;
       }
 
       .scoreboard-content {
-        padding: 38px;
+        padding: 32px 24px;
+      }
+
+      .scoreboard-stats {
+        font-size: 16px;
+      }
+
+      .restart-btn {
+        padding: 16px 45px;
+        font-size: 18px;
       }
 
       .combo-indicator {
-        top: 12%;
-        right: 3%;
-        padding: 12px 20px;
-        font-size: 17px;
+        top: 20px;
+        right: 20px;
+        padding: 10px 18px;
+        font-size: 16px;
+      }
+
+      .back-to-menu-btn {
+        top: 20px;
+        left: 20px;
+        padding: 10px 18px;
+        font-size: 14px;
+      }
+
+      .back-to-menu-btn.show {
+        display: block;
+      }
+
+      .scoreboard.show ~ .combo-indicator,
+      .scoreboard.show ~ .back-to-menu-btn {
+        display: none !important;
       }
     }
 
@@ -1128,6 +1195,9 @@
     </div>
     <div class="start-instructions">
      <div class="instruction-item">
+      📱 <strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab
+     </div>
+     <div class="instruction-item">
       🎯 <strong>Objektif:</strong> Jawab sebanyak mungkin soalan dalam masa 1 minit 30 saat
      </div>
      <div class="instruction-item">
@@ -1172,7 +1242,7 @@
      <div class="reminder-title">
       💡 Petua Pantas
      </div>
-     <div class="reminder-text"><strong>Masalah Inventif:</strong> Ada kesan sampingan selepas penambahbaikan<br><strong>Masalah Bukan Inventif:</strong> Tiada kesan sampingan selepas penambahbaikan
+     <div class="reminder-text"><strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab<br><strong>Masalah Inventif:</strong> Ada kesan sampingan selepas penambahbaikan<br><strong>Masalah Bukan Inventif:</strong> Tiada kesan sampingan selepas penambahbaikan
      </div>
     </div>
    </div>
@@ -1536,6 +1606,7 @@
       document.getElementById('cardArea').style.display = 'none';
       document.getElementById('swipeIndicators').style.display = 'none';
       hideComboIndicator();
+      document.getElementById('backToMenuBtn').classList.remove('show');
       
       document.getElementById('finalScore').textContent = score;
       document.getElementById('questionsAnswered').textContent = `Soalan Dijawab: ${questionsAnswered}/10`;
@@ -1552,10 +1623,10 @@
     const card = document.getElementById('card');
     
     card.addEventListener('mousedown', startDrag);
-    card.addEventListener('touchstart', startDrag);
+    card.addEventListener('touchstart', startDrag, { passive: false });
     
     document.addEventListener('mousemove', drag);
-    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchmove', drag, { passive: false });
     
     document.addEventListener('mouseup', endDrag);
     document.addEventListener('touchend', endDrag);
@@ -1571,7 +1642,12 @@
     function drag(e) {
       if (!isDragging) return;
       
-      e.preventDefault();
+      // Prevent default to stop scrolling and other gestures
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+      e.stopPropagation();
+      
       currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
       const currentY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
       const deltaX = currentX - startX;
@@ -1793,5 +1869,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e6988c62d88e1',t:'MTc2NDIxMjgxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e780b63d28177',t:'MTc2NDIxMzQwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
