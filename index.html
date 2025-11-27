@@ -346,61 +346,36 @@
 
     .reminder-text strong {
       font-weight: 900;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
       color: #ffffff;
     }
     
-    .reminder-text strong:first-of-type {
+    .reminder-text strong:nth-of-type(1) {
+      background: transparent;
+      color: #ffffff;
       text-shadow: 
-        0 0 10px rgba(255, 105, 180, 0.8),
-        0 0 20px rgba(255, 105, 180, 0.6),
-        0 0 30px rgba(255, 105, 180, 0.4),
-        0 2px 5px rgba(0, 0, 0, 0.3);
-      animation: glow-pink 2s ease-in-out infinite;
+        0 0 10px rgba(173, 216, 230, 0.8),
+        0 0 20px rgba(173, 216, 230, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
-    .reminder-text strong:last-of-type {
+    .reminder-text strong:nth-of-type(2) {
+      background: transparent;
+      color: #ffffff;
       text-shadow: 
-        0 0 10px rgba(168, 85, 247, 0.8),
-        0 0 20px rgba(168, 85, 247, 0.6),
-        0 0 30px rgba(168, 85, 247, 0.4),
-        0 2px 5px rgba(0, 0, 0, 0.3);
-      animation: glow-purple 2s ease-in-out infinite;
+        0 0 10px rgba(255, 182, 193, 0.8),
+        0 0 20px rgba(255, 182, 193, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
-    @keyframes glow-pink {
-      0%, 100% { 
-        text-shadow: 
-          0 0 10px rgba(255, 105, 180, 0.8),
-          0 0 20px rgba(255, 105, 180, 0.6),
-          0 0 30px rgba(255, 105, 180, 0.4),
-          0 2px 5px rgba(0, 0, 0, 0.3);
-      }
-      50% { 
-        text-shadow: 
-          0 0 20px rgba(255, 105, 180, 1),
-          0 0 35px rgba(255, 105, 180, 0.8),
-          0 0 50px rgba(255, 105, 180, 0.6),
-          0 2px 5px rgba(0, 0, 0, 0.3);
-      }
-    }
-    
-    @keyframes glow-purple {
-      0%, 100% { 
-        text-shadow: 
-          0 0 10px rgba(168, 85, 247, 0.8),
-          0 0 20px rgba(168, 85, 247, 0.6),
-          0 0 30px rgba(168, 85, 247, 0.4),
-          0 2px 5px rgba(0, 0, 0, 0.3);
-      }
-      50% { 
-        text-shadow: 
-          0 0 20px rgba(168, 85, 247, 1),
-          0 0 35px rgba(168, 85, 247, 0.8),
-          0 0 50px rgba(168, 85, 247, 0.6),
-          0 2px 5px rgba(0, 0, 0, 0.3);
-      }
+    .reminder-text strong:nth-of-type(3) {
+      background: transparent;
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(221, 160, 221, 0.8),
+        0 0 20px rgba(221, 160, 221, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     /* Particle trail */
@@ -777,40 +752,37 @@
     }
 
     .back-to-menu-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
       padding: 12px 24px;
-      font-size: 16px;
-      font-weight: 800;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(224, 247, 255, 0.95));
-      color: #0d3d56;
-      border: 3px solid rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(200, 240, 255, 0.2));
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 50px;
       cursor: pointer;
       box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.2),
+        0 8px 25px rgba(0, 0, 0, 0.15),
         inset 0 2px 10px rgba(255, 255, 255, 0.3);
       transition: all 0.3s ease;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
-      z-index: 1001;
       display: none;
+      animation: bubble-pop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
     .back-to-menu-btn.show {
-      display: block;
+      display: inline-block;
     }
 
     .back-to-menu-btn:hover {
-      transform: translateY(-3px) scale(1.05);
+      transform: translateY(-2px);
       box-shadow: 
-        0 12px 35px rgba(0, 0, 0, 0.3),
-        0 0 30px rgba(79, 179, 217, 0.5);
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 2px 15px rgba(255, 255, 255, 0.4);
     }
 
     .back-to-menu-btn:active {
-      transform: translateY(-1px) scale(1.02);
+      transform: translateY(0);
     }
 
     canvas {
@@ -1155,22 +1127,6 @@
         padding: 10px 18px;
         font-size: 16px;
       }
-
-      .back-to-menu-btn {
-        top: 20px;
-        left: 20px;
-        padding: 10px 18px;
-        font-size: 14px;
-      }
-
-      .back-to-menu-btn.show {
-        display: block;
-      }
-
-      .scoreboard.show ~ .combo-indicator,
-      .scoreboard.show ~ .back-to-menu-btn {
-        display: none !important;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1236,7 +1192,7 @@
   <canvas id="confetti"></canvas>
   <div class="combo-indicator" id="comboIndicator">
    🔥 COMBO!
-  </div><button class="back-to-menu-btn" id="backToMenuBtn" onclick="backToMenu()">← Kembali ke Menu</button>
+  </div>
   <div class="game-container"><!-- Start Screen -->
    <div class="start-screen" id="startScreen">
     <div class="start-title" id="gameTitle">
@@ -1244,7 +1200,7 @@
     </div>
     <div class="start-instructions">
      <div class="instruction-item">
-      📱 <strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab
+      📋 <strong>Arahan:</strong> Tekan kad dan swipe ke kiri atau kanan untuk menjawab
      </div>
      <div class="instruction-item">
       🎯 <strong>Objektif:</strong> Jawab sebanyak mungkin soalan dalam masa 1 minit 30 saat
@@ -1270,7 +1226,7 @@
     <div class="game-title" id="headerTitle">
      Masalah Inventif dan Masalah Bukan Inventif
     </div>
-    <div class="stats-bar">
+    <div class="stats-bar"><button class="back-to-menu-btn" id="backToMenuBtn" onclick="backToMenu()">← Menu</button>
      <div class="stat-item timer-ring">
       <svg class="progress-ring" width="60" height="60"><circle class="progress-ring-circle-bg" stroke="rgba(255,255,255,0.3)" stroke-width="4" fill="transparent" r="24" cx="30" cy="30" /> <circle class="progress-ring-circle" id="progressCircle" stroke="url(#gradient)" stroke-width="4" fill="transparent" r="24" cx="30" cy="30" /> <defs>
         <lineargradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1282,7 +1238,7 @@
      </div>
      <div class="stat-item stacked"><span class="stat-label timer-label" id="timerLabel">⏱️ Masa</span> <span class="stat-value" id="timer">90</span>
      </div>
-     <div class="stat-item stacked"><span class="stat-label" id="scoreLabel">⭐ Skor</span> <span class="stat-value" id="score">0</span>
+     <div class="stat-item stacked"><span class="stat-label" id="scoreLabel">�� Skor</span> <span class="stat-value" id="score">0</span>
      </div>
      <div class="question-indicator"><span id="questionCount">1</span>/10
      </div>
@@ -1316,7 +1272,7 @@
      </div>
      <div class="scoreboard-stats" id="questionsAnswered"></div>
      <div class="scoreboard-stats" id="timeTaken"></div>
-     <div class="scoreboard-stats" id="accuracy"></div><button class="restart-btn" onclick="restartGame()">Main Semula</button>
+     <div class="scoreboard-stats" id="accuracy"></div><button class="restart-btn" onclick="backToMenu()">Kembali ke Menu</button>
     </div>
    </div>
   </div>
@@ -1655,7 +1611,6 @@
       document.getElementById('cardArea').style.display = 'none';
       document.getElementById('swipeIndicators').style.display = 'none';
       hideComboIndicator();
-      document.getElementById('backToMenuBtn').classList.remove('show');
       
       document.getElementById('finalScore').textContent = score;
       document.getElementById('questionsAnswered').textContent = `Soalan Dijawab: ${questionsAnswered}/10`;
@@ -1886,11 +1841,7 @@
       scoreLabelElement.textContent = '⭐ ' + scoreLabel;
     }
 
-    function restartGame() {
-      document.getElementById('scoreboard').classList.remove('show');
-      document.getElementById('backToMenuBtn').classList.remove('show');
-      document.getElementById('startScreen').style.display = 'block';
-    }
+
 
     if (window.elementSdk) {
       window.elementSdk.init({
@@ -1918,5 +1869,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e85fcc1685664',t:'MTc2NDIxMzk4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4ea2a675f48066',t:'MTc2NDIxNTE1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
