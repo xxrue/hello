@@ -315,6 +315,16 @@
             animation: mascotBounce 2s ease-in-out infinite;
             z-index: 1000;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .mascot:hover {
+            transform: scale(1.1);
+        }
+        
+        .mascot:active {
+            transform: scale(0.95);
         }
         
         @keyframes mascotBounce {
@@ -464,7 +474,7 @@
  <body>
   <div class="star-counter" id="starCounter"><span class="star-icon">⭐</span> <span id="starCount">0</span>
   </div>
-  <div class="mascot" id="mascot">
+  <div class="mascot" id="mascot" onclick="onMascotClick()">
    👨‍👩‍👧‍👦
   </div>
   <div class="mascot-message" id="mascotMessage" style="display: none;"></div>
@@ -570,19 +580,57 @@
             start: ["Mari kita mula! 💪", "Anda pasti boleh buat! 🌟", "Semangat! 🎉"],
             correct: ["Hebat! Teruskan! 🎊", "Bagus sekali! ⭐", "Cemerlang! 🌟", "Mantap! 👏"],
             incorrect: ["Tak mengapa, cuba lagi! 💪", "Jangan putus asa! 🌈", "Belajar dari kesilapan! 📚"],
-            finish: ["Tahniah selesai! 🎉", "Kerja yang bagus! 🌟", "Anda hebat! 👏"]
+            finish: ["Tahniah selesai! 🎉", "Kerja yang bagus! 🌟", "Anda hebat! 👏"],
+            click: [
+                "Ingat! Keluarga bahagia bermula dengan tanggungjawab! 👨‍👩‍👧‍👦",
+                "Sentiasa sayangi setiap ahli keluarga anda! ❤️",
+                "Jaga nama baik keluarga dengan elakkan aktiviti negatif! 🌟",
+                "Hormati ahli keluarga yang lebih tua! 🙏",
+                "Bantu ibu bapa di rumah setiap hari! 🏠",
+                "Jaga keselamatan adik-beradik anda! 🛡️",
+                "Komunikasi yang baik penting dalam keluarga! 💬",
+                "Belajar bersungguh-sungguh untuk keluarga! 📚",
+                "Anda boleh buat! Teruskan berusaha! 💪",
+                "Keluarga adalah harta yang paling berharga! 💎",
+                "Melaksanakan tanggungjawab = Keluarga bahagia! 😊",
+                "Kebajikan keluarga adalah tanggungjawab bersama! 🤝",
+                "Kepercayaan ahli keluarga dibina melalui tanggungjawab! ✨",
+                "Setiap ahli keluarga punya peranan penting! 🎯",
+                "Mari wujudkan keluarga yang harmoni! 🌈"
+            ]
         };
+        
+        let mascotMessageTimeout;
         
         function showMascotMessage(type) {
             const messages = mascotMessages[type];
             const message = messages[Math.floor(Math.random() * messages.length)];
             const mascotMsg = document.getElementById('mascotMessage');
+            
+            // Clear previous timeout
+            if (mascotMessageTimeout) {
+                clearTimeout(mascotMessageTimeout);
+            }
+            
             mascotMsg.textContent = message;
             mascotMsg.style.display = 'block';
             
-            setTimeout(() => {
+            mascotMessageTimeout = setTimeout(() => {
                 mascotMsg.style.display = 'none';
-            }, 3000);
+            }, 4000);
+        }
+        
+        function onMascotClick() {
+            const mascot = document.getElementById('mascot');
+            
+            // Add bounce animation
+            mascot.style.animation = 'none';
+            setTimeout(() => {
+                mascot.style.animation = 'mascotBounce 2s ease-in-out infinite';
+            }, 10);
+            
+            // Show random message or reminder
+            showMascotMessage('click');
         }
         
         function updateStarCount() {
@@ -759,7 +807,7 @@
                 icon = "🌟";
             } else if (percentage >= 60) {
                 message = "Bagus!";
-                icon = "👍";
+                icon = "��";
             } else if (percentage >= 40) {
                 message = "Boleh diperbaiki!";
                 icon = "📚";
@@ -838,5 +886,5 @@
 
         showMenu();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71b4ddd038a483',t:'MTc2NDU4MjkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71c28032c01d95',t:'MTc2NDU4MzQ2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
