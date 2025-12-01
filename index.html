@@ -418,6 +418,26 @@
             color: #1a1a2e;
             text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9),
                          0 2px 4px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        
+        .mascot-message:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        
+        .mascot-message:active {
+            transform: scale(0.95);
+        }
+        
+        .mascot-message::after {
+            content: '✕';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 14px;
+            opacity: 0.7;
         }
         
         @keyframes messageSlide {
@@ -552,7 +572,7 @@
   <div class="mascot" id="mascot" onclick="onMascotClick()">
    👨‍👩‍👧‍👦
   </div>
-  <div class="mascot-message" id="mascotMessage" style="display: none;"></div>
+  <div class="mascot-message" id="mascotMessage" style="display: none;" onclick="closeMascotMessage()"></div>
   <div class="container">
    <div class="quiz-card" id="quizCard"><!-- Content will be dynamically inserted here -->
    </div>
@@ -714,6 +734,15 @@
             mascotMessageTimeout = setTimeout(() => {
                 mascotMsg.style.display = 'none';
             }, 4000);
+        }
+        
+        function closeMascotMessage() {
+            const mascotMsg = document.getElementById('mascotMessage');
+            mascotMsg.style.display = 'none';
+            
+            if (mascotMessageTimeout) {
+                clearTimeout(mascotMessageTimeout);
+            }
         }
         
         function onMascotClick() {
@@ -982,5 +1011,5 @@
         createParticles();
         showMenu();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71d402208af004',t:'MTc2NDU4NDE3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71e0a3d758b4d6',t:'MTc2NDU4NDY5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
