@@ -3,881 +3,457 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcard Pembelajaran</title>
+  <title>Kuiz Tanggungjawab Keluarga</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
         body {
             box-sizing: border-box;
-        }
-        
-        * {
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 40%, #f5576c 60%, #ffa500 80%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100%;
+            width: 100%;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0d7377 0%, #14ffec 100%);
-            min-height: 100%;
-            width: 100%;
-            overflow-x: hidden;
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
-        .app-container {
+        .container {
             width: 100%;
             min-height: 100%;
             padding: 20px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            position: relative;
-            z-index: 2;
+            justify-content: center;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
             text-align: center;
-            color: white;
             margin-bottom: 30px;
-            width: 100%;
         }
 
-        .main-title {
+        .title {
             font-size: 28px;
             font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #f5576c 50%, #ffa500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .subtitle {
             font-size: 16px;
-            opacity: 0.95;
+            color: #666;
+            line-height: 1.6;
         }
 
-        .content-wrapper {
+        .progress-bar {
             width: 100%;
-            max-width: 900px;
-        }
-
-        /* Main Menu */
-        .content-overview {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            text-align: center;
+            overflow: hidden;
         }
 
-        .overview-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffa500 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
         }
 
-        .content-overview h3 {
-            color: #0d7377;
-            font-size: 24px;
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 25px;
-            font-weight: bold;
+            line-height: 1.5;
         }
 
-        .overview-items {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #10b981;
+            background: #10b981;
+            color: white;
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option.incorrect {
+            border-color: #ef4444;
+            background: #ef4444;
+            color: white;
+            animation: incorrectShake 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 33%, #f093fb 66%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
             margin-top: 20px;
         }
 
-        .overview-item {
-            background: linear-gradient(135deg, #f0fffe 0%, #ffffff 100%);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: left;
-            border: 3px solid #b8f3f0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .overview-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(20, 255, 236, 0.3);
-            border-color: #14ffec;
+        .button:active {
+            transform: translateY(0);
         }
 
-        .overview-label {
-            display: inline-block;
-            font-weight: bold;
-            font-size: 17px;
-            margin-bottom: 12px;
-            color: #0d7377;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 2px solid #14ffec;
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .overview-item p {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-top: 8px;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            width: 100%;
-        }
-
-        .menu-card {
-            background: white;
-            border-radius: 20px;
-            padding: 35px 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .results {
             text-align: center;
         }
 
-        .menu-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            background: #f0fffe;
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffa500 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
         }
 
-        .menu-icon {
-            font-size: 60px;
+        .score-text {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .result-message {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .result-details {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .menu-description {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .icon {
+            font-size: 48px;
             margin-bottom: 20px;
         }
-
-        .menu-card h2 {
-            color: #0d7377;
+        
+        .star-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .menu-card p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Flashcard Container */
-        .flashcard-container {
-            display: none;
-            width: 100%;
-        }
-
-        .flashcard-container.active {
-            display: block;
-        }
-
-        .back-button {
-            background: white;
-            color: #0d7377;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            background: #f0fffe;
-        }
-
-        /* Nota Mode */
-        .nota-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .nota-tab {
-            background: white;
-            color: #666;
-            border: 3px solid #e0e0e0;
-            padding: 15px 35px;
-            border-radius: 20px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nota-tab:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            border-color: #0d7377;
-        }
-
-        .nota-tab.active {
-            background: linear-gradient(135deg, #0d7377 0%, #14ffec 100%);
-            color: white;
-            border-color: #14ffec;
-            box-shadow: 0 6px 25px rgba(20, 255, 236, 0.4);
-        }
-
-        .nota-card-wrapper {
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto 80px auto;
-            perspective: 1000px;
-            min-height: 400px;
-        }
-
-        .nota-card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s ease;
-            cursor: pointer;
-        }
-
-        .nota-card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .nota-card-face {
-            width: 100%;
-            position: absolute;
-            backface-visibility: hidden;
-            background: white;
-            border-radius: 20px;
-            padding: 40px 35px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border: 3px solid #f0fffe;
-        }
-
-        .nota-card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #f0fffe 0%, #ffffff 100%);
-            border: 3px solid #14ffec;
-        }
-
-        .nota-card-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #0d7377;
-            margin-bottom: 30px;
-            text-align: center;
-            line-height: 1.5;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(20, 255, 236, 0.1) 0%, rgba(13, 115, 119, 0.05) 100%);
-            border-radius: 15px;
-            border: 2px solid rgba(20, 255, 236, 0.3);
-        }
-
-        .nota-card-hint {
-            text-align: center;
-            color: #0d7377;
-            background: rgba(20, 255, 236, 0.15);
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            margin-top: 20px;
-            font-weight: 600;
-            border: 2px dashed #14ffec;
-        }
-
-        .nota-card-content ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .nota-card-content li {
-            padding: 15px 20px;
-            padding-left: 50px;
-            position: relative;
-            color: #333;
-            line-height: 1.7;
-            font-size: 16px;
-            background: white;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border: 2px solid #f0fffe;
-            transition: all 0.3s ease;
-        }
-
-        .nota-card-content li:hover {
-            transform: translateX(5px);
-            border-color: #14ffec;
-            box-shadow: 0 4px 15px rgba(20, 255, 236, 0.2);
-        }
-
-        .nota-card-content li:before {
-            content: "✓";
-            position: absolute;
-            left: 15px;
-            color: #14ffec;
-            font-weight: bold;
-            font-size: 20px;
-            background: rgba(20, 255, 236, 0.15);
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .footnote {
-            margin-top: 25px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.98);
-            border-left: 5px solid #14ffec;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            border: 3px solid rgba(20, 255, 236, 0.3);
-            border-left: 5px solid #14ffec;
-        }
-
-        .footnote-title {
-            font-weight: bold;
-            color: #0d7377;
-            margin-bottom: 15px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footnote p {
-            color: #555;
-            margin-bottom: 10px;
-            font-size: 14px;
-            line-height: 1.7;
-            padding-left: 10px;
-        }
-
-        /* Quiz Mode */
-        .quiz-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .quiz-instructions {
-            background: white;
-            border-radius: 20px;
-            padding: 25px 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            max-width: 650px;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .quiz-instructions h3 {
-            color: #0d7377;
-            font-size: 20px;
-            margin-bottom: 18px;
             font-weight: bold;
             display: flex;
             align-items: center;
             gap: 10px;
+            z-index: 1000;
+            animation: starPulse 2s ease-in-out infinite;
         }
-
-        .quiz-instructions-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-
-        .instruction-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 15px;
-            background: #f0fffe;
-            border-radius: 12px;
-            border-left: 4px solid #14ffec;
+        
+        .star-counter .star-icon {
+            font-size: 28px;
+            animation: starRotate 3s linear infinite;
         }
-
-        .instruction-icon {
-            font-size: 24px;
-            flex-shrink: 0;
-            margin-top: 2px;
+        
+        @keyframes starRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-
-        .instruction-text {
-            flex: 1;
-        }
-
-        .instruction-label {
-            font-weight: bold;
-            color: #0d7377;
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-
-        .instruction-desc {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .quiz-progress {
-            background: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            color: #0d7377;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .quiz-card-wrapper {
-            width: 100%;
-            max-width: 600px;
-            perspective: 1000px;
-            min-height: 350px;
-        }
-
-        .quiz-card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s ease;
-        }
-
-        .quiz-card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .quiz-card-face {
-            width: 100%;
-            position: absolute;
-            backface-visibility: hidden;
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-            min-height: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border: 3px solid #f0fffe;
-        }
-
-        .quiz-card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #f0fffe 0%, #ffffff 100%);
-            border: 3px solid #14ffec;
-        }
-
-        .quiz-statement {
-            font-size: 20px;
-            color: #333;
-            line-height: 1.7;
-            text-align: center;
-            margin-bottom: 35px;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(20, 255, 236, 0.08) 0%, rgba(13, 115, 119, 0.05) 100%);
-            border-radius: 15px;
-            border: 2px solid rgba(20, 255, 236, 0.2);
-            font-weight: 500;
-        }
-
-        .quiz-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .quiz-option {
-            padding: 22px;
-            border: 3px solid #0d7377;
-            border-radius: 15px;
-            background: linear-gradient(135deg, white 0%, #f0fffe 100%);
-            color: #0d7377;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .quiz-option:hover {
-            background: linear-gradient(135deg, #0d7377 0%, #14ffec 100%);
-            color: white;
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(20, 255, 236, 0.4);
-        }
-
-        .quiz-result {
-            text-align: center;
-        }
-
-        .result-icon {
+        
+        .mascot {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
             font-size: 80px;
-            margin-bottom: 20px;
+            animation: mascotBounce 2s ease-in-out infinite;
+            z-index: 1000;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         }
-
-        .result-text {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
+        
+        @keyframes mascotBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
-
-        .result-text.correct {
-            color: #0d7377;
-        }
-
-        .result-text.incorrect {
-            color: #dc3545;
-        }
-
-        .correct-answer {
-            font-size: 18px;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        .quiz-next {
-            background: linear-gradient(135deg, #0d7377 0%, #14ffec 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .quiz-next:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
-
-        .quiz-complete {
-            text-align: center;
+        
+        .mascot-message {
+            position: fixed;
+            bottom: 110px;
+            left: 20px;
             background: white;
+            padding: 12px 20px;
             border-radius: 20px;
-            padding: 50px 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            font-weight: 600;
+            max-width: 250px;
+            z-index: 1000;
+            animation: messageSlide 0.5s ease;
         }
-
-        .quiz-complete h2 {
-            color: #0d7377;
-            font-size: 32px;
-            margin-bottom: 20px;
+        
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .quiz-score {
-            font-size: 48px;
-            font-weight: bold;
-            color: #14ffec;
-            margin: 25px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .quiz-restart {
-            background: linear-gradient(135deg, #0d7377 0%, #14ffec 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .quiz-restart:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
-
-        /* Confetti Animation */
+        
         .confetti {
             position: fixed;
             width: 10px;
             height: 10px;
-            z-index: 1000;
-            pointer-events: none;
+            top: -10px;
+            z-index: 9999;
+            animation: confettiFall 3s linear;
         }
-
-        @keyframes confetti-fall {
+        
+        @keyframes confettiFall {
             to {
-                transform: translateY(100vh) rotate(720deg);
+                transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
             }
         }
-
-        /* Floating Particles Background */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        
+        .family-svg {
+            max-width: 150px;
+            margin: 0 auto 20px;
+            display: block;
         }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) translateX(0) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-                transform: translateY(-10vh) translateX(10px) scale(1);
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(var(--drift)) scale(0.5);
-                opacity: 0;
-            }
-        }
-
-        /* Mascot Character */
-        .mascot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 100;
-            transition: all 0.3s ease;
-            border: 3px solid #14ffec;
-            cursor: pointer;
-        }
-
-        .mascot:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            25% { transform: translateY(-20px) scale(1.1); }
-            50% { transform: translateY(-10px) scale(1.05); }
-            75% { transform: translateY(-15px) scale(1.08); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-10px) rotate(-5deg); }
-            50% { transform: translateX(10px) rotate(5deg); }
-            75% { transform: translateX(-5px) rotate(-3deg); }
-        }
-
-        .mascot.bounce-animation {
-            animation: bounce 0.6s ease;
-        }
-
-        .mascot.shake-animation {
-            animation: shake 0.5s ease;
-        }
-
-        /* Decorative Corner Vines */
-        .corner-decoration {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.4;
-        }
-
-        .corner-decoration.top-left {
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 200px;
-        }
-
-        .corner-decoration.top-right {
-            top: 0;
-            right: 0;
-            width: 200px;
-            height: 200px;
-            transform: scaleX(-1);
-        }
-
-        .corner-decoration.bottom-left {
-            bottom: 0;
-            left: 0;
-            width: 180px;
-            height: 180px;
-            transform: scaleY(-1);
-        }
-
-        .corner-decoration.bottom-right {
-            bottom: 0;
-            right: 0;
-            width: 180px;
-            height: 180px;
-            transform: scale(-1, -1);
-        }
-
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .app-container {
+            .quiz-card {
+                padding: 25px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .option {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            .button {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+
+            .score-circle {
+                width: 150px;
+                height: 150px;
+            }
+
+            .score-text {
+                font-size: 36px;
+            }
+
+            .result-message {
+                font-size: 20px;
+            }
+            
+            .star-counter {
+                top: 10px;
+                right: 10px;
+                padding: 10px 20px;
+                font-size: 20px;
+            }
+            
+            .mascot {
+                font-size: 60px;
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .mascot-message {
+                bottom: 80px;
+                left: 10px;
+                font-size: 14px;
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
                 padding: 15px;
             }
 
-            .main-title {
-                font-size: 22px;
+            .quiz-card {
+                padding: 20px;
+            }
+
+            .title {
+                font-size: 20px;
             }
 
             .subtitle {
                 font-size: 14px;
             }
 
-            .content-overview {
-                padding: 25px 20px;
-            }
-
-            .content-overview h3 {
-                font-size: 20px;
-            }
-
-            .overview-items {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .overview-item {
-                padding: 18px;
-            }
-
-            .overview-label {
-                font-size: 15px;
-            }
-
-            .overview-item p {
-                font-size: 13px;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .menu-card {
-                padding: 30px 20px;
-            }
-
-            .menu-icon {
-                font-size: 50px;
-            }
-
-            .menu-card h2 {
-                font-size: 20px;
-            }
-
-            .quiz-statement {
-                font-size: 17px;
-            }
-
-            .quiz-option {
+            .question-text {
                 font-size: 16px;
-                padding: 18px;
             }
 
-            .quiz-card-face {
-                padding: 30px 20px;
-                min-height: 320px;
+            .option {
+                padding: 12px;
+                font-size: 14px;
             }
-
-            .nota-controls {
-                flex-direction: row;
-                gap: 10px;
-            }
-
-            .nota-tab {
-                padding: 12px 20px;
-                font-size: 15px;
-            }
-
-            .nota-card-wrapper {
-                min-height: 350px;
-            }
-
-            .nota-card-face {
-                padding: 30px 25px;
-                min-height: 350px;
-            }
-
-            .nota-card-title {
+            
+            .star-counter {
+                padding: 8px 15px;
                 font-size: 18px;
             }
-
-            .nota-card-content li {
-                font-size: 14px;
-                padding: 12px 15px;
-                padding-left: 45px;
-            }
-
-            .quiz-instructions {
-                padding: 20px;
-            }
-
-            .instruction-item {
-                padding: 12px;
-            }
-
-            .instruction-icon {
-                font-size: 20px;
-            }
-
-            .mascot {
-                width: 60px;
-                height: 60px;
-                font-size: 35px;
-                bottom: 15px;
-                right: 15px;
-            }
-
-            .corner-decoration.top-left,
-            .corner-decoration.top-right {
-                width: 120px;
-                height: 120px;
-            }
-
-            .corner-decoration.bottom-left,
-            .corner-decoration.bottom-right {
-                width: 100px;
-                height: 100px;
+            
+            .star-counter .star-icon {
+                font-size: 22px;
             }
         }
     </style>
@@ -885,440 +461,360 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Floating Particles Background -->
-  <div class="particles-container" id="particlesContainer"></div><!-- Decorative Corner Vines -->
-  <div class="corner-decoration top-left">
-   <svg viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q30,20 50,50 Q60,70 80,90 Q70,100 50,110 Q30,100 20,80 Q10,50 0,30 Z" fill="#14ffec" opacity="0.4" /> <circle cx="50" cy="50" r="8" fill="#14ffec" /> <circle cx="80" cy="90" r="6" fill="#0d7377" /> <circle cx="30" cy="70" r="5" fill="#14ffec" /> <path d="M50,50 Q60,55 70,60" stroke="#14ffec" stroke-width="3" fill="none" stroke-linecap="round" /> <path d="M30,70 Q35,80 40,90" stroke="#0d7377" stroke-width="2" fill="none" stroke-linecap="round" />
-   </svg>
+ <body>
+  <div class="star-counter" id="starCounter"><span class="star-icon">⭐</span> <span id="starCount">0</span>
   </div>
-  <div class="corner-decoration top-right">
-   <svg viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q30,20 50,50 Q60,70 80,90 Q70,100 50,110 Q30,100 20,80 Q10,50 0,30 Z" fill="#14ffec" opacity="0.4" /> <circle cx="50" cy="50" r="8" fill="#14ffec" /> <circle cx="80" cy="90" r="6" fill="#0d7377" /> <circle cx="30" cy="70" r="5" fill="#14ffec" />
-   </svg>
+  <div class="mascot" id="mascot">
+   👨‍👩‍👧‍👦
   </div>
-  <div class="corner-decoration bottom-left">
-   <svg viewbox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q25,15 40,40 Q50,60 70,75 Q60,85 40,90 Q20,80 10,60 Z" fill="#14ffec" opacity="0.4" /> <circle cx="40" cy="40" r="7" fill="#14ffec" /> <circle cx="70" cy="75" r="5" fill="#0d7377" />
-   </svg>
-  </div>
-  <div class="corner-decoration bottom-right">
-   <svg viewbox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q25,15 40,40 Q50,60 70,75 Q60,85 40,90 Q20,80 10,60 Z" fill="#14ffec" opacity="0.4" /> <circle cx="40" cy="40" r="7" fill="#14ffec" /> <circle cx="70" cy="75" r="5" fill="#0d7377" />
-   </svg>
-  </div><!-- Mascot Character -->
-  <div class="mascot" id="mascot" title="Klik saya!">
-   😊
-  </div>
-  <div class="app-container">
-   <div class="header">
-    <h1 class="main-title" id="mainTitle">Agama atau Kepercayaan Membentuk Keperibadian Mulia</h1>
-   </div>
-   <div class="content-wrapper"><!-- Main Menu -->
-    <div id="mainMenu">
-     <div class="content-overview">
-      <div class="overview-icon">
-       📖
-      </div>
-      <h3>Kandungan Pembelajaran</h3>
-      <div class="overview-items">
-       <div class="overview-item"><span class="overview-label">🔴 Kesan</span>
-        <p>Kesan jika tiada pegangan agama atau kepercayaan</p>
-       </div>
-       <div class="overview-item"><span class="overview-label">🟢 Kepentingan</span>
-        <p>Kepentingan pegangan agama atau kepercayaan dalam pembentukan keperibadian diri</p>
-       </div>
-      </div>
-     </div>
-     <div class="menu-grid">
-      <div class="menu-card" onclick="showNota()">
-       <div class="menu-icon">
-        📚
-       </div>
-       <h2 id="notaTitle">Flashcard Nota</h2>
-       <p id="notaDescription">Tekan setiap bahagian untuk melihat penerangan lengkap</p>
-      </div>
-      <div class="menu-card" onclick="showKuiz()">
-       <div class="menu-icon">
-        🎯
-       </div>
-       <h2 id="kuizTitle">Flashcard Kuiz</h2>
-       <p id="kuizDescription">Uji pemahaman anda dengan menjawab soalan interaktif</p>
-      </div>
-     </div>
-    </div><!-- Nota Mode -->
-    <div id="notaContainer" class="flashcard-container"><button class="back-button" onclick="showMenu()">← Kembali ke Menu</button>
-     <div class="nota-controls"><button class="nota-tab active" id="kesanTab" onclick="switchTab(0)">🔴 Kesan</button> <button class="nota-tab" id="kepentinganTab" onclick="switchTab(1)">🟢 Kepentingan</button>
-     </div>
-     <div class="nota-card-wrapper">
-      <div class="nota-card" id="notaCard" onclick="flipNotaCard()">
-       <div class="nota-card-face">
-        <div class="nota-card-title" id="notaCardTitle"></div>
-        <div class="nota-card-hint">
-         👆 Klik kad untuk melihat jawapan
-        </div>
-       </div>
-       <div class="nota-card-face nota-card-back">
-        <div class="nota-card-content" id="notaCardContent"></div>
-       </div>
-      </div>
-     </div>
-     <div class="footnote" style="margin-top: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">
-      <div class="footnote-title">
-       📝 Nota Tambahan:
-      </div>
-      <p>• Pegangan agama atau kepercayaan juga menjadi sumber kekuatan yang mempengaruhi pembentukan akhlak yang mulia.</p>
-      <p>• Agama atau kepercayaan berperanan penting untuk menerapkan nilai-nilai murni dalam kehidupan.</p>
-     </div>
-    </div><!-- Quiz Mode -->
-    <div id="kuizContainer" class="flashcard-container"><button class="back-button" onclick="showMenu()">← Kembali ke Menu</button>
-     <div class="quiz-container">
-      <div class="quiz-instructions">
-       <h3>📋 Arahan Kuiz</h3>
-       <div class="quiz-instructions-content">
-        <div class="instruction-item" style="background: linear-gradient(135deg, #fff5e6 0%, #ffffff 100%); border-left: 4px solid #ff9800;">
-         <div class="instruction-icon">
-          👆
-         </div>
-         <div class="instruction-text">
-          <div class="instruction-label">
-           Cara Bermain
-          </div>
-          <div class="instruction-desc">
-           Baca pernyataan yang diberikan, kemudian <strong>klik pada butang</strong> 🔴 Kesan atau 🟢 Kepentingan untuk menjawab.
-          </div>
-         </div>
-        </div>
-        <div class="instruction-item">
-         <div class="instruction-icon">
-          🔴
-         </div>
-         <div class="instruction-text">
-          <div class="instruction-label">
-           Kesan
-          </div>
-          <div class="instruction-desc">
-           Kesan jika tiada pegangan agama atau kepercayaan
-          </div>
-         </div>
-        </div>
-        <div class="instruction-item">
-         <div class="instruction-icon">
-          🟢
-         </div>
-         <div class="instruction-text">
-          <div class="instruction-label">
-           Kepentingan
-          </div>
-          <div class="instruction-desc">
-           Kepentingan pegangan agama atau kepercayaan dalam pembentukan keperibadian diri
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="quiz-progress" id="quizProgress">
-       Soalan 1 / 10
-      </div>
-      <div class="quiz-card-wrapper">
-       <div class="quiz-card" id="quizCard">
-        <div class="quiz-card-face">
-         <div class="quiz-statement" id="quizStatement"></div>
-         <div class="quiz-buttons"><button class="quiz-option" onclick="answerQuiz('kesan')">🔴 Kesan</button> <button class="quiz-option" onclick="answerQuiz('kepentingan')">🟢 Kepentingan</button>
-         </div>
-        </div>
-        <div class="quiz-card-face quiz-card-back">
-         <div class="quiz-result" id="quizResult"></div><button class="quiz-next" onclick="nextQuestion()">Soalan Seterusnya →</button>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div id="quizComplete" style="display: none;">
-      <div class="quiz-complete">
-       <h2>🎉 Tahniah! Anda telah selesai!</h2>
-       <div class="quiz-score" id="finalScore"></div>
-       <p style="font-size: 18px; color: #666;">Teruskan usaha anda dalam pembelajaran!</p><button class="quiz-restart" onclick="restartQuiz()">🔄 Cuba Lagi</button> <button class="back-button" onclick="showMenu()" style="display: block; margin: 20px auto 0;">← Kembali ke Menu</button>
-      </div>
-     </div>
-    </div>
+  <div class="mascot-message" id="mascotMessage" style="display: none;"></div>
+  <div class="container">
+   <div class="quiz-card" id="quizCard"><!-- Content will be dynamically inserted here -->
    </div>
   </div>
+  <div id="confettiContainer"></div>
   <script>
         const defaultConfig = {
-            main_title: "Agama atau Kepercayaan Membentuk Keperibadian Mulia",
-            nota_title: "Flashcard Nota",
-            kuiz_title: "Flashcard Kuiz",
-            nota_description: "Tekan setiap bahagian untuk melihat penerangan lengkap",
-            kuiz_description: "Uji pemahaman anda dengan menjawab soalan interaktif"
+            quiz_title: "Tanggungjawab Diri Membentuk Keluarga Bahagia",
+            menu_description: "Kuiz interaktif ini membantu pelajar Tingkatan 2 mengulang kaji nota tentang tanggungjawab dalam keluarga. Anda akan menjawab 10 soalan rawak daripada 15 soalan yang disediakan.",
+            start_button: "Mula Kuiz",
+            next_button: "Soalan Seterusnya",
+            restart_button: "Cuba Lagi"
         };
 
-        const notaData = [
+        const allQuestions = [
             {
-                title: "Kesan jika tiada pegangan agama atau kepercayaan",
-                points: [
-                    "Hidup terumbang-ambing",
-                    "Melakukan perkara yang ditegah agama",
-                    "Mencetuskan perbalahan dan pertelingkahan",
-                    "Mencemarkan dan merosakkan alam sekitar",
-                    "Berfikiran negatif dan selalu berasa tertekan dalam hidup"
-                ]
+                question: "Apakah yang perlu dilakukan oleh setiap anggota keluarga untuk melahirkan keluarga bahagia?",
+                options: ["Melaksanakan tanggungjawab masing-masing", "Tercetus perselisihan faham antara anggota keluarga", "Keluarga bahagia dapat diwujudkan", "Membantu ibu bapa di rumah"],
+                correct: 0
             },
             {
-                title: "Kepentingan pegangan agama atau kepercayaan dalam pembentukan keperibadian diri",
-                points: [
-                    "Melahirkan individu yang berpekerti mulia",
-                    "Membezakan amalan baik dengan amalan buruk",
-                    "Menjauhi perkara yang dilarang",
-                    "Meningkatkan disiplin dan imej diri",
-                    "Meningkatkan penghayatan manusia terhadap nilai-nilai murni"
-                ]
+                question: "Antara berikut, yang manakah BUKAN tanggungjawab sebagai anggota keluarga?",
+                options: ["Menyayangi setiap anggota keluarga", "Menjaga nama baik keluarga", "Masyarakat memandang rendah kepada anggota keluarga", "Menghormati anggota keluarga yang lebih tua"],
+                correct: 2
+            },
+            {
+                question: "Apakah kesan jika tanggungjawab dalam keluarga diabaikan?",
+                options: ["Anggota keluarga saling mempercayai", "Tercetus perselisihan faham antara anggota keluarga", "Membantu ibu bapa di rumah", "Menjaga nama baik keluarga"],
+                correct: 1
+            },
+            {
+                question: "Bagaimanakah cara untuk menjaga kebajikan anggota keluarga?",
+                options: ["Membantu ibu bapa di rumah", "Kebahagiaan keluarga terjejas", "Menjaga kebajikan anggota keluarga", "Nama baik keluarga terjejas"],
+                correct: 0
+            },
+            {
+                question: "Apakah kepentingan melaksanakan tanggungjawab diri dalam keluarga?",
+                options: ["Menjaga nama baik keluarga", "Anggota keluarga saling mempercayai", "Tercetus perselisihan faham", "Membantu adik-beradik dalam pelajaran"],
+                correct: 1
+            },
+            {
+                question: "Antara berikut, yang manakah cara menghormati anggota keluarga?",
+                options: ["Menghindari aktiviti negatif", "Mendengar nasihat anggota keluarga", "Keluarga dihormati oleh masyarakat sekeliling", "Menjaga kebajikan anggota keluarga"],
+                correct: 1
+            },
+            {
+                question: "Bagaimanakah cara memastikan keselamatan anggota keluarga?",
+                options: ["Memastikan keselamatan anggota keluarga", "Menutup suis peralatan elektrik jika tidak menggunakannya", "Maruah keluarga terpelihara", "Menjaga nama baik keluarga"],
+                correct: 1
+            },
+            {
+                question: "Apakah cara menjaga nama baik keluarga?",
+                options: ["Keluarga dihormati oleh masyarakat sekeliling", "Nama baik keluarga terjejas", "Berusaha dengan bersungguh-sungguh dalam pelajaran", "Menghormati anggota keluarga"],
+                correct: 2
+            },
+            {
+                question: "Bagaimanakah cara menyayangi anggota keluarga termasuk yang kurang upaya?",
+                options: ["Menyayangi setiap anggota keluarga", "Membantu anggota keluarga termasuk yang kurang upaya", "Menjaga keselamatan adik-beradik", "Kebahagiaan keluarga terjejas"],
+                correct: 1
+            },
+            {
+                question: "Apakah kesan apabila kebahagiaan keluarga terjejas?",
+                options: ["Keluarga bahagia dapat diwujudkan", "Hubungan anggota keluarga menjadi renggang", "Menjaga kebajikan anggota keluarga", "Melibatkan diri dalam aktiviti keluarga"],
+                correct: 1
+            },
+            {
+                question: "Antara berikut, yang manakah tanggungjawab sebagai anggota keluarga?",
+                options: ["Membantu adik-beradik dalam pelajaran", "Tercetus perselisihan faham", "Anggota keluarga saling mempercayai", "Maruah keluarga terpelihara"],
+                correct: 0
+            },
+            {
+                question: "Mengapakah penting untuk menghindari aktiviti negatif?",
+                options: ["Menghindari aktiviti negatif", "Untuk menjaga nama baik keluarga", "Keluarga dihormati oleh masyarakat sekeliling", "Menuturkan kata-kata sopan"],
+                correct: 1
+            },
+            {
+                question: "Apakah yang dimaksudkan dengan cara menghormati anggota keluarga melalui komunikasi?",
+                options: ["Menghormati anggota keluarga yang lebih tua", "Saling bertegur sapa", "Masyarakat memandang rendah", "Nama baik keluarga terjejas"],
+                correct: 1
+            },
+            {
+                question: "Bagaimanakah cara memastikan keselamatan adik-beradik ketika orang dewasa tiada di rumah?",
+                options: ["Memastikan keselamatan anggota keluarga", "Menjaga adik-beradik ketika orang dewasa tiada di rumah", "Keluarga bahagia dapat diwujudkan", "Melibatkan diri dalam aktiviti keluarga"],
+                correct: 1
+            },
+            {
+                question: "Apakah kepentingan melaksanakan tanggungjawab yang membawa kepada penghormatan masyarakat?",
+                options: ["Tercetus perselisihan faham", "Maruah keluarga terpelihara", "Menjaga kebajikan anggota keluarga", "Menghindari aktiviti negatif"],
+                correct: 1
             }
         ];
 
-        const quizData = [
-            { statement: "Hidup terumbang-ambing", answer: "kesan" },
-            { statement: "Melahirkan individu yang berpekerti mulia", answer: "kepentingan" },
-            { statement: "Melakukan perkara yang ditegah agama", answer: "kesan" },
-            { statement: "Membezakan amalan baik dengan amalan buruk", answer: "kepentingan" },
-            { statement: "Mencetuskan perbalahan dan pertelingkahan", answer: "kesan" },
-            { statement: "Menjauhi perkara yang dilarang", answer: "kepentingan" },
-            { statement: "Mencemarkan dan merosakkan alam sekitar", answer: "kesan" },
-            { statement: "Meningkatkan disiplin dan imej diri", answer: "kepentingan" },
-            { statement: "Berfikiran negatif dan selalu berasa tertekan dalam hidup", answer: "kesan" },
-            { statement: "Meningkatkan penghayatan manusia terhadap nilai-nilai murni", answer: "kepentingan" }
-        ];
-
-        let currentNotaIndex = 0;
-        let currentQuestion = 0;
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
         let score = 0;
-        let shuffledQuiz = [];
-
-        // Confetti Effect
+        let answered = false;
+        let totalStars = 0;
+        
+        const mascotMessages = {
+            start: ["Mari kita mula! 💪", "Anda pasti boleh buat! 🌟", "Semangat! 🎉"],
+            correct: ["Hebat! Teruskan! 🎊", "Bagus sekali! ⭐", "Cemerlang! 🌟", "Mantap! 👏"],
+            incorrect: ["Tak mengapa, cuba lagi! 💪", "Jangan putus asa! 🌈", "Belajar dari kesilapan! 📚"],
+            finish: ["Tahniah selesai! 🎉", "Kerja yang bagus! 🌟", "Anda hebat! 👏"]
+        };
+        
+        function showMascotMessage(type) {
+            const messages = mascotMessages[type];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            const mascotMsg = document.getElementById('mascotMessage');
+            mascotMsg.textContent = message;
+            mascotMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                mascotMsg.style.display = 'none';
+            }, 3000);
+        }
+        
+        function updateStarCount() {
+            document.getElementById('starCount').textContent = totalStars;
+        }
+        
         function createConfetti() {
             const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e'];
-            const confettiCount = 50;
+            const confettiContainer = document.getElementById('confettiContainer');
             
-            for (let i = 0; i < confettiCount; i++) {
+            for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
                     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.opacity = Math.random();
-                    confetti.style.animation = `confetti-fall ${Math.random() * 2 + 2}s linear forwards`;
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confettiContainer.appendChild(confetti);
                     
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 4000);
+                    setTimeout(() => confetti.remove(), 3000);
                 }, i * 30);
             }
         }
 
-        // Floating Particles
-        function createFloatingParticles() {
-            const container = document.getElementById('particlesContainer');
-            const particleCount = 20;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const isBubble = Math.random() > 0.5;
-                const size = Math.random() * 30 + 10;
-                
-                if (isBubble) {
-                    particle.style.background = 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(20, 255, 236, 0.3))';
-                    particle.style.border = '2px solid rgba(255, 255, 255, 0.5)';
-                } else {
-                    particle.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(20, 255, 236, 0.5))';
-                    particle.style.boxShadow = '0 0 10px rgba(20, 255, 236, 0.8)';
-                }
-                
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.bottom = '-50px';
-                particle.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
-                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particle.style.animation = `float-up ${Math.random() * 10 + 15}s infinite ease-in-out`;
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                
-                container.appendChild(particle);
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
             }
+            return newArray;
         }
 
-        // Mascot Reactions
-        function setMascotEmotion(emotion) {
-            const mascot = document.getElementById('mascot');
-            mascot.classList.remove('bounce-animation', 'shake-animation');
-            
-            if (emotion === 'happy') {
-                mascot.textContent = '😊';
-                setTimeout(() => mascot.classList.add('bounce-animation'), 10);
-            } else if (emotion === 'excited') {
-                mascot.textContent = '🤩';
-                setTimeout(() => mascot.classList.add('bounce-animation'), 10);
-            } else if (emotion === 'sad') {
-                mascot.textContent = '😢';
-                setTimeout(() => mascot.classList.add('shake-animation'), 10);
-            } else if (emotion === 'thinking') {
-                mascot.textContent = '🤔';
-            } else if (emotion === 'celebrate') {
-                mascot.textContent = '🎉';
-                setTimeout(() => mascot.classList.add('bounce-animation'), 10);
-            }
-        }
-
-        // Mascot click interaction
-        document.getElementById('mascot').addEventListener('click', function() {
-            const emotions = ['😊', '😄', '🥳', '������', '🤗', '😇'];
-            this.textContent = emotions[Math.floor(Math.random() * emotions.length)];
-            this.classList.remove('bounce-animation');
-            setTimeout(() => this.classList.add('bounce-animation'), 10);
-        });
-
-        function switchTab(index) {
-            currentNotaIndex = index;
-            
-            // Update tab styling
-            document.getElementById('kesanTab').classList.remove('active');
-            document.getElementById('kepentinganTab').classList.remove('active');
-            
-            if (index === 0) {
-                document.getElementById('kesanTab').classList.add('active');
-            } else {
-                document.getElementById('kepentinganTab').classList.add('active');
-            }
-            
-            loadNotaCard();
-        }
-
-        function loadNotaCard() {
-            const card = document.getElementById('notaCard');
-            card.classList.remove('flipped');
-            setMascotEmotion('thinking');
-
-            setTimeout(() => {
-                const nota = notaData[currentNotaIndex];
-                document.getElementById('notaCardTitle').textContent = nota.title;
-                
-                const contentHTML = '<ul>' + nota.points.map(point => `<li>${point}</li>`).join('') + '</ul>';
-                document.getElementById('notaCardContent').innerHTML = contentHTML;
-            }, 150);
-        }
-
-        function flipNotaCard() {
-            const card = document.getElementById('notaCard');
-            card.classList.toggle('flipped');
-            setMascotEmotion('happy');
+        function selectRandomQuestions() {
+            const shuffled = shuffleArray(allQuestions);
+            currentQuestions = shuffled.slice(0, 10).map(q => ({
+                ...q,
+                options: shuffleArray([...q.options]),
+                correctAnswer: q.options[q.correct]
+            }));
         }
 
         function showMenu() {
-            document.getElementById('mainMenu').style.display = 'grid';
-            document.getElementById('notaContainer').classList.remove('active');
-            document.getElementById('kuizContainer').classList.remove('active');
-            setMascotEmotion('happy');
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const quizCard = document.getElementById('quizCard');
+            quizCard.innerHTML = `
+                <div class="header">
+                    <svg class="family-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Dad -->
+                        <circle cx="60" cy="70" r="15" fill="#FFD93D"/>
+                        <rect x="50" y="85" width="20" height="30" rx="5" fill="#6BCB77"/>
+                        <!-- Mom -->
+                        <circle cx="100" cy="70" r="15" fill="#FFD93D"/>
+                        <rect x="90" y="85" width="20" height="30" rx="5" fill="#FF6B9D"/>
+                        <!-- Kid 1 -->
+                        <circle cx="75" cy="100" r="12" fill="#FFD93D"/>
+                        <rect x="67" y="112" width="16" height="25" rx="4" fill="#4D96FF"/>
+                        <!-- Kid 2 -->
+                        <circle cx="115" cy="100" r="12" fill="#FFD93D"/>
+                        <rect x="107" y="112" width="16" height="25" rx="4" fill="#C77DFF"/>
+                        <!-- Hearts -->
+                        <text x="85" y="55" font-size="16" fill="#FF6B9D">❤️</text>
+                        <text x="130" y="90" font-size="12" fill="#FF6B9D">💕</text>
+                    </svg>
+                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
+                </div>
+                <div class="menu-description">
+                    <p class="subtitle">${config.menu_description || defaultConfig.menu_description}</p>
+                </div>
+                <button class="button" onclick="startQuiz()">${config.start_button || defaultConfig.start_button}</button>
+            `;
         }
 
-        function showNota() {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('notaContainer').classList.add('active');
-            currentNotaIndex = 0;
-            loadNotaCard();
-            setMascotEmotion('thinking');
-        }
-
-        function showKuiz() {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('kuizContainer').classList.add('active');
-            document.getElementById('quizCard').parentElement.style.display = 'block';
-            document.getElementById('quizComplete').style.display = 'none';
-            restartQuiz();
-            setMascotEmotion('excited');
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
+        function startQuiz() {
+            selectRandomQuestions();
+            currentQuestionIndex = 0;
             score = 0;
-            shuffledQuiz = [...quizData].sort(() => Math.random() - 0.5);
-            document.getElementById('quizCard').parentElement.style.display = 'block';
-            document.getElementById('quizComplete').style.display = 'none';
-            loadQuestion();
+            totalStars = 0;
+            answered = false;
+            updateStarCount();
+            showMascotMessage('start');
+            showQuestion();
         }
 
-        function loadQuestion() {
-            if (currentQuestion >= shuffledQuiz.length) {
-                showComplete();
-                return;
-            }
-
-            const card = document.getElementById('quizCard');
-            card.classList.remove('flipped');
-            setMascotEmotion('thinking');
+        function showQuestion() {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const question = currentQuestions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
             
-            setTimeout(() => {
-                document.getElementById('quizStatement').textContent = shuffledQuiz[currentQuestion].statement;
-                document.getElementById('quizProgress').textContent = `Soalan ${currentQuestion + 1} / ${shuffledQuiz.length}`;
-            }, 300);
+            const quizCard = document.getElementById('quizCard');
+            quizCard.innerHTML = `
+                <div class="header">
+                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <div class="question-container">
+                    <div class="question-number">Soalan ${currentQuestionIndex + 1} daripada ${currentQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectAnswer(${index})" data-index="${index}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="feedback"></div>
+                </div>
+                <button class="button" id="nextBtn" onclick="nextQuestion()" style="display: none;">${config.next_button || defaultConfig.next_button}</button>
+            `;
+            answered = false;
         }
 
-        function answerQuiz(userAnswer) {
-            const card = document.getElementById('quizCard');
-            const correct = userAnswer === shuffledQuiz[currentQuestion].answer;
-            const resultDiv = document.getElementById('quizResult');
-
-            if (correct) {
+        function selectAnswer(index) {
+            if (answered) return;
+            
+            answered = true;
+            const question = currentQuestions[currentQuestionIndex];
+            const selectedOption = question.options[index];
+            const isCorrect = selectedOption === question.correctAnswer;
+            
+            if (isCorrect) {
                 score++;
-                createConfetti();
-                setMascotEmotion('excited');
-                resultDiv.innerHTML = `
-                    <div class="result-icon">✅</div>
-                    <div class="result-text correct">Betul!</div>
-                    <div class="correct-answer">Jawapan anda tepat!</div>
-                `;
+                totalStars++;
+                updateStarCount();
+                showMascotMessage('correct');
             } else {
-                setMascotEmotion('sad');
-                const correctAnswer = shuffledQuiz[currentQuestion].answer === 'kesan' ? '🔴 Kesan' : '🟢 Kepentingan';
-                resultDiv.innerHTML = `
-                    <div class="result-icon">❌</div>
-                    <div class="result-text incorrect">Tidak Tepat</div>
-                    <div class="correct-answer">Jawapan yang betul: ${correctAnswer}</div>
-                `;
+                showMascotMessage('incorrect');
             }
-
-            card.classList.add('flipped');
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                option.classList.add('disabled');
+                if (question.options[i] === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (i === index && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            const feedback = document.getElementById('feedback');
+            if (isCorrect) {
+                feedback.innerHTML = '<div class="feedback correct">✓ Tahniah! Jawapan anda betul. +1 ⭐</div>';
+            } else {
+                feedback.innerHTML = `<div class="feedback incorrect">✗ Maaf, jawapan yang betul ialah: ${question.correctAnswer}</div>`;
+            }
+            
+            document.getElementById('nextBtn').style.display = 'block';
         }
 
         function nextQuestion() {
-            currentQuestion++;
-            loadQuestion();
-        }
-
-        function showComplete() {
-            document.getElementById('quizCard').parentElement.style.display = 'none';
-            document.getElementById('quizComplete').style.display = 'block';
-            document.getElementById('finalScore').textContent = `${score} / ${shuffledQuiz.length}`;
-            
-            if (score === shuffledQuiz.length) {
-                setMascotEmotion('celebrate');
-                createConfetti();
-            } else if (score >= shuffledQuiz.length * 0.7) {
-                setMascotEmotion('excited');
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                showQuestion();
             } else {
-                setMascotEmotion('happy');
+                showResults();
             }
         }
 
-        async function onConfigChange(config) {
-            document.getElementById('mainTitle').textContent = config.main_title || defaultConfig.main_title;
-            document.getElementById('notaTitle').textContent = config.nota_title || defaultConfig.nota_title;
-            document.getElementById('kuizTitle').textContent = config.kuiz_title || defaultConfig.kuiz_title;
-            document.getElementById('notaDescription').textContent = config.nota_description || defaultConfig.nota_description;
-            document.getElementById('kuizDescription').textContent = config.kuiz_description || defaultConfig.kuiz_description;
+        function showResults() {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const percentage = (score / currentQuestions.length) * 100;
+            let message = "";
+            let icon = "";
+            
+            if (percentage === 100) {
+                message = "Cemerlang! Full Marks!";
+                icon = "🏆";
+                createConfetti();
+                showMascotMessage('finish');
+            } else if (percentage >= 80) {
+                message = "Cemerlang!";
+                icon = "🌟";
+            } else if (percentage >= 60) {
+                message = "Bagus!";
+                icon = "👍";
+            } else if (percentage >= 40) {
+                message = "Boleh diperbaiki!";
+                icon = "📚";
+            } else {
+                message = "Teruskan berusaha!";
+                icon = "💪";
+            }
+            
+            const quizCard = document.getElementById('quizCard');
+            quizCard.innerHTML = `
+                <div class="header">
+                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
+                </div>
+                <div class="results">
+                    <div class="icon">${icon}</div>
+                    <div class="result-message">${message}</div>
+                    <div class="score-circle">
+                        <div class="score-text">${score}/${currentQuestions.length}</div>
+                    </div>
+                    <div class="result-details">
+                        Anda telah menjawab ${score} soalan dengan betul daripada ${currentQuestions.length} soalan.
+                        <br>Peratusan: ${percentage.toFixed(0)}%
+                        <br><br>⭐ Jumlah Bintang Dikumpul: ${totalStars}
+                    </div>
+                    <button class="button" onclick="startQuiz()">${config.restart_button || defaultConfig.restart_button}</button>
+                </div>
+            `;
         }
 
-        // Initialize floating particles on load
-        createFloatingParticles();
+        async function onConfigChange(config) {
+            const titleElements = document.querySelectorAll('.title');
+            titleElements.forEach(el => {
+                el.textContent = config.quiz_title || defaultConfig.quiz_title;
+            });
+
+            const menuDesc = document.querySelector('.menu-description .subtitle');
+            if (menuDesc) {
+                menuDesc.textContent = config.menu_description || defaultConfig.menu_description;
+            }
+
+            const startBtn = document.querySelector('.button[onclick="startQuiz()"]');
+            if (startBtn && !document.getElementById('nextBtn')) {
+                startBtn.textContent = config.start_button || defaultConfig.start_button;
+            }
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.textContent = config.next_button || defaultConfig.next_button;
+            }
+
+            const restartBtn = document.querySelector('.results .button');
+            if (restartBtn) {
+                restartBtn.textContent = config.restart_button || defaultConfig.restart_button;
+            }
+        }
 
         if (window.elementSdk) {
             window.elementSdk.init({
@@ -1331,14 +827,16 @@
                     fontSizeable: undefined
                 }),
                 mapToEditPanelValues: (config) => new Map([
-                    ["main_title", config.main_title || defaultConfig.main_title],
-                    ["nota_title", config.nota_title || defaultConfig.nota_title],
-                    ["kuiz_title", config.kuiz_title || defaultConfig.kuiz_title],
-                    ["nota_description", config.nota_description || defaultConfig.nota_description],
-                    ["kuiz_description", config.kuiz_description || defaultConfig.kuiz_description]
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["menu_description", config.menu_description || defaultConfig.menu_description],
+                    ["start_button", config.start_button || defaultConfig.start_button],
+                    ["next_button", config.next_button || defaultConfig.next_button],
+                    ["restart_button", config.restart_button || defaultConfig.restart_button]
                 ])
             });
         }
+
+        showMenu();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a713a65d1ae46c4',t:'MTc2NDU3Nzg4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71b4ddd038a483',t:'MTc2NDU4MjkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
