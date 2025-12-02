@@ -27,21 +27,29 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
             transition: background 0.6s ease;
+            --theme-primary: #667eea;
+            --theme-secondary: #764ba2;
         }
 
         /* Daytime Theme */
         body.theme-daytime {
             background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #FFF5E1 100%);
+            --theme-primary: #3182CE;
+            --theme-secondary: #2C5282;
         }
 
         /* Sunset Theme */
         body.theme-sunset {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFA500 30%, #FFD700 60%, #FF8C94 100%);
+            background: linear-gradient(135deg, #2C3E77 0%, #6B4E71 25%, #A0516D 50%, #CD6155 75%, #E8926F 100%);
+            --theme-primary: #E8926F;
+            --theme-secondary: #CD6155;
         }
 
         /* Starry Night Theme */
         body.theme-night {
             background: linear-gradient(135deg, #0B1026 0%, #1a1a4e 30%, #2d2d5f 70%, #4a4a7f 100%);
+            --theme-primary: #818CF8;
+            --theme-secondary: #6366F1;
         }
 
         .main-container {
@@ -69,13 +77,13 @@
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 3rem;
             color: #ffffff;
             margin-bottom: 0.8rem;
-            font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            letter-spacing: 0.5px;
-            line-height: 1.4;
+            font-weight: 900;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+            line-height: 1.3;
         }
 
         .subtitle {
@@ -155,9 +163,9 @@
 
         .info-card h2 {
             font-size: 1.4rem;
-            color: #667eea;
+            color: var(--theme-primary);
             margin-bottom: 1rem;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid var(--theme-primary);
             padding-left: 1rem;
         }
 
@@ -169,14 +177,14 @@
 
         .definition-box {
             background: #f7fafc;
-            border-left: 4px solid #764ba2;
+            border-left: 4px solid var(--theme-secondary);
             padding: 1rem 1.5rem;
             margin: 1rem 0;
             border-radius: 0 8px 8px 0;
         }
 
         .definition-box strong {
-            color: #764ba2;
+            color: var(--theme-secondary);
             font-size: 1.05rem;
         }
 
@@ -191,7 +199,7 @@
         .diagram-title {
             text-align: center;
             font-size: 1.3rem;
-            color: #667eea;
+            color: var(--theme-primary);
             margin-bottom: 2.5rem;
             font-weight: 600;
         }
@@ -206,7 +214,7 @@
         }
 
         .diagram-node {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
             color: white;
             padding: 1.8rem 1.5rem;
             border-radius: 50%;
@@ -217,14 +225,14 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: pulse 2s ease-in-out infinite;
         }
 
         .diagram-node:hover {
             transform: scale(1.08);
-            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
         .node-main {
@@ -251,7 +259,7 @@
         .arrow {
             width: 80px;
             height: 4px;
-            background: #667eea;
+            background: var(--theme-primary);
             position: relative;
             margin: 0.5rem 0;
             overflow: visible;
@@ -264,7 +272,7 @@
             top: -6px;
             width: 0;
             height: 0;
-            border-left: 14px solid #667eea;
+            border-left: 14px solid var(--theme-primary);
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
         }
@@ -311,19 +319,19 @@
         }
 
         .arrow-label {
-            background: #667eea;
+            background: var(--theme-primary);
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
-            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .arrow-sublabel {
             font-size: 0.8rem;
-            color: #667eea;
+            color: var(--theme-primary);
             font-style: italic;
         }
 
@@ -337,7 +345,7 @@
 
         .examples-card h2 {
             font-size: 1.4rem;
-            color: #667eea;
+            color: var(--theme-primary);
             margin-bottom: 1.5rem;
             text-align: center;
         }
@@ -350,14 +358,14 @@
         }
 
         .examples-table thead th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
             color: white;
             padding: 1.5rem;
             border-radius: 12px;
             text-align: center;
             font-weight: 700;
             font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             width: 33.33%;
         }
 
@@ -379,9 +387,9 @@
         }
 
         .examples-table tbody td:hover:not(.function-cell) {
-            border-color: #667eea;
+            border-color: var(--theme-primary);
             transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
         }
 
         .cell-emoji {
@@ -537,7 +545,7 @@
             }
 
             h1 {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
 
             .subtitle {
@@ -846,5 +854,5 @@
             });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a798a96a5ce4a38',t:'MTc2NDY2NTA1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a799a3816af24d2',t:'MTc2NDY2NTY5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
