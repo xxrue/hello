@@ -1,4 +1,4 @@
-<!doctype doctype>
+<!doctype html>
 <html lang="ms">
  <head>
   <meta charset="UTF-8">
@@ -23,41 +23,126 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #2d3748;
             overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background 0.6s ease;
         }
 
-        .container {
+        /* Daytime Theme */
+        body.theme-daytime {
+            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #FFF5E1 100%);
+        }
+
+        /* Sunset Theme */
+        body.theme-sunset {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFA500 30%, #FFD700 60%, #FF8C94 100%);
+        }
+
+        /* Starry Night Theme */
+        body.theme-night {
+            background: linear-gradient(135deg, #0B1026 0%, #1a1a4e 30%, #2d2d5f 70%, #4a4a7f 100%);
+        }
+
+        .main-container {
             width: 100%;
             min-height: 100%;
-            padding: 2rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
         }
 
         .content-wrapper {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem 1.5rem;
         }
 
         header {
             text-align: center;
             margin-bottom: 2.5rem;
             animation: fadeInDown 0.8s ease-out;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem 2rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #ffffff;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .subtitle {
-            font-size: 1rem;
-            color: #e6e6ff;
-            font-weight: 400;
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 500;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+        }
+
+        /* Tab Navigation Styles */
+        .tab-navigation {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: 2rem;
+        }
+
+        .tab-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .tab-button {
+            flex: 1;
+            max-width: 250px;
+            padding: 1.2rem 2rem;
+            background: transparent;
+            border: none;
+            color: #667eea;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #764ba2;
+        }
+
+        .tab-button.active {
+            color: #764ba2;
+            border-bottom: 3px solid #764ba2;
+            background: rgba(118, 75, 162, 0.05);
+        }
+
+        /* Section Styles */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
         }
 
         .info-card {
@@ -66,7 +151,6 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeInUp 0.8s ease-out;
         }
 
         .info-card h2 {
@@ -102,8 +186,6 @@
             padding: 2.5rem 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeInUp 0.8s ease-out 0.2s;
-            animation-fill-mode: both;
         }
 
         .diagram-title {
@@ -163,6 +245,7 @@
             align-items: center;
             justify-content: center;
             min-width: 120px;
+            position: relative;
         }
 
         .arrow {
@@ -171,6 +254,7 @@
             background: #667eea;
             position: relative;
             margin: 0.5rem 0;
+            overflow: visible;
         }
 
         .arrow::after {
@@ -183,6 +267,47 @@
             border-left: 14px solid #667eea;
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: -2px;
+            left: 0;
+            animation: flowParticle 2s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .particle:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes flowParticle {
+            0% {
+                left: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: 80px;
+                opacity: 0;
+            }
         }
 
         .arrow-label {
@@ -207,8 +332,7 @@
             border-radius: 16px;
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeInUp 0.8s ease-out 0.4s;
-            animation-fill-mode: both;
+            overflow-x: auto;
         }
 
         .examples-card h2 {
@@ -218,19 +342,14 @@
             text-align: center;
         }
 
-        .table-like-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .examples-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0.75rem;
+            table-layout: fixed;
         }
 
-        .table-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .header-card {
+        .examples-table thead th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 1.5rem;
@@ -239,15 +358,10 @@
             font-weight: 700;
             font-size: 1.2rem;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            width: 33.33%;
         }
 
-        .table-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .table-cell {
+        .examples-table tbody td {
             background: white;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
@@ -256,37 +370,30 @@
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            vertical-align: middle;
             height: 140px;
         }
-        
-        .table-cell.function-cell {
+
+        .examples-table tbody td.function-cell {
             cursor: default;
         }
 
-        .table-cell:hover {
+        .examples-table tbody td:hover:not(.function-cell) {
             border-color: #667eea;
             transform: translateY(-4px);
             box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
         }
 
-        .table-cell.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
-        }
-
         .cell-emoji {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            display: block;
         }
 
         .cell-text {
             font-size: 1.1rem;
             font-weight: 600;
+            color: #2d3748;
         }
 
         .emoji-popup {
@@ -300,6 +407,71 @@
             opacity: 0;
             animation: bouncePopup 1s ease-out;
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-to-top:active {
+            transform: translateY(-2px);
+        }
+
+        /* Stars for night theme */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        body.theme-night .stars {
+            opacity: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
 
         @keyframes bouncePopup {
@@ -336,14 +508,12 @@
             }
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
@@ -357,8 +527,13 @@
         }
 
         @media (max-width: 768px) {
-            .container {
+            .content-wrapper {
                 padding: 1.5rem 1rem;
+            }
+
+            .tab-button {
+                padding: 1rem 1rem;
+                font-size: 0.9rem;
             }
 
             h1 {
@@ -410,17 +585,18 @@
                 width: 60px;
             }
 
-            .table-header, .table-row {
-                grid-template-columns: 1fr;
+            .examples-table {
+                border-spacing: 0.5rem;
             }
 
-            .header-card {
+            .examples-table thead th {
                 font-size: 1rem;
                 padding: 1rem;
             }
 
-            .table-cell {
+            .examples-table tbody td {
                 padding: 1rem;
+                height: 120px;
             }
 
             .cell-emoji {
@@ -434,227 +610,185 @@
             .emoji-popup {
                 font-size: 6rem;
             }
+
+            .back-to-top {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body>
-  <div class="container">
+ <body class="theme-daytime"><!-- Stars for night theme -->
+  <div class="stars" id="starsContainer"></div>
+  <div class="main-container">
    <div class="content-wrapper">
     <header>
      <h1 id="mainTitle">Hubung Kait antara Produk dengan Objek dari Segi Fungsinya</h1>
      <p class="subtitle">Alat Pembelajaran Interaktif - Analisis Fungsi</p>
-    </header>
-    <div class="info-card">
-     <h2>Pengenalan</h2>
-     <p>Dalam proses penyelesaian masalah inventif, <strong>analisis fungsi</strong> bertujuan untuk mengenal pasti sistem yang ada pada sesebuah produk.</p>
-     <div class="definition-box">
-      <p><strong>Produk:</strong> Terdiri daripada gabungan beberapa komponen yang membentuk produk lengkap.</p>
+    </header><!-- Tab Navigation -->
+    <nav class="tab-navigation">
+     <div class="tab-nav-container"><button class="tab-button active" data-tab="pengenalan"> Pengenalan </button> <button class="tab-button" data-tab="diagram"> Diagram </button> <button class="tab-button" data-tab="contoh"> Contoh </button>
      </div>
-     <div class="definition-box">
-      <p><strong>Fungsi:</strong> Tugas yang dilakukan oleh produk untuk merubah objek sasaran.</p>
-     </div>
-     <div class="definition-box">
-      <p><strong>Objek:</strong> Menerima kesan daripada fungsi produk.</p>
-     </div>
-    </div>
-    <div class="diagram-card">
-     <h3 class="diagram-title">Gambarajah Hubung Kait Produk-Fungsi-Objek</h3>
-     <div class="flow-diagram">
-      <div class="diagram-node">
-       <div class="node-main">
-        PRODUK<br>
-        (Sistem)
-       </div>
-       <div class="node-sub">
-        (menjalankan fungsi)
-       </div>
+    </nav><!-- Pengenalan Section -->
+    <section id="pengenalan" class="content-section active">
+     <div class="info-card">
+      <h2>Pengenalan</h2>
+      <p>Dalam proses penyelesaian masalah inventif, <strong>analisis fungsi</strong> bertujuan untuk mengenal pasti sistem yang ada pada sesebuah produk.</p>
+      <div class="definition-box">
+       <p><strong>Produk:</strong> Terdiri daripada gabungan beberapa komponen yang membentuk produk lengkap.</p>
       </div>
-      <div class="arrow-container">
-       <div class="arrow-label">
-        FUNGSI
-       </div>
-       <div class="arrow-sublabel">
-        (tindakan)
-       </div>
-       <div class="arrow"></div>
+      <div class="definition-box">
+       <p><strong>Fungsi:</strong> Tugas yang dilakukan oleh produk untuk merubah objek sasaran.</p>
       </div>
-      <div class="diagram-node">
-       <div class="node-main">
-        OBJEK<br>
-        (Penerima Kesan)
-       </div>
-       <div class="node-sub">
-        (Parameter yang berubah)
-       </div>
+      <div class="definition-box">
+       <p><strong>Objek:</strong> Menerima kesan daripada fungsi produk.</p>
       </div>
      </div>
-    </div>
-    <div class="examples-card">
-     <h2>Contoh-contoh Produk, Fungsi &amp; Objek</h2>
-     <p style="text-align: center; margin-bottom: 1.5rem; color: #718096; font-size: 0.95rem;">Klik pada setiap kad untuk melihat emoji muncul!</p>
-     <div class="table-like-container"><!-- Header Row -->
-      <div class="table-header">
-       <div class="header-card">
-        PRODUK
-       </div>
-       <div class="header-card">
-        FUNGSI
-       </div>
-       <div class="header-card">
-        OBJEK
-       </div>
-      </div><!-- Example Row 1 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('🪑')">
-        <div class="cell-emoji">
-         🪑
+    </section><!-- Diagram Section -->
+    <section id="diagram" class="content-section">
+     <div class="diagram-card">
+      <h3 class="diagram-title">Gambar Rajah Hubung Kait Produk-Fungsi-Objek</h3>
+      <div class="flow-diagram">
+       <div class="diagram-node">
+        <div class="node-main">
+         PRODUK<br>
+         (Sistem)
         </div>
-        <div class="cell-text">
-         Meja
+        <div class="node-sub">
+         (menjalankan fungsi)
         </div>
        </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Memegang
+       <div class="arrow-container">
+        <div class="arrow-label">
+         FUNGSI
+        </div>
+        <div class="arrow-sublabel">
+         (tindakan)
+        </div>
+        <div class="arrow"><span class="particle"></span> <span class="particle"></span> <span class="particle"></span> <span class="particle"></span>
         </div>
        </div>
-       <div class="table-cell" onclick="showEmojiPopup('📚')">
-        <div class="cell-emoji">
-         📚
+       <div class="diagram-node">
+        <div class="node-main">
+         OBJEK<br>
+         (Penerima Kesan)
         </div>
-        <div class="cell-text">
-         Buku
-        </div>
-       </div>
-      </div><!-- Example Row 2 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('☕')">
-        <div class="cell-emoji">
-         ☕
-        </div>
-        <div class="cell-text">
-         Cawan
-        </div>
-       </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Memegang
-        </div>
-       </div>
-       <div class="table-cell" onclick="showEmojiPopup('💧')">
-        <div class="cell-emoji">
-         💧
-        </div>
-        <div class="cell-text">
-         Air
-        </div>
-       </div>
-      </div><!-- Example Row 3 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('📎')">
-        <div class="cell-emoji">
-         📎
-        </div>
-        <div class="cell-text">
-         Klip
-        </div>
-       </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Memegang
-        </div>
-       </div>
-       <div class="table-cell" onclick="showEmojiPopup('📄')">
-        <div class="cell-emoji">
-         📄
-        </div>
-        <div class="cell-text">
-         Kertas
-        </div>
-       </div>
-      </div><!-- Example Row 4 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('🚗')">
-        <div class="cell-emoji">
-         🚗
-        </div>
-        <div class="cell-text">
-         Kereta
-        </div>
-       </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Membawa
-        </div>
-       </div>
-       <div class="table-cell" onclick="showEmojiPopup('🧑')">
-        <div class="cell-emoji">
-         🧑
-        </div>
-        <div class="cell-text">
-         Manusia
-        </div>
-       </div>
-      </div><!-- Example Row 5 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('🍽️')">
-        <div class="cell-emoji">
-         🍽️
-        </div>
-        <div class="cell-text">
-         Pinggan
-        </div>
-       </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Memegang
-        </div>
-       </div>
-       <div class="table-cell" onclick="showEmojiPopup('🍲')">
-        <div class="cell-emoji">
-         🍲
-        </div>
-        <div class="cell-text">
-         Makanan
-        </div>
-       </div>
-      </div><!-- Example Row 6 -->
-      <div class="table-row">
-       <div class="table-cell" onclick="showEmojiPopup('✏️')">
-        <div class="cell-emoji">
-         ✏️
-        </div>
-        <div class="cell-text">
-         Pen
-        </div>
-       </div>
-       <div class="table-cell function-cell">
-        <div class="cell-text">
-         Menulis
-        </div>
-       </div>
-       <div class="table-cell" onclick="showEmojiPopup('📄')">
-        <div class="cell-emoji">
-         📄
-        </div>
-        <div class="cell-text">
-         Kertas
+        <div class="node-sub">
+         (Parameter yang berubah)
         </div>
        </div>
       </div>
      </div>
-    </div>
+    </section><!-- Contoh Section -->
+    <section id="contoh" class="content-section">
+     <div class="examples-card">
+      <h2>Contoh-contoh Produk, Fungsi &amp; Objek</h2>
+      <p style="text-align: center; margin-bottom: 1.5rem; color: #718096; font-size: 0.95rem;">Klik pada setiap kad untuk melihat emoji muncul!</p>
+      <table class="examples-table">
+       <thead>
+        <tr>
+         <th>PRODUK</th>
+         <th>FUNGSI</th>
+         <th>OBJEK</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td onclick="showEmojiPopup('🪑')"><span class="cell-emoji">🪑</span> <span class="cell-text">Meja</span></td>
+         <td class="function-cell"><span class="cell-text">Memegang</span></td>
+         <td onclick="showEmojiPopup('📚')"><span class="cell-emoji">📚</span> <span class="cell-text">Buku</span></td>
+        </tr>
+        <tr>
+         <td onclick="showEmojiPopup('☕')"><span class="cell-emoji">☕</span> <span class="cell-text">Cawan</span></td>
+         <td class="function-cell"><span class="cell-text">Memegang</span></td>
+         <td onclick="showEmojiPopup('💧')"><span class="cell-emoji">��</span> <span class="cell-text">Air</span></td>
+        </tr>
+        <tr>
+         <td onclick="showEmojiPopup('📎')"><span class="cell-emoji">📎</span> <span class="cell-text">Klip</span></td>
+         <td class="function-cell"><span class="cell-text">Memegang</span></td>
+         <td onclick="showEmojiPopup('📄')"><span class="cell-emoji">📄</span> <span class="cell-text">Kertas</span></td>
+        </tr>
+        <tr>
+         <td onclick="showEmojiPopup('🚗')"><span class="cell-emoji">🚗</span> <span class="cell-text">Kereta</span></td>
+         <td class="function-cell"><span class="cell-text">Mengangkut</span></td>
+         <td onclick="showEmojiPopup('👨‍👩‍👧‍👦')"><span class="cell-emoji">👨‍👩‍👧‍👦</span> <span class="cell-text">Manusia</span></td>
+        </tr>
+        <tr>
+         <td onclick="showEmojiPopup('🍽️')"><span class="cell-emoji">🍽️</span> <span class="cell-text">Pinggan</span></td>
+         <td class="function-cell"><span class="cell-text">Memegang</span></td>
+         <td onclick="showEmojiPopup('🍲')"><span class="cell-emoji">🍲</span> <span class="cell-text">Makanan</span></td>
+        </tr>
+        <tr>
+         <td onclick="showEmojiPopup('🏺')"><span class="cell-emoji">🏺</span> <span class="cell-text">Pasu</span></td>
+         <td class="function-cell"><span class="cell-text">Memegang</span></td>
+         <td onclick="showEmojiPopup('🌹')"><span class="cell-emoji">🌹</span> <span class="cell-text">Bunga</span></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
    </div>
-  </div>
+  </div><!-- Back to Top Button --> <button class="back-to-top" id="backToTop" onclick="scrollToTop()"> ↑ </button>
   <script>
         const defaultConfig = {
             main_title: "Hubung Kait antara Produk dengan Objek dari Segi Fungsinya"
         };
 
         const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+
+        // Create stars for night theme
+        function createStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        // Tab switching functionality - simplified
+        const tabButtons = document.querySelectorAll('.tab-button');
+        
+        tabButtons.forEach(button => {
+            button.onclick = function() {
+                const tabName = this.getAttribute('data-tab');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Remove active from all tabs and sections
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                
+                // Add active to clicked tab and its section
+                this.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+                
+                // Change theme
+                document.body.classList.remove('theme-daytime', 'theme-sunset', 'theme-night');
+                
+                if (tabName === 'pengenalan') {
+                    document.body.classList.add('theme-daytime');
+                } else if (tabName === 'diagram') {
+                    document.body.classList.add('theme-sunset');
+                } else if (tabName === 'contoh') {
+                    document.body.classList.add('theme-night');
+                }
+            };
+        });
 
         function showEmojiPopup(emoji) {
             const popup = document.createElement('div');
@@ -666,6 +800,20 @@
                 popup.remove();
             }, 1000);
         }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
 
         async function onConfigChange(newConfig) {
             const titleElement = document.getElementById('mainTitle');
@@ -698,5 +846,5 @@
             });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7915de364555a9',t:'MTc2NDY2MDI3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a798a96a5ce4a38',t:'MTc2NDY2NTA1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
