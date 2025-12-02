@@ -583,17 +583,20 @@
         }
         
         .home-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
-            border: 2px solid rgba(255, 107, 107, 0.5);
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             max-width: 200px;
         }
         
         .home-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
             box-shadow: 
-                0 0 30px rgba(255, 107, 107, 0.6),
-                0 0 50px rgba(255, 107, 107, 0.4);
-            border-color: rgba(255, 107, 107, 0.8);
+                0 0 30px rgba(255, 255, 255, 0.2),
+                0 0 50px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
         }
         
         @media (max-width: 768px) {
@@ -700,11 +703,7 @@
                 correct: "Memindahkan kuasa dari satu komponen ke komponen lain",
                 wrong: ["Mengurangkan geseran", "Memegang mata gerudi", "Membuka dan menutup injap"]
             },
-            {
-                question: "Berapa jenis gear yang disebutkan dalam nota?",
-                correct: "10 jenis",
-                wrong: ["5 jenis", "8 jenis", "12 jenis"]
-            },
+
             {
                 question: "Apakah fungsi pautan (linkage)?",
                 correct: "Penghubung komponen untuk melengkapkan sistem",
@@ -1087,5 +1086,5 @@
         createFallingEmojis();
         showMenu();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a783f2e532fd964',t:'MTc2NDY1MTQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a78bd67645d5e2b',t:'MTc2NDY1NjY1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
