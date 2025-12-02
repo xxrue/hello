@@ -3,1013 +3,1098 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuiz Tanggungjawab Keluarga</title>
+  <title>Adab Persahabatan - Nota Interaktif</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-        body {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #f3e7e9 20%, #ffdee9 40%, #fbc2eb 60%, #a18cd1 80%, #c2e9fb 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            min-height: 100%;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+      min-height: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 195, 160, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 175, 189, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 107, 157, 0.3) 0%, transparent 50%);
+      animation: backgroundMove 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* Particle Background */
-        .particle {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.6;
-            animation: float linear infinite;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
+    @keyframes backgroundMove {
+      0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+      }
+    }
 
-        .container {
-            width: 100%;
-            min-height: 100%;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .quiz-card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            max-width: 800px;
-            width: 100%;
-            padding: 40px;
-            animation: fadeIn 0.5s ease-in;
-        }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .main-title {
+      font-size: 2.5rem;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 20px rgba(255, 255, 255, 0.5);
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
 
-        .title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8),
-                         0 4px 8px rgba(0, 0, 0, 0.2),
-                         0 0 20px rgba(255, 255, 255, 0.5);
-            filter: drop-shadow(0 2px 3px rgba(255, 255, 255, 0.6));
-        }
+    @keyframes titleGlow {
+      0%, 100% {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+      50% {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 175, 189, 0.6);
+      }
+    }
 
-        .subtitle {
-            font-size: 16px;
-            color: #2d2d44;
-            line-height: 1.6;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8),
-                         0 2px 4px rgba(0, 0, 0, 0.15);
-            font-weight: 500;
-        }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #ffffff;
+      font-weight: 400;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
+    .nav-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeIn 1s ease-out 0.3s both;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 195, 160, 0.95);
+      padding: 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffa500 100%);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-        }
+    .tab-button {
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
 
-        .question-container {
-            margin-bottom: 30px;
-        }
+    .tab-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
 
-        .question-number {
-            font-size: 14px;
-            color: #4a4a6a;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8),
-                         0 1px 3px rgba(0, 0, 0, 0.2);
-        }
+    .tab-button.active {
+      background: #ffffff;
+      color: #ff6b9d;
+      border-color: #ffffff;
+      text-shadow: none;
+    }
 
-        .question-text {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9),
-                         0 2px 6px rgba(0, 0, 0, 0.2),
-                         0 0 15px rgba(255, 255, 255, 0.4);
-            filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.5));
-        }
+    .tab-button:not(.active) {
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    .content-area {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      min-height: 400px;
+      animation: fadeInUp 0.8s ease-out 0.5s both;
+    }
 
-        .option {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.7);
-            border-radius: 16px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            color: #1a1a2e;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8),
-                         0 1px 3px rgba(0, 0, 0, 0.15);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+    .section {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
 
-        .option:hover {
-            border-color: rgba(102, 126, 234, 0.8);
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateX(5px) translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-        }
+    .section.active {
+      display: block;
+    }
 
-        .option.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.3);
-            color: #333;
-        }
+    .card {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+      border: 2px solid rgba(255, 195, 160, 0.3);
+      position: relative;
+      overflow: hidden;
+      animation: floatCard 6s ease-in-out infinite;
+    }
 
-        .option.correct {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.3);
-            color: #065f46;
-            animation: correctPulse 0.6s ease;
-        }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b9d, #ffc3a0, #ffafbd, #ff6b9d);
+      background-size: 400% 400%;
+      border-radius: 15px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: gradientBorder 3s ease infinite;
+    }
 
-        .option.incorrect {
-            border-color: #ef4444;
-            background: rgba(239, 68, 68, 0.3);
-            color: #991b1b;
-            animation: incorrectShake 0.5s ease;
-        }
-        
-        @keyframes correctPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
-        }
-        
-        @keyframes incorrectShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
+    .card:hover::before {
+      opacity: 1;
+    }
 
-        .option.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(255, 107, 157, 0.3);
+      border-color: transparent;
+    }
 
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 16px;
-            font-size: 15px;
-            line-height: 1.6;
-            backdrop-filter: blur(10px);
-        }
+    @keyframes floatCard {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
 
-        .feedback.correct {
-            background: rgba(209, 250, 229, 0.7);
-            color: #065f46;
-            border: 2px solid rgba(16, 185, 129, 0.5);
-        }
+    @keyframes gradientBorder {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
 
-        .feedback.incorrect {
-            background: rgba(254, 226, 226, 0.7);
-            color: #991b1b;
-            border: 2px solid rgba(239, 68, 68, 0.5);
-        }
 
-        .button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 33%, #f093fb 66%, #f5576c 100%);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 16px 40px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 20px;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
 
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
-        }
+    .card-title {
+      font-size: 1.4rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .button:active {
-            transform: translateY(-1px);
-        }
+    .card-content {
+      color: #4a5568;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
 
-        .button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #ffffff;
+      border-radius: 10px;
+      border-left: 4px solid #ff6b9d;
+      transition: all 0.3s ease;
+    }
 
-        .results {
-            text-align: center;
-        }
+    .list-item:hover {
+      border-left-width: 8px;
+      padding-left: 1.3rem;
+      background: linear-gradient(to right, rgba(255, 107, 157, 0.05) 0%, #ffffff 100%);
+    }
 
-        .score-circle {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffa500 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 30px auto;
-            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.5);
-        }
+    .list-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 6px;
+      height: 0;
+      background: #ff6b9d;
+      border-radius: 3px;
+      transition: height 0.3s ease;
+      transform: translateY(-50%);
+    }
 
-        .score-text {
-            color: white;
-            font-size: 48px;
-            font-weight: bold;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+    .list-item {
+      position: relative;
+    }
 
-        .result-message {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9),
-                         0 2px 6px rgba(0, 0, 0, 0.2),
-                         0 0 15px rgba(255, 255, 255, 0.4);
-        }
+    .list-item:hover::before {
+      height: 60%;
+    }
 
-        .result-details {
-            font-size: 16px;
-            color: #2d2d44;
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8),
-                         0 2px 4px rgba(0, 0, 0, 0.15);
-        }
+    .list-icon {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
 
-        .menu-description {
-            background: rgba(102, 126, 234, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            border-left: 4px solid rgba(102, 126, 234, 0.6);
-        }
+    .list-item:hover .list-icon {
+      animation: bounce 0.6s ease;
+    }
 
-        .icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-        }
-        
-        .star-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.7);
-            padding: 15px 25px;
-            border-radius: 50px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-            font-size: 24px;
-            font-weight: bold;
-            color: #1a1a2e;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9),
-                         0 2px 6px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            animation: starPulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes starPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .star-counter .star-icon {
-            font-size: 28px;
-            animation: starRotate 3s linear infinite;
-        }
-        
-        @keyframes starRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .mascot {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-size: 80px;
-            animation: mascotBounce 2s ease-in-out infinite;
-            z-index: 1000;
-            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .mascot:hover {
-            transform: scale(1.1);
-        }
-        
-        .mascot:active {
-            transform: scale(0.95);
-        }
-        
-        @keyframes mascotBounce {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        .mascot-message {
-            position: fixed;
-            bottom: 110px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.7);
-            padding: 12px 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-            font-size: 16px;
-            font-weight: 700;
-            max-width: 250px;
-            z-index: 1000;
-            animation: messageSlide 0.5s ease;
-            color: #1a1a2e;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9),
-                         0 2px 4px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-        
-        .mascot-message:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-        
-        .mascot-message:active {
-            transform: scale(0.95);
-        }
-        
-        .mascot-message::after {
-            content: '✕';
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-        
-        @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            top: -10px;
-            z-index: 9999;
-            animation: confettiFall 3s linear;
-        }
-        
-        @keyframes confettiFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .family-svg {
-            max-width: 150px;
-            margin: 0 auto 20px;
-            display: block;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-        }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      25% {
+        transform: translateY(-10px);
+      }
+      50% {
+        transform: translateY(0);
+      }
+      75% {
+        transform: translateY(-5px);
+      }
+    }
 
-        @media (max-width: 768px) {
-            .quiz-card {
-                padding: 25px;
-            }
+    .example-box {
+      background: #fef5e7;
+      border-left: 4px solid #f39c12;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
 
-            .title {
-                font-size: 24px;
-            }
+    .example-title {
+      font-weight: 700;
+      color: #e67e22;
+      margin-bottom: 0.5rem;
+    }
 
-            .question-text {
-                font-size: 18px;
-            }
+    .importance-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
 
-            .option {
-                padding: 15px;
-                font-size: 15px;
-            }
+    .importance-card {
+      background: #ffffff;
+      color: #2d3748;
+      padding: 1.8rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(255, 175, 189, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 3px solid #ffafbd;
+      border-left: 8px solid #ff6b9d;
+      position: relative;
+      overflow: hidden;
+    }
 
-            .button {
-                padding: 14px 30px;
-                font-size: 16px;
-            }
+    .importance-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+      );
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
 
-            .score-circle {
-                width: 150px;
-                height: 150px;
-            }
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+      }
+    }
 
-            .score-text {
-                font-size: 36px;
-            }
+    .importance-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(255, 175, 189, 0.8);
+      border-left-width: 12px;
+    }
 
-            .result-message {
-                font-size: 20px;
-            }
-            
-            .star-counter {
-                top: 10px;
-                right: 10px;
-                padding: 10px 20px;
-                font-size: 20px;
-            }
-            
-            .mascot {
-                font-size: 60px;
-                bottom: 10px;
-                left: 10px;
-            }
-            
-            .mascot-message {
-                bottom: 80px;
-                left: 10px;
-                font-size: 14px;
-                max-width: 200px;
-            }
-        }
+    .importance-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
+    .importance-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: #2d3748;
+    }
 
-            .quiz-card {
-                padding: 20px;
-            }
+    .importance-example {
+      font-size: 0.95rem;
+      font-style: italic;
+      background: #fef5e7;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border-left: 3px solid #f39c12;
+      color: #4a5568;
+    }
 
-            .title {
-                font-size: 20px;
-            }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-            .subtitle {
-                font-size: 14px;
-            }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-            .question-text {
-                font-size: 16px;
-            }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
 
-            .option {
-                padding: 12px;
-                font-size: 14px;
-            }
-            
-            .star-counter {
-                padding: 8px 15px;
-                font-size: 18px;
-            }
-            
-            .star-counter .star-icon {
-                font-size: 22px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .main-title {
+        font-size: 1.8rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .content-area {
+        padding: 1.5rem;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+      }
+
+
+
+      .tab-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-tabs {
+        padding: 0.8rem;
+      }
+    }
+
+    .emoji {
+      font-size: 1.3rem;
+      position: relative;
+      cursor: help;
+      display: inline-block;
+      animation: pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: help;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+
+
+    .collapsible-example {
+      background: #fff;
+      border: 2px solid #ffc3a0;
+      border-radius: 10px;
+      margin-top: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .collapsible-header {
+      background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+      padding: 0.8rem 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .collapsible-header:hover {
+      background: linear-gradient(135deg, #ffb090 0%, #ff9fad 100%);
+    }
+
+    .collapsible-icon {
+      transition: transform 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .collapsible-example.open .collapsible-icon {
+      transform: rotate(180deg);
+    }
+
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: #fffbf5;
+    }
+
+    .collapsible-content.open {
+      max-height: 500px;
+    }
+
+    .collapsible-inner {
+      padding: 1rem;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+
+    /* Falling Petals */
+    .petals-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .petal {
+      position: absolute;
+      top: -50px;
+      font-size: 1.5rem;
+      opacity: 0.6;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .petal-1 { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+    .petal-2 { left: 25%; animation-duration: 15s; animation-delay: 2s; }
+    .petal-3 { left: 40%; animation-duration: 10s; animation-delay: 4s; }
+    .petal-4 { left: 55%; animation-duration: 13s; animation-delay: 1s; }
+    .petal-5 { left: 70%; animation-duration: 11s; animation-delay: 3s; }
+    .petal-6 { left: 85%; animation-duration: 14s; animation-delay: 5s; }
+    .petal-7 { left: 15%; animation-duration: 16s; animation-delay: 6s; }
+    .petal-8 { left: 60%; animation-duration: 12s; animation-delay: 7s; }
+
+    /* Floral Imprints on Cards */
+    .card.floral::before {
+      content: '🌸';
+      position: absolute;
+      font-size: 8rem;
+      opacity: 0.05;
+      top: 50%;
+      right: -1rem;
+      transform: translateY(-50%) rotate(15deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card.floral-2::before {
+      content: '🌺';
+      position: absolute;
+      font-size: 6rem;
+      opacity: 0.06;
+      bottom: -1rem;
+      left: -0.5rem;
+      transform: rotate(-20deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card.floral-3::before {
+      content: '🌼';
+      position: absolute;
+      font-size: 7rem;
+      opacity: 0.05;
+      top: -1rem;
+      left: 50%;
+      transform: translateX(-50%) rotate(25deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+  </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body>
-  <div id="particleContainer"></div>
-  <div class="star-counter" id="starCounter"><span class="star-icon">⭐</span> <span id="starCount">0</span>
-  </div>
-  <div class="mascot" id="mascot" onclick="onMascotClick()">
-   👨‍👩‍👧‍👦
-  </div>
-  <div class="mascot-message" id="mascotMessage" style="display: none;" onclick="closeMascotMessage()"></div>
-  <div class="container">
-   <div class="quiz-card" id="quizCard"><!-- Content will be dynamically inserted here -->
+ <body><!-- Falling Petals -->
+  <div class="petals-container" aria-hidden="true">
+   <div class="petal petal-1">
+    🌸
+   </div>
+   <div class="petal petal-2">
+    🌺
+   </div>
+   <div class="petal petal-3">
+    🌼
+   </div>
+   <div class="petal petal-4">
+    🌸
+   </div>
+   <div class="petal petal-5">
+    🌺
+   </div>
+   <div class="petal petal-6">
+    🌼
+   </div>
+   <div class="petal petal-7">
+    🌸
+   </div>
+   <div class="petal petal-8">
+    🌺
    </div>
   </div>
-  <div id="confettiContainer"></div>
+  <div class="container">
+   <div class="header">
+    <h1 class="main-title" id="mainTitle">Adab Dijaga, Persahabatan Terbela</h1>
+    <p class="subtitle" id="subtitle">Nota Interaktif Pendidikan Moral Tingkatan 2</p>
+   </div>
+   <div class="nav-tabs"><button class="tab-button active" data-tab="intro">Pengenalan</button> <button class="tab-button" data-tab="types">Jenis Perhubungan</button> <button class="tab-button" data-tab="adab">Contoh Beradab</button> <button class="tab-button" data-tab="importance">Kepentingan</button>
+   </div>
+   <div class="content-area"><!-- Intro Section -->
+    <div class="section active" id="intro">
+     <div class="card floral">
+      <div class="card-title"><span class="emoji">🤝</span> Mengapa Persahabatan Penting?
+      </div>
+      <div class="card-content">
+       <p>Sahabat diperlukan tidak kira saat susah atau senang, gembira atau sedih. Persahabatan merupakan satu anugerah daripada Tuhan kepada manusia yang sentiasa memerlukan teman dalam hidup.</p>
+      </div>
+     </div>
+     <div class="card floral-2">
+      <div class="card-title"><span class="emoji">⭐</span> Ciri Sahabat yang Baik
+      </div>
+      <div class="card-content">
+       <div class="list-item"><span class="list-icon">🆘</span>
+        <div style="flex: 1;"><strong>Membantu kita apabila berada dalam kesusahan</strong>
+         <div class="collapsible-example" data-collapsible="intro1">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Apabila kamu lupa membawa wang untuk makan tengahari, sahabat baik akan berkongsi makanan atau meminjamkan wang.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon">💙</span>
+        <div style="flex: 1;"><strong>Mengurangkan kesedihan dan kebimbangan yang kita alami</strong>
+         <div class="collapsible-example" data-collapsible="intro2">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Ketika kamu sedih kerana keputusan peperiksaan yang tidak memuaskan, sahabat akan mendengar masalahmu dan memberikan kata-kata semangat.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon">👨‍👩‍👧‍👦</span>
+        <div style="flex: 1;"><strong>Mewujudkan hubungan seperti persaudaraan</strong>
+         <div class="collapsible-example" data-collapsible="intro3">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Walaupun bukan adik-beradik sebenar, sahabat baik akan menjaga kamu seperti keluarga sendiri.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Types Section -->
+    <div class="section" id="types">
+     <div class="card floral-3">
+      <div class="card-title"><span class="emoji">👥</span> Jenis-Jenis Perhubungan
+      </div>
+      <div class="card-content">
+       <div class="list-item"><span class="list-icon tooltip">👥 <span class="tooltiptext">Hubungan yang paling rapat dan dipercayai</span> </span>
+        <div style="flex: 1;"><strong>Sahabat</strong>
+         <p><strong>Definisi:</strong> Individu yang rapat dengan kita dan saling mempercayai dalam pelbagai keadaan.</p>
+         <div class="collapsible-example" data-collapsible="type1">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Fatimah dan Siti adalah sahabat baik sejak darjah satu. Mereka berkongsi segala rahsia, bermain bersama setiap petang, dan sentiasa ada untuk membantu antara satu sama lain. Apabila Fatimah sakit, Siti akan menziarahinya dan meminjamkan nota pelajaran.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">🤜🤛 <span class="tooltiptext">Bekerjasama dalam aktiviti atau minat yang sama</span> </span>
+        <div style="flex: 1;"><strong>Rakan</strong>
+         <p><strong>Definisi:</strong> Individu yang berkongsi minat, matlamat dan kerjaya dalam sesebuah kumpulan seperti persatuan, kelab dan pertubuhan.</p>
+         <p>Rakan dapat mewujudkan kerjasama pada saat yang diperlukan.</p>
+         <div class="collapsible-example" data-collapsible="type2">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Ahmad dan Muthu adalah ahli kelab bola sepak sekolah. Mereka bekerjasama dengan baik semasa latihan dan perlawanan, tetapi tidak begitu rapat di luar kelab. Mereka hanya berjumpa semasa aktiviti bola sepak.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">💬 <span class="tooltiptext">Interaksi ringan tanpa hubungan yang mendalam</span> </span>
+        <div style="flex: 1;"><strong>Kenalan</strong>
+         <p><strong>Definisi:</strong> Individu yang pernah berinteraksi dengan kita tetapi kita tidak dapat mengesahkan identiti atau kewujudan sebenarnya.</p>
+         <p>Kenalan wujud sebagai hiburan dan pada masa yang sama boleh memberikan kebaikan melalui perkongsian pendapat dan penyelesaian masalah.</p>
+         <div class="collapsible-example" data-collapsible="type3">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Nurul kenal dengan beberapa orang melalui media sosial yang berkongsi tips belajar. Mereka bertukar pendapat tentang subjek matematik, tetapi tidak pernah bertemu secara bersemuka dan tidak tahu banyak tentang kehidupan peribadi mereka.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Adab Section -->
+    <div class="section" id="adab">
+     <div class="card floral">
+      <div class="card-title"><span class="emoji tooltip">✨ <span class="tooltiptext">Tingkah laku yang baik dalam persahabatan</span> </span> Contoh Perlakuan Beradab dalam Persahabatan
+      </div>
+      <div class="card-content">
+       <div class="list-item"><span class="list-icon tooltip">🤐 <span class="tooltiptext">Simpan rahsia sahabat dengan baik</span> </span>
+        <div style="flex: 1;"><strong>Menjaga keaiban sahabat</strong>
+         <p>Tidak membocorkan rahsia</p>
+         <div class="collapsible-example" data-collapsible="adab1">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Aina memberitahu kamu bahawa dia takut dengan anjing. Kamu tidak memberitahu orang lain tentang ketakutan Aina walaupun ramai yang mengejek orang yang takut anjing.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">🙏 <span class="tooltiptext">Hargai dan hormati sahabat</span> </span>
+        <div style="flex: 1;"><strong>Saling menghormati</strong>
+         <p>Tidak mengejek sahabat</p>
+         <div class="collapsible-example" data-collapsible="adab2">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Walaupun Kamal lebih pendek daripada rakan-rakannya, kamu tidak pernah mengejek ketinggiannya dan menegur rakan lain yang cuba membuat jenaka yang menyakitkan hati.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">💝 <span class="tooltiptext">Memberi tanpa mengharap balasan</span> </span>
+        <div style="flex: 1;"><strong>Ikhlas</strong>
+         <p>Memberi tunjuk ajar dalam pelajaran</p>
+         <div class="collapsible-example" data-collapsible="adab3">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Apabila Raju tidak faham Matematik, kamu dengan senang hati mengajarnya tanpa mengharapkan balasan. Kamu gembira melihat Raju berjaya memahami topik tersebut.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">🤗 <span class="tooltiptext">Bersabar dengan perbezaan</span> </span>
+        <div style="flex: 1;"><strong>Bertoleransi</strong>
+         <p>Tidak menengking ketika bercakap</p>
+         <div class="collapsible-example" data-collapsible="adab4">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Walaupun Linda lambat memahami arahan permainan, kamu menjelaskan dengan sabar dan tidak menaikkan suara atau menunjukkan kemarahan.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="list-item"><span class="list-icon tooltip">💪 <span class="tooltiptext">Bantu sahabat menjadi lebih baik</span> </span>
+        <div style="flex: 1;"><strong>Memberikan sokongan</strong>
+         <p>Menasihati ke arah kebaikan</p>
+         <div class="collapsible-example" data-collapsible="adab5">
+          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
+          </div>
+          <div class="collapsible-content">
+           <div class="collapsible-inner">
+            Apabila kamu nampak sahabatmu mula malas belajar dan selalu ponteng kelas, kamu menasihatnya dengan cara yang baik dan menawarkan diri untuk belajar bersama.
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="card floral-2">
+      <div class="card-title"><span class="emoji">🌟</span> Hasil Adab dalam Persahabatan
+      </div>
+      <div class="card-content">
+       <p>Adab dalam persahabatan mampu:</p>
+       <ul style="line-height: 2;">
+        <li>✨ Melahirkan perasaan kasih sayang</li>
+        <li>🤝 Hormat-menghormati</li>
+        <li>🔐 Saling mempercayai</li>
+       </ul>
+      </div>
+     </div>
+    </div><!-- Importance Section -->
+    <div class="section" id="importance">
+     <div class="card floral-3">
+      <div class="card-title"><span class="emoji">🎯</span> Kepentingan Adab dalam Persahabatan
+      </div>
+     </div>
+     <div class="importance-grid">
+      <div class="importance-card">
+       <div class="importance-title">
+        🛡️ Mengelakkan perselisihan faham dan pertelingkahan
+       </div>
+       <div class="importance-example">
+        Contoh: Tidak membuat sesuatu yang boleh melukakan hati sahabat
+       </div>
+      </div>
+      <div class="importance-card">
+       <div class="importance-title">
+        🔒 Menimbulkan kepercayaan dan keyakinan kepada sahabat
+       </div>
+       <div class="importance-example">
+        Contoh: Menjaga rahsia dan aib sahabat
+       </div>
+      </div>
+      <div class="importance-card">
+       <div class="importance-title">
+        💖 Menjaga hati dan perasaan sahabat
+       </div>
+       <div class="importance-example">
+        Contoh: Bercakap dengan sopan dan berhemah dengan sahabat
+       </div>
+      </div>
+      <div class="importance-card">
+       <div class="importance-title">
+        🤝 Meningkatkan kerjasama dan tanggungjawab kepada sahabat
+       </div>
+       <div class="importance-example">
+        Contoh: Sentiasa menjaga batas persahabatan
+       </div>
+      </div>
+      <div class="importance-card">
+       <div class="importance-title">
+        ❤️ Mempererat hubungan persahabatan
+       </div>
+       <div class="importance-example">
+        Contoh: Menziarahi sahabat yang sakit
+       </div>
+      </div>
+     </div>
+     <div class="card floral" style="margin-top: 2rem;">
+      <div class="card-title"><span class="emoji">💡</span> Kesimpulan
+      </div>
+      <div class="card-content">
+       <p><strong>Sahabat yang beradab</strong> ialah sahabat yang jujur, suka berterus terang dan tidak menyembunyikan sesuatu daripada kita sebagai sahabatnya.</p>
+       <p style="margin-top: 1rem;"><strong>Sahabat yang tidak beradab</strong> boleh mendatangkan keburukan kepada kita.</p>
+       <div class="example-box" style="margin-top: 1rem;">
+        <div class="example-title">
+         Ingat!
+        </div> Pilihlah sahabat yang boleh membawa kita ke arah kebaikan dan sentiasa amalkan adab yang baik dalam persahabatan untuk memastikan hubungan yang harmoni dan bermanfaat.
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
   <script>
-        const defaultConfig = {
-            quiz_title: "Tanggungjawab Diri Membentuk Keluarga Bahagia",
-            menu_description: "Kuiz interaktif ini membantu pelajar Tingkatan 2 mengulang kaji nota tentang tanggungjawab dalam keluarga. Anda akan menjawab 10 soalan rawak daripada 15 soalan yang disediakan.",
-            start_button: "Mula Kuiz",
-            next_button: "Soalan Seterusnya",
-            restart_button: "Cuba Lagi"
-        };
+    const defaultConfig = {
+      main_title: "Adab Dijaga, Persahabatan Terbela",
+      subtitle: "Nota Interaktif Pendidikan Moral Tingkatan 2",
+      primary_color: "#ffc3a0",
+      secondary_color: "#ffafbd",
+      card_background: "#f5f7fa",
+      text_color: "#2d3748",
+      accent_color: "#f39c12"
+    };
 
-        const allQuestions = [
-            {
-                question: "Apakah yang perlu dilakukan oleh setiap anggota keluarga untuk melahirkan keluarga bahagia?",
-                options: ["Melaksanakan tanggungjawab masing-masing", "Tercetus perselisihan faham antara anggota keluarga", "Keluarga bahagia dapat diwujudkan", "Membantu ibu bapa di rumah"],
-                correct: 0
-            },
-            {
-                question: "Antara berikut, yang manakah BUKAN tanggungjawab sebagai anggota keluarga?",
-                options: ["Menyayangi setiap anggota keluarga", "Menjaga nama baik keluarga", "Masyarakat memandang rendah kepada anggota keluarga", "Menghormati anggota keluarga yang lebih tua"],
-                correct: 2
-            },
-            {
-                question: "Apakah kesan jika tanggungjawab dalam keluarga diabaikan?",
-                options: ["Anggota keluarga saling mempercayai", "Tercetus perselisihan faham antara anggota keluarga", "Membantu ibu bapa di rumah", "Menjaga nama baik keluarga"],
-                correct: 1
-            },
-            {
-                question: "Bagaimanakah cara untuk menjaga kebajikan anggota keluarga?",
-                options: ["Membantu ibu bapa di rumah", "Kebahagiaan keluarga terjejas", "Menjaga kebajikan anggota keluarga", "Nama baik keluarga terjejas"],
-                correct: 0
-            },
-            {
-                question: "Apakah kepentingan melaksanakan tanggungjawab diri dalam keluarga?",
-                options: ["Menjaga nama baik keluarga", "Anggota keluarga saling mempercayai", "Tercetus perselisihan faham", "Membantu adik-beradik dalam pelajaran"],
-                correct: 1
-            },
-            {
-                question: "Antara berikut, yang manakah cara menghormati anggota keluarga?",
-                options: ["Menghindari aktiviti negatif", "Mendengar nasihat anggota keluarga", "Keluarga dihormati oleh masyarakat sekeliling", "Menjaga kebajikan anggota keluarga"],
-                correct: 1
-            },
-            {
-                question: "Bagaimanakah cara memastikan keselamatan anggota keluarga?",
-                options: ["Memastikan keselamatan anggota keluarga", "Menutup suis peralatan elektrik jika tidak menggunakannya", "Maruah keluarga terpelihara", "Menjaga nama baik keluarga"],
-                correct: 1
-            },
-            {
-                question: "Apakah cara menjaga nama baik keluarga?",
-                options: ["Keluarga dihormati oleh masyarakat sekeliling", "Nama baik keluarga terjejas", "Berusaha dengan bersungguh-sungguh dalam pelajaran", "Menghormati anggota keluarga"],
-                correct: 2
-            },
-            {
-                question: "Bagaimanakah cara menyayangi anggota keluarga termasuk yang kurang upaya?",
-                options: ["Menyayangi setiap anggota keluarga", "Membantu anggota keluarga termasuk yang kurang upaya", "Menjaga keselamatan adik-beradik", "Kebahagiaan keluarga terjejas"],
-                correct: 1
-            },
-            {
-                question: "Apakah kesan apabila kebahagiaan keluarga terjejas?",
-                options: ["Keluarga bahagia dapat diwujudkan", "Hubungan anggota keluarga menjadi renggang", "Menjaga kebajikan anggota keluarga", "Melibatkan diri dalam aktiviti keluarga"],
-                correct: 1
-            },
-            {
-                question: "Antara berikut, yang manakah tanggungjawab sebagai anggota keluarga?",
-                options: ["Membantu adik-beradik dalam pelajaran", "Tercetus perselisihan faham", "Anggota keluarga saling mempercayai", "Maruah keluarga terpelihara"],
-                correct: 0
-            },
-            {
-                question: "Mengapakah penting untuk menghindari aktiviti negatif?",
-                options: ["Menghindari aktiviti negatif", "Untuk menjaga nama baik keluarga", "Keluarga dihormati oleh masyarakat sekeliling", "Menuturkan kata-kata sopan"],
-                correct: 1
-            },
-            {
-                question: "Apakah yang dimaksudkan dengan cara menghormati anggota keluarga melalui komunikasi?",
-                options: ["Menghormati anggota keluarga yang lebih tua", "Saling bertegur sapa", "Masyarakat memandang rendah", "Nama baik keluarga terjejas"],
-                correct: 1
-            },
-            {
-                question: "Bagaimanakah cara memastikan keselamatan adik-beradik ketika orang dewasa tiada di rumah?",
-                options: ["Memastikan keselamatan anggota keluarga", "Menjaga adik-beradik ketika orang dewasa tiada di rumah", "Keluarga bahagia dapat diwujudkan", "Melibatkan diri dalam aktiviti keluarga"],
-                correct: 1
-            },
-            {
-                question: "Apakah kepentingan melaksanakan tanggungjawab yang membawa kepada penghormatan masyarakat?",
-                options: ["Tercetus perselisihan faham", "Maruah keluarga terpelihara", "Menjaga kebajikan anggota keluarga", "Menghindari aktiviti negatif"],
-                correct: 1
-            }
-        ];
+    async function onConfigChange(config) {
+      const mainTitle = config.main_title || defaultConfig.main_title;
+      const subtitle = config.subtitle || defaultConfig.subtitle;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const cardBg = config.card_background || defaultConfig.card_background;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
 
-        let currentQuestions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let answered = false;
-        let totalStars = 0;
+      document.getElementById('mainTitle').textContent = mainTitle;
+      document.getElementById('subtitle').textContent = subtitle;
+
+      document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      
+      document.querySelectorAll('.importance-card').forEach(card => {
+        card.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      });
+
+      document.querySelectorAll('.tab-button.active').forEach(btn => {
+        btn.style.color = '#ff6b9d';
+      });
+
+      document.querySelectorAll('.list-item').forEach(item => {
+        item.style.borderLeftColor = '#ff6b9d';
+      });
+
+      document.querySelectorAll('.nav-tabs').forEach(nav => {
+        nav.style.background = `rgba(255, 195, 160, 0.95)`;
+      });
+
+      document.querySelectorAll('.example-box').forEach(box => {
+        box.style.borderLeftColor = accentColor;
+      });
+
+      document.querySelectorAll('.card-title, .importance-title, .list-item strong').forEach(el => {
+        el.style.color = textColor;
+      });
+    }
+
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const sections = document.querySelectorAll('.section');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab');
         
-        const mascotMessages = {
-            start: ["Mari kita mula! 💪", "Anda pasti boleh buat! 🌟", "Semangat! 🎉"],
-            correct: ["Hebat! Teruskan! 🎊", "Bagus sekali! ⭐", "Cemerlang! 🌟", "Mantap! 👏"],
-            incorrect: ["Tak mengapa, cuba lagi! 💪", "Jangan putus asa! 🌈", "Belajar dari kesilapan! 📚"],
-            finish: ["Tahniah selesai! 🎉", "Kerja yang bagus! 🌟", "Anda hebat! 👏"],
-            click: [
-                "Ingat! Keluarga bahagia bermula dengan tanggungjawab! 👨‍👩‍👧‍👦",
-                "Sentiasa sayangi setiap ahli keluarga anda! ❤️",
-                "Jaga nama baik keluarga dengan elakkan aktiviti negatif! 🌟",
-                "Hormati ahli keluarga yang lebih tua! 🙏",
-                "Bantu ibu bapa di rumah setiap hari! 🏠",
-                "Jaga keselamatan adik-beradik anda! 🛡️",
-                "Komunikasi yang baik penting dalam keluarga! 💬",
-                "Belajar bersungguh-sungguh untuk keluarga! 📚",
-                "Anda boleh buat! Teruskan berusaha! 💪",
-                "Keluarga adalah harta yang paling berharga! 💎",
-                "Melaksanakan tanggungjawab = Keluarga bahagia! 😊",
-                "Kebajikan keluarga adalah tanggungjawab bersama! 🤝",
-                "Kepercayaan ahli keluarga dibina melalui tanggungjawab! ✨",
-                "Setiap ahli keluarga punya peranan penting! 🎯",
-                "Mari wujudkan keluarga yang harmoni! 🌈"
-            ]
-        };
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
         
-        let mascotMessageTimeout;
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === targetTab) {
+            section.classList.add('active');
+          }
+        });
+      });
+    });
+
+
+
+    // Collapsible example functionality
+    const collapsibleExamples = document.querySelectorAll('.collapsible-example');
+    
+    collapsibleExamples.forEach(example => {
+      const header = example.querySelector('.collapsible-header');
+      const content = example.querySelector('.collapsible-content');
+      
+      header.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = example.classList.contains('open');
         
-        // Create Particle Background
-        function createParticles() {
-            const particleContainer = document.getElementById('particleContainer');
-            const colors = ['#e0c3fc', '#ffdee9', '#fbc2eb', '#a18cd1', '#c2e9fb', '#fff'];
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const size = Math.random() * 6 + 3;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                
-                particleContainer.appendChild(particle);
+        if (isOpen) {
+          example.classList.remove('open');
+          content.classList.remove('open');
+        } else {
+          example.classList.add('open');
+          content.classList.add('open');
+        }
+      });
+    });
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.card_background || defaultConfig.card_background,
+              set: (value) => {
+                config.card_background = value;
+                window.elementSdk.setConfig({ card_background: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
             }
-        }
-        
-        function showMascotMessage(type) {
-            const messages = mascotMessages[type];
-            const message = messages[Math.floor(Math.random() * messages.length)];
-            const mascotMsg = document.getElementById('mascotMessage');
-            
-            if (mascotMessageTimeout) {
-                clearTimeout(mascotMessageTimeout);
-            }
-            
-            mascotMsg.textContent = message;
-            mascotMsg.style.display = 'block';
-            
-            mascotMessageTimeout = setTimeout(() => {
-                mascotMsg.style.display = 'none';
-            }, 4000);
-        }
-        
-        function closeMascotMessage() {
-            const mascotMsg = document.getElementById('mascotMessage');
-            mascotMsg.style.display = 'none';
-            
-            if (mascotMessageTimeout) {
-                clearTimeout(mascotMessageTimeout);
-            }
-        }
-        
-        function onMascotClick() {
-            const mascot = document.getElementById('mascot');
-            
-            mascot.style.animation = 'none';
-            setTimeout(() => {
-                mascot.style.animation = 'mascotBounce 2s ease-in-out infinite';
-            }, 10);
-            
-            showMascotMessage('click');
-        }
-        
-        function updateStarCount() {
-            document.getElementById('starCount').textContent = totalStars;
-        }
-        
-        function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e'];
-            const confettiContainer = document.getElementById('confettiContainer');
-            
-            for (let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    confettiContainer.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
-            }
-        }
-
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        function selectRandomQuestions() {
-            const shuffled = shuffleArray(allQuestions);
-            currentQuestions = shuffled.slice(0, 10).map(q => ({
-                ...q,
-                options: shuffleArray([...q.options]),
-                correctAnswer: q.options[q.correct]
-            }));
-        }
-
-        function showMenu() {
-            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
-            const quizCard = document.getElementById('quizCard');
-            quizCard.innerHTML = `
-                <div class="header">
-                    <svg class="family-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Dad -->
-                        <circle cx="60" cy="70" r="15" fill="#FFD93D"/>
-                        <rect x="50" y="85" width="20" height="30" rx="5" fill="#6BCB77"/>
-                        <!-- Mom -->
-                        <circle cx="100" cy="70" r="15" fill="#FFD93D"/>
-                        <rect x="90" y="85" width="20" height="30" rx="5" fill="#FF6B9D"/>
-                        <!-- Kid 1 -->
-                        <circle cx="75" cy="100" r="12" fill="#FFD93D"/>
-                        <rect x="67" y="112" width="16" height="25" rx="4" fill="#4D96FF"/>
-                        <!-- Kid 2 -->
-                        <circle cx="115" cy="100" r="12" fill="#FFD93D"/>
-                        <rect x="107" y="112" width="16" height="25" rx="4" fill="#C77DFF"/>
-                        <!-- Hearts -->
-                        <text x="85" y="55" font-size="16" fill="#FF6B9D">❤️</text>
-                        <text x="130" y="90" font-size="12" fill="#FF6B9D">💕</text>
-                    </svg>
-                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
-                </div>
-                <div class="menu-description">
-                    <p class="subtitle">${config.menu_description || defaultConfig.menu_description}</p>
-                </div>
-                <button class="button" onclick="startQuiz()">${config.start_button || defaultConfig.start_button}</button>
-            `;
-        }
-
-        function startQuiz() {
-            selectRandomQuestions();
-            currentQuestionIndex = 0;
-            score = 0;
-            totalStars = 0;
-            answered = false;
-            updateStarCount();
-            showMascotMessage('start');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
-            const question = currentQuestions[currentQuestionIndex];
-            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
-            
-            const quizCard = document.getElementById('quizCard');
-            quizCard.innerHTML = `
-                <div class="header">
-                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${progress}%"></div>
-                </div>
-                <div class="question-container">
-                    <div class="question-number">Soalan ${currentQuestionIndex + 1} daripada ${currentQuestions.length}</div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options" id="options">
-                        ${question.options.map((option, index) => `
-                            <div class="option" onclick="selectAnswer(${index})" data-index="${index}">
-                                ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div id="feedback"></div>
-                </div>
-                <button class="button" id="nextBtn" onclick="nextQuestion()" style="display: none;">${config.next_button || defaultConfig.next_button}</button>
-            `;
-            answered = false;
-        }
-
-        function selectAnswer(index) {
-            if (answered) return;
-            
-            answered = true;
-            const question = currentQuestions[currentQuestionIndex];
-            const selectedOption = question.options[index];
-            const isCorrect = selectedOption === question.correctAnswer;
-            
-            if (isCorrect) {
-                score++;
-                totalStars++;
-                updateStarCount();
-                showMascotMessage('correct');
-            } else {
-                showMascotMessage('incorrect');
-            }
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, i) => {
-                option.classList.add('disabled');
-                if (question.options[i] === question.correctAnswer) {
-                    option.classList.add('correct');
-                } else if (i === index && !isCorrect) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            const feedback = document.getElementById('feedback');
-            if (isCorrect) {
-                feedback.innerHTML = '<div class="feedback correct">✓ Tahniah! Jawapan anda betul. +1 ⭐</div>';
-            } else {
-                feedback.innerHTML = `<div class="feedback incorrect">✗ Maaf, jawapan yang betul ialah: ${question.correctAnswer}</div>`;
-            }
-            
-            document.getElementById('nextBtn').style.display = 'block';
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < currentQuestions.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
-            const percentage = (score / currentQuestions.length) * 100;
-            let message = "";
-            let icon = "";
-            
-            if (percentage === 100) {
-                message = "Cemerlang! Full Marks!";
-                icon = "🏆";
-                createConfetti();
-                showMascotMessage('finish');
-            } else if (percentage >= 80) {
-                message = "Cemerlang!";
-                icon = "🌟";
-            } else if (percentage >= 60) {
-                message = "Bagus!";
-                icon = "👍";
-            } else if (percentage >= 40) {
-                message = "Boleh diperbaiki!";
-                icon = "📚";
-            } else {
-                message = "Teruskan berusaha!";
-                icon = "💪";
-            }
-            
-            const quizCard = document.getElementById('quizCard');
-            quizCard.innerHTML = `
-                <div class="header">
-                    <h1 class="title">${config.quiz_title || defaultConfig.quiz_title}</h1>
-                </div>
-                <div class="results">
-                    <div class="icon">${icon}</div>
-                    <div class="result-message">${message}</div>
-                    <div class="score-circle">
-                        <div class="score-text">${score}/${currentQuestions.length}</div>
-                    </div>
-                    <div class="result-details">
-                        Anda telah menjawab ${score} soalan dengan betul daripada ${currentQuestions.length} soalan.
-                        <br>Peratusan: ${percentage.toFixed(0)}%
-                        <br><br>⭐ Jumlah Bintang Dikumpul: ${totalStars}
-                    </div>
-                    <button class="button" onclick="startQuiz()">${config.restart_button || defaultConfig.restart_button}</button>
-                </div>
-            `;
-        }
-
-        async function onConfigChange(config) {
-            const titleElements = document.querySelectorAll('.title');
-            titleElements.forEach(el => {
-                el.textContent = config.quiz_title || defaultConfig.quiz_title;
-            });
-
-            const menuDesc = document.querySelector('.menu-description .subtitle');
-            if (menuDesc) {
-                menuDesc.textContent = config.menu_description || defaultConfig.menu_description;
-            }
-
-            const startBtn = document.querySelector('.button[onclick="startQuiz()"]');
-            if (startBtn && !document.getElementById('nextBtn')) {
-                startBtn.textContent = config.start_button || defaultConfig.start_button;
-            }
-
-            const nextBtn = document.getElementById('nextBtn');
-            if (nextBtn) {
-                nextBtn.textContent = config.next_button || defaultConfig.next_button;
-            }
-
-            const restartBtn = document.querySelector('.results .button');
-            if (restartBtn) {
-                restartBtn.textContent = config.restart_button || defaultConfig.restart_button;
-            }
-        }
-
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig: defaultConfig,
-                onConfigChange: onConfigChange,
-                mapToCapabilities: (config) => ({
-                    recolorables: [],
-                    borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
-                }),
-                mapToEditPanelValues: (config) => new Map([
-                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-                    ["menu_description", config.menu_description || defaultConfig.menu_description],
-                    ["start_button", config.start_button || defaultConfig.start_button],
-                    ["next_button", config.next_button || defaultConfig.next_button],
-                    ["restart_button", config.restart_button || defaultConfig.restart_button]
-                ])
-            });
-        }
-
-        // Initialize particles on load
-        createParticles();
-        showMenu();
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71e0a3d758b4d6',t:'MTc2NDU4NDY5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["subtitle", config.subtitle || defaultConfig.subtitle]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7769bbe04ca559',t:'MTc2NDY0MjczOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
