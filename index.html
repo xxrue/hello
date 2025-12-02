@@ -3,1098 +3,1089 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adab Persahabatan - Nota Interaktif</title>
+  <title>Kuiz Komponen Mekanikal</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    body {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
-      min-height: 100%;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(255, 195, 160, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 175, 189, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(255, 107, 157, 0.3) 0%, transparent 50%);
-      animation: backgroundMove 15s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes backgroundMove {
-      0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.8;
-        transform: scale(1.1);
-      }
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      animation: fadeInDown 0.8s ease-out;
-    }
-
-    .main-title {
-      font-size: 2.5rem;
-      color: #ffffff;
-      margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 20px rgba(255, 255, 255, 0.5);
-      font-weight: 700;
-      position: relative;
-      display: inline-block;
-      animation: titleGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes titleGlow {
-      0%, 100% {
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 20px rgba(255, 255, 255, 0.5);
-      }
-      50% {
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 175, 189, 0.6);
-      }
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      color: #ffffff;
-      font-weight: 400;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeIn 1s ease-out 0.3s both;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 195, 160, 0.95);
-      padding: 1rem;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .tab-button {
-      padding: 0.8rem 1.5rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 25px;
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .tab-button:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .tab-button.active {
-      background: #ffffff;
-      color: #ff6b9d;
-      border-color: #ffffff;
-      text-shadow: none;
-    }
-
-    .tab-button:not(.active) {
-      color: #ffffff;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
-
-    .content-area {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      min-height: 400px;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-
-    .section {
-      display: none;
-      animation: fadeIn 0.5s ease-out;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 15px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-      border: 2px solid rgba(255, 195, 160, 0.3);
-      position: relative;
-      overflow: hidden;
-      animation: floatCard 6s ease-in-out infinite;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #ff6b9d, #ffc3a0, #ffafbd, #ff6b9d);
-      background-size: 400% 400%;
-      border-radius: 15px;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      animation: gradientBorder 3s ease infinite;
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(255, 107, 157, 0.3);
-      border-color: transparent;
-    }
-
-    @keyframes floatCard {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-5px);
-      }
-    }
-
-    @keyframes gradientBorder {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-
-
-    .card-title {
-      font-size: 1.4rem;
-      color: #2d3748;
-      margin-bottom: 1rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .card-content {
-      color: #4a5568;
-      line-height: 1.8;
-      font-size: 1rem;
-    }
-
-    .list-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      background: #ffffff;
-      border-radius: 10px;
-      border-left: 4px solid #ff6b9d;
-      transition: all 0.3s ease;
-    }
-
-    .list-item:hover {
-      border-left-width: 8px;
-      padding-left: 1.3rem;
-      background: linear-gradient(to right, rgba(255, 107, 157, 0.05) 0%, #ffffff 100%);
-    }
-
-    .list-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 6px;
-      height: 0;
-      background: #ff6b9d;
-      border-radius: 3px;
-      transition: height 0.3s ease;
-      transform: translateY(-50%);
-    }
-
-    .list-item {
-      position: relative;
-    }
-
-    .list-item:hover::before {
-      height: 60%;
-    }
-
-    .list-icon {
-      font-size: 1.5rem;
-      margin-right: 1rem;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      display: inline-block;
-    }
-
-    .list-item:hover .list-icon {
-      animation: bounce 0.6s ease;
-    }
-
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      25% {
-        transform: translateY(-10px);
-      }
-      50% {
-        transform: translateY(0);
-      }
-      75% {
-        transform: translateY(-5px);
-      }
-    }
-
-    .example-box {
-      background: #fef5e7;
-      border-left: 4px solid #f39c12;
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-
-    .example-title {
-      font-weight: 700;
-      color: #e67e22;
-      margin-bottom: 0.5rem;
-    }
-
-    .importance-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .importance-card {
-      background: #ffffff;
-      color: #2d3748;
-      padding: 1.8rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(255, 175, 189, 0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 3px solid #ffafbd;
-      border-left: 8px solid #ff6b9d;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .importance-card::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        to bottom right,
-        transparent 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        transparent 100%
-      );
-      transform: rotate(45deg);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-      }
-      100% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-      }
-    }
-
-    .importance-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(255, 175, 189, 0.8);
-      border-left-width: 12px;
-    }
-
-    .importance-number {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .importance-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      color: #2d3748;
-    }
-
-    .importance-example {
-      font-size: 0.95rem;
-      font-style: italic;
-      background: #fef5e7;
-      padding: 0.8rem;
-      border-radius: 8px;
-      border-left: 3px solid #f39c12;
-      color: #4a5568;
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 1.5rem 1rem;
-      }
-
-      .main-title {
-        font-size: 1.8rem;
-      }
-
-      .subtitle {
-        font-size: 1rem;
-      }
-
-      .content-area {
-        padding: 1.5rem;
-      }
-
-      .card {
-        padding: 1.2rem;
-      }
-
-      .card-title {
-        font-size: 1.2rem;
-      }
-
-
-
-      .tab-button {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-      }
-
-      .nav-tabs {
-        padding: 0.8rem;
-      }
-    }
-
-    .emoji {
-      font-size: 1.3rem;
-      position: relative;
-      cursor: help;
-      display: inline-block;
-      animation: pulse 2s ease-in-out infinite;
-      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-    }
-
-    .tooltip {
-      position: relative;
-      cursor: help;
-    }
-
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 200px;
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      border-radius: 8px;
-      padding: 8px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -100px;
-      opacity: 0;
-      transition: opacity 0.3s, visibility 0.3s;
-      font-size: 0.85rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    .tooltip .tooltiptext::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: #333 transparent transparent transparent;
-    }
-
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-
-
-
-    .collapsible-example {
-      background: #fff;
-      border: 2px solid #ffc3a0;
-      border-radius: 10px;
-      margin-top: 1rem;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .collapsible-header {
-      background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #fff;
-      font-weight: 600;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
-
-    .collapsible-header:hover {
-      background: linear-gradient(135deg, #ffb090 0%, #ff9fad 100%);
-    }
-
-    .collapsible-icon {
-      transition: transform 0.3s ease;
-      font-size: 1.2rem;
-    }
-
-    .collapsible-example.open .collapsible-icon {
-      transform: rotate(180deg);
-    }
-
-    .collapsible-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out;
-      background: #fffbf5;
-    }
-
-    .collapsible-content.open {
-      max-height: 500px;
-    }
-
-    .collapsible-inner {
-      padding: 1rem;
-      color: #2d3748;
-      line-height: 1.7;
-    }
-
-    /* Falling Petals */
-    .petals-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .petal {
-      position: absolute;
-      top: -50px;
-      font-size: 1.5rem;
-      opacity: 0.6;
-      animation: fall linear infinite;
-      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .petal-1 { left: 10%; animation-duration: 12s; animation-delay: 0s; }
-    .petal-2 { left: 25%; animation-duration: 15s; animation-delay: 2s; }
-    .petal-3 { left: 40%; animation-duration: 10s; animation-delay: 4s; }
-    .petal-4 { left: 55%; animation-duration: 13s; animation-delay: 1s; }
-    .petal-5 { left: 70%; animation-duration: 11s; animation-delay: 3s; }
-    .petal-6 { left: 85%; animation-duration: 14s; animation-delay: 5s; }
-    .petal-7 { left: 15%; animation-duration: 16s; animation-delay: 6s; }
-    .petal-8 { left: 60%; animation-duration: 12s; animation-delay: 7s; }
-
-    /* Floral Imprints on Cards */
-    .card.floral::before {
-      content: '🌸';
-      position: absolute;
-      font-size: 8rem;
-      opacity: 0.05;
-      top: 50%;
-      right: -1rem;
-      transform: translateY(-50%) rotate(15deg);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .card.floral-2::before {
-      content: '🌺';
-      position: absolute;
-      font-size: 6rem;
-      opacity: 0.06;
-      bottom: -1rem;
-      left: -0.5rem;
-      transform: rotate(-20deg);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .card.floral-3::before {
-      content: '🌼';
-      position: absolute;
-      font-size: 7rem;
-      opacity: 0.05;
-      top: -1rem;
-      left: 50%;
-      transform: translateX(-50%) rotate(25deg);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-  </style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a192f 0%, #1a2332 50%, #0f2847 100%);
+            min-height: 100%;
+            width: 100%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .gear-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .falling-emoji {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.3;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .gear {
+            position: absolute;
+            opacity: 0.08;
+            animation: rotate 20s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+        }
+        
+        .gear:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            animation-duration: 25s;
+        }
+        
+        .gear:nth-child(2) {
+            top: 60%;
+            right: 8%;
+            width: 200px;
+            height: 200px;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+        
+        .gear:nth-child(3) {
+            bottom: 15%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            animation-duration: 20s;
+        }
+        
+        .gear:nth-child(4) {
+            top: 30%;
+            right: 25%;
+            width: 100px;
+            height: 100px;
+            animation-duration: 18s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 100%;
+            min-height: 100%;
+            padding: 5% 4%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .quiz-card {
+            background: rgba(30, 42, 58, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                0 0 40px rgba(0, 255, 255, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 8% 6%;
+            animation: fadeIn 0.5s ease-in, floatCard 6s ease-in-out infinite;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(0, 191, 255, 0.1), rgba(0, 255, 255, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes floatCard {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .quiz-title {
+            color: #00ffff;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 5%;
+            font-weight: bold;
+            text-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.5),
+                0 0 40px rgba(0, 255, 255, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% {
+                text-shadow: 
+                    0 0 20px rgba(0, 255, 255, 0.5),
+                    0 0 40px rgba(0, 255, 255, 0.3),
+                    0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            50% {
+                text-shadow: 
+                    0 0 30px rgba(0, 255, 255, 0.8),
+                    0 0 60px rgba(0, 255, 255, 0.5),
+                    0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+        
+        .menu-content {
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+        
+        .menu-content h2 {
+            color: #00ffff;
+            font-size: 1.5em;
+            margin-top: 5%;
+            margin-bottom: 3%;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .menu-content p {
+            margin-bottom: 3%;
+            font-size: 1.1em;
+        }
+        
+        .menu-content ul {
+            margin-left: 5%;
+            margin-bottom: 4%;
+        }
+        
+        .menu-content li {
+            margin-bottom: 2%;
+            font-size: 1.05em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #00bfff 0%, #0080ff 100%);
+            color: white;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            padding: 4% 8%;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin: 5% auto 0;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 
+                0 0 20px rgba(0, 191, 255, 0.4),
+                0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 0 30px rgba(0, 191, 255, 0.6),
+                0 0 50px rgba(0, 255, 255, 0.4),
+                0 6px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 255, 255, 0.8);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5%;
+            flex-wrap: wrap;
+            gap: 3%;
+        }
+        
+        .question-number {
+            color: #00ffff;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            background: rgba(0, 255, 255, 0.1);
+            padding: 2% 4%;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .score {
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+            background: rgba(0, 191, 255, 0.1);
+            padding: 2% 4%;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .question-text {
+            font-size: 1.4em;
+            color: #ffffff;
+            margin-bottom: 6%;
+            line-height: 1.6;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 255, 255, 0.05);
+            padding: 4%;
+            border-radius: 15px;
+            border-left: 4px solid #00ffff;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 3%;
+        }
+        
+        .option {
+            background: rgba(42, 63, 95, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(58, 79, 111, 0.8);
+            padding: 4%;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            text-align: left;
+            color: #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .option:hover::before {
+            left: 100%;
+        }
+        
+        .option:hover {
+            background: rgba(58, 95, 143, 0.7);
+            border-color: #00ffff;
+            transform: translateX(10px);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+        
+        .option.selected {
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.8) 0%, rgba(0, 128, 255, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            color: white;
+            border-color: #00ffff;
+            box-shadow: 
+                0 0 25px rgba(0, 191, 255, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .option.correct {
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.8) 0%, rgba(32, 201, 151, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            color: white;
+            border-color: #28a745;
+            animation: correctPulse 0.6s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .option.wrong {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.8) 0%, rgba(255, 71, 87, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            color: white;
+            border-color: #dc3545;
+            animation: shake 0.5s;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .feedback {
+            margin-top: 5%;
+            padding: 4%;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .feedback.correct {
+            background: rgba(212, 237, 218, 0.9);
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .feedback.wrong {
+            background: rgba(248, 215, 218, 0.9);
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .result-card {
+            text-align: center;
+        }
+        
+        .result-score {
+            font-size: 4em;
+            color: #00ffff;
+            font-weight: bold;
+            margin: 5% 0;
+            text-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.8),
+                0 0 60px rgba(0, 255, 255, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.5);
+            animation: scoreReveal 0.8s ease-out;
+        }
+        
+        @keyframes scoreReveal {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .result-message {
+            font-size: 1.5em;
+            color: #ffffff;
+            margin-bottom: 5%;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .result-details {
+            background: rgba(42, 63, 95, 0.6);
+            backdrop-filter: blur(15px);
+            padding: 5%;
+            border-radius: 15px;
+            margin: 5% 0;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(0, 255, 255, 0.05);
+        }
+        
+        .result-details p {
+            font-size: 1.2em;
+            margin: 3% 0;
+            color: #e0e0e0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(42, 63, 95, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5%;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00bfff 0%, #00ffff 50%, #00bfff 100%);
+            background-size: 200% 100%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            animation: progressShine 2s linear infinite;
+        }
+        
+        @keyframes progressShine {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #00ffff;
+            animation: confetti-fall 3s linear forwards;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .home-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+            border: 2px solid rgba(255, 107, 107, 0.5);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            max-width: 200px;
+        }
+        
+        .home-btn:hover {
+            box-shadow: 
+                0 0 30px rgba(255, 107, 107, 0.6),
+                0 0 50px rgba(255, 107, 107, 0.4);
+            border-color: rgba(255, 107, 107, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            .quiz-title {
+                font-size: 1.5em;
+            }
+            
+            .question-text {
+                font-size: 1.2em;
+            }
+            
+            .option {
+                font-size: 1em;
+            }
+            
+            .btn {
+                font-size: 1.1em;
+                padding: 4% 6%;
+            }
+            
+            .result-score {
+                font-size: 3em;
+            }
+            
+            .result-message {
+                font-size: 1.2em;
+            }
+            
+            .gear:nth-child(1), .gear:nth-child(3) {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .gear:nth-child(2), .gear:nth-child(4) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 4% 3%;
+            }
+            
+            .quiz-card {
+                padding: 6% 5%;
+            }
+            
+            .quiz-title {
+                font-size: 1.3em;
+                margin-bottom: 4%;
+            }
+            
+            .question-header {
+                font-size: 0.9em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+                margin-bottom: 5%;
+            }
+            
+            .option {
+                padding: 3.5%;
+                font-size: 0.95em;
+            }
+            
+            .menu-content h2 {
+                font-size: 1.3em;
+            }
+            
+            .menu-content p, .menu-content li {
+                font-size: 1em;
+            }
+            
+            .gear {
+                display: none;
+            }
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Falling Petals -->
-  <div class="petals-container" aria-hidden="true">
-   <div class="petal petal-1">
-    🌸
-   </div>
-   <div class="petal petal-2">
-    🌺
-   </div>
-   <div class="petal petal-3">
-    🌼
-   </div>
-   <div class="petal petal-4">
-    🌸
-   </div>
-   <div class="petal petal-5">
-    🌺
-   </div>
-   <div class="petal petal-6">
-    🌼
-   </div>
-   <div class="petal petal-7">
-    🌸
-   </div>
-   <div class="petal petal-8">
-    🌺
-   </div>
-  </div>
+ <body>
+  <div class="gear-background" id="gearBackground"></div>
   <div class="container">
-   <div class="header">
-    <h1 class="main-title" id="mainTitle">Adab Dijaga, Persahabatan Terbela</h1>
-    <p class="subtitle" id="subtitle">Nota Interaktif Pendidikan Moral Tingkatan 2</p>
-   </div>
-   <div class="nav-tabs"><button class="tab-button active" data-tab="intro">Pengenalan</button> <button class="tab-button" data-tab="types">Jenis Perhubungan</button> <button class="tab-button" data-tab="adab">Contoh Beradab</button> <button class="tab-button" data-tab="importance">Kepentingan</button>
-   </div>
-   <div class="content-area"><!-- Intro Section -->
-    <div class="section active" id="intro">
-     <div class="card floral">
-      <div class="card-title"><span class="emoji">🤝</span> Mengapa Persahabatan Penting?
-      </div>
-      <div class="card-content">
-       <p>Sahabat diperlukan tidak kira saat susah atau senang, gembira atau sedih. Persahabatan merupakan satu anugerah daripada Tuhan kepada manusia yang sentiasa memerlukan teman dalam hidup.</p>
-      </div>
-     </div>
-     <div class="card floral-2">
-      <div class="card-title"><span class="emoji">⭐</span> Ciri Sahabat yang Baik
-      </div>
-      <div class="card-content">
-       <div class="list-item"><span class="list-icon">🆘</span>
-        <div style="flex: 1;"><strong>Membantu kita apabila berada dalam kesusahan</strong>
-         <div class="collapsible-example" data-collapsible="intro1">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Apabila kamu lupa membawa wang untuk makan tengahari, sahabat baik akan berkongsi makanan atau meminjamkan wang.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon">💙</span>
-        <div style="flex: 1;"><strong>Mengurangkan kesedihan dan kebimbangan yang kita alami</strong>
-         <div class="collapsible-example" data-collapsible="intro2">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Ketika kamu sedih kerana keputusan peperiksaan yang tidak memuaskan, sahabat akan mendengar masalahmu dan memberikan kata-kata semangat.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon">👨‍👩‍👧‍👦</span>
-        <div style="flex: 1;"><strong>Mewujudkan hubungan seperti persaudaraan</strong>
-         <div class="collapsible-example" data-collapsible="intro3">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Walaupun bukan adik-beradik sebenar, sahabat baik akan menjaga kamu seperti keluarga sendiri.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div><!-- Types Section -->
-    <div class="section" id="types">
-     <div class="card floral-3">
-      <div class="card-title"><span class="emoji">👥</span> Jenis-Jenis Perhubungan
-      </div>
-      <div class="card-content">
-       <div class="list-item"><span class="list-icon tooltip">👥 <span class="tooltiptext">Hubungan yang paling rapat dan dipercayai</span> </span>
-        <div style="flex: 1;"><strong>Sahabat</strong>
-         <p><strong>Definisi:</strong> Individu yang rapat dengan kita dan saling mempercayai dalam pelbagai keadaan.</p>
-         <div class="collapsible-example" data-collapsible="type1">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Fatimah dan Siti adalah sahabat baik sejak darjah satu. Mereka berkongsi segala rahsia, bermain bersama setiap petang, dan sentiasa ada untuk membantu antara satu sama lain. Apabila Fatimah sakit, Siti akan menziarahinya dan meminjamkan nota pelajaran.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">🤜🤛 <span class="tooltiptext">Bekerjasama dalam aktiviti atau minat yang sama</span> </span>
-        <div style="flex: 1;"><strong>Rakan</strong>
-         <p><strong>Definisi:</strong> Individu yang berkongsi minat, matlamat dan kerjaya dalam sesebuah kumpulan seperti persatuan, kelab dan pertubuhan.</p>
-         <p>Rakan dapat mewujudkan kerjasama pada saat yang diperlukan.</p>
-         <div class="collapsible-example" data-collapsible="type2">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Ahmad dan Muthu adalah ahli kelab bola sepak sekolah. Mereka bekerjasama dengan baik semasa latihan dan perlawanan, tetapi tidak begitu rapat di luar kelab. Mereka hanya berjumpa semasa aktiviti bola sepak.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">💬 <span class="tooltiptext">Interaksi ringan tanpa hubungan yang mendalam</span> </span>
-        <div style="flex: 1;"><strong>Kenalan</strong>
-         <p><strong>Definisi:</strong> Individu yang pernah berinteraksi dengan kita tetapi kita tidak dapat mengesahkan identiti atau kewujudan sebenarnya.</p>
-         <p>Kenalan wujud sebagai hiburan dan pada masa yang sama boleh memberikan kebaikan melalui perkongsian pendapat dan penyelesaian masalah.</p>
-         <div class="collapsible-example" data-collapsible="type3">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Nurul kenal dengan beberapa orang melalui media sosial yang berkongsi tips belajar. Mereka bertukar pendapat tentang subjek matematik, tetapi tidak pernah bertemu secara bersemuka dan tidak tahu banyak tentang kehidupan peribadi mereka.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div><!-- Adab Section -->
-    <div class="section" id="adab">
-     <div class="card floral">
-      <div class="card-title"><span class="emoji tooltip">✨ <span class="tooltiptext">Tingkah laku yang baik dalam persahabatan</span> </span> Contoh Perlakuan Beradab dalam Persahabatan
-      </div>
-      <div class="card-content">
-       <div class="list-item"><span class="list-icon tooltip">🤐 <span class="tooltiptext">Simpan rahsia sahabat dengan baik</span> </span>
-        <div style="flex: 1;"><strong>Menjaga keaiban sahabat</strong>
-         <p>Tidak membocorkan rahsia</p>
-         <div class="collapsible-example" data-collapsible="adab1">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Aina memberitahu kamu bahawa dia takut dengan anjing. Kamu tidak memberitahu orang lain tentang ketakutan Aina walaupun ramai yang mengejek orang yang takut anjing.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">🙏 <span class="tooltiptext">Hargai dan hormati sahabat</span> </span>
-        <div style="flex: 1;"><strong>Saling menghormati</strong>
-         <p>Tidak mengejek sahabat</p>
-         <div class="collapsible-example" data-collapsible="adab2">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Walaupun Kamal lebih pendek daripada rakan-rakannya, kamu tidak pernah mengejek ketinggiannya dan menegur rakan lain yang cuba membuat jenaka yang menyakitkan hati.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">💝 <span class="tooltiptext">Memberi tanpa mengharap balasan</span> </span>
-        <div style="flex: 1;"><strong>Ikhlas</strong>
-         <p>Memberi tunjuk ajar dalam pelajaran</p>
-         <div class="collapsible-example" data-collapsible="adab3">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Apabila Raju tidak faham Matematik, kamu dengan senang hati mengajarnya tanpa mengharapkan balasan. Kamu gembira melihat Raju berjaya memahami topik tersebut.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">🤗 <span class="tooltiptext">Bersabar dengan perbezaan</span> </span>
-        <div style="flex: 1;"><strong>Bertoleransi</strong>
-         <p>Tidak menengking ketika bercakap</p>
-         <div class="collapsible-example" data-collapsible="adab4">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Walaupun Linda lambat memahami arahan permainan, kamu menjelaskan dengan sabar dan tidak menaikkan suara atau menunjukkan kemarahan.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="list-item"><span class="list-icon tooltip">💪 <span class="tooltiptext">Bantu sahabat menjadi lebih baik</span> </span>
-        <div style="flex: 1;"><strong>Memberikan sokongan</strong>
-         <p>Menasihati ke arah kebaikan</p>
-         <div class="collapsible-example" data-collapsible="adab5">
-          <div class="collapsible-header"><span>📖 Lihat Situasi</span> <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-           <div class="collapsible-inner">
-            Apabila kamu nampak sahabatmu mula malas belajar dan selalu ponteng kelas, kamu menasihatnya dengan cara yang baik dan menawarkan diri untuk belajar bersama.
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="card floral-2">
-      <div class="card-title"><span class="emoji">🌟</span> Hasil Adab dalam Persahabatan
-      </div>
-      <div class="card-content">
-       <p>Adab dalam persahabatan mampu:</p>
-       <ul style="line-height: 2;">
-        <li>✨ Melahirkan perasaan kasih sayang</li>
-        <li>🤝 Hormat-menghormati</li>
-        <li>🔐 Saling mempercayai</li>
-       </ul>
-      </div>
-     </div>
-    </div><!-- Importance Section -->
-    <div class="section" id="importance">
-     <div class="card floral-3">
-      <div class="card-title"><span class="emoji">🎯</span> Kepentingan Adab dalam Persahabatan
-      </div>
-     </div>
-     <div class="importance-grid">
-      <div class="importance-card">
-       <div class="importance-title">
-        🛡️ Mengelakkan perselisihan faham dan pertelingkahan
-       </div>
-       <div class="importance-example">
-        Contoh: Tidak membuat sesuatu yang boleh melukakan hati sahabat
-       </div>
-      </div>
-      <div class="importance-card">
-       <div class="importance-title">
-        🔒 Menimbulkan kepercayaan dan keyakinan kepada sahabat
-       </div>
-       <div class="importance-example">
-        Contoh: Menjaga rahsia dan aib sahabat
-       </div>
-      </div>
-      <div class="importance-card">
-       <div class="importance-title">
-        💖 Menjaga hati dan perasaan sahabat
-       </div>
-       <div class="importance-example">
-        Contoh: Bercakap dengan sopan dan berhemah dengan sahabat
-       </div>
-      </div>
-      <div class="importance-card">
-       <div class="importance-title">
-        🤝 Meningkatkan kerjasama dan tanggungjawab kepada sahabat
-       </div>
-       <div class="importance-example">
-        Contoh: Sentiasa menjaga batas persahabatan
-       </div>
-      </div>
-      <div class="importance-card">
-       <div class="importance-title">
-        ❤️ Mempererat hubungan persahabatan
-       </div>
-       <div class="importance-example">
-        Contoh: Menziarahi sahabat yang sakit
-       </div>
-      </div>
-     </div>
-     <div class="card floral" style="margin-top: 2rem;">
-      <div class="card-title"><span class="emoji">💡</span> Kesimpulan
-      </div>
-      <div class="card-content">
-       <p><strong>Sahabat yang beradab</strong> ialah sahabat yang jujur, suka berterus terang dan tidak menyembunyikan sesuatu daripada kita sebagai sahabatnya.</p>
-       <p style="margin-top: 1rem;"><strong>Sahabat yang tidak beradab</strong> boleh mendatangkan keburukan kepada kita.</p>
-       <div class="example-box" style="margin-top: 1rem;">
-        <div class="example-title">
-         Ingat!
-        </div> Pilihlah sahabat yang boleh membawa kita ke arah kebaikan dan sentiasa amalkan adab yang baik dalam persahabatan untuk memastikan hubungan yang harmoni dan bermanfaat.
-       </div>
-      </div>
-     </div>
-    </div>
+   <div class="quiz-card" id="quizCard">
+    <h1 class="quiz-title" id="quizTitle">Kuiz Komponen Mekanikal dan Fungsinya</h1>
+    <div id="content"></div>
    </div>
   </div>
   <script>
-    const defaultConfig = {
-      main_title: "Adab Dijaga, Persahabatan Terbela",
-      subtitle: "Nota Interaktif Pendidikan Moral Tingkatan 2",
-      primary_color: "#ffc3a0",
-      secondary_color: "#ffafbd",
-      card_background: "#f5f7fa",
-      text_color: "#2d3748",
-      accent_color: "#f39c12"
-    };
+        const defaultConfig = {
+            quiz_title: "Kuiz Komponen Mekanikal dan Fungsinya",
+            start_button: "Mula Kuiz",
+            correct_feedback: "Tahniah! Jawapan anda betul! 🎉",
+            wrong_feedback: "Maaf, jawapan anda salah. Cuba lagi!"
+        };
 
-    async function onConfigChange(config) {
-      const mainTitle = config.main_title || defaultConfig.main_title;
-      const subtitle = config.subtitle || defaultConfig.subtitle;
-      const primaryColor = config.primary_color || defaultConfig.primary_color;
-      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
-      const cardBg = config.card_background || defaultConfig.card_background;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const accentColor = config.accent_color || defaultConfig.accent_color;
-
-      document.getElementById('mainTitle').textContent = mainTitle;
-      document.getElementById('subtitle').textContent = subtitle;
-
-      document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-      
-      document.querySelectorAll('.importance-card').forEach(card => {
-        card.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-      });
-
-      document.querySelectorAll('.tab-button.active').forEach(btn => {
-        btn.style.color = '#ff6b9d';
-      });
-
-      document.querySelectorAll('.list-item').forEach(item => {
-        item.style.borderLeftColor = '#ff6b9d';
-      });
-
-      document.querySelectorAll('.nav-tabs').forEach(nav => {
-        nav.style.background = `rgba(255, 195, 160, 0.95)`;
-      });
-
-      document.querySelectorAll('.example-box').forEach(box => {
-        box.style.borderLeftColor = accentColor;
-      });
-
-      document.querySelectorAll('.card-title, .importance-title, .list-item strong').forEach(el => {
-        el.style.color = textColor;
-      });
-    }
-
-    // Tab switching functionality
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('.section');
-
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const targetTab = button.getAttribute('data-tab');
-        
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        
-        sections.forEach(section => {
-          section.classList.remove('active');
-          if (section.id === targetTab) {
-            section.classList.add('active');
-          }
-        });
-      });
-    });
-
-
-
-    // Collapsible example functionality
-    const collapsibleExamples = document.querySelectorAll('.collapsible-example');
-    
-    collapsibleExamples.forEach(example => {
-      const header = example.querySelector('.collapsible-header');
-      const content = example.querySelector('.collapsible-content');
-      
-      header.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = example.classList.contains('open');
-        
-        if (isOpen) {
-          example.classList.remove('open');
-          content.classList.remove('open');
-        } else {
-          example.classList.add('open');
-          content.classList.add('open');
-        }
-      });
-    });
-
-    // Initialize SDK
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
+        const allQuestions = [
             {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                config.primary_color = value;
-                window.elementSdk.setConfig({ primary_color: value });
-              }
+                question: "Apakah fungsi utama gear?",
+                correct: "Memindahkan kuasa dari satu komponen ke komponen lain",
+                wrong: ["Mengurangkan geseran", "Memegang mata gerudi", "Membuka dan menutup injap"]
             },
             {
-              get: () => config.secondary_color || defaultConfig.secondary_color,
-              set: (value) => {
-                config.secondary_color = value;
-                window.elementSdk.setConfig({ secondary_color: value });
-              }
+                question: "Berapa jenis gear yang disebutkan dalam nota?",
+                correct: "10 jenis",
+                wrong: ["5 jenis", "8 jenis", "12 jenis"]
             },
             {
-              get: () => config.card_background || defaultConfig.card_background,
-              set: (value) => {
-                config.card_background = value;
-                window.elementSdk.setConfig({ card_background: value });
-              }
+                question: "Apakah fungsi pautan (linkage)?",
+                correct: "Penghubung komponen untuk melengkapkan sistem",
+                wrong: ["Memindahkan kuasa", "Mengurangkan geseran", "Menukar gerakan linear kepada berputar"]
             },
             {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
+                question: "Sistem tuil atau tuas berkaitan dengan tiga perkara. Apakah tiga perkara tersebut?",
+                correct: "Daya, beban dan fulkrum",
+                wrong: ["Kuasa, kelajuan dan arah", "Geseran, putaran dan tekanan", "Enjin, motor dan gear"]
             },
             {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (value) => {
-                config.accent_color = value;
-                window.elementSdk.setConfig({ accent_color: value });
-              }
+                question: "Apakah takal (pulley)?",
+                correct: "Mesin ringkas yang terdiri daripada roda berputar pada gandar",
+                wrong: ["Komponen untuk mengurangkan geseran", "Alat untuk memegang mata gerudi", "Sistem penghubung komponen"]
+            },
+            {
+                question: "Apakah fungsi tali sawat (belting)?",
+                correct: "Menghubungkan takal pemacu dengan takal yang dipacu",
+                wrong: ["Memindahkan kuasa antara dua gear", "Membuka dan menutup injap", "Memegang dan mencengkam mata gerudi"]
+            },
+            {
+                question: "Apakah fungsi aci sesondol (cam shaft)?",
+                correct: "Membuka dan menutup injap",
+                wrong: ["Menukar gerakan linear kepada berputar", "Mengurangkan geseran", "Memindahkan kuasa ke gear"]
+            },
+            {
+                question: "Apakah yang dilakukan oleh aci engkol (crank shaft)?",
+                correct: "Menukar gerakan linear kepada gerakan berputar",
+                wrong: ["Membuka dan menutup injap", "Mengurangkan geseran", "Memegang mata gerudi"]
+            },
+            {
+                question: "Apakah fungsi gelongsor (slider)?",
+                correct: "Mengurangkan geseran bagi menggerakkan komponen",
+                wrong: ["Memindahkan kuasa", "Membuka injap", "Memegang mata gerudi"]
+            },
+            {
+                question: "Apakah dua fungsi galas bebola (ball bearing)?",
+                correct: "Pengantara objek berputar dan pengurang geseran",
+                wrong: ["Memindahkan kuasa dan membuka injap", "Memegang gerudi dan mengurangkan beban", "Menghubungkan gear dan menukar gerakan"]
+            },
+            {
+                question: "Apakah fungsi bindu (chuck)?",
+                correct: "Memegang dan mencengkam mata gerudi",
+                wrong: ["Mengurangkan geseran", "Memindahkan kuasa", "Menukar gerakan berputar"]
+            },
+            {
+                question: "Apakah peranan rantai (chain)?",
+                correct: "Pengantara penghantaran kuasa antara dua gear",
+                wrong: ["Mengurangkan geseran objek berputar", "Membuka dan menutup injap", "Memegang mata gerudi"]
+            },
+            {
+                question: "Komponen manakah yang berfungsi sebagai pengantara bagi objek yang berputar?",
+                correct: "Galas bebola (Ball bearing)",
+                wrong: ["Gelongsor (Slider)", "Bindu (Chuck)", "Pautan (Linkage)"]
+            },
+            {
+                question: "Antara berikut, manakah yang BUKAN jenis gear?",
+                correct: "Gear bindu",
+                wrong: ["Gear serong", "Gear taji", "Gear heliks"]
+            },
+            {
+                question: "Komponen manakah yang digunakan dalam contoh playar gabung?",
+                correct: "Tuil atau Tuas (Lever)",
+                wrong: ["Gelongsor (Slider)", "Pautan (Linkage)", "Takal (Pulley)"]
+            },
+            {
+                question: "Apakah yang berfungsi pada gigi gear?",
+                correct: "Menyalurkan kuasa daripada sumber kepada penerima",
+                wrong: ["Mengurangkan geseran", "Membuka injap", "Mencengkam mata gerudi"]
+            },
+            {
+                question: "Komponen manakah yang dipasang pada enjin atau motor elektrik?",
+                correct: "Takal pemacu (yang disambungkan dengan tali sawat)",
+                wrong: ["Aci sesondol", "Bindu", "Gelongsor"]
+            },
+            {
+                question: "Aci engkol berfungsi menghantar kuasa ke mana selepas menukar gerakan?",
+                correct: "Kotak gear untuk menggerakkan kenderaan",
+                wrong: ["Injap enjin", "Mata gerudi", "Sistem geseran"]
+            },
+            {
+                question: "Berapa jumlah komponen mekanikal yang dibincangkan dalam topik ini?",
+                correct: "11 komponen",
+                wrong: ["8 komponen", "10 komponen", "15 komponen"]
+            },
+            {
+                question: "Manakah BUKAN antara jenis-jenis gear yang disenaraikan?",
+                correct: "Gear elektrik",
+                wrong: ["Gear tulang hering", "Gear rak dan pinan", "Gear miter"]
             }
-          ],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["main_title", config.main_title || defaultConfig.main_title],
-          ["subtitle", config.subtitle || defaultConfig.subtitle]
-        ])
-      });
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7769bbe04ca559',t:'MTc2NDY0MjczOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        ];
+
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let gameState = 'menu';
+
+        // Create animated gears in background
+        function createGears() {
+            const gearBg = document.getElementById('gearBackground');
+            const gearSVG = `
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50,10 L54,20 L64,18 L60,28 L70,30 L68,40 L78,44 L74,54 L82,60 L76,68 L84,76 L74,82 L78,92 L68,88 L66,98 L56,94 L50,100 L44,94 L34,98 L32,88 L22,92 L18,82 L8,76 L16,68 L10,60 L18,54 L14,44 L24,40 L22,30 L32,28 L28,18 L38,20 L42,10 L50,10 Z" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          stroke-width="2"/>
+                    <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            `;
+            
+            for (let i = 0; i < 4; i++) {
+                const gear = document.createElement('div');
+                gear.className = 'gear';
+                gear.innerHTML = gearSVG;
+                gear.style.color = '#00ffff';
+                gearBg.appendChild(gear);
+            }
+        }
+        
+        // Create falling emoji animations
+        function createFallingEmojis() {
+            const emojis = ['⚙️', '🔧', '🔩', '⚡', '🔗', '⛓️', '🛠️', '🔨', '⚒️'];
+            const gearBg = document.getElementById('gearBackground');
+            
+            function addEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'falling-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + '%';
+                emoji.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                emoji.style.animationDelay = Math.random() * 5 + 's';
+                emoji.style.fontSize = (Math.random() * 1.5 + 1.5) + 'em';
+                gearBg.appendChild(emoji);
+                
+                setTimeout(() => emoji.remove(), 25000);
+            }
+            
+            // Create initial batch
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => addEmoji(), i * 2000);
+            }
+            
+            // Add new emoji every 3 seconds
+            setInterval(() => addEmoji(), 3000);
+        }
+
+        function createConfetti() {
+            const colors = ['#00ffff', '#00bfff', '#0080ff', '#ffbf00', '#ff6b6b'];
+            const confettiCount = 80;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3500);
+                }, i * 30);
+            }
+        }
+        
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectRandomQuestions() {
+            const shuffled = shuffleArray(allQuestions);
+            return shuffled.slice(0, 10).map(q => ({
+                question: q.question,
+                options: shuffleArray([q.correct, ...q.wrong]),
+                correct: q.correct
+            }));
+        }
+
+        function showMenu() {
+            gameState = 'menu';
+            const content = document.getElementById('content');
+            const title = window.elementSdk?.config?.quiz_title || defaultConfig.quiz_title;
+            const startBtn = window.elementSdk?.config?.start_button || defaultConfig.start_button;
+            
+            content.innerHTML = `
+                <div class="menu-content">
+                    <p><strong>Selamat datang ke kuiz interaktif mengenai Komponen Mekanikal!</strong></p>
+                    
+                    <h2>📚 Mengenai Topik</h2>
+                    <p>Kuiz ini merangkumi 11 jenis komponen mekanikal penting dan fungsinya dalam sistem mekanikal, termasuk gear, pautan, tuil, takal, tali sawat, aci sesondol, aci engkol, gelongsor, galas bebola, bindu, dan rantai.</p>
+                    
+                    <h2>📋 Arahan Kuiz</h2>
+                    <ul>
+                        <li>Anda akan menjawab <strong>10 soalan</strong> yang dipilih secara rawak</li>
+                        <li>Pilih satu jawapan yang paling tepat</li>
+                        <li>Klik butang <strong>"Hantar Jawapan"</strong> untuk menyemak</li>
+                        <li>Anda akan menerima maklum balas segera</li>
+                        <li>Klik <strong>"Soalan Seterusnya"</strong> untuk meneruskan</li>
+                        <li>Skor anda akan dipaparkan pada akhir kuiz</li>
+                    </ul>
+                    
+                    <h2>🎯 Matlamat</h2>
+                    <p>Uji pemahaman anda tentang komponen mekanikal dan fungsinya. Cuba dapatkan markah penuh!</p>
+                    
+                    <button class="btn" onclick="startQuiz()">${startBtn}</button>
+                </div>
+            `;
+        }
+
+        function startQuiz() {
+            gameState = 'quiz';
+            currentQuestions = selectRandomQuestions();
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswer = null;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const content = document.getElementById('content');
+            const question = currentQuestions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+            
+            content.innerHTML = `
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <div class="question-header">
+                    <span class="question-number">Soalan ${currentQuestionIndex + 1} / ${currentQuestions.length}</span>
+                    <span class="score">Skor: ${score} / ${currentQuestions.length}</span>
+                </div>
+                <div class="question-text">${question.question}</div>
+                <div class="options" id="options">
+                    ${question.options.map((opt, idx) => `
+                        <div class="option" onclick="selectOption(${idx})" data-index="${idx}">
+                            ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div id="feedback"></div>
+                <button class="btn" id="submitBtn" onclick="submitAnswer()">Hantar Jawapan</button>
+                <button class="btn home-btn" onclick="showMenu()">Kembali ke Menu</button>
+            `;
+        }
+
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            selectedAnswer = index;
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer === null) return;
+            
+            const question = currentQuestions[currentQuestionIndex];
+            const selectedText = question.options[selectedAnswer];
+            const isCorrect = selectedText === question.correct;
+            const correctFeedback = window.elementSdk?.config?.correct_feedback || defaultConfig.correct_feedback;
+            const wrongFeedback = window.elementSdk?.config?.wrong_feedback || defaultConfig.wrong_feedback;
+            
+            if (isCorrect) {
+                score++;
+                createConfetti();
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, idx) => {
+                opt.classList.add('disabled');
+                if (question.options[idx] === question.correct) {
+                    opt.classList.add('correct');
+                } else if (idx === selectedAnswer && !isCorrect) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `
+                <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
+                    ${isCorrect ? correctFeedback : wrongFeedback}
+                    ${!isCorrect ? `<br><strong>Jawapan yang betul:</strong> ${question.correct}` : ''}
+                </div>
+            `;
+            
+            const scoreDisplay = document.querySelector('.score');
+            scoreDisplay.textContent = `Skor: ${score} / ${currentQuestions.length}`;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = currentQuestionIndex < currentQuestions.length - 1 ? 'Soalan Seterusnya' : 'Lihat Keputusan';
+            submitBtn.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            selectedAnswer = null;
+            
+            if (currentQuestionIndex < currentQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            gameState = 'results';
+            const content = document.getElementById('content');
+            const percentage = (score / currentQuestions.length) * 100;
+            let message = '';
+            
+            if (percentage === 100) {
+                message = "Cemerlang! Anda menguasai topik ini dengan sempurna! 🌟";
+                createConfetti();
+            } else if (percentage >= 80) {
+                message = "Sangat Baik! Anda mempunyai pemahaman yang kukuh! 👏";
+            } else if (percentage >= 60) {
+                message = "Baik! Teruskan usaha anda! 💪";
+            } else if (percentage >= 40) {
+                message = "Sederhana. Cuba semak semula nota anda. 📖";
+            } else {
+                message = "Perlu lebih usaha. Jangan putus asa! 🌱";
+            }
+            
+            content.innerHTML = `
+                <div class="result-card">
+                    <div class="result-score">${score}/${currentQuestions.length}</div>
+                    <div class="result-message">${message}</div>
+                    <div class="result-details">
+                        <p><strong>Peratus Kejayaan:</strong> ${percentage.toFixed(0)}%</p>
+                        <p><strong>Jawapan Betul:</strong> ${score} soalan</p>
+                        <p><strong>Jawapan Salah:</strong> ${currentQuestions.length - score} soalan</p>
+                    </div>
+                    <button class="btn" onclick="showMenu()">Kembali ke Menu</button>
+                    <button class="btn" onclick="startQuiz()" style="margin-top: 3%; background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">Cuba Lagi</button>
+                </div>
+            `;
+        }
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('quizTitle');
+            if (titleElement) {
+                titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+            }
+            
+            if (gameState === 'menu') {
+                showMenu();
+            }
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["start_button", config.start_button || defaultConfig.start_button],
+                    ["correct_feedback", config.correct_feedback || defaultConfig.correct_feedback],
+                    ["wrong_feedback", config.wrong_feedback || defaultConfig.wrong_feedback]
+                ])
+            });
+        }
+
+        // Initialize gears, falling emojis and show menu
+        createGears();
+        createFallingEmojis();
+        showMenu();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a783f2e532fd964',t:'MTc2NDY1MTQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
