@@ -86,6 +86,18 @@
             line-height: 1.3;
         }
 
+        /* Title color changes based on theme */
+        body.theme-daytime h1 {
+            color: #1e3a8a;
+            text-shadow: 3px 3px 8px rgba(255,255,255,0.8), 0 0 15px rgba(255,255,255,0.6);
+        }
+
+        body.theme-sunset h1,
+        body.theme-night h1 {
+            color: #ffffff;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.4);
+        }
+
         .subtitle {
             font-size: 1.1rem;
             color: #ffffff;
@@ -135,6 +147,7 @@
         .tab-button:hover {
             background: rgba(102, 126, 234, 0.1);
             color: #764ba2;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .tab-button.active {
@@ -159,6 +172,12 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25), 0 0 30px var(--theme-primary);
+            transform: translateY(-5px);
         }
 
         .info-card h2 {
@@ -181,6 +200,13 @@
             padding: 1rem 1.5rem;
             margin: 1rem 0;
             border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .definition-box:hover {
+            background: #edf2f7;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1), 0 0 20px var(--theme-secondary);
+            transform: translateX(5px);
         }
 
         .definition-box strong {
@@ -194,6 +220,12 @@
             padding: 2.5rem 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .diagram-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25), 0 0 30px var(--theme-primary);
+            transform: translateY(-5px);
         }
 
         .diagram-title {
@@ -232,7 +264,7 @@
 
         .diagram-node:hover {
             transform: scale(1.08);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 40px var(--theme-primary);
         }
 
         .node-main {
@@ -341,6 +373,12 @@
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow-x: auto;
+            transition: all 0.3s ease;
+        }
+
+        .examples-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25), 0 0 30px var(--theme-primary);
+            transform: translateY(-5px);
         }
 
         .examples-card h2 {
@@ -389,7 +427,7 @@
         .examples-table tbody td:hover:not(.function-cell) {
             border-color: var(--theme-primary);
             transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 0 25px var(--theme-primary);
         }
 
         .cell-emoji {
@@ -444,15 +482,15 @@
 
         .back-to-top:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.8);
         }
 
         .back-to-top:active {
             transform: translateY(-2px);
         }
 
-        /* Stars for night theme */
-        .stars {
+        /* Floating Particles Container */
+        .floating-particles {
             position: fixed;
             top: 0;
             left: 0;
@@ -464,10 +502,94 @@
             transition: opacity 0.6s ease;
         }
 
-        body.theme-night .stars {
+        body.theme-daytime .floating-particles.daytime-particles,
+        body.theme-sunset .floating-particles.sunset-particles,
+        body.theme-night .floating-particles.night-particles {
             opacity: 1;
         }
 
+        /* Daytime - Bubbles and Clouds */
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+            border-radius: 50%;
+            animation: floatUp 15s ease-in infinite;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+            animation: driftCloud 25s linear infinite;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud::after {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            right: 10px;
+        }
+
+        /* Sunset - Fireflies and Birds */
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: fireflyFloat 8s ease-in-out infinite;
+            box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+        }
+
+        .bird {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            animation: birdFly 20s linear infinite;
+        }
+
+        .bird::before,
+        .bird::after {
+            content: '';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .bird::before {
+            width: 15px;
+            height: 10px;
+            left: 0;
+            transform: rotate(-20deg);
+            animation: flapWing 1s ease-in-out infinite;
+        }
+
+        .bird::after {
+            width: 15px;
+            height: 10px;
+            right: 0;
+            transform: rotate(20deg);
+            animation: flapWing 1s ease-in-out infinite 0.5s;
+        }
+
+        /* Night - Stars and Shooting Stars */
         .star {
             position: absolute;
             width: 2px;
@@ -477,9 +599,128 @@
             animation: twinkle 3s ease-in-out infinite;
         }
 
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px white;
+            animation: shootingStar 3s linear infinite;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, white, transparent);
+            transform: translateX(-80px);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100%) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes driftCloud {
+            0% {
+                transform: translateX(-150px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 150px));
+            }
+        }
+
+        @keyframes fireflyFloat {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate(30px, -30px);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-20px, -60px);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(40px, -40px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes birdFly {
+            0% {
+                transform: translateX(-100px) translateY(0);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px);
+            }
+        }
+
+        @keyframes flapWing {
+            0%, 100% {
+                transform: rotate(-20deg) scaleY(1);
+            }
+            50% {
+                transform: rotate(-40deg) scaleY(0.6);
+            }
+        }
+
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
+        }
+
+        @keyframes shootingStar {
+            0% {
+                transform: translate(0, 0) rotate(-45deg);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(300px, 300px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100% + 100px)) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         @keyframes bouncePopup {
@@ -632,8 +873,10 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body class="theme-daytime"><!-- Stars for night theme -->
-  <div class="stars" id="starsContainer"></div>
+ <body class="theme-daytime"><!-- Floating Particles for Daytime -->
+  <div class="floating-particles daytime-particles" id="daytimeParticles"></div><!-- Floating Particles for Sunset -->
+  <div class="floating-particles sunset-particles" id="sunsetParticles"></div><!-- Floating Particles for Night -->
+  <div class="floating-particles night-particles" id="nightParticles"></div>
   <div class="main-container">
    <div class="content-wrapper">
     <header>
@@ -697,7 +940,7 @@
     <section id="contoh" class="content-section">
      <div class="examples-card">
       <h2>Contoh-contoh Produk, Fungsi &amp; Objek</h2>
-      <p style="text-align: center; margin-bottom: 1.5rem; color: #718096; font-size: 0.95rem;">Klik pada setiap kad untuk melihat emoji muncul!</p>
+      <p style="text-align: center; margin-bottom: 1.5rem; color: #718096; font-size: 0.95rem;">Klik pada setiap kad untuk melihat emoji muncul! (Cuba klik 5 kali untuk kejutan! 🎉)</p>
       <table class="examples-table">
        <thead>
         <tr>
@@ -708,34 +951,34 @@
        </thead>
        <tbody>
         <tr>
-         <td onclick="showEmojiPopup('🪑')"><span class="cell-emoji">🪑</span> <span class="cell-text">Meja</span></td>
+         <td onclick="handleCardClick(this, '🪑')"><span class="cell-emoji">🪑</span> <span class="cell-text">Meja</span></td>
          <td class="function-cell"><span class="cell-text">Memegang</span></td>
-         <td onclick="showEmojiPopup('📚')"><span class="cell-emoji">📚</span> <span class="cell-text">Buku</span></td>
+         <td onclick="handleCardClick(this, '📚')"><span class="cell-emoji">📚</span> <span class="cell-text">Buku</span></td>
         </tr>
         <tr>
-         <td onclick="showEmojiPopup('☕')"><span class="cell-emoji">☕</span> <span class="cell-text">Cawan</span></td>
+         <td onclick="handleCardClick(this, '☕')"><span class="cell-emoji">☕</span> <span class="cell-text">Cawan</span></td>
          <td class="function-cell"><span class="cell-text">Memegang</span></td>
-         <td onclick="showEmojiPopup('💧')"><span class="cell-emoji">��</span> <span class="cell-text">Air</span></td>
+         <td onclick="handleCardClick(this, '💧')"><span class="cell-emoji">💧</span> <span class="cell-text">Air</span></td>
         </tr>
         <tr>
-         <td onclick="showEmojiPopup('📎')"><span class="cell-emoji">📎</span> <span class="cell-text">Klip</span></td>
+         <td onclick="handleCardClick(this, '📎')"><span class="cell-emoji">📎</span> <span class="cell-text">Klip</span></td>
          <td class="function-cell"><span class="cell-text">Memegang</span></td>
-         <td onclick="showEmojiPopup('📄')"><span class="cell-emoji">📄</span> <span class="cell-text">Kertas</span></td>
+         <td onclick="handleCardClick(this, '📄')"><span class="cell-emoji">📄</span> <span class="cell-text">Kertas</span></td>
         </tr>
         <tr>
-         <td onclick="showEmojiPopup('🚗')"><span class="cell-emoji">🚗</span> <span class="cell-text">Kereta</span></td>
+         <td onclick="handleCardClick(this, '🚗')"><span class="cell-emoji">🚗</span> <span class="cell-text">Kereta</span></td>
          <td class="function-cell"><span class="cell-text">Mengangkut</span></td>
-         <td onclick="showEmojiPopup('👨‍👩‍👧‍👦')"><span class="cell-emoji">👨‍👩‍👧‍👦</span> <span class="cell-text">Manusia</span></td>
+         <td onclick="handleCardClick(this, '👨‍👩‍👧‍👦')"><span class="cell-emoji">👨‍👩‍👧‍👦</span> <span class="cell-text">Manusia</span></td>
         </tr>
         <tr>
-         <td onclick="showEmojiPopup('🍽️')"><span class="cell-emoji">🍽️</span> <span class="cell-text">Pinggan</span></td>
+         <td onclick="handleCardClick(this, '🍽️')"><span class="cell-emoji">🍽️</span> <span class="cell-text">Pinggan</span></td>
          <td class="function-cell"><span class="cell-text">Memegang</span></td>
-         <td onclick="showEmojiPopup('🍲')"><span class="cell-emoji">🍲</span> <span class="cell-text">Makanan</span></td>
+         <td onclick="handleCardClick(this, '🍲')"><span class="cell-emoji">🍲</span> <span class="cell-text">Makanan</span></td>
         </tr>
         <tr>
-         <td onclick="showEmojiPopup('🏺')"><span class="cell-emoji">🏺</span> <span class="cell-text">Pasu</span></td>
+         <td onclick="handleCardClick(this, '🏺')"><span class="cell-emoji">🏺</span> <span class="cell-text">Pasu</span></td>
          <td class="function-cell"><span class="cell-text">Memegang</span></td>
-         <td onclick="showEmojiPopup('🌹')"><span class="cell-emoji">🌹</span> <span class="cell-text">Bunga</span></td>
+         <td onclick="handleCardClick(this, '🌹')"><span class="cell-emoji">🌹</span> <span class="cell-text">Bunga</span></td>
         </tr>
        </tbody>
       </table>
@@ -750,24 +993,153 @@
 
         const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
 
-        // Create stars for night theme
-        function createStars() {
-            const starsContainer = document.getElementById('starsContainer');
-            const numberOfStars = 100;
+        let cardClickCount = 0;
+        let clickTimer = null;
+
+        // Create floating particles for daytime (bubbles and clouds)
+        function createDaytimeParticles() {
+            const container = document.getElementById('daytimeParticles');
             
-            for (let i = 0; i < numberOfStars; i++) {
+            // Create bubbles
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 40 + 20;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.bottom = '-50px';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(bubble);
+            }
+
+            // Create clouds
+            for (let i = 0; i < 5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.width = (Math.random() * 80 + 80) + 'px';
+                cloud.style.height = '40px';
+                cloud.style.top = (Math.random() * 30) + '%';
+                cloud.style.left = '-150px';
+                cloud.style.animationDelay = Math.random() * 20 + 's';
+                cloud.style.animationDuration = (Math.random() * 15 + 20) + 's';
+                container.appendChild(cloud);
+            }
+        }
+
+        // Create floating particles for sunset (fireflies and birds)
+        function createSunsetParticles() {
+            const container = document.getElementById('sunsetParticles');
+            
+            // Create fireflies
+            for (let i = 0; i < 20; i++) {
+                const firefly = document.createElement('div');
+                firefly.className = 'firefly';
+                firefly.style.left = Math.random() * 100 + '%';
+                firefly.style.top = Math.random() * 100 + '%';
+                firefly.style.animationDelay = Math.random() * 8 + 's';
+                firefly.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                container.appendChild(firefly);
+            }
+
+            // Create birds
+            for (let i = 0; i < 5; i++) {
+                const bird = document.createElement('div');
+                bird.className = 'bird';
+                bird.style.top = (Math.random() * 40 + 10) + '%';
+                bird.style.left = '-50px';
+                bird.style.animationDelay = Math.random() * 15 + 's';
+                bird.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(bird);
+            }
+        }
+
+        // Create particles for night (stars and shooting stars)
+        function createNightParticles() {
+            const container = document.getElementById('nightParticles');
+            
+            // Create stars
+            for (let i = 0; i < 100; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
+                container.appendChild(star);
+            }
+
+            // Create shooting stars
+            for (let i = 0; i < 3; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = Math.random() * 50 + '%';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.animationDelay = Math.random() * 5 + 's';
+                shootingStar.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(shootingStar);
             }
         }
 
-        createStars();
+        // Initialize all particles
+        createDaytimeParticles();
+        createSunsetParticles();
+        createNightParticles();
 
-        // Tab switching functionality - simplified
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
+            const confettiCount = 100;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-20px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                    confetti.style.animationDuration = (Math.random() * 1 + 2) + 's';
+                    
+                    // Random shapes
+                    if (Math.random() > 0.5) {
+                        confetti.style.borderRadius = '50%';
+                    }
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3500);
+                }, i * 10);
+            }
+        }
+
+        // Handle card clicks with confetti easter egg
+        function handleCardClick(element, emoji) {
+            showEmojiPopup(emoji);
+            
+            // Count clicks
+            cardClickCount++;
+            
+            // Clear previous timer
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+            }
+            
+            // Check if 5 clicks reached
+            if (cardClickCount >= 5) {
+                createConfetti();
+                cardClickCount = 0;
+            } else {
+                // Reset count after 2 seconds of no clicks
+                clickTimer = setTimeout(() => {
+                    cardClickCount = 0;
+                }, 2000);
+            }
+        }
+
+        // Tab switching functionality
         const tabButtons = document.querySelectorAll('.tab-button');
         
         tabButtons.forEach(button => {
@@ -854,5 +1226,5 @@
             });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a799a3816af24d2',t:'MTc2NDY2NTY5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a79a71bc07a24d2',t:'MTc2NDY2NjIyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
