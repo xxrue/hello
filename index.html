@@ -1,679 +1,438 @@
-<!doctype html>
+<!doctype doctype>
 <html lang="ms">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuiz Komponen Mekanikal</title>
+  <title>Analisis Fungsi Produk</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
         body {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a192f 0%, #1a2332 50%, #0f2847 100%);
-            min-height: 100%;
-            width: 100%;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px);
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .gear-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        
-        .falling-emoji {
-            position: absolute;
-            font-size: 2em;
-            opacity: 0.3;
-            animation: fall linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes fall {
-            0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .gear {
-            position: absolute;
-            opacity: 0.08;
-            animation: rotate 20s linear infinite;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
-        }
-        
-        .gear:nth-child(1) {
-            top: 10%;
-            left: 5%;
-            width: 150px;
-            height: 150px;
-            animation-duration: 25s;
-        }
-        
-        .gear:nth-child(2) {
-            top: 60%;
-            right: 8%;
-            width: 200px;
-            height: 200px;
-            animation-duration: 30s;
-            animation-direction: reverse;
-        }
-        
-        .gear:nth-child(3) {
-            bottom: 15%;
-            left: 15%;
-            width: 120px;
-            height: 120px;
-            animation-duration: 20s;
-        }
-        
-        .gear:nth-child(4) {
-            top: 30%;
-            right: 25%;
-            width: 100px;
-            height: 100px;
-            animation-duration: 18s;
-            animation-direction: reverse;
-        }
-        
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
         }
         
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            overflow-x: hidden;
+        }
+
         .container {
             width: 100%;
             min-height: 100%;
-            padding: 5% 4%;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #e6e6ff;
+            font-weight: 400;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .info-card h2 {
+            font-size: 1.4rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+        }
+
+        .info-card p {
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 0.8rem;
+        }
+
+        .definition-box {
+            background: #f7fafc;
+            border-left: 4px solid #764ba2;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box strong {
+            color: #764ba2;
+            font-size: 1.05rem;
+        }
+
+        .diagram-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .diagram-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #667eea;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .diagram-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.8rem 1.5rem;
+            border-radius: 50%;
+            min-width: 180px;
+            min-height: 180px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .quiz-card {
-            background: rgba(30, 42, 58, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 25px;
-            box-shadow: 
-                0 8px 32px 0 rgba(0, 0, 0, 0.37),
-                0 0 40px rgba(0, 255, 255, 0.1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 800px;
-            padding: 8% 6%;
-            animation: fadeIn 0.5s ease-in, floatCard 6s ease-in-out infinite;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            position: relative;
-        }
-        
-        .quiz-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 25px;
-            padding: 2px;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(0, 191, 255, 0.1), rgba(0, 255, 255, 0.3));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            animation: borderGlow 3s ease-in-out infinite;
-        }
-        
-        @keyframes borderGlow {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes floatCard {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .quiz-title {
-            color: #00ffff;
             text-align: center;
-            font-size: 2em;
-            margin-bottom: 5%;
-            font-weight: bold;
-            text-shadow: 
-                0 0 20px rgba(0, 255, 255, 0.5),
-                0 0 40px rgba(0, 255, 255, 0.3),
-                0 2px 4px rgba(0, 0, 0, 0.5);
-            animation: titlePulse 3s ease-in-out infinite;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
         }
-        
-        @keyframes titlePulse {
-            0%, 100% {
-                text-shadow: 
-                    0 0 20px rgba(0, 255, 255, 0.5),
-                    0 0 40px rgba(0, 255, 255, 0.3),
-                    0 2px 4px rgba(0, 0, 0, 0.5);
-            }
-            50% {
-                text-shadow: 
-                    0 0 30px rgba(0, 255, 255, 0.8),
-                    0 0 60px rgba(0, 255, 255, 0.5),
-                    0 2px 4px rgba(0, 0, 0, 0.5);
-            }
+
+        .diagram-node:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
         }
-        
-        .menu-content {
-            color: #e0e0e0;
-            line-height: 1.8;
+
+        .node-main {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
-        
-        .menu-content h2 {
-            color: #00ffff;
-            font-size: 1.5em;
-            margin-top: 5%;
-            margin-bottom: 3%;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+
+        .node-sub {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            font-weight: 400;
         }
-        
-        .menu-content p {
-            margin-bottom: 3%;
-            font-size: 1.1em;
-        }
-        
-        .menu-content ul {
-            margin-left: 5%;
-            margin-bottom: 4%;
-        }
-        
-        .menu-content li {
-            margin-bottom: 2%;
-            font-size: 1.05em;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #00bfff 0%, #0080ff 100%);
-            color: white;
-            border: 2px solid rgba(0, 255, 255, 0.5);
-            padding: 4% 8%;
-            font-size: 1.2em;
-            border-radius: 50px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            margin: 5% auto 0;
-            display: block;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 
-                0 0 20px rgba(0, 191, 255, 0.4),
-                0 4px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 0 30px rgba(0, 191, 255, 0.6),
-                0 0 50px rgba(0, 255, 255, 0.4),
-                0 6px 20px rgba(0, 0, 0, 0.4);
-            border-color: rgba(0, 255, 255, 0.8);
-        }
-        
-        .btn:active {
-            transform: translateY(-1px);
-        }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5%;
-            flex-wrap: wrap;
-            gap: 3%;
-        }
-        
-        .question-number {
-            color: #00ffff;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            background: rgba(0, 255, 255, 0.1);
-            padding: 2% 4%;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .score {
-            color: #00bfff;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
-            background: rgba(0, 191, 255, 0.1);
-            padding: 2% 4%;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .question-text {
-            font-size: 1.4em;
-            color: #ffffff;
-            margin-bottom: 6%;
-            line-height: 1.6;
-            font-weight: 500;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 255, 255, 0.05);
-            padding: 4%;
-            border-radius: 15px;
-            border-left: 4px solid #00ffff;
-        }
-        
-        .options {
+
+        .arrow-container {
             display: flex;
             flex-direction: column;
-            gap: 3%;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
         }
-        
-        .option {
-            background: rgba(42, 63, 95, 0.6);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(58, 79, 111, 0.8);
-            padding: 4%;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.1em;
-            text-align: left;
-            color: #e0e0e0;
+
+        .arrow {
+            width: 80px;
+            height: 4px;
+            background: #667eea;
             position: relative;
-            overflow: hidden;
+            margin: 0.5rem 0;
         }
-        
-        .option::before {
+
+        .arrow::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            right: -10px;
+            top: -6px;
+            width: 0;
+            height: 0;
+            border-left: 14px solid #667eea;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
         }
-        
-        .option:hover::before {
-            left: 100%;
-        }
-        
-        .option:hover {
-            background: rgba(58, 95, 143, 0.7);
-            border-color: #00ffff;
-            transform: translateX(10px);
-            box-shadow: 
-                0 0 20px rgba(0, 255, 255, 0.3),
-                inset 0 0 20px rgba(0, 255, 255, 0.1);
-        }
-        
-        .option.selected {
-            background: linear-gradient(135deg, rgba(0, 191, 255, 0.8) 0%, rgba(0, 128, 255, 0.8) 100%);
-            backdrop-filter: blur(15px);
+
+        .arrow-label {
+            background: #667eea;
             color: white;
-            border-color: #00ffff;
-            box-shadow: 
-                0 0 25px rgba(0, 191, 255, 0.5),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
-            transform: scale(1.02);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
         }
-        
-        .option.correct {
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.8) 0%, rgba(32, 201, 151, 0.8) 100%);
-            backdrop-filter: blur(15px);
+
+        .arrow-sublabel {
+            font-size: 0.8rem;
+            color: #667eea;
+            font-style: italic;
+        }
+
+        .examples-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .examples-card h2 {
+            font-size: 1.4rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .table-like-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-color: #28a745;
-            animation: correctPulse 0.6s ease;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .table-cell {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 140px;
         }
         
-        @keyframes correctPulse {
-            0%, 100% {
-                transform: scale(1);
+        .table-cell.function-cell {
+            cursor: default;
+        }
+
+        .table-cell:hover {
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .table-cell.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .cell-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cell-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .emoji-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12rem;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            animation: bouncePopup 1s ease-out;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes bouncePopup {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
             }
             50% {
-                transform: scale(1.05);
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 1;
+            }
+            85% {
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
             }
         }
-        
-        .option.wrong {
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.8) 0%, rgba(255, 71, 87, 0.8) 100%);
-            backdrop-filter: blur(15px);
-            color: white;
-            border-color: #dc3545;
-            animation: shake 0.5s;
-        }
-        
-        .option.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
-        .feedback {
-            margin-top: 5%;
-            padding: 4%;
-            border-radius: 15px;
-            font-size: 1.1em;
-            font-weight: 500;
-            text-align: center;
-            animation: slideIn 0.3s ease-out;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        @keyframes slideIn {
+
+        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
-        }
-        
-        .feedback.correct {
-            background: rgba(212, 237, 218, 0.9);
-            color: #155724;
-            border: 2px solid #28a745;
-        }
-        
-        .feedback.wrong {
-            background: rgba(248, 215, 218, 0.9);
-            color: #721c24;
-            border: 2px solid #dc3545;
-        }
-        
-        .result-card {
-            text-align: center;
-        }
-        
-        .result-score {
-            font-size: 4em;
-            color: #00ffff;
-            font-weight: bold;
-            margin: 5% 0;
-            text-shadow: 
-                0 0 30px rgba(0, 255, 255, 0.8),
-                0 0 60px rgba(0, 255, 255, 0.5),
-                0 4px 8px rgba(0, 0, 0, 0.5);
-            animation: scoreReveal 0.8s ease-out;
-        }
-        
-        @keyframes scoreReveal {
+
+        @keyframes fadeInUp {
             from {
-                transform: scale(0);
                 opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
             }
             50% {
-                transform: scale(1.2);
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
+                transform: scale(1.03);
             }
         }
-        
-        .result-message {
-            font-size: 1.5em;
-            color: #ffffff;
-            margin-bottom: 5%;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-out;
-        }
-        
-        .result-details {
-            background: rgba(42, 63, 95, 0.6);
-            backdrop-filter: blur(15px);
-            padding: 5%;
-            border-radius: 15px;
-            margin: 5% 0;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.3),
-                inset 0 0 20px rgba(0, 255, 255, 0.05);
-        }
-        
-        .result-details p {
-            font-size: 1.2em;
-            margin: 3% 0;
-            color: #e0e0e0;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(42, 63, 95, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 5%;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00bfff 0%, #00ffff 50%, #00bfff 100%);
-            background-size: 200% 100%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-            animation: progressShine 2s linear infinite;
-        }
-        
-        @keyframes progressShine {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
-        
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #00ffff;
-            animation: confetti-fall 3s linear forwards;
-            pointer-events: none;
-            z-index: 9999;
-        }
-        
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .home-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            max-width: 200px;
-        }
-        
-        .home-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 
-                0 0 30px rgba(255, 255, 255, 0.2),
-                0 0 50px rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        
+
         @media (max-width: 768px) {
-            .quiz-title {
-                font-size: 1.5em;
-            }
-            
-            .question-text {
-                font-size: 1.2em;
-            }
-            
-            .option {
-                font-size: 1em;
-            }
-            
-            .btn {
-                font-size: 1.1em;
-                padding: 4% 6%;
-            }
-            
-            .result-score {
-                font-size: 3em;
-            }
-            
-            .result-message {
-                font-size: 1.2em;
-            }
-            
-            .gear:nth-child(1), .gear:nth-child(3) {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .gear:nth-child(2), .gear:nth-child(4) {
-                width: 100px;
-                height: 100px;
-            }
-        }
-        
-        @media (max-width: 480px) {
             .container {
-                padding: 4% 3%;
+                padding: 1.5rem 1rem;
             }
-            
-            .quiz-card {
-                padding: 6% 5%;
+
+            h1 {
+                font-size: 1.5rem;
             }
-            
-            .quiz-title {
-                font-size: 1.3em;
-                margin-bottom: 4%;
+
+            .subtitle {
+                font-size: 0.9rem;
             }
-            
-            .question-header {
-                font-size: 0.9em;
+
+            .info-card, .diagram-card, .examples-card {
+                padding: 1.5rem;
             }
-            
-            .question-text {
-                font-size: 1.1em;
-                margin-bottom: 5%;
+
+            .info-card h2, .examples-card h2 {
+                font-size: 1.2rem;
             }
-            
-            .option {
-                padding: 3.5%;
-                font-size: 0.95em;
+
+            .diagram-title {
+                font-size: 1.1rem;
             }
-            
-            .menu-content h2 {
-                font-size: 1.3em;
+
+            .flow-diagram {
+                flex-direction: column;
+                gap: 1rem;
             }
-            
-            .menu-content p, .menu-content li {
-                font-size: 1em;
+
+            .diagram-node {
+                min-width: 160px;
+                min-height: 160px;
+                padding: 1.5rem 1.2rem;
             }
-            
-            .gear {
-                display: none;
+
+            .node-main {
+                font-size: 1rem;
+            }
+
+            .node-sub {
+                font-size: 0.8rem;
+            }
+
+            .arrow-container {
+                min-width: 100%;
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+
+            .arrow {
+                width: 60px;
+            }
+
+            .table-header, .table-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header-card {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .table-cell {
+                padding: 1rem;
+            }
+
+            .cell-emoji {
+                font-size: 2rem;
+            }
+
+            .cell-text {
+                font-size: 1rem;
+            }
+
+            .emoji-popup {
+                font-size: 6rem;
             }
         }
     </style>
@@ -682,409 +441,262 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="gear-background" id="gearBackground"></div>
   <div class="container">
-   <div class="quiz-card" id="quizCard">
-    <h1 class="quiz-title" id="quizTitle">Kuiz Komponen Mekanikal dan Fungsinya</h1>
-    <div id="content"></div>
+   <div class="content-wrapper">
+    <header>
+     <h1 id="mainTitle">Hubung Kait antara Produk dengan Objek dari Segi Fungsinya</h1>
+     <p class="subtitle">Alat Pembelajaran Interaktif - Analisis Fungsi</p>
+    </header>
+    <div class="info-card">
+     <h2>Pengenalan</h2>
+     <p>Dalam proses penyelesaian masalah inventif, <strong>analisis fungsi</strong> bertujuan untuk mengenal pasti sistem yang ada pada sesebuah produk.</p>
+     <div class="definition-box">
+      <p><strong>Produk:</strong> Terdiri daripada gabungan beberapa komponen yang membentuk produk lengkap.</p>
+     </div>
+     <div class="definition-box">
+      <p><strong>Fungsi:</strong> Tugas yang dilakukan oleh produk untuk merubah objek sasaran.</p>
+     </div>
+     <div class="definition-box">
+      <p><strong>Objek:</strong> Menerima kesan daripada fungsi produk.</p>
+     </div>
+    </div>
+    <div class="diagram-card">
+     <h3 class="diagram-title">Gambarajah Hubung Kait Produk-Fungsi-Objek</h3>
+     <div class="flow-diagram">
+      <div class="diagram-node">
+       <div class="node-main">
+        PRODUK<br>
+        (Sistem)
+       </div>
+       <div class="node-sub">
+        (menjalankan fungsi)
+       </div>
+      </div>
+      <div class="arrow-container">
+       <div class="arrow-label">
+        FUNGSI
+       </div>
+       <div class="arrow-sublabel">
+        (tindakan)
+       </div>
+       <div class="arrow"></div>
+      </div>
+      <div class="diagram-node">
+       <div class="node-main">
+        OBJEK<br>
+        (Penerima Kesan)
+       </div>
+       <div class="node-sub">
+        (Parameter yang berubah)
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="examples-card">
+     <h2>Contoh-contoh Produk, Fungsi &amp; Objek</h2>
+     <p style="text-align: center; margin-bottom: 1.5rem; color: #718096; font-size: 0.95rem;">Klik pada setiap kad untuk melihat emoji muncul!</p>
+     <div class="table-like-container"><!-- Header Row -->
+      <div class="table-header">
+       <div class="header-card">
+        PRODUK
+       </div>
+       <div class="header-card">
+        FUNGSI
+       </div>
+       <div class="header-card">
+        OBJEK
+       </div>
+      </div><!-- Example Row 1 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('🪑')">
+        <div class="cell-emoji">
+         🪑
+        </div>
+        <div class="cell-text">
+         Meja
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Memegang
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('📚')">
+        <div class="cell-emoji">
+         📚
+        </div>
+        <div class="cell-text">
+         Buku
+        </div>
+       </div>
+      </div><!-- Example Row 2 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('☕')">
+        <div class="cell-emoji">
+         ☕
+        </div>
+        <div class="cell-text">
+         Cawan
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Memegang
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('💧')">
+        <div class="cell-emoji">
+         💧
+        </div>
+        <div class="cell-text">
+         Air
+        </div>
+       </div>
+      </div><!-- Example Row 3 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('📎')">
+        <div class="cell-emoji">
+         📎
+        </div>
+        <div class="cell-text">
+         Klip
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Memegang
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('📄')">
+        <div class="cell-emoji">
+         📄
+        </div>
+        <div class="cell-text">
+         Kertas
+        </div>
+       </div>
+      </div><!-- Example Row 4 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('🚗')">
+        <div class="cell-emoji">
+         🚗
+        </div>
+        <div class="cell-text">
+         Kereta
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Membawa
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('🧑')">
+        <div class="cell-emoji">
+         🧑
+        </div>
+        <div class="cell-text">
+         Manusia
+        </div>
+       </div>
+      </div><!-- Example Row 5 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('🍽️')">
+        <div class="cell-emoji">
+         🍽️
+        </div>
+        <div class="cell-text">
+         Pinggan
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Memegang
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('🍲')">
+        <div class="cell-emoji">
+         🍲
+        </div>
+        <div class="cell-text">
+         Makanan
+        </div>
+       </div>
+      </div><!-- Example Row 6 -->
+      <div class="table-row">
+       <div class="table-cell" onclick="showEmojiPopup('✏️')">
+        <div class="cell-emoji">
+         ✏️
+        </div>
+        <div class="cell-text">
+         Pen
+        </div>
+       </div>
+       <div class="table-cell function-cell">
+        <div class="cell-text">
+         Menulis
+        </div>
+       </div>
+       <div class="table-cell" onclick="showEmojiPopup('📄')">
+        <div class="cell-emoji">
+         📄
+        </div>
+        <div class="cell-text">
+         Kertas
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
    </div>
   </div>
   <script>
         const defaultConfig = {
-            quiz_title: "Kuiz Komponen Mekanikal dan Fungsinya",
-            start_button: "Mula Kuiz",
-            correct_feedback: "Tahniah! Jawapan anda betul! 🎉",
-            wrong_feedback: "Maaf, jawapan anda salah. Cuba lagi!"
+            main_title: "Hubung Kait antara Produk dengan Objek dari Segi Fungsinya"
         };
 
-        const allQuestions = [
-            {
-                question: "Apakah fungsi utama gear?",
-                correct: "Memindahkan kuasa dari satu komponen ke komponen lain",
-                wrong: ["Mengurangkan geseran", "Memegang mata gerudi", "Membuka dan menutup injap"]
-            },
+        const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
 
-            {
-                question: "Apakah fungsi pautan (linkage)?",
-                correct: "Penghubung komponen untuk melengkapkan sistem",
-                wrong: ["Memindahkan kuasa", "Mengurangkan geseran", "Menukar gerakan linear kepada berputar"]
-            },
-            {
-                question: "Sistem tuil atau tuas berkaitan dengan tiga perkara. Apakah tiga perkara tersebut?",
-                correct: "Daya, beban dan fulkrum",
-                wrong: ["Kuasa, kelajuan dan arah", "Geseran, putaran dan tekanan", "Enjin, motor dan gear"]
-            },
-            {
-                question: "Apakah takal (pulley)?",
-                correct: "Mesin ringkas yang terdiri daripada roda berputar pada gandar",
-                wrong: ["Komponen untuk mengurangkan geseran", "Alat untuk memegang mata gerudi", "Sistem penghubung komponen"]
-            },
-            {
-                question: "Apakah fungsi tali sawat (belting)?",
-                correct: "Menghubungkan takal pemacu dengan takal yang dipacu",
-                wrong: ["Memindahkan kuasa antara dua gear", "Membuka dan menutup injap", "Memegang dan mencengkam mata gerudi"]
-            },
-            {
-                question: "Apakah fungsi aci sesondol (cam shaft)?",
-                correct: "Membuka dan menutup injap",
-                wrong: ["Menukar gerakan linear kepada berputar", "Mengurangkan geseran", "Memindahkan kuasa ke gear"]
-            },
-            {
-                question: "Apakah yang dilakukan oleh aci engkol (crank shaft)?",
-                correct: "Menukar gerakan linear kepada gerakan berputar",
-                wrong: ["Membuka dan menutup injap", "Mengurangkan geseran", "Memegang mata gerudi"]
-            },
-            {
-                question: "Apakah fungsi gelongsor (slider)?",
-                correct: "Mengurangkan geseran bagi menggerakkan komponen",
-                wrong: ["Memindahkan kuasa", "Membuka injap", "Memegang mata gerudi"]
-            },
-            {
-                question: "Apakah dua fungsi galas bebola (ball bearing)?",
-                correct: "Pengantara objek berputar dan pengurang geseran",
-                wrong: ["Memindahkan kuasa dan membuka injap", "Memegang gerudi dan mengurangkan beban", "Menghubungkan gear dan menukar gerakan"]
-            },
-            {
-                question: "Apakah fungsi bindu (chuck)?",
-                correct: "Memegang dan mencengkam mata gerudi",
-                wrong: ["Mengurangkan geseran", "Memindahkan kuasa", "Menukar gerakan berputar"]
-            },
-            {
-                question: "Apakah peranan rantai (chain)?",
-                correct: "Pengantara penghantaran kuasa antara dua gear",
-                wrong: ["Mengurangkan geseran objek berputar", "Membuka dan menutup injap", "Memegang mata gerudi"]
-            },
-            {
-                question: "Komponen manakah yang berfungsi sebagai pengantara bagi objek yang berputar?",
-                correct: "Galas bebola (Ball bearing)",
-                wrong: ["Gelongsor (Slider)", "Bindu (Chuck)", "Pautan (Linkage)"]
-            },
-            {
-                question: "Antara berikut, manakah yang BUKAN jenis gear?",
-                correct: "Gear bindu",
-                wrong: ["Gear serong", "Gear taji", "Gear heliks"]
-            },
-            {
-                question: "Komponen manakah yang digunakan dalam contoh playar gabung?",
-                correct: "Tuil atau Tuas (Lever)",
-                wrong: ["Gelongsor (Slider)", "Pautan (Linkage)", "Takal (Pulley)"]
-            },
-            {
-                question: "Apakah yang berfungsi pada gigi gear?",
-                correct: "Menyalurkan kuasa daripada sumber kepada penerima",
-                wrong: ["Mengurangkan geseran", "Membuka injap", "Mencengkam mata gerudi"]
-            },
-            {
-                question: "Komponen manakah yang dipasang pada enjin atau motor elektrik?",
-                correct: "Takal pemacu (yang disambungkan dengan tali sawat)",
-                wrong: ["Aci sesondol", "Bindu", "Gelongsor"]
-            },
-            {
-                question: "Aci engkol berfungsi menghantar kuasa ke mana selepas menukar gerakan?",
-                correct: "Kotak gear untuk menggerakkan kenderaan",
-                wrong: ["Injap enjin", "Mata gerudi", "Sistem geseran"]
-            },
-            {
-                question: "Berapa jumlah komponen mekanikal yang dibincangkan dalam topik ini?",
-                correct: "11 komponen",
-                wrong: ["8 komponen", "10 komponen", "15 komponen"]
-            },
-            {
-                question: "Manakah BUKAN antara jenis-jenis gear yang disenaraikan?",
-                correct: "Gear elektrik",
-                wrong: ["Gear tulang hering", "Gear rak dan pinan", "Gear miter"]
-            }
-        ];
-
-        let currentQuestions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null;
-        let gameState = 'menu';
-
-        // Create animated gears in background
-        function createGears() {
-            const gearBg = document.getElementById('gearBackground');
-            const gearSVG = `
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50,10 L54,20 L64,18 L60,28 L70,30 L68,40 L78,44 L74,54 L82,60 L76,68 L84,76 L74,82 L78,92 L68,88 L66,98 L56,94 L50,100 L44,94 L34,98 L32,88 L22,92 L18,82 L8,76 L16,68 L10,60 L18,54 L14,44 L24,40 L22,30 L32,28 L28,18 L38,20 L42,10 L50,10 Z" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          stroke-width="2"/>
-                    <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="2"/>
-                </svg>
-            `;
+        function showEmojiPopup(emoji) {
+            const popup = document.createElement('div');
+            popup.className = 'emoji-popup';
+            popup.textContent = emoji;
+            document.body.appendChild(popup);
             
-            for (let i = 0; i < 4; i++) {
-                const gear = document.createElement('div');
-                gear.className = 'gear';
-                gear.innerHTML = gearSVG;
-                gear.style.color = '#00ffff';
-                gearBg.appendChild(gear);
-            }
-        }
-        
-        // Create falling emoji animations
-        function createFallingEmojis() {
-            const emojis = ['⚙️', '🔧', '🔩', '⚡', '🔗', '⛓️', '🛠️', '🔨', '⚒️'];
-            const gearBg = document.getElementById('gearBackground');
-            
-            function addEmoji() {
-                const emoji = document.createElement('div');
-                emoji.className = 'falling-emoji';
-                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji.style.left = Math.random() * 100 + '%';
-                emoji.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                emoji.style.animationDelay = Math.random() * 5 + 's';
-                emoji.style.fontSize = (Math.random() * 1.5 + 1.5) + 'em';
-                gearBg.appendChild(emoji);
-                
-                setTimeout(() => emoji.remove(), 25000);
-            }
-            
-            // Create initial batch
-            for (let i = 0; i < 8; i++) {
-                setTimeout(() => addEmoji(), i * 2000);
-            }
-            
-            // Add new emoji every 3 seconds
-            setInterval(() => addEmoji(), 3000);
+            setTimeout(() => {
+                popup.remove();
+            }, 1000);
         }
 
-        function createConfetti() {
-            const colors = ['#00ffff', '#00bfff', '#0080ff', '#ffbf00', '#ff6b6b'];
-            const confettiCount = 80;
-            
-            for (let i = 0; i < confettiCount; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    confetti.style.width = (Math.random() * 8 + 5) + 'px';
-                    confetti.style.height = confetti.style.width;
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 3500);
-                }, i * 30);
-            }
-        }
-        
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        function selectRandomQuestions() {
-            const shuffled = shuffleArray(allQuestions);
-            return shuffled.slice(0, 10).map(q => ({
-                question: q.question,
-                options: shuffleArray([q.correct, ...q.wrong]),
-                correct: q.correct
-            }));
-        }
-
-        function showMenu() {
-            gameState = 'menu';
-            const content = document.getElementById('content');
-            const title = window.elementSdk?.config?.quiz_title || defaultConfig.quiz_title;
-            const startBtn = window.elementSdk?.config?.start_button || defaultConfig.start_button;
-            
-            content.innerHTML = `
-                <div class="menu-content">
-                    <p><strong>Selamat datang ke kuiz interaktif mengenai Komponen Mekanikal!</strong></p>
-                    
-                    <h2>📚 Mengenai Topik</h2>
-                    <p>Kuiz ini merangkumi 11 jenis komponen mekanikal penting dan fungsinya dalam sistem mekanikal, termasuk gear, pautan, tuil, takal, tali sawat, aci sesondol, aci engkol, gelongsor, galas bebola, bindu, dan rantai.</p>
-                    
-                    <h2>📋 Arahan Kuiz</h2>
-                    <ul>
-                        <li>Anda akan menjawab <strong>10 soalan</strong> yang dipilih secara rawak</li>
-                        <li>Pilih satu jawapan yang paling tepat</li>
-                        <li>Klik butang <strong>"Hantar Jawapan"</strong> untuk menyemak</li>
-                        <li>Anda akan menerima maklum balas segera</li>
-                        <li>Klik <strong>"Soalan Seterusnya"</strong> untuk meneruskan</li>
-                        <li>Skor anda akan dipaparkan pada akhir kuiz</li>
-                    </ul>
-                    
-                    <h2>🎯 Matlamat</h2>
-                    <p>Uji pemahaman anda tentang komponen mekanikal dan fungsinya. Cuba dapatkan markah penuh!</p>
-                    
-                    <button class="btn" onclick="startQuiz()">${startBtn}</button>
-                </div>
-            `;
-        }
-
-        function startQuiz() {
-            gameState = 'quiz';
-            currentQuestions = selectRandomQuestions();
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const content = document.getElementById('content');
-            const question = currentQuestions[currentQuestionIndex];
-            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
-            
-            content.innerHTML = `
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${progress}%"></div>
-                </div>
-                <div class="question-header">
-                    <span class="question-number">Soalan ${currentQuestionIndex + 1} / ${currentQuestions.length}</span>
-                    <span class="score">Skor: ${score} / ${currentQuestions.length}</span>
-                </div>
-                <div class="question-text">${question.question}</div>
-                <div class="options" id="options">
-                    ${question.options.map((opt, idx) => `
-                        <div class="option" onclick="selectOption(${idx})" data-index="${idx}">
-                            ${opt}
-                        </div>
-                    `).join('')}
-                </div>
-                <div id="feedback"></div>
-                <button class="btn" id="submitBtn" onclick="submitAnswer()">Hantar Jawapan</button>
-                <button class="btn home-btn" onclick="showMenu()">Kembali ke Menu</button>
-            `;
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            options[index].classList.add('selected');
-            selectedAnswer = index;
-        }
-
-        function submitAnswer() {
-            if (selectedAnswer === null) return;
-            
-            const question = currentQuestions[currentQuestionIndex];
-            const selectedText = question.options[selectedAnswer];
-            const isCorrect = selectedText === question.correct;
-            const correctFeedback = window.elementSdk?.config?.correct_feedback || defaultConfig.correct_feedback;
-            const wrongFeedback = window.elementSdk?.config?.wrong_feedback || defaultConfig.wrong_feedback;
-            
-            if (isCorrect) {
-                score++;
-                createConfetti();
-            }
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((opt, idx) => {
-                opt.classList.add('disabled');
-                if (question.options[idx] === question.correct) {
-                    opt.classList.add('correct');
-                } else if (idx === selectedAnswer && !isCorrect) {
-                    opt.classList.add('wrong');
-                }
-            });
-            
-            const feedback = document.getElementById('feedback');
-            feedback.innerHTML = `
-                <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
-                    ${isCorrect ? correctFeedback : wrongFeedback}
-                    ${!isCorrect ? `<br><strong>Jawapan yang betul:</strong> ${question.correct}` : ''}
-                </div>
-            `;
-            
-            const scoreDisplay = document.querySelector('.score');
-            scoreDisplay.textContent = `Skor: ${score} / ${currentQuestions.length}`;
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.textContent = currentQuestionIndex < currentQuestions.length - 1 ? 'Soalan Seterusnya' : 'Lihat Keputusan';
-            submitBtn.onclick = nextQuestion;
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            selectedAnswer = null;
-            
-            if (currentQuestionIndex < currentQuestions.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            gameState = 'results';
-            const content = document.getElementById('content');
-            const percentage = (score / currentQuestions.length) * 100;
-            let message = '';
-            
-            if (percentage === 100) {
-                message = "Cemerlang! Anda menguasai topik ini dengan sempurna! 🌟";
-                createConfetti();
-            } else if (percentage >= 80) {
-                message = "Sangat Baik! Anda mempunyai pemahaman yang kukuh! 👏";
-            } else if (percentage >= 60) {
-                message = "Baik! Teruskan usaha anda! 💪";
-            } else if (percentage >= 40) {
-                message = "Sederhana. Cuba semak semula nota anda. 📖";
-            } else {
-                message = "Perlu lebih usaha. Jangan putus asa! 🌱";
-            }
-            
-            content.innerHTML = `
-                <div class="result-card">
-                    <div class="result-score">${score}/${currentQuestions.length}</div>
-                    <div class="result-message">${message}</div>
-                    <div class="result-details">
-                        <p><strong>Peratus Kejayaan:</strong> ${percentage.toFixed(0)}%</p>
-                        <p><strong>Jawapan Betul:</strong> ${score} soalan</p>
-                        <p><strong>Jawapan Salah:</strong> ${currentQuestions.length - score} soalan</p>
-                    </div>
-                    <button class="btn" onclick="showMenu()">Kembali ke Menu</button>
-                    <button class="btn" onclick="startQuiz()" style="margin-top: 3%; background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">Cuba Lagi</button>
-                </div>
-            `;
-        }
-
-        async function onConfigChange(config) {
-            const titleElement = document.getElementById('quizTitle');
+        async function onConfigChange(newConfig) {
+            const titleElement = document.getElementById('mainTitle');
             if (titleElement) {
-                titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+                titleElement.textContent = newConfig.main_title || defaultConfig.main_title;
             }
-            
-            if (gameState === 'menu') {
-                showMenu();
-            }
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["main_title", config.main_title || defaultConfig.main_title]
+            ]);
         }
 
         if (window.elementSdk) {
             window.elementSdk.init({
-                defaultConfig: defaultConfig,
-                onConfigChange: onConfigChange,
-                mapToCapabilities: (config) => ({
-                    recolorables: [],
-                    borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
-                }),
-                mapToEditPanelValues: (config) => new Map([
-                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-                    ["start_button", config.start_button || defaultConfig.start_button],
-                    ["correct_feedback", config.correct_feedback || defaultConfig.correct_feedback],
-                    ["wrong_feedback", config.wrong_feedback || defaultConfig.wrong_feedback]
-                ])
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
             });
         }
-
-        // Initialize gears, falling emojis and show menu
-        createGears();
-        createFallingEmojis();
-        showMenu();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a78bd67645d5e2b',t:'MTc2NDY1NjY1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7915de364555a9',t:'MTc2NDY2MDI3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
