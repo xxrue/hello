@@ -648,7 +648,7 @@
     </div>
     <div id="comparison-area" class="flashcard-view">
      <div class="hero-section">
-      <h1 class="mega-title">JOB SHOWDOWN</h1>
+      <h1 class="mega-title" id="showdown-title">JOB SHOWDOWN</h1>
       <p class="mini-subtitle">Compare the pros and cons side by side</p>
      </div>
      <div class="switch-tabs"><button class="tab-btn selected" data-tab="advantages">✨ Pros</button> <button class="tab-btn" data-tab="disadvantages">⚡ Cons</button>
@@ -915,6 +915,10 @@
 
           if (selectedJobs.length === 2) {
             setTimeout(() => {
+              const job1Name = jobsInfo[selectedJobs[0]].name.replace('PART TIME ', '');
+              const job2Name = jobsInfo[selectedJobs[1]].name.replace('PART TIME ', '');
+              document.getElementById('showdown-title').textContent = `${job1Name} VS ${job2Name}`;
+              
               document.getElementById('jobs-grid').style.display = 'none';
               document.getElementById('home-view').style.display = 'none';
               document.getElementById('compare-toggle').style.display = 'none';
@@ -1040,7 +1044,7 @@
         card.innerHTML = `
           <div class="flip-card-inner">
             <div class="card-face-front">
-              <div class="tap-icon">👆</div>
+              <div class="tap-icon">${job.emoji}</div>
               <p class="tap-text">Tap to reveal ${activeTab === 'advantages' ? 'pros' : 'cons'}</p>
             </div>
             <div class="card-face-back">
@@ -1067,5 +1071,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8151cad6fc9a6e',t:'MTc2NDc0NjYxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a815adc95219a6e',t:'MTc2NDc0Njk4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
