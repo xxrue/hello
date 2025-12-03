@@ -136,7 +136,7 @@
       justify-content: center;
       gap: 30px;
       flex-wrap: wrap;
-      margin-top: 15px;
+      margin: 0;
     }
 
     .score-item {
@@ -287,18 +287,24 @@
     .item {
       font-size: 3em;
       cursor: grab;
-      padding: 10px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       transition: all 0.2s ease;
       user-select: none;
-      border: 3px solid #0369a1;
+      border: 4px solid #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 70px;
+      min-height: 70px;
     }
 
     .item:hover {
       transform: scale(1.15) rotate(5deg);
-      box-shadow: 0 5px 20px rgba(3, 105, 161, 0.3);
+      box-shadow: 0 6px 25px rgba(3, 105, 161, 0.4);
+      background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
     }
 
     .item:active {
@@ -312,6 +318,8 @@
     .item.placed {
       cursor: default;
       font-size: 2.5em;
+      background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
+      border: 3px solid #0369a1;
     }
 
     .item.placed:hover {
@@ -322,6 +330,7 @@
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
       border-radius: 25px;
       padding: 30px;
+      padding-bottom: 150px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       border: 5px solid #0369a1;
       position: relative;
@@ -627,10 +636,15 @@
 
       .bins-container {
         grid-template-columns: 1fr;
+        max-height: 70vh;
+        overflow-y: auto;
+        padding: 10px;
+        gap: 25px;
       }
 
       .bin {
-        min-height: 160px;
+        min-height: 200px;
+        margin-bottom: 10px;
       }
 
       .items-grid {
@@ -645,7 +659,7 @@
         grid-template-columns: 1fr;
       }
 
-      .turtle-mascot {
+      .tapir-mascot {
         width: 80px;
         height: 80px;
         font-size: 2.8em;
@@ -697,14 +711,6 @@
   <div class="game-container">
    <div class="header">
     <h1 class="game-title" id="gameTitle">♻️ EcoChampion Recycling Challenge</h1>
-    <div class="score-board">
-     <div class="score-item"><span>🎯 Score:</span> <span class="score-number" id="score">0</span>
-     </div>
-     <div class="score-item"><span>⚡ Streak:</span> <span class="score-number" id="streak">0</span>
-     </div>
-     <div class="score-item"><span>📦 Items Left:</span> <span class="score-number" id="itemsLeft">18</span>
-     </div>
-    </div>
    </div>
    <div class="instructions-panel">
     <h2 class="instructions-title">🎮 How to Play</h2>
@@ -714,6 +720,14 @@
      <li id="instruction3">Match all items correctly to win!</li>
      <li id="instruction4">Build your streak for bonus points</li>
     </ul>
+   </div>
+   <div class="score-board">
+    <div class="score-item"><span>🎯 Score:</span> <span class="score-number" id="score">0</span>
+    </div>
+    <div class="score-item"><span>⚡ Streak:</span> <span class="score-number" id="streak">0</span>
+    </div>
+    <div class="score-item"><span>📦 Items Left:</span> <span class="score-number" id="itemsLeft">18</span>
+    </div>
    </div>
    <div class="game-area">
     <div class="bins-container">
@@ -820,10 +834,10 @@
   <div class="game-complete" id="gameComplete">
    <div class="complete-card">
     <div class="complete-title">
-     🏆 Tahniah! Congratulations!
+     🏆 Congratulations!
     </div>
     <p class="complete-message">You've successfully sorted all the waste! You're a true Malaysian EcoChampion!</p>
-    <p class="complete-message" id="finalScore"></p><button class="btn-restart" onclick="restartGame()">Main Lagi! (Play Again)</button>
+    <p class="complete-message" id="finalScore"></p><button class="btn-restart" onclick="restartGame()">Play Again</button>
    </div>
   </div>
   <script>
@@ -838,14 +852,14 @@
     const tapirMessages = [
       "🌊 Keep going! You're helping save our precious oceans!",
       "🐢 Fun fact: Sea turtles can live over 100 years! Keep our waters clean!",
-      "��� Amazing work! Every item sorted helps marine life like me!",
+      "🎉 Amazing work! Every item sorted helps marine life like me!",
       "🏖️ Did you know? 8 million tons of plastic enter our oceans yearly!",
       "✨ You're an Ocean Champion! Keep sorting and saving sea life!",
       "🐠 Proper recycling keeps our coral reefs healthy and vibrant!",
       "🌊 Excellent! Clean oceans mean safe homes for turtles and fish!",
       "🦈 Your good work protects whales, dolphins, and all ocean creatures!",
       "💪 Strong effort! Every piece of trash removed saves marine animals!",
-      "🌏 You're making Malaysian beaches cleaner! Terima kasih!"
+      "🌏 You're making Malaysian beaches cleaner! Thank you!"
     ];
 
     let lastTapirMessage = -1;
@@ -896,7 +910,7 @@
       { emoji: '🍎', type: 'organic', name: 'Apple Core' },
       { emoji: '🍌', type: 'organic', name: 'Banana Peel' },
       { emoji: '🥕', type: 'organic', name: 'Vegetable Scraps' },
-      { emoji: '🍃', type: 'organic', name: 'Leaves' },
+      { emoji: '��', type: 'organic', name: 'Leaves' },
       { emoji: '🍊', type: 'organic', name: 'Orange Peel' },
       { emoji: '🥚', type: 'organic', name: 'Eggshell' }
     ];
@@ -1015,7 +1029,7 @@
       // Create celebration bubbles
       createCelebrationBubbles(bin);
 
-      showFeedback(`✓ Betul! (Correct!) +${points} points`, 'correct');
+      showFeedback(`✓ Correct! +${points} points`, 'correct');
       updateScore();
 
       if (itemsRemaining === 0) {
@@ -1053,7 +1067,7 @@
 
     function handleIncorrectDrop() {
       streak = 0;
-      showFeedback('✗ Salah! (Wrong bin!) Cuba lagi! (Try again!)', 'incorrect');
+      showFeedback('✗ Wrong bin! Try again!', 'incorrect');
       updateScore();
     }
 
@@ -1222,5 +1236,5 @@
       tapir.addEventListener('click', showTapirMessage);
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7fe6f1b12f1be4',t:'MTc2NDczMTc1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7ff6f6270d1be4',t:'MTc2NDczMjQwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
