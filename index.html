@@ -122,6 +122,93 @@
       text-align: center;
     }
 
+    /* Instructions card */
+    .instructions-card {
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(64, 140, 220, 0.15) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(100, 180, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* Definition Display Box */
+    .definition-box {
+      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 35px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
+      border: 2px solid rgba(100, 180, 255, 0.3);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      min-height: 120px;
+      transition: all 0.3s ease;
+    }
+
+    .definition-box.active {
+      border-color: rgba(100, 180, 255, 0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(100, 180, 255, 0.2);
+    }
+
+    .definition-icon {
+      font-size: 40px;
+      filter: drop-shadow(0 2px 8px rgba(100, 180, 255, 0.4));
+      flex-shrink: 0;
+    }
+
+    .definition-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .definition-word {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #64b4ff;
+      margin: 0;
+      text-transform: capitalize;
+    }
+
+    .definition-text {
+      font-family: 'Lato', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #e8f4ff;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .info-icon {
+      font-size: 24px;
+      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
+    }
+
+    .instructions-text {
+      font-family: 'Lato', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #e8f4ff;
+      margin: 0;
+    }
+
+    .highlight-example {
+      color: #64b4ff;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(100, 180, 255, 0.4);
+      padding: 0 2px;
+    }
+
     .moon-icon {
       font-size: 48px;
       margin-bottom: 20px;
@@ -226,42 +313,6 @@
       border-bottom-color: rgba(143, 205, 255, 0.6);
     }
 
-    .tooltip {
-      position: fixed;
-      background: linear-gradient(135deg, rgba(31, 58, 96, 0.98) 0%, rgba(21, 40, 66, 0.98) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(100, 180, 255, 0.3);
-      border-radius: 12px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(100, 180, 255, 0.2);
-      z-index: 10000;
-      max-width: 280px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #e8f4ff;
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .tooltip.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 8px solid transparent;
-      border-top-color: rgba(31, 58, 96, 0.98);
-    }
-
     /* Navigation card */
     .navigation-card {
       background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
@@ -322,6 +373,18 @@
         font-size: 36px;
       }
 
+      .instructions-card {
+        padding: 12px 20px;
+      }
+
+      .instructions-text {
+        font-size: 14px;
+      }
+
+      .info-icon {
+        font-size: 20px;
+      }
+
       .content-card {
         padding: 40px 30px;
         min-height: 350px;
@@ -333,6 +396,25 @@
 
       .stanza-text {
         font-size: 18px;
+      }
+
+      .definition-box {
+        padding: 25px 25px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .definition-icon {
+        font-size: 32px;
+      }
+
+      .definition-word {
+        font-size: 20px;
+      }
+
+      .definition-text {
+        font-size: 16px;
       }
 
       .navigation-card {
@@ -380,11 +462,27 @@
   <div class="poetry-container"><!-- Header Card -->
    <header class="header-card">
     <div class="moon-icon">
-     🌙
+     ��
     </div>
     <h1 class="header-title" id="book-title">My Hero</h1>
     <p class="header-author" id="author-name">by Willis Hall</p>
-   </header><!-- Content Card -->
+   </header><!-- Instructions -->
+   <div class="instructions-card"><span class="info-icon">💡</span>
+    <p class="instructions-text">Click on any <span class="highlight-example">blue word</span> to see its meaning below!</p>
+   </div><!-- Definition Display Box -->
+   <div class="definition-box" id="definition-box">
+    <div class="definition-icon">
+     📖
+    </div>
+    <div class="definition-content">
+     <div class="definition-word" id="definition-word">
+      Click a blue word
+     </div>
+     <div class="definition-text" id="definition-text">
+      Select any highlighted word in the poem to see its meaning here.
+     </div>
+    </div>
+   </div><!-- Content Card -->
    <main class="content-card"><!-- Stanza 1 -->
     <div class="page-content active" data-page="0">
      <div class="illustration">
@@ -394,8 +492,7 @@
       My dad's as <span class="glossary-word" data-definition="Showing courage and not being afraid">brave</span> as a dad can be,<br>
        I <span class="glossary-word" data-definition="To judge or measure how good something or someone is">rate</span> him Number One,<br>
        He's not afraid of the <span class="glossary-word" data-definition="The darkest part of the night, usually midnight">dead of night</span>,<br>
-       Or anything under the sun. 
-      <div class="tooltip"></div>
+       Or anything under the sun.
      </div>
     </div><!-- Stanza 2 -->
     <div class="page-content" data-page="1">
@@ -406,8 +503,7 @@
       He's not afraid of a <span class="glossary-word" data-definition="A movie shown on TV very late at night, usually after 11 PM">late-night film</span>,<br>
        Full of <span class="glossary-word" data-definition="Very scary or frightening things">horrors</span> on the <span class="glossary-word" data-definition="British slang for television">telly</span>,<br>
        And is he afraid of <span class="glossary-word" data-definition="Bones of a dead person or animal">skeletons</span>?<br>
-       Not dad, not on your <span class="glossary-word" data-definition="British expression meaning 'definitely not' or 'no way'">Nelly</span>! 
-      <div class="tooltip"></div>
+       Not dad, not on your <span class="glossary-word" data-definition="British expression meaning 'definitely not' or 'no way'">Nelly</span>!
      </div>
     </div><!-- Stanza 3 -->
     <div class="page-content" data-page="2">
@@ -418,8 +514,7 @@
       He's not afraid of <span class="glossary-word" data-definition="Coming across or encountering someone or something">meeting</span> ghosts,<br>
        He'd even smile and <span class="glossary-word" data-definition="To welcome or say hello to someone">greet 'em</span>,<br>
        And things that scare most dads the most,<br>
-       My dad could just <span class="glossary-word" data-definition="To win against or overcome">defeat 'em</span>. 
-      <div class="tooltip"></div>
+       My dad could just <span class="glossary-word" data-definition="To win against or overcome">defeat 'em</span>.
      </div>
     </div><!-- Stanza 4 -->
     <div class="page-content" data-page="3">
@@ -430,8 +525,7 @@
       He's not afraid of <span class="glossary-word" data-definition="Mythical creatures that drink blood">vampires</span>,<br>
        Or a <span class="glossary-word" data-definition="A person who transforms into a wolf, also called a werewolf">wolf-man</span> come to get him,<br>
        If <span class="glossary-word" data-definition="A famous monster from a story, created by a scientist">Frankenstein's monster</span> knocked on our door,<br>
-       He wouldn't let that <span class="glossary-word" data-definition="Make someone worried, unhappy, or disturbed">upset</span> him. 
-      <div class="tooltip"></div>
+       He wouldn't let that <span class="glossary-word" data-definition="Make someone worried, unhappy, or disturbed">upset</span> him.
      </div>
     </div><!-- Stanza 5 -->
     <div class="page-content" data-page="4">
@@ -442,8 +536,7 @@
       My dad's as brave as a dad can be,<br>
        And he's always ready to <span class="glossary-word" data-definition="To show or demonstrate something is true">prove it</span>.<br>
        So why, when a <span class="glossary-word" data-definition="A small eight-legged creature">spider's</span> in the bath,<br>
-       Does Mum have to come and remove it? 
-      <div class="tooltip"></div>
+       Does Mum have to come and remove it?
      </div>
     </div>
    </main><!-- Navigation Card -->
@@ -497,51 +590,24 @@
     });
 
     // Glossary functionality
+    const definitionBox = document.getElementById('definition-box');
+    const definitionWord = document.getElementById('definition-word');
+    const definitionText = document.getElementById('definition-text');
+
     document.querySelectorAll('.glossary-word').forEach(word => {
       const definition = word.getAttribute('data-definition');
+      const wordText = word.textContent;
       
       word.addEventListener('click', (e) => {
         e.stopPropagation();
         
-        document.querySelectorAll('.tooltip').forEach(t => {
-          t.classList.remove('show');
-          t.textContent = '';
-        });
+        // Update definition box
+        definitionWord.textContent = wordText;
+        definitionText.textContent = definition;
+        definitionBox.classList.add('active');
         
-        const stanzaContainer = word.closest('.stanza-text');
-        const tooltip = stanzaContainer.querySelector('.tooltip');
-        const rect = word.getBoundingClientRect();
-        
-        tooltip.textContent = definition;
-        tooltip.style.left = rect.left + (rect.width / 2) + 'px';
-        tooltip.style.top = (rect.top - 10) + 'px';
-        tooltip.style.transform = 'translate(-50%, -100%)';
-        tooltip.classList.add('show');
-      });
-
-      word.addEventListener('mouseenter', (e) => {
-        const stanzaContainer = word.closest('.stanza-text');
-        const tooltip = stanzaContainer.querySelector('.tooltip');
-        const rect = word.getBoundingClientRect();
-        
-        tooltip.textContent = definition;
-        tooltip.style.left = rect.left + (rect.width / 2) + 'px';
-        tooltip.style.top = (rect.top - 10) + 'px';
-        tooltip.style.transform = 'translate(-50%, -100%)';
-        tooltip.classList.add('show');
-      });
-
-      word.addEventListener('mouseleave', (e) => {
-        const stanzaContainer = word.closest('.stanza-text');
-        const tooltip = stanzaContainer.querySelector('.tooltip');
-        tooltip.classList.remove('show');
-      });
-    });
-
-    document.addEventListener('click', () => {
-      document.querySelectorAll('.tooltip').forEach(t => {
-        t.classList.remove('show');
-        t.textContent = '';
+        // Scroll to definition box smoothly
+        definitionBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     });
 
@@ -579,10 +645,16 @@
         word.style.borderBottomColor = `${primaryColor}66`;
       });
 
-      document.querySelectorAll('.tooltip').forEach(tooltip => {
-        tooltip.style.background = `linear-gradient(135deg, ${backgroundColor}fa 0%, ${surfaceColor}fa 100%)`;
-        tooltip.style.borderColor = `${primaryColor}4d`;
-      });
+      document.querySelector('.definition-box').style.background = `linear-gradient(135deg, ${backgroundColor}f2 0%, ${surfaceColor}f2 100%)`;
+      document.querySelector('.definition-box').style.borderColor = `${primaryColor}4d`;
+      document.querySelector('.definition-word').style.color = primaryColor;
+      document.querySelector('.definition-text').style.color = textColor;
+
+      document.querySelector('.instructions-card').style.background = `linear-gradient(135deg, ${primaryColor}26 0%, ${secondaryColor}26 100%)`;
+      document.querySelector('.instructions-card').style.borderColor = `${primaryColor}4d`;
+      document.querySelector('.instructions-text').style.color = textColor;
+      document.querySelector('.highlight-example').style.color = primaryColor;
+      document.querySelector('.highlight-example').style.borderBottomColor = `${primaryColor}66`;
 
       document.querySelectorAll('.nav-button').forEach(btn => {
         btn.style.background = `linear-gradient(135deg, ${primaryColor}26 0%, ${secondaryColor}26 100%)`;
@@ -671,5 +743,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a80e020d7e8a319',t:'MTc2NDc0MTk2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a80ff37e58d16ee',t:'MTc2NDc0MzIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
