@@ -3,703 +3,203 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoChampion Recycling Challenge - Malaysian Nature Edition</title>
+  <title>My Hero - Interactive Poetry Book</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      background: linear-gradient(180deg, #001a33 0%, #003d5c 30%, #006994 60%, #0891b2 90%, #67e8f9 100%);
-      min-height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.2) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    .fish-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .fish {
-      position: absolute;
-      font-size: 2em;
-      animation: swim linear infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes swim {
-      0% {
-        transform: translateX(-100px) translateY(0);
-      }
-      100% {
-        transform: translateX(calc(100vw + 100px)) translateY(-20px);
-      }
-    }
-
-    .bubble {
-      position: absolute;
-      bottom: -50px;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(6, 182, 212, 0.3));
-      border-radius: 50%;
-      animation: rise linear infinite;
-      opacity: 0.6;
-      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    @keyframes rise {
-      0% {
-        bottom: -50px;
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        bottom: 100%;
-        opacity: 0;
-      }
-    }
-
-
-
-    .game-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 30px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 25px;
-    }
-
-    .header {
-      text-align: center;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
-      padding: 35px 30px;
-      border-radius: 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      border: 5px solid #0369a1;
-      position: relative;
-      overflow: hidden;
-    }
-
-
-
-    .game-title {
-      font-size: 2.5em;
-      color: #0369a1;
-      margin: 0 0 10px 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      font-weight: bold;
-    }
-
-    .mascots-container {
-      display: none;
-    }
-
-    .score-board {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin: 0;
-    }
-
-    .score-item {
-      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 25px;
-      font-size: 1.2em;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(8, 145, 178, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .score-number {
-      font-size: 1.5em;
-      margin-left: 8px;
-    }
-
-    .instructions-panel {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
-      padding: 25px 30px;
-      border-radius: 25px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      border: 4px solid #0369a1;
-      position: relative;
-      overflow: hidden;
-    }
-
-
-
-    .instructions-title {
-      font-size: 1.5em;
-      color: #0369a1;
-      margin: 0 0 15px 0;
-      display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: bold;
+      min-height: 100%;
+      height: 100%;
+      width: 100%;
     }
 
-    .instructions-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    html {
+      height: 100%;
+      width: 100%;
     }
 
-    .instructions-list li {
-      padding: 10px 0;
-      font-size: 1.1em;
-      color: #075985;
+    .book-container {
+      background: #f5f5dc;
+      width: 90%;
+      max-width: 800px;
+      height: 85%;
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .instructions-list li:before {
-      content: "🌊";
-      font-size: 1.5em;
-      flex-shrink: 0;
-    }
-
-    .game-area {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 25px;
-    }
-
-    .bins-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .bin {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
-      border-radius: 25px;
-      padding: 25px;
-      min-height: 180px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      border: 4px solid #0369a1;
-      position: relative;
+      flex-direction: column;
       overflow: hidden;
+      position: relative;
     }
 
-
-
-    .bin.drag-over {
-      transform: scale(1.05);
-      box-shadow: 0 8px 35px rgba(3, 105, 161, 0.4);
-      border-color: #0284c7;
+    .page {
+      flex: 1;
+      padding: 40px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
     }
 
-    .bin-header {
+    .page.active {
+      display: flex;
+    }
+
+    .cover-page {
       text-align: center;
-      margin-bottom: 15px;
     }
 
-    .basket-icon {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 10px auto;
+    .cover-title {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .cover-author {
+      font-size: 24px;
+      font-style: italic;
+      color: #555;
+    }
+
+    .cover-decoration {
+      font-size: 80px;
+      margin: 30px 0;
+    }
+
+    .stanza-page {
+      text-align: center;
+      gap: 30px;
+    }
+
+    .illustration {
+      font-size: 120px;
+      margin-bottom: 20px;
+    }
+
+    .stanza-text {
+      font-size: 20px;
+      line-height: 1.8;
+      color: #333;
+      max-width: 600px;
+    }
+
+    .glossary-word {
+      color: #667eea;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      border-bottom: 2px dotted #667eea;
+      transition: all 0.3s ease;
+    }
+
+    .glossary-word:hover {
+      color: #764ba2;
+      border-bottom-color: #764ba2;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: 2px solid #667eea;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      max-width: 250px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+      font-family: 'Arial', sans-serif;
+      display: none;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 100%;
+      margin-bottom: 10px;
+    }
+
+    .tooltip.show {
       display: block;
     }
 
-    .bin-title {
-      font-size: 1.3em;
-      font-weight: bold;
-      margin: 5px 0;
-      color: #0369a1;
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-top-color: #667eea;
     }
 
-    .bin-items {
+    .navigation {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      min-height: 80px;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.5);
+      border-top: 2px solid #ddd;
     }
 
-    .items-pool {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+    .nav-button {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
       border-radius: 25px;
-      padding: 30px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      border: 5px solid #0369a1;
-      position: relative;
-      overflow: hidden;
-    }
-
-
-
-    .pool-title {
-      font-size: 1.4em;
-      color: #0369a1;
-      text-align: center;
-      margin: 0 0 20px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Georgia', serif;
       font-weight: bold;
     }
 
-    .items-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-      gap: 12px;
-      justify-items: center;
+    .nav-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
 
-    .item {
-      font-size: 3em;
-      cursor: grab;
-      padding: 15px;
-      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-      border-radius: 18px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s ease;
-      user-select: none;
-      border: 4px solid #0369a1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 70px;
-      min-height: 70px;
+    .nav-button.prev {
+      background: #95a5a6;
+      color: white;
     }
 
-    .item:hover {
-      transform: scale(1.15) rotate(5deg);
-      box-shadow: 0 6px 25px rgba(3, 105, 161, 0.4);
-      background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+    .nav-button.prev:hover:not(:disabled) {
+      background: #7f8c8d;
+      transform: translateX(-5px);
     }
 
-    .item:active {
-      cursor: grabbing;
+    .nav-button.next {
+      background: #667eea;
+      color: white;
     }
 
-    .item.dragging {
-      opacity: 0.5;
+    .nav-button.next:hover:not(:disabled) {
+      background: #764ba2;
+      transform: translateX(5px);
     }
 
-    .item.placed {
-      cursor: default;
-      font-size: 2.5em;
-      background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
-      border: 3px solid #0369a1;
+    .nav-button.home {
+      background: #3498db;
+      color: white;
     }
 
-    .item.placed:hover {
+    .nav-button.home:hover {
+      background: #2980b9;
       transform: scale(1.05);
     }
 
-    .tips-section {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
-      border-radius: 25px;
-      padding: 30px;
-      padding-bottom: 150px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      border: 5px solid #0369a1;
-      position: relative;
-      overflow: hidden;
-    }
-
-
-
-    .tips-title {
-      font-size: 1.5em;
-      color: #0369a1;
-      margin: 0 0 20px 0;
+    .page-number {
       text-align: center;
-      font-weight: bold;
-    }
-
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-    }
-
-    .tip-card {
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      padding: 15px;
-      border-radius: 12px;
-      border-left: 4px solid #0369a1;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tip-card::before {
-      content: '🐚';
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 2em;
-      opacity: 0.08;
-      pointer-events: none;
-    }
-
-    .tip-card > * {
-      position: relative;
-    }
-
-    .tip-icon {
-      font-size: 1.5em;
-      margin-bottom: 8px;
-    }
-
-    .tip-text {
-      color: #075985;
-      font-size: 1em;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .game-complete {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .complete-card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-      max-width: 500px;
-      margin: 20px;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-      border: 6px solid #10b981;
-    }
-
-    .complete-title {
-      font-size: 2.5em;
-      color: #0891b2;
-      margin: 0 0 20px 0;
-    }
-
-    .complete-message {
-      font-size: 1.3em;
-      color: #0369a1;
-      margin: 0 0 30px 0;
-    }
-
-    .btn-restart {
-      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 25px;
-      font-size: 1.2em;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(8, 145, 178, 0.4);
-      transition: all 0.3s ease;
-      border: 3px solid #0369a1;
-    }
-
-    .btn-restart:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(8, 145, 178, 0.6);
-    }
-
-    .feedback {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: white;
-      padding: 20px 40px;
-      border-radius: 15px;
-      font-size: 1.5em;
-      font-weight: bold;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      z-index: 999;
-      transition: all 0.3s ease;
-    }
-
-    .feedback.show {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .feedback.correct {
-      color: #0891b2;
-      border: 4px solid #0891b2;
-    }
-
-    .feedback.incorrect {
-      color: #ef4444;
-      border: 4px solid #ef4444;
-    }
-
-    .tapir-mascot {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(135deg, #fff 0%, #e0f2fe 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.5em;
-      cursor: pointer;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      border: 5px solid #0369a1;
-      transition: all 0.3s ease;
-      z-index: 100;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .tapir-mascot:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .tapir-mascot.speaking {
-      animation: wiggle 0.5s ease-in-out;
-    }
-
-    @keyframes wiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-10deg); }
-      75% { transform: rotate(10deg); }
-    }
-
-    .speech-bubble {
-      position: fixed;
-      bottom: 140px;
-      right: 20px;
-      background: linear-gradient(135deg, #fff 0%, #e0f2fe 100%);
-      padding: 20px 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      border: 4px solid #0369a1;
-      max-width: 300px;
-      z-index: 99;
-      opacity: 0;
-      transform: translateY(20px) scale(0.9);
-      transition: all 0.3s ease;
-      pointer-events: none;
-    }
-
-    .speech-bubble.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: all;
-    }
-
-    .speech-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -20px;
-      right: 30px;
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 20px solid #0369a1;
-    }
-
-    .speech-bubble::before {
-      content: '';
-      position: absolute;
-      bottom: -14px;
-      right: 34px;
-      width: 0;
-      height: 0;
-      border-left: 16px solid transparent;
-      border-right: 16px solid transparent;
-      border-top: 16px solid #fff;
-      z-index: 1;
-    }
-
-    .speech-text {
-      color: #075985;
-      font-size: 1.1em;
-      line-height: 1.5;
-      margin: 0;
-      font-weight: 500;
-    }
-
-    .close-bubble {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1.5em;
-      cursor: pointer;
-      color: #0369a1;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: all 0.2s ease;
-    }
-
-    .close-bubble:hover {
-      background: rgba(3, 105, 161, 0.1);
-      transform: rotate(90deg);
-    }
-
-    .celebration-bubble {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 998;
-      opacity: 0.8;
-      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
-      animation: celebrationRise 1.5s ease-out forwards;
-    }
-
-    @keyframes celebrationRise {
-      0% {
-        transform: translateY(0) scale(0.5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(-400px) scale(1.2);
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .game-title {
-        font-size: 1.8em;
-      }
-
-      .game-container {
-        padding: 15px;
-      }
-
-      .score-board {
-        gap: 15px;
-      }
-
-      .score-item {
-        padding: 10px 20px;
-        font-size: 1em;
-      }
-
-      .bins-container {
-        grid-template-columns: 1fr;
-        max-height: 70vh;
-        overflow-y: auto;
-        padding: 10px;
-        gap: 25px;
-      }
-
-      .bin {
-        min-height: 200px;
-        margin-bottom: 10px;
-      }
-
-      .items-grid {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-      }
-
-      .item {
-        font-size: 2.5em;
-      }
-
-      .tips-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tapir-mascot {
-        width: 80px;
-        height: 80px;
-        font-size: 2.8em;
-        bottom: 15px;
-        right: 15px;
-      }
-
-      .speech-bubble {
-        bottom: 110px;
-        right: 15px;
-        max-width: 250px;
-        padding: 15px 20px;
-      }
-
-      .speech-text {
-        font-size: 1em;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .game-container {
-        padding: 10px;
-      }
-
-      .header {
-        padding: 15px;
-      }
-
-      .game-title {
-        font-size: 1.5em;
-      }
-
-      .complete-title {
-        font-size: 2em;
-      }
-
-      .basket-icon {
-        width: 80px;
-        height: 80px;
-      }
+      padding: 10px;
+      font-size: 14px;
+      color: #666;
+      font-style: italic;
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -707,534 +207,300 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="fish-container" id="fishContainer"></div>
-  <div class="game-container">
-   <div class="header">
-    <h1 class="game-title" id="gameTitle">♻️ Recycling Challenge</h1>
-   </div>
-   <div class="instructions-panel">
-    <h2 class="instructions-title">🎮 How to Play</h2>
-    <ul class="instructions-list">
-     <li id="instruction1">Drag each item emoji from the pool below</li>
-     <li id="instruction2">Drop it into the correct recycling bin</li>
-     <li id="instruction3">Match all items correctly to win!</li>
-     <li id="instruction4">Build your streak for bonus points</li>
-    </ul>
-   </div>
-   <div class="score-board">
-    <div class="score-item"><span>🎯 Score:</span> <span class="score-number" id="score">0</span>
-    </div>
-    <div class="score-item"><span>⚡ Streak:</span> <span class="score-number" id="streak">0</span>
-    </div>
-    <div class="score-item"><span>📦 Items Left:</span> <span class="score-number" id="itemsLeft">18</span>
-    </div>
-   </div>
-   <div class="game-area">
-    <div class="bins-container">
-     <div class="bin blue" data-type="paper">
-      <div class="bin-header">
-       <svg class="basket-icon" viewbox="0 0 100 100"><!-- Treasure Chest --> <defs>
-         <lineargradient id="chest-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
-         </lineargradient>
-        </defs> <!-- Chest body --> <rect x="20" y="50" width="60" height="35" fill="url(#chest-blue)" stroke="#1e40af" stroke-width="2" rx="3" /> <!-- Chest lid --> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-blue)" stroke="#1e40af" stroke-width="2" /> <!-- Lock --> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <!-- Chest bands --> <rect x="15" y="55" width="70" height="3" fill="#1e40af" /> <rect x="15" y="75" width="70" height="3" fill="#1e40af" /> <!-- Sparkles --> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
-       </svg>
-       <div class="bin-title">
-        Paper &amp; Cardboard
-       </div>
-      </div>
-      <div class="bin-items" id="paperBin"></div>
+  <main class="book-container"><!-- Cover Page -->
+   <div class="page active" data-page="0">
+    <div class="cover-page">
+     <div class="cover-decoration">
+      📖
      </div>
-     <div class="bin green" data-type="plastic">
-      <div class="bin-header">
-       <svg class="basket-icon" viewbox="0 0 100 100"><defs>
-         <lineargradient id="chest-green" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
-         </lineargradient>
-        </defs> <rect x="20" y="50" width="60" height="35" fill="url(#chest-green)" stroke="#047857" stroke-width="2" rx="3" /> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-green)" stroke="#047857" stroke-width="2" /> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <rect x="15" y="55" width="70" height="3" fill="#047857" /> <rect x="15" y="75" width="70" height="3" fill="#047857" /> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
-       </svg>
-       <div class="bin-title">
-        Plastic &amp; Cans
-       </div>
-      </div>
-      <div class="bin-items" id="plasticBin"></div>
-     </div>
-     <div class="bin brown" data-type="organic">
-      <div class="bin-header">
-       <svg class="basket-icon" viewbox="0 0 100 100"><defs>
-         <lineargradient id="chest-orange" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#c2410c;stop-opacity:1" />
-         </lineargradient>
-        </defs> <rect x="20" y="50" width="60" height="35" fill="url(#chest-orange)" stroke="#9a3412" stroke-width="2" rx="3" /> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-orange)" stroke="#9a3412" stroke-width="2" /> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <rect x="15" y="55" width="70" height="3" fill="#9a3412" /> <rect x="15" y="75" width="70" height="3" fill="#9a3412" /> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
-       </svg>
-       <div class="bin-title">
-        Organic Waste
-       </div>
-      </div>
-      <div class="bin-items" id="organicBin"></div>
+     <h1 class="cover-title" id="book-title">My Hero</h1>
+     <p class="cover-author" id="author-name">by Willis Hall</p>
+     <div class="cover-decoration">
+      ⭐
      </div>
     </div>
-    <div class="items-pool">
-     <h3 class="pool-title">🎯 Drag These Items to the Correct Bins!</h3>
-     <div class="items-grid" id="itemsPool"></div>
+   </div><!-- Stanza 1 -->
+   <div class="page" data-page="1">
+    <div class="stanza-page">
+     <div class="illustration">
+      🦸‍♂️
+     </div>
+     <div class="stanza-text">
+      My dad's as <span class="glossary-word" data-definition="Showing courage and not being afraid">brave</span> as a dad can be,<br>
+       I <span class="glossary-word" data-definition="To judge or measure how good something or someone is">rate</span> him Number One,<br>
+       He's not afraid of the <span class="glossary-word" data-definition="The darkest part of the night, usually midnight">dead of night</span>,<br>
+       Or anything under the sun. 
+      <div class="tooltip"></div>
+     </div>
     </div>
-   </div>
-   <div class="tips-section">
-    <h2 class="tips-title" id="tipHeader">💡 Recycling Tips for Champions</h2>
-    <div class="tips-grid">
-     <div class="tip-card">
-      <div class="tip-icon">
-       📰
-      </div>
-      <p class="tip-text"><strong>Paper:</strong> Newspapers, magazines, and cardboard boxes can be recycled. Keep them dry and clean!</p>
+   </div><!-- Stanza 2 -->
+   <div class="page" data-page="2">
+    <div class="stanza-page">
+     <div class="illustration">
+      📺👻
      </div>
-     <div class="tip-card">
-      <div class="tip-icon">
-       🥤
-      </div>
-      <p class="tip-text"><strong>Plastic:</strong> Rinse bottles and containers before recycling. Check for the recycling symbol!</p>
+     <div class="stanza-text">
+      He's not afraid of a <span class="glossary-word" data-definition="A movie shown on TV very late at night, usually after 11 PM">late-night film</span>,<br>
+       Full of <span class="glossary-word" data-definition="Very scary or frightening things">horrors</span> on the <span class="glossary-word" data-definition="British slang for television">telly</span>,<br>
+       And is he afraid of <span class="glossary-word" data-definition="Bones of a dead person or animal">skeletons</span>?<br>
+       Not dad, not on your <span class="glossary-word" data-definition="British expression meaning 'definitely not' or 'no way'">Nelly</span>! 
+      <div class="tooltip"></div>
      </div>
-     <div class="tip-card">
-      <div class="tip-icon">
-       🍎
-      </div>
-      <p class="tip-text"><strong>Organic:</strong> Food scraps and plant waste can be composted to create natural fertiliser for gardens.</p>
+    </div>
+   </div><!-- Stanza 3 -->
+   <div class="page" data-page="3">
+    <div class="stanza-page">
+     <div class="illustration">
+      👻🤝
      </div>
-     <div class="tip-card">
-      <div class="tip-icon">
-       🌍
-      </div>
-      <p class="tip-text"><strong>Impact:</strong> Recycling one tonne of paper saves 17 trees and 7,000 gallons of water!</p>
+     <div class="stanza-text">
+      He's not afraid of <span class="glossary-word" data-definition="Coming across or encountering someone or something">meeting</span> ghosts,<br>
+       He'd even smile and <span class="glossary-word" data-definition="To welcome or say hello to someone">greet 'em</span>,<br>
+       And things that scare most dads the most,<br>
+       My dad could just <span class="glossary-word" data-definition="To win against or overcome">defeat 'em</span>. 
+      <div class="tooltip"></div>
      </div>
-     <div class="tip-card">
-      <div class="tip-icon">
-       ♻️
-      </div>
-      <p class="tip-text"><strong>The 3R Rule:</strong> Reduce waste first, Reuse items when possible, then Recycle properly!</p>
+    </div>
+   </div><!-- Stanza 4 -->
+   <div class="page" data-page="4">
+    <div class="stanza-page">
+     <div class="illustration">
+      🧛‍♂️🐺
      </div>
-     <div class="tip-card">
-      <div class="tip-icon">
-       🦧
-      </div>
-      <p class="tip-text"><strong>Wildlife:</strong> Proper waste disposal protects wildlife and natural habitats around the world!</p>
+     <div class="stanza-text">
+      He's not afraid of <span class="glossary-word" data-definition="Mythical creatures that drink blood">vampires</span>,<br>
+       Or a <span class="glossary-word" data-definition="A person who transforms into a wolf, also called a werewolf">wolf-man</span> come to get him,<br>
+       If <span class="glossary-word" data-definition="A famous monster from a story, created by a scientist">Frankenstein's monster</span> knocked on our door,<br>
+       He wouldn't let that <span class="glossary-word" data-definition="Make someone worried, unhappy, or disturbed">upset</span> him. 
+      <div class="tooltip"></div>
+     </div>
+    </div>
+   </div><!-- Stanza 5 -->
+   <div class="page" data-page="5">
+    <div class="stanza-page">
+     <div class="illustration">
+      🕷️🛁
+     </div>
+     <div class="stanza-text">
+      My dad's as brave as a dad can be,<br>
+       And he's always ready to <span class="glossary-word" data-definition="To show or demonstrate something is true">prove it</span>.<br>
+       So why, when a <span class="glossary-word" data-definition="A small eight-legged creature">spider's</span> in the bath,<br>
+       Does Mum have to come and remove it? 
+      <div class="tooltip"></div>
      </div>
     </div>
    </div>
-  </div>
-  <div class="feedback" id="feedback"></div>
-  <div class="tapir-mascot" id="tapirMascot" title="Click me for ocean tips!">
-   🐢
-  </div>
-  <div class="speech-bubble" id="speechBubble"><button class="close-bubble" onclick="closeSpeech()" aria-label="Close">×</button>
-   <p class="speech-text" id="speechText"></p>
-  </div>
-  <div class="game-complete" id="gameComplete">
-   <div class="complete-card">
-    <div class="complete-title">
-     🏆 Congratulations!
-    </div>
-    <p class="complete-message">You've successfully sorted all the waste! You're a Recycling Champion!</p>
-    <p class="complete-message" id="finalScore"></p><button class="btn-restart" onclick="restartGame()">Play Again</button>
+   <div class="page-number" id="page-indicator">
+    Page 1 of 6
    </div>
-  </div>
+   <nav class="navigation"><button class="nav-button prev" id="prev-btn" disabled> <span id="prev-text">← Previous</span> </button> <button class="nav-button home" id="home-btn"> 🏠 Home </button> <button class="nav-button next" id="next-btn"> <span id="next-text">Next →</span> </button>
+   </nav>
+  </main>
   <script>
     const defaultConfig = {
-      game_title: "♻️ Recycling Challenge",
-      instructions_text: "Drag each item emoji from the pool below",
-      tip_header: "💡 Recycling Tips for Champions"
+      book_title: "My Hero",
+      author_name: "by Willis Hall",
+      next_button_text: "Next →",
+      previous_button_text: "← Previous",
+      background_color: "#667eea",
+      secondary_surface_color: "#f5f5dc",
+      text_color: "#2c3e50",
+      primary_action_color: "#667eea",
+      secondary_action_color: "#95a5a6",
+      font_family: "Georgia",
+      font_size: 16
     };
 
-    let config = { ...defaultConfig };
+    let currentPage = 0;
+    const totalPages = 5;
 
-    const tapirMessages = [
-      "🌊 Keep going! You're helping save our precious oceans!",
-      "🐢 Fun fact: Sea turtles can live over 100 years! Keep our waters clean!",
-      "🎉 Amazing work! Every item sorted helps marine life!",
-      "🏖️ Did you know? 8 million tons of plastic enter our oceans yearly!",
-      "✨ You're a Recycling Champion! Keep sorting and saving sea life!",
-      "🐠 Proper recycling keeps our coral reefs healthy and vibrant!",
-      "🌊 Excellent! Clean oceans mean safe homes for turtles and fish!",
-      "🦈 Your good work protects whales, dolphins, and all ocean creatures!",
-      "💪 Strong effort! Every piece of trash removed saves marine animals!",
-      "🌏 You're making our beaches cleaner! Thank you!"
-    ];
+    function updatePageDisplay() {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach((page, index) => {
+        page.classList.toggle('active', index === currentPage);
+      });
 
-    let lastTapirMessage = -1;
+      document.getElementById('prev-btn').disabled = currentPage === 0;
+      document.getElementById('next-btn').disabled = currentPage === totalPages;
+      document.getElementById('page-indicator').textContent = `Page ${currentPage + 1} of ${totalPages + 1}`;
+    }
 
-    function showTapirMessage() {
-      const tapir = document.getElementById('tapirMascot');
-      const bubble = document.getElementById('speechBubble');
-      const speechText = document.getElementById('speechText');
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        updatePageDisplay();
+      }
+    });
 
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * tapirMessages.length);
-      } while (randomIndex === lastTapirMessage && tapirMessages.length > 1);
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        updatePageDisplay();
+      }
+    });
+
+    document.getElementById('home-btn').addEventListener('click', () => {
+      currentPage = 0;
+      updatePageDisplay();
+    });
+
+    // Glossary functionality
+    document.querySelectorAll('.stanza-text').forEach(stanzaContainer => {
+      const words = stanzaContainer.querySelectorAll('.glossary-word');
+      const tooltip = stanzaContainer.querySelector('.tooltip');
       
-      lastTapirMessage = randomIndex;
+      words.forEach(word => {
+        const definition = word.getAttribute('data-definition');
 
-      speechText.textContent = tapirMessages[randomIndex];
-      bubble.classList.add('show');
-      tapir.classList.add('speaking');
+        word.addEventListener('click', (e) => {
+          e.stopPropagation();
+          
+          // Hide all tooltips first
+          document.querySelectorAll('.tooltip').forEach(t => t.classList.remove('show'));
+          
+          // Show this tooltip with the definition
+          tooltip.textContent = definition;
+          
+          // Position tooltip near the clicked word
+          const rect = word.getBoundingClientRect();
+          const containerRect = stanzaContainer.getBoundingClientRect();
+          tooltip.style.left = '50%';
+          tooltip.classList.add('show');
+        });
 
-      setTimeout(() => {
-        tapir.classList.remove('speaking');
-      }, 500);
+        word.addEventListener('mouseenter', () => {
+          tooltip.textContent = definition;
+          tooltip.classList.add('show');
+        });
 
-      setTimeout(() => {
-        bubble.classList.remove('show');
-      }, 5000);
-    }
+        word.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('show');
+        });
+      });
+    });
 
-    function closeSpeech() {
-      const bubble = document.getElementById('speechBubble');
-      bubble.classList.remove('show');
-    }
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.tooltip').forEach(t => t.classList.remove('show'));
+    });
 
-    const items = [
-      { emoji: '📰', type: 'paper', name: 'Newspaper' },
-      { emoji: '📦', type: 'paper', name: 'Cardboard Box' },
-      { emoji: '📄', type: 'paper', name: 'Paper' },
-      { emoji: '📚', type: 'paper', name: 'Magazine' },
-      { emoji: '🎫', type: 'paper', name: 'Ticket' },
-      { emoji: '🧻', type: 'paper', name: 'Toilet Paper Roll' },
-      { emoji: '🥤', type: 'plastic', name: 'Plastic Cup' },
-      { emoji: '🥫', type: 'plastic', name: 'Aluminium Can' },
-      { emoji: '🧃', type: 'plastic', name: 'Juice Box' },
-      { emoji: '🧴', type: 'plastic', name: 'Lotion Bottle' },
-      { emoji: '💿', type: 'plastic', name: 'CD/DVD Disc' },
-      { emoji: '🕶️', type: 'plastic', name: 'Sunglasses' },
-      { emoji: '🍎', type: 'organic', name: 'Apple Core' },
-      { emoji: '🍌', type: 'organic', name: 'Banana Peel' },
-      { emoji: '🥕', type: 'organic', name: 'Vegetable Scraps' },
-      { emoji: '🍃', type: 'organic', name: 'Leaves' },
-      { emoji: '🍊', type: 'organic', name: 'Orange Peel' },
-      { emoji: '🥚', type: 'organic', name: 'Eggshell' }
-    ];
+    async function onConfigChange(config) {
+      const bookTitle = config.book_title || defaultConfig.book_title;
+      const authorName = config.author_name || defaultConfig.author_name;
+      const nextText = config.next_button_text || defaultConfig.next_button_text;
+      const prevText = config.previous_button_text || defaultConfig.previous_button_text;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
 
-    let score = 0;
-    let streak = 0;
-    let itemsRemaining = items.length;
-    let draggedElement = null;
-    let draggedItem = null;
+      document.getElementById('book-title').textContent = bookTitle;
+      document.getElementById('author-name').textContent = authorName;
+      document.getElementById('next-text').textContent = nextText;
+      document.getElementById('prev-text').textContent = prevText;
 
-    function initializeGame() {
-      const itemsPool = document.getElementById('itemsPool');
-      itemsPool.innerHTML = '';
-
-      const shuffledItems = [...items].sort(() => Math.random() - 0.5);
-
-      shuffledItems.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item';
-        itemDiv.draggable = true;
-        itemDiv.textContent = item.emoji;
-        itemDiv.dataset.type = item.type;
-        itemDiv.dataset.name = item.name;
-        itemDiv.dataset.id = index;
-
-        itemDiv.addEventListener('dragstart', handleDragStart);
-        itemDiv.addEventListener('dragend', handleDragEnd);
-
-        itemDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
-        itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
-        itemDiv.addEventListener('touchend', handleTouchEnd);
-
-        itemsPool.appendChild(itemDiv);
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryColor} 100%)`;
+      document.querySelector('.book-container').style.background = surfaceColor;
+      document.querySelector('.cover-title').style.color = textColor;
+      document.querySelectorAll('.stanza-text').forEach(el => el.style.color = textColor);
+      
+      document.querySelectorAll('.glossary-word').forEach(word => {
+        word.style.color = primaryColor;
+        word.style.borderBottomColor = primaryColor;
       });
 
-      score = 0;
-      streak = 0;
-      itemsRemaining = items.length;
-      updateScore();
+      document.querySelectorAll('.tooltip').forEach(tooltip => {
+        tooltip.style.borderColor = primaryColor;
+      });
 
-      const bins = document.querySelectorAll('.bin');
-      bins.forEach(bin => {
-        bin.addEventListener('dragover', handleDragOver);
-        bin.addEventListener('drop', handleDrop);
-        bin.addEventListener('dragleave', handleDragLeave);
+      document.querySelectorAll('.nav-button.next').forEach(btn => {
+        btn.style.background = primaryColor;
+      });
 
-        const binItems = bin.querySelector('.bin-items');
-        binItems.innerHTML = '';
+      document.querySelectorAll('.nav-button.prev').forEach(btn => {
+        btn.style.background = secondaryColor;
+      });
+
+      const baseFontStack = 'Georgia, serif';
+      document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      document.querySelector('.cover-title').style.fontSize = `${fontSize * 3}px`;
+      document.querySelector('.cover-author').style.fontSize = `${fontSize * 1.5}px`;
+      document.querySelectorAll('.stanza-text').forEach(el => {
+        el.style.fontSize = `${fontSize * 1.25}px`;
+      });
+      document.querySelectorAll('.nav-button').forEach(btn => {
+        btn.style.fontSize = `${fontSize}px`;
       });
     }
-
-    function handleDragStart(e) {
-      draggedElement = e.target;
-      draggedItem = {
-        type: e.target.dataset.type,
-        emoji: e.target.textContent,
-        name: e.target.dataset.name,
-        id: e.target.dataset.id
-      };
-      e.target.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    }
-
-    function handleDragEnd(e) {
-      e.target.classList.remove('dragging');
-    }
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      const bin = e.currentTarget;
-      bin.classList.add('drag-over');
-    }
-
-    function handleDragLeave(e) {
-      if (e.currentTarget === e.target.closest('.bin')) {
-        e.currentTarget.classList.remove('drag-over');
-      }
-    }
-
-    function handleDrop(e) {
-      e.preventDefault();
-      const bin = e.currentTarget;
-      bin.classList.remove('drag-over');
-
-      if (!draggedItem) return;
-
-      const binType = bin.dataset.type;
-      const isCorrect = draggedItem.type === binType;
-
-      if (isCorrect) {
-        handleCorrectDrop(bin);
-      } else {
-        handleIncorrectDrop();
-      }
-
-      draggedElement = null;
-      draggedItem = null;
-    }
-
-    function handleCorrectDrop(bin) {
-      const binItems = bin.querySelector('.bin-items');
-      const newItem = document.createElement('div');
-      newItem.className = 'item placed';
-      newItem.textContent = draggedItem.emoji;
-      newItem.title = draggedItem.name;
-      binItems.appendChild(newItem);
-
-      draggedElement.remove();
-
-      streak++;
-      const points = 10 + (streak * 5);
-      score += points;
-      itemsRemaining--;
-
-      // Create celebration bubbles
-      createCelebrationBubbles(bin);
-
-      showFeedback(`✓ Correct! +${points} points`, 'correct');
-      updateScore();
-
-      if (itemsRemaining === 0) {
-        setTimeout(showGameComplete, 500);
-      }
-    }
-
-    function createCelebrationBubbles(bin) {
-      const rect = bin.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-
-      // Create 12 celebration bubbles
-      for (let i = 0; i < 12; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'celebration-bubble';
-        
-        const size = Math.random() * 30 + 20;
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${centerX + (Math.random() - 0.5) * 100}px`;
-        bubble.style.top = `${centerY}px`;
-        
-        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4'];
-        bubble.style.background = `radial-gradient(circle at 30% 30%, ${colors[Math.floor(Math.random() * colors.length)]}, transparent)`;
-        bubble.style.animationDelay = `${i * 0.05}s`;
-        
-        document.body.appendChild(bubble);
-
-        setTimeout(() => {
-          bubble.remove();
-        }, 2000);
-      }
-    }
-
-    function handleIncorrectDrop() {
-      streak = 0;
-      showFeedback('✗ Wrong bin! Try again!', 'incorrect');
-      updateScore();
-    }
-
-    function showFeedback(message, type) {
-      const feedback = document.getElementById('feedback');
-      feedback.textContent = message;
-      feedback.className = `feedback ${type} show`;
-
-      setTimeout(() => {
-        feedback.classList.remove('show');
-      }, 1500);
-    }
-
-    function updateScore() {
-      document.getElementById('score').textContent = score;
-      document.getElementById('streak').textContent = streak;
-      document.getElementById('itemsLeft').textContent = itemsRemaining;
-    }
-
-    function showGameComplete() {
-      document.getElementById('finalScore').textContent = `Final Score: ${score} points! 🌟`;
-      document.getElementById('gameComplete').style.display = 'flex';
-    }
-
-    function restartGame() {
-      document.getElementById('gameComplete').style.display = 'none';
-      initializeGame();
-    }
-
-    let touchStartX, touchStartY, touchElement, touchClone;
-
-    function handleTouchStart(e) {
-      e.preventDefault();
-      touchElement = e.target;
-      const touch = e.touches[0];
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-
-      draggedItem = {
-        type: touchElement.dataset.type,
-        emoji: touchElement.textContent,
-        name: touchElement.dataset.name,
-        id: touchElement.dataset.id
-      };
-
-      touchClone = touchElement.cloneNode(true);
-      touchClone.style.position = 'fixed';
-      touchClone.style.zIndex = '1000';
-      touchClone.style.pointerEvents = 'none';
-      touchClone.style.opacity = '0.8';
-      touchClone.style.left = `${touch.clientX - 35}px`;
-      touchClone.style.top = `${touch.clientY - 35}px`;
-      document.body.appendChild(touchClone);
-
-      touchElement.style.opacity = '0.3';
-    }
-
-    function handleTouchMove(e) {
-      e.preventDefault();
-      if (!touchClone) return;
-
-      const touch = e.touches[0];
-      touchClone.style.left = `${touch.clientX - 35}px`;
-      touchClone.style.top = `${touch.clientY - 35}px`;
-    }
-
-    function handleTouchEnd(e) {
-      e.preventDefault();
-      if (!touchClone) return;
-
-      const touch = e.changedTouches[0];
-      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-      const bin = dropTarget?.closest('.bin');
-
-      touchClone.remove();
-      touchClone = null;
-      touchElement.style.opacity = '1';
-
-      if (bin && draggedItem) {
-        const binType = bin.dataset.type;
-        const isCorrect = draggedItem.type === binType;
-
-        if (isCorrect) {
-          draggedElement = touchElement;
-          handleCorrectDrop(bin);
-        } else {
-          handleIncorrectDrop();
-        }
-      }
-
-      draggedItem = null;
-      touchElement = null;
-    }
-
-    async function onConfigChange(newConfig) {
-      const gameTitle = document.getElementById('gameTitle');
-      const instruction1 = document.getElementById('instruction1');
-      const tipHeader = document.getElementById('tipHeader');
-
-      gameTitle.textContent = newConfig.game_title || defaultConfig.game_title;
-      instruction1.textContent = newConfig.instructions_text || defaultConfig.instructions_text;
-      tipHeader.textContent = newConfig.tip_header || defaultConfig.tip_header;
-    }
-
-    const element = {
-      defaultConfig,
-      onConfigChange,
-      mapToCapabilities: (config) => ({
-        recolorables: [],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      }),
-      mapToEditPanelValues: (config) => new Map([
-        ['game_title', config.game_title || defaultConfig.game_title],
-        ['instructions_text', config.instructions_text || defaultConfig.instructions_text],
-        ['tip_header', config.tip_header || defaultConfig.tip_header]
-      ])
-    };
 
     if (window.elementSdk) {
-      window.elementSdk.init(element);
-      config = window.elementSdk.config;
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+              set: (value) => {
+                config.secondary_surface_color = value;
+                window.elementSdk.setConfig({ secondary_surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["book_title", config.book_title || defaultConfig.book_title],
+          ["author_name", config.author_name || defaultConfig.author_name],
+          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+          ["previous_button_text", config.previous_button_text || defaultConfig.previous_button_text]
+        ])
+      });
     }
-
-    function createFish() {
-      const fishContainer = document.getElementById('fishContainer');
-      const fishEmojis = ['🐠', '🐟', '🐡', '🦈', '🐙'];
-      
-      for (let i = 0; i < 8; i++) {
-        const fish = document.createElement('div');
-        fish.className = 'fish';
-        fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-        fish.style.top = `${Math.random() * 80 + 10}%`;
-        fish.style.animationDuration = `${Math.random() * 15 + 10}s`;
-        fish.style.animationDelay = `${Math.random() * 5}s`;
-        fishContainer.appendChild(fish);
-      }
-    }
-
-    function createBubbles() {
-      const fishContainer = document.getElementById('fishContainer');
-      
-      setInterval(() => {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        bubble.style.left = `${Math.random() * 100}%`;
-        bubble.style.width = `${Math.random() * 20 + 10}px`;
-        bubble.style.height = bubble.style.width;
-        bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
-        fishContainer.appendChild(bubble);
-
-        setTimeout(() => {
-          bubble.remove();
-        }, 10000);
-      }, 800);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      initializeGame();
-      onConfigChange(config);
-      createFish();
-      createBubbles();
-
-      const tapir = document.getElementById('tapirMascot');
-      tapir.addEventListener('click', showTapirMessage);
-    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7ffe05103b1be4',t:'MTc2NDczMjY5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a803a16a1fd454a',t:'MTc2NDczNTE1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
