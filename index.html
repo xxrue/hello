@@ -3,727 +3,805 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Hero - Interactive Poetry Book</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Lato:wght@300;400&amp;display=swap" rel="stylesheet">
+  <title>Part Time Jobs Flashcards</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Lato', sans-serif;
-      background: radial-gradient(ellipse at top, #1a2a4e 0%, #0d1528 50%, #020408 100%);
-      background-attachment: fixed;
+      font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #0e7490 50%, #0ea5e9 100%);
       min-height: 100%;
       width: 100%;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    html {
-      height: 100%;
-      width: 100%;
-    }
-
-    /* Starry background */
-    .stars {
+    body::before {
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(14, 165, 233, 0.3) 0%, transparent 50%);
       pointer-events: none;
-      z-index: 9999;
+      z-index: 0;
     }
 
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle 3s ease-in-out infinite;
+    * {
+      box-sizing: border-box;
     }
 
-    .firefly {
-      position: absolute;
-      background: #ffd700;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
-      animation: fireflyFloat 15s ease-in-out infinite, fireflyGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes fireflyFloat {
-      0%, 100% { transform: translate(0, 0); }
-      25% { transform: translate(50px, -80px); }
-      50% { transform: translate(-30px, -150px); }
-      75% { transform: translate(-70px, -70px); }
-    }
-
-    @keyframes fireflyGlow {
-      0%, 100% { 
-        opacity: 0.4; 
-        box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
-      }
-      50% { 
-        opacity: 1; 
-        box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700, 0 0 45px #ffd700, 0 0 60px #ffed4e;
-      }
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-
-    .star:nth-child(1) { width: 1px; height: 1px; top: 10%; left: 20%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0s; }
-    .star:nth-child(2) { width: 1px; height: 1px; top: 20%; left: 80%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.5s; }
-    .star:nth-child(3) { width: 1.5px; height: 1.5px; top: 30%; left: 50%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1s; }
-    .star:nth-child(4) { width: 1px; height: 1px; top: 40%; left: 10%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.5s; }
-    .star:nth-child(5) { width: 1.5px; height: 1.5px; top: 50%; left: 90%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2s; }
-    .star:nth-child(6) { width: 1px; height: 1px; top: 60%; left: 30%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.5s; }
-    .star:nth-child(7) { width: 1.5px; height: 1.5px; top: 70%; left: 70%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.3s; }
-    .star:nth-child(8) { width: 1px; height: 1px; top: 80%; left: 45%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.8s; }
-    .star:nth-child(9) { width: 1px; height: 1px; top: 15%; left: 60%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.3s; }
-    .star:nth-child(10) { width: 1px; height: 1px; top: 85%; left: 15%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.8s; }
-    .star:nth-child(11) { width: 1.5px; height: 1.5px; top: 25%; left: 85%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.3s; }
-    .star:nth-child(12) { width: 1px; height: 1px; top: 55%; left: 65%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.6s; }
-    .star:nth-child(13) { width: 1px; height: 1px; top: 5%; left: 35%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.2s; }
-    .star:nth-child(14) { width: 1px; height: 1px; top: 45%; left: 75%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.4s; }
-    .star:nth-child(15) { width: 1.5px; height: 1.5px; top: 65%; left: 55%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.7s; }
-    .star:nth-child(16) { width: 1px; height: 1px; top: 75%; left: 25%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.1s; }
-    .star:nth-child(17) { width: 1px; height: 1px; top: 8%; left: 42%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.2s; }
-    .star:nth-child(18) { width: 1.5px; height: 1.5px; top: 18%; left: 92%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.1s; }
-    .star:nth-child(19) { width: 1px; height: 1px; top: 28%; left: 15%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.9s; }
-    .star:nth-child(20) { width: 1px; height: 1px; top: 38%; left: 68%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.7s; }
-    .star:nth-child(21) { width: 1.5px; height: 1.5px; top: 48%; left: 33%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.2s; }
-    .star:nth-child(22) { width: 1px; height: 1px; top: 58%; left: 88%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.4s; }
-    .star:nth-child(23) { width: 1px; height: 1px; top: 68%; left: 12%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.9s; }
-    .star:nth-child(24) { width: 1.5px; height: 1.5px; top: 78%; left: 58%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.4s; }
-    .star:nth-child(25) { width: 1px; height: 1px; top: 12%; left: 28%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.6s; }
-    .star:nth-child(26) { width: 1px; height: 1px; top: 22%; left: 72%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.3s; }
-    .star:nth-child(27) { width: 1.5px; height: 1.5px; top: 32%; left: 95%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.6s; }
-    .star:nth-child(28) { width: 1px; height: 1px; top: 42%; left: 5%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.0s; }
-    .star:nth-child(29) { width: 1px; height: 1px; top: 52%; left: 48%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.5s; }
-    .star:nth-child(30) { width: 1.5px; height: 1.5px; top: 62%; left: 78%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.0s; }
-    .star:nth-child(31) { width: 1px; height: 1px; top: 72%; left: 38%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.5s; }
-    .star:nth-child(32) { width: 1px; height: 1px; top: 82%; left: 82%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.8s; }
-    .star:nth-child(33) { width: 1.5px; height: 1.5px; top: 92%; left: 52%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.7s; }
-    .star:nth-child(34) { width: 1px; height: 1px; top: 3%; left: 65%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.4s; }
-    .star:nth-child(35) { width: 1px; height: 1px; top: 13%; left: 8%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.8s; }
-    .star:nth-child(36) { width: 1.5px; height: 1.5px; top: 23%; left: 98%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.5s; }
-    .star:nth-child(37) { width: 1px; height: 1px; top: 33%; left: 22%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.3s; }
-    .star:nth-child(38) { width: 1px; height: 1px; top: 43%; left: 55%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.6s; }
-    .star:nth-child(39) { width: 1.5px; height: 1.5px; top: 53%; left: 2%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.3s; }
-    .star:nth-child(40) { width: 1px; height: 1px; top: 63%; left: 43%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.1s; }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      25% { transform: translate(10px, -15px); }
-      50% { transform: translate(-5px, -25px); }
-      75% { transform: translate(-15px, -10px); }
-    }
-
-    /* Main container */
-    .poetry-container {
-      max-width: 900px;
+    .main-wrapper {
       width: 100%;
+      min-height: 100%;
+      padding: 60px 30px;
       position: relative;
       z-index: 1;
     }
 
-    /* Header card */
-    .header-card {
-      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 50px 40px;
-      margin-bottom: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
-      border: 1px solid rgba(100, 180, 255, 0.2);
+    .content-area {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-section {
       text-align: center;
-    }
-
-    /* Instructions card */
-    .instructions-card {
-      background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(64, 140, 220, 0.15) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 16px 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(100, 180, 255, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    /* Definition Display Box */
-    .definition-box {
-      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px 35px;
-      margin-bottom: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
-      border: 2px solid rgba(100, 180, 255, 0.3);
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      min-height: 120px;
-      transition: all 0.3s ease;
-    }
-
-    .definition-box.active {
-      border-color: rgba(100, 180, 255, 0.6);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(100, 180, 255, 0.2);
-    }
-
-    .definition-icon {
-      font-size: 40px;
-      filter: drop-shadow(0 2px 8px rgba(100, 180, 255, 0.4));
-      flex-shrink: 0;
-    }
-
-    .definition-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .definition-word {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 600;
-      color: #64b4ff;
-      margin: 0;
-      text-transform: capitalize;
-    }
-
-    .definition-text {
-      font-family: 'Lato', sans-serif;
-      font-size: 18px;
-      font-weight: 300;
-      color: #e8f4ff;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .info-icon {
-      font-size: 24px;
-      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
-    }
-
-    .instructions-text {
-      font-family: 'Lato', sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: #e8f4ff;
-      margin: 0;
-    }
-
-    .highlight-example {
-      color: #64b4ff;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(100, 180, 255, 0.4);
-      padding: 0 2px;
-    }
-
-    .moon-icon {
-      font-size: 48px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
-    }
-
-    .header-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      font-weight: 700;
-      color: #e8f4ff;
-      margin: 0 0 15px 0;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 10px rgba(100, 180, 255, 0.3);
-    }
-
-    .header-author {
-      font-family: 'Lato', sans-serif;
-      font-size: 18px;
-      font-weight: 300;
-      color: #b8d4f0;
-      margin: 0;
-      font-style: italic;
-    }
-
-    /* Content card */
-    .content-card {
-      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 50px 40px;
-      margin-bottom: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
-      border: 1px solid rgba(100, 180, 255, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      margin-bottom: 60px;
       position: relative;
     }
 
-    .content-card::before {
+    .mega-title {
+      font-size: 64px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 15px 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      line-height: 1.2;
+      text-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+      font-family: 'Inter', 'SF Pro Display', sans-serif;
+    }
+
+    .mini-subtitle {
+      font-size: 18px;
+      color: rgba(255,255,255,0.8);
+      margin: 0 0 30px 0;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+
+    .instruction-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .instruction-badge:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .job-item {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: visible;
+    }
+
+    .job-item::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(100, 180, 255, 0.05) 0%, transparent 70%);
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: 24px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
-    .page-content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 40px;
+    .job-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 48px rgba(6, 182, 212, 0.3);
+      border-color: rgba(6, 182, 212, 0.5);
     }
 
-    .page-content.active {
-      display: flex;
-      animation: fadeIn 0.6s ease-in;
+    .job-item:hover::before {
+      opacity: 1;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .job-item.selected {
+      border-color: rgba(6, 182, 212, 0.8);
+      background: rgba(6, 182, 212, 0.15);
+      box-shadow: 0 16px 48px rgba(6, 182, 212, 0.4);
     }
 
-    .illustration {
-      font-size: 120px;
-      filter: drop-shadow(0 4px 12px rgba(100, 180, 255, 0.3));
+    .job-emoji {
+      font-size: 70px;
+      margin-bottom: 20px;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
     }
 
-    .stanza-text {
-      font-family: 'Lato', sans-serif;
+    .job-label {
       font-size: 20px;
-      line-height: 2;
-      color: #e8f4ff;
-      max-width: 600px;
-      font-weight: 300;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: 1px;
     }
 
-    .glossary-word {
-      color: #64b4ff;
-      font-weight: 400;
-      cursor: pointer;
-      position: relative;
-      border-bottom: 1px solid rgba(100, 180, 255, 0.4);
-      transition: all 0.3s ease;
-      padding: 0 2px;
-      display: inline-block;
+    .floating-emoji {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatAround 4s ease-in-out infinite;
+      opacity: 0.6;
+      filter: blur(0.5px);
     }
 
-    .glossary-word:hover {
-      color: #8fcdff;
-      border-bottom-color: rgba(143, 205, 255, 0.6);
+    @keyframes floatAround {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+      25% { transform: translate(15px, -15px) rotate(5deg); opacity: 0.8; }
+      50% { transform: translate(-10px, -25px) rotate(-5deg); opacity: 0.7; }
+      75% { transform: translate(10px, -10px) rotate(3deg); opacity: 0.75; }
     }
 
-    /* Navigation card */
-    .navigation-card {
-      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px 40px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
-      border: 1px solid rgba(100, 180, 255, 0.2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .nav-button {
-      padding: 14px 32px;
-      font-size: 16px;
-      font-family: 'Lato', sans-serif;
-      font-weight: 400;
-      border: 1px solid rgba(100, 180, 255, 0.3);
+    .compare-btn {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 40px;
       border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(64, 140, 220, 0.15) 100%);
-      color: #e8f4ff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+      display: block;
     }
 
-    .nav-button:hover:not(:disabled) {
-      background: linear-gradient(135deg, rgba(100, 180, 255, 0.25) 0%, rgba(64, 140, 220, 0.25) 100%);
-      border-color: rgba(100, 180, 255, 0.5);
-      box-shadow: 0 6px 20px rgba(100, 180, 255, 0.3);
+    .compare-btn:hover {
       transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    .nav-button:active:not(:disabled) {
+    .compare-btn:active {
       transform: translateY(0);
     }
 
-    .nav-button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
+    .compare-btn.active {
+      background: rgba(6, 182, 212, 0.3);
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 8px 32px rgba(6, 182, 212, 0.3);
     }
 
-    .page-indicator {
-      font-family: 'Lato', sans-serif;
+    .compare-instruction {
+      text-align: center;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 20px 0;
+      padding: 14px 30px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .compare-instruction.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .flashcard-view {
+      display: none;
+    }
+
+    .flashcard-view.show {
+      display: block;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .switch-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .tab-btn.selected {
+      background: rgba(6, 182, 212, 0.3);
+      color: #ffffff;
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);
+    }
+
+    .comparison-container {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 100%;
+      margin: 0 auto;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .comparison-container.show {
+      display: grid;
+    }
+
+    .card-wrapper {
+      max-width: 850px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .comparison-container .card-wrapper {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .flip-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      width: 100%;
+      perspective: 1500px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .flip-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 48px rgba(6, 182, 212, 0.2);
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      min-height: 480px;
+      transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face-front, .card-face-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 24px;
+      padding: 40px;
+    }
+
+    .card-face-front {
+      background: rgba(6, 182, 212, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .tap-icon {
+      font-size: 80px;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    }
+
+    .tap-text {
+      font-size: 22px;
+      font-weight: 500;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    .card-face-back {
+      transform: rotateY(180deg);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow-y: auto;
+      max-height: 650px;
+    }
+
+    .card-top {
+      text-align: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .job-tag {
+      font-size: 12px;
+      color: #0e7490;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .card-heading {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .points-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .points-list li {
       font-size: 15px;
-      font-weight: 300;
-      color: #b8d4f0;
-      font-style: italic;
+      color: #334155;
+      line-height: 1.6;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      background: rgba(6, 182, 212, 0.05);
+      border-radius: 16px;
+      border-left: 3px solid #06b6d4;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    @media (max-width: 768px) {
-      .header-card {
-        padding: 40px 30px;
+    .points-list li:hover {
+      transform: translateX(5px);
+      background: rgba(6, 182, 212, 0.1);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+    }
+
+    .points-list li::before {
+      content: "✓";
+      color: #06b6d4;
+      font-weight: 700;
+      margin-right: 12px;
+      font-size: 18px;
+    }
+
+    .negatives-list li {
+      border-left-color: #0ea5e9;
+      background: rgba(14, 165, 233, 0.05);
+    }
+
+    .negatives-list li:hover {
+      background: rgba(14, 165, 233, 0.1);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    }
+
+    .negatives-list li::before {
+      content: "✗";
+      color: #0ea5e9;
+    }
+
+    .hint-text {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 30px;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .return-btn {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 45px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      color: white;
+      margin: 40px auto 0;
+      display: block;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .return-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .return-btn:active {
+      transform: translateY(0);
+    }
+
+    .vs-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #ffffff;
+      padding: 20px 30px;
+      border-radius: 50%;
+      font-size: 28px;
+      font-weight: 700;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      letter-spacing: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .mega-title {
+        font-size: 42px;
+        letter-spacing: 2px;
       }
 
-      .header-title {
-        font-size: 36px;
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
       }
 
-      .instructions-card {
-        padding: 12px 20px;
+      .comparison-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
       }
 
-      .instructions-text {
+      .vs-badge {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .main-wrapper {
+        padding: 40px 20px;
+      }
+
+      .mega-title {
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      .mini-subtitle {
         font-size: 14px;
       }
 
-      .info-icon {
-        font-size: 20px;
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
 
-      .content-card {
-        padding: 40px 30px;
-        min-height: 350px;
+      .job-emoji {
+        font-size: 60px;
       }
 
-      .illustration {
-        font-size: 90px;
-      }
-
-      .stanza-text {
+      .job-label {
         font-size: 18px;
       }
 
-      .definition-box {
-        padding: 25px 25px;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+      .card-face-front, .card-face-back {
+        padding: 30px;
       }
 
-      .definition-icon {
-        font-size: 32px;
+      .card-heading {
+        font-size: 28px;
       }
 
-      .definition-word {
-        font-size: 20px;
+      .tab-btn {
+        padding: 12px 24px;
+        font-size: 14px;
       }
 
-      .definition-text {
-        font-size: 16px;
+      .points-list li {
+        font-size: 14px;
       }
+    }
 
-      .navigation-card {
-        padding: 20px 25px;
-        flex-direction: column;
-        gap: 15px;
-      }
+    /* Scrollbar styling for glass effect */
+    .card-face-back::-webkit-scrollbar {
+      width: 8px;
+    }
 
-      .page-indicator {
-        order: -1;
-      }
+    .card-face-back::-webkit-scrollbar-track {
+      background: rgba(6, 182, 212, 0.1);
+      border-radius: 10px;
+    }
+
+    .card-face-back::-webkit-scrollbar-thumb {
+      background: rgba(6, 182, 212, 0.4);
+      border-radius: 10px;
+    }
+
+    .card-face-back::-webkit-scrollbar-thumb:hover {
+      background: rgba(6, 182, 212, 0.6);
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Starry background -->
-  <div class="stars">
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="star"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 15%; left: 25%; animation-delay: 0s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 35%; left: 70%; animation-delay: 2s;"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 55%; left: 40%; animation-delay: 4s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 75%; left: 80%; animation-delay: 6s;"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 25%; left: 60%; animation-delay: 3s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 65%; left: 20%; animation-delay: 5s;"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 45%; left: 85%; animation-delay: 1s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 10%; left: 50%; animation-delay: 7s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 88%; left: 35%; animation-delay: 4.5s;"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 92%; left: 68%; animation-delay: 8s;"></div>
-   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 5%; left: 78%; animation-delay: 5.5s;"></div>
-   <div class="firefly" style="width: 3px; height: 3px; top: 50%; left: 12%; animation-delay: 3.5s;"></div>
-  </div>
-  <div class="poetry-container"><!-- Header Card -->
-   <header class="header-card">
-    <div class="moon-icon">
-     🌙
-    </div>
-    <h1 class="header-title" id="book-title">My Hero</h1>
-    <p class="header-author" id="author-name">by Willis Hall</p>
-   </header><!-- Instructions -->
-   <div class="instructions-card"><span class="info-icon">💡</span>
-    <p class="instructions-text">Click on any <span class="highlight-example">blue word</span> to see its meaning below!</p>
-   </div><!-- Definition Display Box -->
-   <div class="definition-box" id="definition-box">
-    <div class="definition-icon">
-     📖
-    </div>
-    <div class="definition-content">
-     <div class="definition-word" id="definition-word">
-      Click a blue word
+ <body>
+  <main class="main-wrapper">
+   <div class="content-area">
+    <div class="hero-section" id="home-view">
+     <h1 class="mega-title" id="main-title">PART TIME JOBS</h1>
+     <p class="mini-subtitle" id="subtitle">Explore the pros and cons</p>
+     <div class="instruction-badge" id="prompt-text">
+      Select a job to begin
      </div>
-     <div class="definition-text" id="definition-text">
-      Select any highlighted word in the poem to see its meaning here.
+    </div><button class="compare-btn" id="compare-toggle">🔄 Compare Two Jobs</button>
+    <div class="compare-instruction" id="compare-instruction">
+     👆 Select TWO jobs to compare!
+    </div>
+    <div id="jobs-grid" class="cards-grid">
+     <div class="job-item" data-job="waiter"><span class="job-emoji">🍽️</span>
+      <h2 class="job-label">Waiter</h2>
+     </div>
+     <div class="job-item" data-job="petsitter"><span class="job-emoji">🐕</span>
+      <h2 class="job-label">Pet Sitter</h2>
+     </div>
+     <div class="job-item" data-job="lifeguard"><span class="job-emoji">🏊</span>
+      <h2 class="job-label">Lifeguard</h2>
+     </div>
+     <div class="job-item" data-job="cashier"><span class="job-emoji">💰</span>
+      <h2 class="job-label">Cashier</h2>
+     </div>
+     <div class="job-item" data-job="retail"><span class="job-emoji">👕</span>
+      <h2 class="job-label">Retail Sales</h2>
+     </div>
+     <div class="job-item" data-job="baker"><span class="job-emoji">🥖</span>
+      <h2 class="job-label">Baker</h2>
      </div>
     </div>
-   </div><!-- Content Card -->
-   <main class="content-card"><!-- Stanza 1 -->
-    <div class="page-content active" data-page="0">
-     <div class="illustration">
-      🦸‍♂️
+    <div id="flashcard-area" class="flashcard-view">
+     <div class="hero-section">
+      <h1 class="mega-title" id="job-title">JOB</h1>
+      <p class="mini-subtitle" id="job-subtitle">Flip the cards to learn more</p>
      </div>
-     <div class="stanza-text">
-      My dad's as <span class="glossary-word" data-definition="Showing courage and not being afraid">brave</span> as a dad can be,<br>
-       I <span class="glossary-word" data-definition="To judge or measure how good something or someone is">rate</span> him Number One,<br>
-       He's not afraid of the <span class="glossary-word" data-definition="The darkest part of the night, usually midnight">dead of night</span>,<br>
-       Or anything under the sun.
+     <div class="switch-tabs"><button class="tab-btn selected" data-tab="advantages">✨ Pros</button> <button class="tab-btn" data-tab="disadvantages">⚡ Cons</button>
      </div>
-    </div><!-- Stanza 2 -->
-    <div class="page-content" data-page="1">
-     <div class="illustration">
-      📺👻
-     </div>
-     <div class="stanza-text">
-      He's not afraid of a <span class="glossary-word" data-definition="A movie shown on TV very late at night, usually after 11 PM">late-night film</span>,<br>
-       Full of <span class="glossary-word" data-definition="Very scary or frightening things">horrors</span> on the <span class="glossary-word" data-definition="British slang for television">telly</span>,<br>
-       And is he afraid of <span class="glossary-word" data-definition="Bones of a dead person or animal">skeletons</span>?<br>
-       Not dad, not on your <span class="glossary-word" data-definition="British expression meaning 'definitely not' or 'no way'">Nelly</span>!
-     </div>
-    </div><!-- Stanza 3 -->
-    <div class="page-content" data-page="2">
-     <div class="illustration">
-      👻🤝
-     </div>
-     <div class="stanza-text">
-      He's not afraid of <span class="glossary-word" data-definition="Coming across or encountering someone or something">meeting</span> ghosts,<br>
-       He'd even smile and <span class="glossary-word" data-definition="To welcome or say hello to someone">greet 'em</span>,<br>
-       And things that scare most dads the most,<br>
-       My dad could just <span class="glossary-word" data-definition="To win against or overcome">defeat 'em</span>.
-     </div>
-    </div><!-- Stanza 4 -->
-    <div class="page-content" data-page="3">
-     <div class="illustration">
-      🧛‍♂️🐺
-     </div>
-     <div class="stanza-text">
-      He's not afraid of <span class="glossary-word" data-definition="Mythical creatures that drink blood">vampires</span>,<br>
-       Or a <span class="glossary-word" data-definition="A person who transforms into a wolf, also called a werewolf">wolf-man</span> come to get him,<br>
-       If <span class="glossary-word" data-definition="A famous monster from a story, created by a scientist">Frankenstein's monster</span> knocked on our door,<br>
-       He wouldn't let that <span class="glossary-word" data-definition="Make someone worried, unhappy, or disturbed">upset</span> him.
-     </div>
-    </div><!-- Stanza 5 -->
-    <div class="page-content" data-page="4">
-     <div class="illustration">
-      🕷️🛁
-     </div>
-     <div class="stanza-text">
-      My dad's as brave as a dad can be,<br>
-       And he's always ready to <span class="glossary-word" data-definition="To show or demonstrate something is true">prove it</span>.<br>
-       So why, when a <span class="glossary-word" data-definition="A small eight-legged creature">spider's</span> in the bath,<br>
-       Does Mum have to come and remove it?
-     </div>
+     <div class="card-wrapper" id="card-container"></div>
+     <p class="hint-text">💡 Tap the card to flip it</p><button class="return-btn" id="back-btn">← Back to Jobs</button>
     </div>
-   </main><!-- Navigation Card -->
-   <nav class="navigation-card"><button class="nav-button" id="prev-btn" disabled> <span id="prev-text">← Previous</span> </button>
-    <div class="page-indicator" id="page-indicator">
-     Page 1 of 5
-    </div><button class="nav-button" id="next-btn"> <span id="next-text">Next →</span> </button>
-   </nav>
-  </div>
+    <div id="comparison-area" class="flashcard-view">
+     <div class="hero-section">
+      <h1 class="mega-title">JOB SHOWDOWN</h1>
+      <p class="mini-subtitle">Compare the pros and cons side by side</p>
+     </div>
+     <div class="switch-tabs"><button class="tab-btn selected" data-tab="advantages">✨ Pros</button> <button class="tab-btn" data-tab="disadvantages">⚡ Cons</button>
+     </div>
+     <div class="comparison-container" id="comparison-container">
+      <div class="card-wrapper" id="compare-card-1"></div>
+      <div class="card-wrapper" id="compare-card-2"></div>
+      <div class="vs-badge">
+       VS
+      </div>
+     </div>
+     <p class="hint-text">💡 Tap the cards to flip them</p><button class="return-btn" id="compare-back-btn">← Back to Jobs</button>
+    </div>
+   </div>
+  </main>
   <script>
-    const defaultConfig = {
-      book_title: "My Hero",
-      author_name: "by Willis Hall",
-      next_button_text: "Next →",
-      previous_button_text: "← Previous",
-      background_color: "#1f3a60",
-      secondary_surface_color: "#152842",
-      text_color: "#e8f4ff",
-      primary_action_color: "#64b4ff",
-      secondary_action_color: "#408cdc",
-      font_family: "Lato",
-      font_size: 16
+    const jobsInfo = {
+      waiter: {
+        name: "PART TIME WAITER",
+        emoji: "🍽️",
+        advantages: [
+          "Great tips can significantly boost your hourly wage",
+          "Fast-paced environment keeps work interesting",
+          "Develops strong multitasking and communication skills",
+          "Flexible scheduling around school",
+          "Free or discounted meals"
+        ],
+        disadvantages: [
+          "Dealing with difficult or rude customers",
+          "Standing for long shifts can be physically tiring",
+          "Income can be unpredictable (depends on tips)",
+          "Working evenings, weekends, and holidays",
+          "High-pressure during busy rushes"
+        ]
+      },
+      petsitter: {
+        name: "PART TIME PET SITTER",
+        emoji: "🐕",
+        advantages: [
+          "Perfect for animal lovers",
+          "Very flexible - set your own schedule",
+          "Often higher pay per hour",
+          "Low stress and enjoyable work",
+          "Build your own client base"
+        ],
+        disadvantages: [
+          "Inconsistent work and income",
+          "Requires building trust and reputation",
+          "Dealing with pet emergencies or messes",
+          "Weather doesn't matter - still need to walk dogs",
+          "Liability if something happens to the pet"
+        ]
+      },
+      lifeguard: {
+        name: "PART TIME LIFEGUARD",
+        emoji: "🏊",
+        advantages: [
+          "Good pay compared to other teen jobs",
+          "Certification looks great on resumes",
+          "Learn valuable life-saving skills",
+          "Outdoor work in summer",
+          "Respected position of responsibility"
+        ],
+        disadvantages: [
+          "Requires certification course (time and money)",
+          "High responsibility - lives depend on you",
+          "Can be boring during slow periods",
+          "Weather-dependent for outdoor pools",
+          "Seasonal work (mostly summer)"
+        ]
+      },
+      cashier: {
+        name: "PART TIME CASHIER",
+        emoji: "💰",
+        advantages: [
+          "Simple, straightforward tasks",
+          "Steady hours and predictable schedule",
+          "Indoor, climate-controlled environment",
+          "Develops customer service skills",
+          "Often get employee discounts"
+        ],
+        disadvantages: [
+          "Repetitive work can be boring",
+          "Standing in one spot for entire shift",
+          "Dealing with impatient customers",
+          "Cash handling stress (register must balance)",
+          "Often minimum wage with no tips"
+        ]
+      },
+      retail: {
+        name: "PART TIME RETAIL SALES",
+        emoji: "👕",
+        advantages: [
+          "Employee discounts on products you like",
+          "Opportunity to learn sales techniques",
+          "More varied tasks than cashier",
+          "Can be social and interactive",
+          "Potential for commission in some stores"
+        ],
+        disadvantages: [
+          "Pressure to meet sales targets",
+          "Working busy weekends and holidays",
+          "Dealing with returns and complaints",
+          "Cleaning and organizing can be tedious",
+          "Standing/walking entire shift"
+        ]
+      },
+      baker: {
+        name: "PART TIME BAKER",
+        emoji: "🥖",
+        advantages: [
+          "Learn valuable cooking/baking skills",
+          "Creative and hands-on work",
+          "Take home unsold baked goods (sometimes)",
+          "Smell amazing all day!",
+          "Skill that's useful for life"
+        ],
+        disadvantages: [
+          "Very early morning shifts (3-5 AM starts)",
+          "Hot kitchen environment",
+          "Physically demanding (lifting, standing)",
+          "Strict recipes - less creativity than expected",
+          "Fast-paced during prep times"
+        ]
+      }
     };
 
-    let currentPage = 0;
-    const totalPages = 4;
+    let activeJob = null;
+    let activeTab = 'advantages';
+    let compareMode = false;
+    let selectedJobs = [];
+    let floatingEmojis = [];
 
-    function updatePageDisplay() {
-      const pages = document.querySelectorAll('.page-content');
-      pages.forEach((page, index) => {
-        page.classList.toggle('active', index === currentPage);
-      });
-
-      document.getElementById('prev-btn').disabled = currentPage === 0;
-      document.getElementById('next-btn').disabled = currentPage === totalPages;
-      document.getElementById('page-indicator').textContent = `Page ${currentPage + 1} of ${totalPages + 1}`;
-    }
-
-    document.getElementById('prev-btn').addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        updatePageDisplay();
-      }
-    });
-
-    document.getElementById('next-btn').addEventListener('click', () => {
-      if (currentPage < totalPages) {
-        currentPage++;
-        updatePageDisplay();
-      }
-    });
-
-    // Glossary functionality
-    const definitionBox = document.getElementById('definition-box');
-    const definitionWord = document.getElementById('definition-word');
-    const definitionText = document.getElementById('definition-text');
-
-    document.querySelectorAll('.glossary-word').forEach(word => {
-      const definition = word.getAttribute('data-definition');
-      const wordText = word.textContent;
-      
-      word.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // Update definition box
-        definitionWord.textContent = wordText;
-        definitionText.textContent = definition;
-        definitionBox.classList.add('active');
-        
-        // Scroll to definition box smoothly
-        definitionBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      });
-    });
+    const defaultConfig = {
+      main_title: "PART TIME JOBS",
+      subtitle: "Explore the pros and cons",
+      prompt_text: "Select a job to begin",
+      primary_color: "#1e3a8a",
+      secondary_color: "#0ea5e9",
+      accent_color: "#06b6d4",
+      card_background: "#ffffff",
+      text_color: "#1e3a8a"
+    };
 
     async function onConfigChange(config) {
-      const bookTitle = config.book_title || defaultConfig.book_title;
-      const authorName = config.author_name || defaultConfig.author_name;
-      const nextText = config.next_button_text || defaultConfig.next_button_text;
-      const prevText = config.previous_button_text || defaultConfig.previous_button_text;
-      const backgroundColor = config.background_color || defaultConfig.background_color;
-      const surfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
-      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
-      const fontFamily = config.font_family || defaultConfig.font_family;
-      const fontSize = config.font_size || defaultConfig.font_size;
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('subtitle').textContent = config.subtitle || defaultConfig.subtitle;
+      document.getElementById('prompt-text').textContent = config.prompt_text || defaultConfig.prompt_text;
 
-      document.getElementById('book-title').textContent = bookTitle;
-      document.getElementById('author-name').textContent = authorName;
-      document.getElementById('next-text').textContent = nextText;
-      document.getElementById('prev-text').textContent = prevText;
-
-      const cards = document.querySelectorAll('.header-card, .content-card, .navigation-card');
-      cards.forEach(card => {
-        card.style.background = `linear-gradient(135deg, ${backgroundColor}f2 0%, ${surfaceColor}f2 100%)`;
-        card.style.borderColor = `${primaryColor}33`;
-      });
-
-      document.getElementById('book-title').style.color = textColor;
-      document.getElementById('author-name').style.color = textColor;
-      document.querySelectorAll('.stanza-text').forEach(el => el.style.color = textColor);
-      document.querySelector('.page-indicator').style.color = textColor;
+      const primary = config.primary_color || defaultConfig.primary_color;
+      const secondary = config.secondary_color || defaultConfig.secondary_color;
       
-      document.querySelectorAll('.glossary-word').forEach(word => {
-        word.style.color = primaryColor;
-        word.style.borderBottomColor = `${primaryColor}66`;
-      });
-
-      document.querySelector('.definition-box').style.background = `linear-gradient(135deg, ${backgroundColor}f2 0%, ${surfaceColor}f2 100%)`;
-      document.querySelector('.definition-box').style.borderColor = `${primaryColor}4d`;
-      document.querySelector('.definition-word').style.color = primaryColor;
-      document.querySelector('.definition-text').style.color = textColor;
-
-      document.querySelector('.instructions-card').style.background = `linear-gradient(135deg, ${primaryColor}26 0%, ${secondaryColor}26 100%)`;
-      document.querySelector('.instructions-card').style.borderColor = `${primaryColor}4d`;
-      document.querySelector('.instructions-text').style.color = textColor;
-      document.querySelector('.highlight-example').style.color = primaryColor;
-      document.querySelector('.highlight-example').style.borderBottomColor = `${primaryColor}66`;
-
-      document.querySelectorAll('.nav-button').forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${primaryColor}26 0%, ${secondaryColor}26 100%)`;
-        btn.style.borderColor = `${primaryColor}4d`;
-        btn.style.color = textColor;
-      });
-
-      const baseFontStack = 'Lato, sans-serif';
-      const titleFontStack = 'Playfair Display, serif';
-      document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
-      document.querySelector('.header-title').style.fontFamily = `${fontFamily}, ${titleFontStack}`;
-      document.querySelector('.header-title').style.fontSize = `${fontSize * 3}px`;
-      document.querySelector('.header-author').style.fontSize = `${fontSize * 1.125}px`;
-      document.querySelectorAll('.stanza-text').forEach(el => {
-        el.style.fontSize = `${fontSize * 1.25}px`;
-      });
-      document.querySelectorAll('.nav-button').forEach(btn => {
-        btn.style.fontSize = `${fontSize}px`;
-      });
+      document.body.style.background = `linear-gradient(135deg, ${primary} 0%, #0e7490 50%, ${secondary} 100%)`;
     }
 
     if (window.elementSdk) {
@@ -733,17 +811,31 @@
         mapToCapabilities: (config) => ({
           recolorables: [
             {
-              get: () => config.background_color || defaultConfig.background_color,
+              get: () => config.primary_color || defaultConfig.primary_color,
               set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
               }
             },
             {
-              get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+              get: () => config.secondary_color || defaultConfig.secondary_color,
               set: (value) => {
-                config.secondary_surface_color = value;
-                window.elementSdk.setConfig({ secondary_surface_color: value });
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            },
+            {
+              get: () => config.card_background || defaultConfig.card_background,
+              set: (value) => {
+                config.card_background = value;
+                window.elementSdk.setConfig({ card_background: value });
               }
             },
             {
@@ -752,46 +844,228 @@
                 config.text_color = value;
                 window.elementSdk.setConfig({ text_color: value });
               }
-            },
-            {
-              get: () => config.primary_action_color || defaultConfig.primary_action_color,
-              set: (value) => {
-                config.primary_action_color = value;
-                window.elementSdk.setConfig({ primary_action_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-              set: (value) => {
-                config.secondary_action_color = value;
-                window.elementSdk.setConfig({ secondary_action_color: value });
-              }
             }
           ],
           borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
+          fontEditable: undefined,
+          fontSizeable: undefined
         }),
         mapToEditPanelValues: (config) => new Map([
-          ["book_title", config.book_title || defaultConfig.book_title],
-          ["author_name", config.author_name || defaultConfig.author_name],
-          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
-          ["previous_button_text", config.previous_button_text || defaultConfig.previous_button_text]
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["subtitle", config.subtitle || defaultConfig.subtitle],
+          ["prompt_text", config.prompt_text || defaultConfig.prompt_text]
         ])
       });
     }
+
+    function createFloatingEmojis(emoji, parentElement) {
+      const emojis = ['✨', '⭐', '💫', '🌟', '❄️', '💎'];
+      floatingEmojis.forEach(el => el.remove());
+      floatingEmojis = [];
+
+      for (let i = 0; i < 5; i++) {
+        const floater = document.createElement('div');
+        floater.className = 'floating-emoji';
+        floater.textContent = emojis[i];
+        floater.style.left = `${Math.random() * 80 + 10}%`;
+        floater.style.top = `${Math.random() * 80 + 10}%`;
+        floater.style.animationDelay = `${i * 0.4}s`;
+        parentElement.appendChild(floater);
+        floatingEmojis.push(floater);
+      }
+    }
+
+    document.getElementById('compare-toggle').addEventListener('click', () => {
+      compareMode = !compareMode;
+      const btn = document.getElementById('compare-toggle');
+      const instruction = document.getElementById('compare-instruction');
+      
+      if (compareMode) {
+        btn.classList.add('active');
+        btn.textContent = '❌ Cancel Compare';
+        instruction.classList.add('show');
+        selectedJobs = [];
+        document.querySelectorAll('.job-item').forEach(item => {
+          item.classList.remove('selected');
+        });
+      } else {
+        btn.classList.remove('active');
+        btn.textContent = '🔄 Compare Two Jobs';
+        instruction.classList.remove('show');
+        selectedJobs = [];
+        document.querySelectorAll('.job-item').forEach(item => {
+          item.classList.remove('selected');
+        });
+      }
+    });
+
+    document.querySelectorAll('.job-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (compareMode) {
+          const jobKey = item.dataset.job;
+          
+          if (selectedJobs.includes(jobKey)) {
+            selectedJobs = selectedJobs.filter(j => j !== jobKey);
+            item.classList.remove('selected');
+          } else if (selectedJobs.length < 2) {
+            selectedJobs.push(jobKey);
+            item.classList.add('selected');
+            createFloatingEmojis(jobsInfo[jobKey].emoji, item);
+          }
+
+          if (selectedJobs.length === 2) {
+            setTimeout(() => {
+              document.getElementById('jobs-grid').style.display = 'none';
+              document.getElementById('home-view').style.display = 'none';
+              document.getElementById('compare-toggle').style.display = 'none';
+              document.getElementById('compare-instruction').style.display = 'none';
+              document.getElementById('comparison-area').classList.add('show');
+              document.getElementById('comparison-container').classList.add('show');
+              createComparisonCards();
+            }, 500);
+          }
+        } else {
+          activeJob = item.dataset.job;
+          const job = jobsInfo[activeJob];
+          document.getElementById('job-title').textContent = job.name;
+          createFloatingEmojis(job.emoji, item);
+          document.getElementById('jobs-grid').style.display = 'none';
+          document.getElementById('home-view').style.display = 'none';
+          document.getElementById('compare-toggle').style.display = 'none';
+          document.getElementById('flashcard-area').classList.add('show');
+          createCard();
+        }
+      });
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const parent = button.parentElement;
+        parent.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        activeTab = button.dataset.tab;
+        
+        if (compareMode && selectedJobs.length === 2) {
+          createComparisonCards();
+        } else {
+          createCard();
+        }
+      });
+    });
+
+    document.getElementById('back-btn').addEventListener('click', () => {
+      document.getElementById('flashcard-area').classList.remove('show');
+      document.getElementById('jobs-grid').style.display = 'grid';
+      document.getElementById('home-view').style.display = 'block';
+      document.getElementById('compare-toggle').style.display = 'block';
+      activeJob = null;
+      floatingEmojis.forEach(el => el.remove());
+      floatingEmojis = [];
+    });
+
+    document.getElementById('compare-back-btn').addEventListener('click', () => {
+      document.getElementById('comparison-area').classList.remove('show');
+      document.getElementById('comparison-container').classList.remove('show');
+      document.getElementById('jobs-grid').style.display = 'grid';
+      document.getElementById('home-view').style.display = 'block';
+      document.getElementById('compare-toggle').style.display = 'block';
+      compareMode = false;
+      selectedJobs = [];
+      document.getElementById('compare-toggle').classList.remove('active');
+      document.getElementById('compare-toggle').textContent = '🔄 Compare Two Jobs';
+      document.querySelectorAll('.job-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      floatingEmojis.forEach(el => el.remove());
+      floatingEmojis = [];
+    });
+
+    function createCard() {
+      const container = document.getElementById('card-container');
+      container.innerHTML = '';
+
+      if (!activeJob) return;
+
+      const job = jobsInfo[activeJob];
+      const items = job[activeTab];
+      const listClass = activeTab === 'disadvantages' ? 'negatives-list' : '';
+
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      
+      const itemsHTML = items.map(item => `<li>${item}</li>`).join('');
+      
+      card.innerHTML = `
+        <div class="flip-card-inner">
+          <div class="card-face-front">
+            <div class="tap-icon">👆</div>
+            <p class="tap-text">Tap to reveal ${activeTab === 'advantages' ? 'pros' : 'cons'}</p>
+          </div>
+          <div class="card-face-back">
+            <div class="card-top">
+              <div class="job-tag">${job.name}</div>
+              <h3 class="card-heading">${activeTab === 'advantages' ? 'PROS' : 'CONS'}</h3>
+            </div>
+            <ul class="points-list ${listClass}">
+              ${itemsHTML}
+            </ul>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+
+      container.appendChild(card);
+    }
+
+    function createComparisonCards() {
+      const container1 = document.getElementById('compare-card-1');
+      const container2 = document.getElementById('compare-card-2');
+      
+      container1.innerHTML = '';
+      container2.innerHTML = '';
+
+      [selectedJobs[0], selectedJobs[1]].forEach((jobKey, index) => {
+        const job = jobsInfo[jobKey];
+        const items = job[activeTab];
+        const listClass = activeTab === 'disadvantages' ? 'negatives-list' : '';
+
+        const card = document.createElement('div');
+        card.className = 'flip-card';
+        
+        const itemsHTML = items.map(item => `<li>${item}</li>`).join('');
+        
+        card.innerHTML = `
+          <div class="flip-card-inner">
+            <div class="card-face-front">
+              <div class="tap-icon">👆</div>
+              <p class="tap-text">Tap to reveal ${activeTab === 'advantages' ? 'pros' : 'cons'}</p>
+            </div>
+            <div class="card-face-back">
+              <div class="card-top">
+                <div class="job-tag">${job.name}</div>
+                <h3 class="card-heading">${activeTab === 'advantages' ? 'PROS' : 'CONS'}</h3>
+              </div>
+              <ul class="points-list ${listClass}">
+                ${itemsHTML}
+              </ul>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+        });
+
+        if (index === 0) {
+          container1.appendChild(card);
+        } else {
+          container2.appendChild(card);
+        }
+      });
+    }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a811ce3c4b88066',t:'MTc2NDc0NDQ0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8151cad6fc9a6e',t:'MTc2NDc0NjYxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
