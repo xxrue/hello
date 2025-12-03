@@ -208,15 +208,16 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
+      margin-bottom: 20px;
     }
 
     .bin {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
       border-radius: 25px;
-      padding: 25px;
-      min-height: 180px;
+      padding: 20px;
+      min-height: 200px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       border: 4px solid #0369a1;
       position: relative;
       overflow: hidden;
@@ -225,9 +226,16 @@
 
 
     .bin.drag-over {
-      transform: scale(1.05);
-      box-shadow: 0 8px 35px rgba(3, 105, 161, 0.4);
+      transform: scale(1.08);
+      box-shadow: 0 12px 45px rgba(3, 105, 161, 0.6);
       border-color: #0284c7;
+      border-width: 5px;
+      animation: binPulse 0.6s ease-in-out infinite;
+    }
+
+    @keyframes binPulse {
+      0%, 100% { transform: scale(1.08); }
+      50% { transform: scale(1.12); }
     }
 
     .bin-header {
@@ -291,7 +299,7 @@
       background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
       border-radius: 18px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       user-select: none;
       border: 4px solid #0369a1;
       display: flex;
@@ -299,31 +307,55 @@
       justify-content: center;
       min-width: 70px;
       min-height: 70px;
+      touch-action: none;
     }
 
     .item:hover {
-      transform: scale(1.15) rotate(5deg);
-      box-shadow: 0 6px 25px rgba(3, 105, 161, 0.4);
+      transform: scale(1.2) rotate(8deg);
+      box-shadow: 0 8px 30px rgba(3, 105, 161, 0.5);
       background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
     }
 
     .item:active {
       cursor: grabbing;
+      transform: scale(0.95);
     }
 
     .item.dragging {
-      opacity: 0.5;
+      opacity: 0.6;
+      transform: scale(1.1) rotate(5deg);
+      animation: itemShake 0.3s ease-in-out infinite;
+    }
+
+    @keyframes itemShake {
+      0%, 100% { transform: scale(1.1) rotate(3deg); }
+      50% { transform: scale(1.1) rotate(-3deg); }
     }
 
     .item.placed {
       cursor: default;
       font-size: 2.5em;
       background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
-      border: 3px solid #0369a1;
+      border: 3px solid #10b981;
+      animation: itemLand 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .item.placed:hover {
-      transform: scale(1.05);
+      transform: scale(1.08);
+    }
+
+    @keyframes itemLand {
+      0% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.2) rotate(-10deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
     }
 
     .tips-section {
@@ -456,21 +488,37 @@
       font-weight: bold;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
       z-index: 999;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
     .feedback.show {
       transform: translate(-50%, -50%) scale(1);
+      animation: feedbackBounce 0.6s ease-in-out;
+    }
+
+    @keyframes feedbackBounce {
+      0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); }
+      50% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
     }
 
     .feedback.correct {
       color: #0891b2;
-      border: 4px solid #0891b2;
+      border: 5px solid #0891b2;
+      background: linear-gradient(135deg, #ffffff 0%, #cffafe 100%);
     }
 
     .feedback.incorrect {
       color: #ef4444;
-      border: 4px solid #ef4444;
+      border: 5px solid #ef4444;
+      background: linear-gradient(135deg, #ffffff 0%, #fee2e2 100%);
+      animation: feedbackShake 0.5s ease-in-out;
+    }
+
+    @keyframes feedbackShake {
+      0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) scale(1) rotate(-5deg); }
+      75% { transform: translate(-50%, -50%) scale(1) rotate(5deg); }
     }
 
     .tapir-mascot {
@@ -623,59 +671,117 @@
 
       .game-container {
         padding: 15px;
+        gap: 20px;
       }
 
       .score-board {
-        gap: 15px;
+        gap: 10px;
+        padding: 0 10px;
       }
 
       .score-item {
-        padding: 10px 20px;
-        font-size: 1em;
+        padding: 8px 16px;
+        font-size: 0.9em;
+        flex: 1;
+        min-width: 100px;
+      }
+
+      .score-number {
+        font-size: 1.3em;
       }
 
       .bins-container {
         grid-template-columns: 1fr;
-        max-height: 70vh;
-        overflow-y: auto;
-        padding: 10px;
-        gap: 25px;
+        gap: 15px;
+        padding: 0;
       }
 
       .bin {
-        min-height: 200px;
-        margin-bottom: 10px;
+        min-height: 140px;
+        padding: 15px;
+        margin-bottom: 0;
+      }
+
+      .basket-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 5px;
+      }
+
+      .bin-title {
+        font-size: 1.1em;
+      }
+
+      .bin-items {
+        min-height: 60px;
+        gap: 6px;
+      }
+
+      .items-pool {
+        padding: 20px 15px;
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.98) 100%);
+        z-index: 10;
+      }
+
+      .pool-title {
+        font-size: 1.2em;
+        margin-bottom: 15px;
       }
 
       .items-grid {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+        gap: 10px;
       }
 
       .item {
-        font-size: 2.5em;
+        font-size: 2.8em;
+        padding: 12px;
+        min-width: 65px;
+        min-height: 65px;
+      }
+
+      .item.placed {
+        font-size: 2.2em;
+      }
+
+      .tips-section {
+        padding: 20px 15px;
+        padding-bottom: 30px;
       }
 
       .tips-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .tapir-mascot {
-        width: 80px;
-        height: 80px;
-        font-size: 2.8em;
+        width: 70px;
+        height: 70px;
+        font-size: 2.5em;
         bottom: 15px;
         right: 15px;
       }
 
       .speech-bubble {
-        bottom: 110px;
+        bottom: 100px;
         right: 15px;
-        max-width: 250px;
+        max-width: 220px;
         padding: 15px 20px;
       }
 
       .speech-text {
+        font-size: 0.95em;
+      }
+
+      .instructions-panel {
+        padding: 20px;
+      }
+
+      .instructions-list li {
         font-size: 1em;
+        padding: 8px 0;
       }
     }
 
@@ -710,7 +816,7 @@
   <div class="fish-container" id="fishContainer"></div>
   <div class="game-container">
    <div class="header">
-    <h1 class="game-title" id="gameTitle">♻️ EcoChampion Recycling Challenge</h1>
+    <h1 class="game-title" id="gameTitle">♻️ Recycling Challenge</h1>
    </div>
    <div class="instructions-panel">
     <h2 class="instructions-title">🎮 How to Play</h2>
@@ -813,13 +919,13 @@
       <div class="tip-icon">
        ♻️
       </div>
-      <p class="tip-text"><strong>Malaysia's 3R:</strong> Reduce waste first, Reuse items when possible, then Recycle properly!</p>
+      <p class="tip-text"><strong>The 3R Rule:</strong> Reduce waste first, Reuse items when possible, then Recycle properly!</p>
      </div>
      <div class="tip-card">
       <div class="tip-icon">
        🦧
       </div>
-      <p class="tip-text"><strong>Wildlife:</strong> Proper waste disposal protects Malaysian wildlife like orangutans, tapirs, and hornbills!</p>
+      <p class="tip-text"><strong>Wildlife:</strong> Proper waste disposal protects wildlife and natural habitats around the world!</p>
      </div>
     </div>
    </div>
@@ -836,13 +942,13 @@
     <div class="complete-title">
      🏆 Congratulations!
     </div>
-    <p class="complete-message">You've successfully sorted all the waste! You're a true Malaysian EcoChampion!</p>
+    <p class="complete-message">You've successfully sorted all the waste! You're a Recycling Champion!</p>
     <p class="complete-message" id="finalScore"></p><button class="btn-restart" onclick="restartGame()">Play Again</button>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      game_title: "♻️ EcoChampion Recycling Challenge",
+      game_title: "♻️ Recycling Challenge",
       instructions_text: "Drag each item emoji from the pool below",
       tip_header: "💡 Recycling Tips for Champions"
     };
@@ -852,14 +958,14 @@
     const tapirMessages = [
       "🌊 Keep going! You're helping save our precious oceans!",
       "🐢 Fun fact: Sea turtles can live over 100 years! Keep our waters clean!",
-      "🎉 Amazing work! Every item sorted helps marine life like me!",
+      "🎉 Amazing work! Every item sorted helps marine life!",
       "🏖️ Did you know? 8 million tons of plastic enter our oceans yearly!",
-      "✨ You're an Ocean Champion! Keep sorting and saving sea life!",
+      "✨ You're a Recycling Champion! Keep sorting and saving sea life!",
       "🐠 Proper recycling keeps our coral reefs healthy and vibrant!",
       "🌊 Excellent! Clean oceans mean safe homes for turtles and fish!",
       "🦈 Your good work protects whales, dolphins, and all ocean creatures!",
       "💪 Strong effort! Every piece of trash removed saves marine animals!",
-      "🌏 You're making Malaysian beaches cleaner! Thank you!"
+      "🌏 You're making our beaches cleaner! Thank you!"
     ];
 
     let lastTapirMessage = -1;
@@ -910,7 +1016,7 @@
       { emoji: '🍎', type: 'organic', name: 'Apple Core' },
       { emoji: '🍌', type: 'organic', name: 'Banana Peel' },
       { emoji: '🥕', type: 'organic', name: 'Vegetable Scraps' },
-      { emoji: '��', type: 'organic', name: 'Leaves' },
+      { emoji: '🍃', type: 'organic', name: 'Leaves' },
       { emoji: '🍊', type: 'organic', name: 'Orange Peel' },
       { emoji: '🥚', type: 'organic', name: 'Eggshell' }
     ];
@@ -1082,9 +1188,35 @@
     }
 
     function updateScore() {
-      document.getElementById('score').textContent = score;
-      document.getElementById('streak').textContent = streak;
-      document.getElementById('itemsLeft').textContent = itemsRemaining;
+      const scoreEl = document.getElementById('score');
+      const streakEl = document.getElementById('streak');
+      const itemsLeftEl = document.getElementById('itemsLeft');
+
+      // Animate score change
+      scoreEl.textContent = score;
+      scoreEl.style.transform = 'scale(1.3)';
+      scoreEl.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      setTimeout(() => {
+        scoreEl.style.transform = 'scale(1)';
+      }, 300);
+
+      // Animate streak
+      streakEl.textContent = streak;
+      if (streak > 0) {
+        streakEl.style.transform = 'scale(1.3)';
+        streakEl.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setTimeout(() => {
+          streakEl.style.transform = 'scale(1)';
+        }, 300);
+      }
+
+      // Animate items left
+      itemsLeftEl.textContent = itemsRemaining;
+      itemsLeftEl.style.transform = 'scale(1.2)';
+      itemsLeftEl.style.transition = 'transform 0.3s ease';
+      setTimeout(() => {
+        itemsLeftEl.style.transform = 'scale(1)';
+      }, 300);
     }
 
     function showGameComplete() {
@@ -1117,12 +1249,22 @@
       touchClone.style.position = 'fixed';
       touchClone.style.zIndex = '1000';
       touchClone.style.pointerEvents = 'none';
-      touchClone.style.opacity = '0.8';
-      touchClone.style.left = `${touch.clientX - 35}px`;
-      touchClone.style.top = `${touch.clientY - 35}px`;
+      touchClone.style.opacity = '0.9';
+      touchClone.style.transform = 'scale(1.3) rotate(5deg)';
+      touchClone.style.transition = 'all 0.2s ease';
+      touchClone.style.left = `${touch.clientX - 45}px`;
+      touchClone.style.top = `${touch.clientY - 45}px`;
+      touchClone.classList.add('dragging');
       document.body.appendChild(touchClone);
 
       touchElement.style.opacity = '0.3';
+      touchElement.style.transform = 'scale(0.9)';
+      touchElement.style.transition = 'all 0.2s ease';
+
+      // Haptic feedback for mobile
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
     }
 
     function handleTouchMove(e) {
@@ -1130,8 +1272,20 @@
       if (!touchClone) return;
 
       const touch = e.touches[0];
-      touchClone.style.left = `${touch.clientX - 35}px`;
-      touchClone.style.top = `${touch.clientY - 35}px`;
+      touchClone.style.left = `${touch.clientX - 45}px`;
+      touchClone.style.top = `${touch.clientY - 45}px`;
+
+      // Check if over a bin and highlight it
+      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+      const bin = dropTarget?.closest('.bin');
+
+      document.querySelectorAll('.bin').forEach(b => {
+        if (b === bin) {
+          b.classList.add('drag-over');
+        } else {
+          b.classList.remove('drag-over');
+        }
+      });
     }
 
     function handleTouchEnd(e) {
@@ -1142,20 +1296,63 @@
       const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
       const bin = dropTarget?.closest('.bin');
 
-      touchClone.remove();
-      touchClone = null;
-      touchElement.style.opacity = '1';
+      // Remove all drag-over highlights
+      document.querySelectorAll('.bin').forEach(b => {
+        b.classList.remove('drag-over');
+      });
 
       if (bin && draggedItem) {
         const binType = bin.dataset.type;
         const isCorrect = draggedItem.type === binType;
 
         if (isCorrect) {
-          draggedElement = touchElement;
-          handleCorrectDrop(bin);
+          // Animate clone to bin before removing
+          const binRect = bin.getBoundingClientRect();
+          touchClone.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          touchClone.style.left = `${binRect.left + binRect.width / 2 - 45}px`;
+          touchClone.style.top = `${binRect.top + binRect.height / 2 - 45}px`;
+          touchClone.style.transform = 'scale(0.8) rotate(0deg)';
+          touchClone.style.opacity = '0';
+
+          // Haptic feedback for success
+          if (navigator.vibrate) {
+            navigator.vibrate([50, 50, 50]);
+          }
+
+          setTimeout(() => {
+            touchClone.remove();
+            draggedElement = touchElement;
+            handleCorrectDrop(bin);
+          }, 300);
         } else {
-          handleIncorrectDrop();
+          // Shake animation for wrong drop
+          touchClone.style.animation = 'feedbackShake 0.5s ease-in-out';
+          
+          // Haptic feedback for error
+          if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]);
+          }
+
+          setTimeout(() => {
+            touchClone.remove();
+            handleIncorrectDrop();
+          }, 500);
         }
+      } else {
+        // Return to original position
+        touchClone.style.transition = 'all 0.3s ease';
+        touchClone.style.opacity = '0';
+        touchClone.style.transform = 'scale(0.5)';
+        
+        setTimeout(() => {
+          touchClone.remove();
+        }, 300);
+      }
+
+      touchClone = null;
+      if (touchElement) {
+        touchElement.style.opacity = '1';
+        touchElement.style.transform = 'scale(1)';
       }
 
       draggedItem = null;
@@ -1236,5 +1433,5 @@
       tapir.addEventListener('click', showTapirMessage);
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7ff6f6270d1be4',t:'MTc2NDczMjQwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a800a55d3cc5348',t:'MTc2NDczMzIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
