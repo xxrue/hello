@@ -1,852 +1,1226 @@
 <!doctype html>
-<html lang="ms">
+<html lang="en">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Mekanikal</title>
+  <title>EcoChampion Recycling Challenge - Malaysian Nature Edition</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-        body {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #9F7AEA 0%, #68D391 100%);
-            min-height: 100%;
-            width: 100%;
-        }
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(180deg, #001a33 0%, #003d5c 30%, #006994 60%, #0891b2 90%, #67e8f9 100%);
+      min-height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .main-container {
-            width: 100%;
-            min-height: 100%;
-            padding: 2rem 1rem;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .content-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .fish-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: white;
-        }
+    .fish {
+      position: absolute;
+      font-size: 2em;
+      animation: swim linear infinite;
+      opacity: 0.7;
+    }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin: 0 0 0.5rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+    @keyframes swim {
+      0% {
+        transform: translateX(-100px) translateY(0);
+      }
+      100% {
+        transform: translateX(calc(100vw + 100px)) translateY(-20px);
+      }
+    }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            margin: 0;
-        }
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(6, 182, 212, 0.3));
+      border-radius: 50%;
+      animation: rise linear infinite;
+      opacity: 0.6;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    }
 
-        .definition-card {
-            background: #F5F3FF;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
-        }
+    @keyframes rise {
+      0% {
+        bottom: -50px;
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+      }
+    }
 
-        .definition-card h2 {
-            color: #9F7AEA;
-            margin-top: 0;
-            font-size: 1.5rem;
-        }
 
-        .definition-card p {
-            line-height: 1.6;
-            color: #4A5568;
-            margin: 0.5rem 0;
-        }
 
-        .example-section {
-            background: #F5F3FF;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
-        }
+    .game-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
 
-        .example-section h2 {
-            color: #9F7AEA;
-            margin-top: 0;
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+      padding: 35px 30px;
+      border-radius: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border: 5px solid #0369a1;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .tabs-container {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
 
-        .tab-button {
-            padding: 0.75rem 1.5rem;
-            border: 2px solid #9F7AEA;
-            background: white;
-            color: #9F7AEA;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 150px;
-            max-width: 200px;
-        }
 
-        .tab-button:hover {
-            background: #FAF5FF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(159, 122, 234, 0.2);
-        }
+    .game-title {
+      font-size: 2.5em;
+      color: #0369a1;
+      margin: 0 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      font-weight: bold;
+    }
 
-        .tab-button.active {
-            background: linear-gradient(135deg, #9F7AEA 0%, #68D391 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(159, 122, 234, 0.4);
-        }
+    .mascots-container {
+      display: none;
+    }
 
-        .tab-content {
-            display: none;
-        }
+    .score-board {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
 
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease-in;
-        }
+    .score-item {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 1.2em;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(8, 145, 178, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .score-number {
+      font-size: 1.5em;
+      margin-left: 8px;
+    }
 
-        .visual-container {
-            background: #F5F3FF;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-            position: sticky;
-            top: 1rem;
-            z-index: 10;
-            margin-bottom: 2rem;
-            min-height: 300px;
-        }
+    .instructions-panel {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+      padding: 25px 30px;
+      border-radius: 25px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      border: 4px solid #0369a1;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .visual-svg {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            animation: float 3s ease-in-out infinite;
-        }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
 
-        .part {
-            transition: all 0.3s ease;
-        }
+    .instructions-title {
+      font-size: 1.5em;
+      color: #0369a1;
+      margin: 0 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+    }
 
-        .part.highlighted {
-            filter: drop-shadow(0 0 10px #FFD700) drop-shadow(0 0 15px #FFA500) drop-shadow(0 0 20px #FF6347);
-            animation: pulse 1s ease-in-out infinite;
-        }
+    .instructions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
+    .instructions-list li {
+      padding: 10px 0;
+      font-size: 1.1em;
+      color: #075985;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .components-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
+    .instructions-list li:before {
+      content: "🌊";
+      font-size: 1.5em;
+      flex-shrink: 0;
+    }
 
-        .component-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(159,122,234,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 3px solid transparent;
-        }
+    .game-area {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
 
-        .component-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(159,122,234,0.2);
-            border-color: #9F7AEA;
-        }
+    .bins-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-        .component-card.active {
-            border-color: #9F7AEA;
-            box-shadow: 0 8px 16px rgba(159, 122, 234, 0.3);
-            transform: translateY(-5px);
-        }
+    .bin {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+      border-radius: 25px;
+      padding: 25px;
+      min-height: 180px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      border: 4px solid #0369a1;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #E9D8FD;
-        }
 
-        .part-icon {
-            font-size: 2rem;
-        }
 
-        .card-header h3 {
-            margin: 0;
-            color: #9F7AEA;
-            font-size: 1.3rem;
-        }
+    .bin.drag-over {
+      transform: scale(1.05);
+      box-shadow: 0 8px 35px rgba(3, 105, 161, 0.4);
+      border-color: #0284c7;
+    }
 
-        .card-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
+    .bin-header {
+      text-align: center;
+      margin-bottom: 15px;
+    }
 
-        .info-card {
-            background: linear-gradient(135deg, #FAF5FF 0%, #E9F8EF 100%);
-            border-radius: 8px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
+    .basket-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 10px auto;
+      display: block;
+    }
 
-        .info-card:hover {
-            border-color: #68D391;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(104, 211, 145, 0.2);
-        }
+    .bin-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin: 5px 0;
+      color: #0369a1;
+    }
 
-        .info-card strong {
-            color: #68D391;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
+    .bin-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      min-height: 80px;
+    }
 
-        .info-card p {
-            margin: 0;
-            color: #4A5568;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
+    .items-pool {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      border: 5px solid #0369a1;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .component-highlight {
-            font-weight: 600;
-            color: #9F7AEA;
-        }
 
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 1rem 0.5rem;
-            }
 
-            .header h1 {
-                font-size: 1.8rem;
-            }
+    .pool-title {
+      font-size: 1.4em;
+      color: #0369a1;
+      text-align: center;
+      margin: 0 0 20px 0;
+      font-weight: bold;
+    }
 
-            .header p {
-                font-size: 1rem;
-            }
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 12px;
+      justify-items: center;
+    }
 
-            .definition-card, .example-section {
-                padding: 1rem;
-            }
+    .item {
+      font-size: 3em;
+      cursor: grab;
+      padding: 10px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      user-select: none;
+      border: 3px solid #0369a1;
+    }
 
-            .definition-card h2, .example-section h2 {
-                font-size: 1.2rem;
-            }
+    .item:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 5px 20px rgba(3, 105, 161, 0.3);
+    }
 
-            .tab-button {
-                min-width: 120px;
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
+    .item:active {
+      cursor: grabbing;
+    }
 
-            .components-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
+    .item.dragging {
+      opacity: 0.5;
+    }
 
-            .component-card {
-                padding: 1rem;
-            }
+    .item.placed {
+      cursor: default;
+      font-size: 2.5em;
+    }
 
-            .card-header h3 {
-                font-size: 1.1rem;
-            }
+    .item.placed:hover {
+      transform: scale(1.05);
+    }
 
-            .card-content {
-                grid-template-columns: 1fr;
-            }
+    .tips-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.95) 100%);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      border: 5px solid #0369a1;
+      position: relative;
+      overflow: hidden;
+    }
 
-            .info-card p {
-                font-size: 0.85rem;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
 
-            .part-icon {
-                font-size: 1.5rem;
-            }
+    .tips-title {
+      font-size: 1.5em;
+      color: #0369a1;
+      margin: 0 0 20px 0;
+      text-align: center;
+      font-weight: bold;
+    }
 
-            .card-header h3 {
-                font-size: 1rem;
-            }
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
 
-            .tab-button {
-                min-width: 100px;
-                font-size: 0.85rem;
-            }
-        }
-    </style>
+    .tip-card {
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+      padding: 15px;
+      border-radius: 12px;
+      border-left: 4px solid #0369a1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tip-card::before {
+      content: '🐚';
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 2em;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .tip-card > * {
+      position: relative;
+    }
+
+    .tip-icon {
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
+
+    .tip-text {
+      color: #075985;
+      font-size: 1em;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .game-complete {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .complete-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 500px;
+      margin: 20px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+      border: 6px solid #10b981;
+    }
+
+    .complete-title {
+      font-size: 2.5em;
+      color: #0891b2;
+      margin: 0 0 20px 0;
+    }
+
+    .complete-message {
+      font-size: 1.3em;
+      color: #0369a1;
+      margin: 0 0 30px 0;
+    }
+
+    .btn-restart {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 25px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(8, 145, 178, 0.4);
+      transition: all 0.3s ease;
+      border: 3px solid #0369a1;
+    }
+
+    .btn-restart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(8, 145, 178, 0.6);
+    }
+
+    .feedback {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      padding: 20px 40px;
+      border-radius: 15px;
+      font-size: 1.5em;
+      font-weight: bold;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .feedback.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .feedback.correct {
+      color: #0891b2;
+      border: 4px solid #0891b2;
+    }
+
+    .feedback.incorrect {
+      color: #ef4444;
+      border: 4px solid #ef4444;
+    }
+
+    .tapir-mascot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #fff 0%, #e0f2fe 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5em;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 5px solid #0369a1;
+      transition: all 0.3s ease;
+      z-index: 100;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .tapir-mascot:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .tapir-mascot.speaking {
+      animation: wiggle 0.5s ease-in-out;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+
+    .speech-bubble {
+      position: fixed;
+      bottom: 140px;
+      right: 20px;
+      background: linear-gradient(135deg, #fff 0%, #e0f2fe 100%);
+      padding: 20px 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 4px solid #0369a1;
+      max-width: 300px;
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .speech-bubble.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      right: 30px;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid #0369a1;
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -14px;
+      right: 34px;
+      width: 0;
+      height: 0;
+      border-left: 16px solid transparent;
+      border-right: 16px solid transparent;
+      border-top: 16px solid #fff;
+      z-index: 1;
+    }
+
+    .speech-text {
+      color: #075985;
+      font-size: 1.1em;
+      line-height: 1.5;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .close-bubble {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #0369a1;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+
+    .close-bubble:hover {
+      background: rgba(3, 105, 161, 0.1);
+      transform: rotate(90deg);
+    }
+
+    .celebration-bubble {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 998;
+      opacity: 0.8;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+      animation: celebrationRise 1.5s ease-out forwards;
+    }
+
+    @keyframes celebrationRise {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-400px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .game-title {
+        font-size: 1.8em;
+      }
+
+      .game-container {
+        padding: 15px;
+      }
+
+      .score-board {
+        gap: 15px;
+      }
+
+      .score-item {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+
+      .bins-container {
+        grid-template-columns: 1fr;
+      }
+
+      .bin {
+        min-height: 160px;
+      }
+
+      .items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      }
+
+      .item {
+        font-size: 2.5em;
+      }
+
+      .tips-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .turtle-mascot {
+        width: 80px;
+        height: 80px;
+        font-size: 2.8em;
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .speech-bubble {
+        bottom: 110px;
+        right: 15px;
+        max-width: 250px;
+        padding: 15px 20px;
+      }
+
+      .speech-text {
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-container {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 15px;
+      }
+
+      .game-title {
+        font-size: 1.5em;
+      }
+
+      .complete-title {
+        font-size: 2em;
+      }
+
+      .basket-icon {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <main class="main-container">
-   <div class="content-wrapper">
-    <header class="header">
-     <h1 id="main-title">Sistem Mekanikal</h1>
-     <p id="subtitle">Alat Pembelajaran Interaktif</p>
-    </header>
-    <div class="definition-card">
-     <h2 id="definition-title">Apakah Sistem Mekanikal?</h2>
-     <p>Sistem mekanikal ialah suatu sistem yang melibatkan penggabungan beberapa komponen mekanikal yang berfungsi pada produk yang dipilih dan digunakan untuk menyelesaikan sesuatu tugas.</p>
-     <p>Setiap komponen mempunyai fungsinya tersendiri.</p>
-    </div>
-    <div class="example-section">
-     <h2>Contoh Sistem Mekanikal</h2>
-     <div class="tabs-container"><button class="tab-button active" data-tab="basikal">🚴 Basikal</button> <button class="tab-button" data-tab="pita">⚪ Pita Pembetulan</button> <button class="tab-button" data-tab="monopod">🤳 Monopod</button>
-     </div><!-- BASIKAL TAB -->
-     <div class="tab-content active" id="tab-basikal">
-      <div class="visual-container">
-       <svg class="visual-svg" viewbox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><!-- Back Wheel --> <g id="svg-basikal-roda-back" class="part">
-         <circle cx="80" cy="180" r="60" fill="none" stroke="#333" stroke-width="3" />
-         <circle cx="80" cy="180" r="50" fill="none" stroke="#9F7AEA" stroke-width="2" />
-         <line x1="80" y1="120" x2="80" y2="240" stroke="#9F7AEA" stroke-width="1" />
-         <line x1="20" y1="180" x2="140" y2="180" stroke="#9F7AEA" stroke-width="1" />
-         <circle cx="80" cy="180" r="8" fill="#333" />
-        </g> <!-- Front Wheel --> <g id="svg-basikal-roda-front" class="part">
-         <circle cx="320" cy="180" r="60" fill="none" stroke="#333" stroke-width="3" />
-         <circle cx="320" cy="180" r="50" fill="none" stroke="#68D391" stroke-width="2" />
-         <line x1="320" y1="120" x2="320" y2="240" stroke="#68D391" stroke-width="1" />
-         <line x1="260" y1="180" x2="380" y2="180" stroke="#68D391" stroke-width="1" />
-         <circle cx="320" cy="180" r="8" fill="#333" />
-        </g> <!-- Frame --> <g class="part">
-         <line x1="80" y1="180" x2="200" y2="80" stroke="#4A5568" stroke-width="4" />
-         <line x1="200" y1="80" x2="280" y2="140" stroke="#4A5568" stroke-width="4" />
-         <line x1="280" y1="140" x2="320" y2="180" stroke="#4A5568" stroke-width="4" />
-         <line x1="80" y1="180" x2="150" y2="140" stroke="#4A5568" stroke-width="4" />
-         <line x1="150" y1="140" x2="200" y2="140" stroke="#4A5568" stroke-width="4" />
-         <line x1="200" y1="140" x2="200" y2="80" stroke="#4A5568" stroke-width="4" />
-        </g> <!-- Handlebar --> <g id="svg-basikal-hendal" class="part">
-         <line x1="280" y1="140" x2="280" y2="80" stroke="#4A5568" stroke-width="3" />
-         <line x1="260" y1="80" x2="300" y2="80" stroke="#4A5568" stroke-width="4" />
-         <circle cx="280" cy="80" r="6" fill="#9F7AEA" opacity="0.8" />
-        </g> <!-- Seat --> <ellipse cx="200" cy="75" rx="20" ry="8" fill="#68D391" /> <!-- Pedal and Chain System --> <g id="svg-basikal-pedal" class="part">
-         <circle cx="150" cy="140" r="20" fill="none" stroke="#9F7AEA" stroke-width="3" />
-         <circle cx="150" cy="140" r="5" fill="#4A5568" />
-         <line x1="145" y1="165" x2="75" y2="205" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="75" y1="205" x2="75" y2="155" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="75" y1="155" x2="145" y2="115" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="145" y1="115" x2="145" y2="165" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
-        </g> <!-- Brake --> <g id="svg-basikal-brek" class="part">
-         <rect x="265" y="78" width="8" height="15" fill="#9F7AEA" rx="2" />
-         <line x1="268" y1="80" x2="268" y2="70" stroke="#9F7AEA" stroke-width="2" />
-        </g>
-       </svg>
-      </div>
-      <div class="components-grid">
-       <div class="component-card" data-part="basikal-hendal">
-        <div class="card-header"><span class="part-icon">🎯</span>
-         <h3>Hendal</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Mengawal haluan basikal</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Galas bebola</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Menggerakkan hendal dengan bebas</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="basikal-brek">
-        <div class="card-header"><span class="part-icon">🛑</span>
-         <h3>Brek</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Memperlahan atau memberhentikan pergerakan basikal</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Tuas</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Digunakan pada pemegang pencengkam brek</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="basikal-roda">
-        <div class="card-header"><span class="part-icon">⚙️</span>
-         <h3>Roda</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Membolehkan basikal bergerak dengan lancar</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Galas bebola</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Membenarkan roda berputar dengan mudah</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="basikal-pedal">
-        <div class="card-header"><span class="part-icon">🔄</span>
-         <h3>Pedal</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Berpusing apabila dikayuh dan menghasilkan tenaga penghantar kuasa</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Rantai dan gear</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Rantai sebagai pengantara penghantaran kuasa, gear memindahkan kuasa</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div><!-- PITA PEMBETULAN TAB -->
-     <div class="tab-content" id="tab-pita">
-      <div class="visual-container">
-       <svg class="visual-svg" viewbox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><!-- Body/Casing --> <g class="part">
-         <rect x="100" y="80" width="200" height="90" rx="15" fill="#9F7AEA" stroke="#4A5568" stroke-width="3" />
-         <rect x="110" y="90" width="180" height="70" rx="10" fill="#ffffff" opacity="0.3" />
-        </g> <!-- Gelendong (Reel) - Left --> <g id="svg-pita-gelendong" class="part">
-         <circle cx="150" cy="125" r="30" fill="#68D391" stroke="#4A5568" stroke-width="2" />
-         <circle cx="150" cy="125" r="20" fill="#ffffff" stroke="#4A5568" stroke-width="2" />
-         <circle cx="150" cy="125" r="8" fill="#4A5568" /> <!-- Spokes -->
-         <line x1="150" y1="105" x2="150" y2="145" stroke="#4A5568" stroke-width="2" />
-         <line x1="130" y1="125" x2="170" y2="125" stroke="#4A5568" stroke-width="2" />
-        </g> <!-- Gear system --> <g id="svg-pita-gear" class="part">
-         <circle cx="250" cy="125" r="25" fill="none" stroke="#B794F4" stroke-width="3" /> <!-- Gear teeth -->
-         <circle cx="250" cy="100" r="4" fill="#B794F4" />
-         <circle cx="275" cy="125" r="4" fill="#B794F4" />
-         <circle cx="250" cy="150" r="4" fill="#B794F4" />
-         <circle cx="225" cy="125" r="4" fill="#B794F4" />
-         <circle cx="235" cy="107" r="3" fill="#B794F4" />
-         <circle cx="265" cy="107" r="3" fill="#B794F4" />
-         <circle cx="265" cy="143" r="3" fill="#B794F4" />
-         <circle cx="235" cy="143" r="3" fill="#B794F4" />
-        </g> <!-- Pita putih (White tape) --> <g id="svg-pita-putih" class="part">
-         <path d="M 170 125 Q 210 115, 230 125" fill="none" stroke="#ffffff" stroke-width="8" />
-         <path d="M 170 125 Q 210 115, 230 125" fill="none" stroke="#4A5568" stroke-width="2" />
-        </g> <!-- Bucu pita (Tip/Applicator) --> <g id="svg-pita-bucu" class="part">
-         <rect x="285" y="115" width="25" height="20" rx="3" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" />
-         <circle cx="310" cy="125" r="8" fill="#4A5568" /> <!-- Arrow showing linear motion -->
-         <path d="M 315 125 L 330 125 M 325 120 L 330 125 L 325 130" stroke="#9F7AEA" stroke-width="2" fill="none" />
-        </g>
-       </svg>
-      </div>
-      <div class="components-grid">
-       <div class="component-card" data-part="pita-gelendong">
-        <div class="card-header"><span class="part-icon">🎡</span>
-         <h3>Gelendong (Reel)</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Menyimpan pita pembetulan yang digulung</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Galas bebola</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Membenarkan gelendong berputar dengan lancar dan mengurangkan geseran</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="pita-putih">
-        <div class="card-header"><span class="part-icon">📄</span>
-         <h3>Pita Putih</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Membuat pembetulan pada kertas dengan jalur putih</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Gear</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Mengawal pergerakan dan ketegangan pita dengan sekata</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="pita-bucu">
-        <div class="card-header"><span class="part-icon">📍</span>
-         <h3>Bucu Pita</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Menekan dan memindahkan pita ke kertas</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Gelongsor</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Bucu boleh disimpan dan dikeluarkan untuk memindahkan pita ke kertas dengan pergerakan linear</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div><!-- MONOPOD TAB -->
-     <div class="tab-content" id="tab-monopod">
-      <div class="visual-container">
-       <svg class="visual-svg" viewbox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><!-- Handle/Grip --> <g class="part">
-         <rect x="180" y="250" width="40" height="30" rx="5" fill="#4A5568" stroke="#2D3748" stroke-width="2" />
-         <circle cx="200" cy="265" r="8" fill="#9F7AEA" />
-        </g> <!-- Batang Teleskopik (Telescopic Pole) - 3 segments --> <g id="svg-monopod-batang" class="part"><!-- Segment 1 (thickest - bottom) -->
-         <rect x="185" y="200" width="30" height="50" rx="3" fill="#68D391" stroke="#4A5568" stroke-width="2" /> <!-- Segment 2 (middle) -->
-         <rect x="187" y="120" width="26" height="85" rx="3" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Segment 3 (thinnest - top) -->
-         <rect x="189" y="60" width="22" height="65" rx="3" fill="#B794F4" stroke="#4A5568" stroke-width="2" /> <!-- Extension lines to show telescopic -->
-         <line x1="185" y1="205" x2="175" y2="205" stroke="#68D391" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="215" y1="205" x2="225" y2="205" stroke="#68D391" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="187" y1="130" x2="177" y2="130" stroke="#9F7AEA" stroke-width="2" stroke-dasharray="3,3" />
-         <line x1="213" y1="130" x2="223" y2="130" stroke="#9F7AEA" stroke-width="2" stroke-dasharray="3,3" />
-        </g> <!-- Kepala Monopod (Rotating Head) --> <g id="svg-monopod-kepala" class="part">
-         <circle cx="200" cy="50" r="18" fill="#4A5568" stroke="#2D3748" stroke-width="2" />
-         <circle cx="200" cy="50" r="12" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Rotation indicator -->
-         <path d="M 185 35 Q 200 25, 215 35" fill="none" stroke="#68D391" stroke-width="2" />
-         <path d="M 217 35 L 215 32 M 217 35 L 214 37" stroke="#68D391" stroke-width="2" />
-        </g> <!-- Pengapit Telefon (Phone Clamp) --> <g id="svg-monopod-pengapit" class="part"><!-- Phone outline -->
-         <rect x="150" y="15" width="60" height="100" rx="8" fill="#ffffff" stroke="#4A5568" stroke-width="3" />
-         <rect x="155" y="20" width="50" height="80" rx="3" fill="#F5F3FF" />
-         <circle cx="180" cy="107" r="4" fill="#4A5568" /> <!-- Clamp arms (left and right) -->
-         <rect x="140" y="30" width="8" height="60" rx="2" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" />
-         <rect x="212" y="30" width="8" height="60" rx="2" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Linkage connection lines -->
-         <line x1="144" y1="60" x2="216" y2="60" stroke="#68D391" stroke-width="2" stroke-dasharray="2,2" />
-         <circle cx="144" cy="60" r="3" fill="#68D391" />
-         <circle cx="216" cy="60" r="3" fill="#68D391" />
-        </g>
-       </svg>
-      </div>
-      <div class="components-grid">
-       <div class="component-card" data-part="monopod-batang">
-        <div class="card-header"><span class="part-icon">📏</span>
-         <h3>Batang Monopod</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Melanjutkan jarak antara telefon dan pengguna</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Gelongsor</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Membenarkan segmen batang bergerak linear masuk dan keluar</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="monopod-kepala">
-        <div class="card-header"><span class="part-icon">🔄</span>
-         <h3>Kepala Monopod</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Membenarkan telefon dipusingkan untuk sudut yang berbeza</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Galas bebola</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Membolehkan putaran lancar 360° untuk pelbagai sudut pengambilan gambar</p>
-         </div>
-        </div>
-       </div>
-       <div class="component-card" data-part="monopod-pengapit">
-        <div class="card-header"><span class="part-icon">📱</span>
-         <h3>Pengapit Telefon</h3>
-        </div>
-        <div class="card-content">
-         <div class="info-card"><strong>Fungsi:</strong>
-          <p>Memegang telefon dengan selamat</p>
-         </div>
-         <div class="info-card"><strong>Komponen Mekanikal:</strong>
-          <p class="component-highlight">Pautan</p>
-         </div>
-         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
-          <p>Menghubungkan bahagian pengapit untuk bergerak serentak mengapit telefon</p>
-         </div>
-        </div>
-       </div>
-      </div>
+  <div class="fish-container" id="fishContainer"></div>
+  <div class="game-container">
+   <div class="header">
+    <h1 class="game-title" id="gameTitle">♻️ EcoChampion Recycling Challenge</h1>
+    <div class="score-board">
+     <div class="score-item"><span>🎯 Score:</span> <span class="score-number" id="score">0</span>
+     </div>
+     <div class="score-item"><span>⚡ Streak:</span> <span class="score-number" id="streak">0</span>
+     </div>
+     <div class="score-item"><span>📦 Items Left:</span> <span class="score-number" id="itemsLeft">18</span>
      </div>
     </div>
    </div>
-  </main>
+   <div class="instructions-panel">
+    <h2 class="instructions-title">🎮 How to Play</h2>
+    <ul class="instructions-list">
+     <li id="instruction1">Drag each item emoji from the pool below</li>
+     <li id="instruction2">Drop it into the correct recycling bin</li>
+     <li id="instruction3">Match all items correctly to win!</li>
+     <li id="instruction4">Build your streak for bonus points</li>
+    </ul>
+   </div>
+   <div class="game-area">
+    <div class="bins-container">
+     <div class="bin blue" data-type="paper">
+      <div class="bin-header">
+       <svg class="basket-icon" viewbox="0 0 100 100"><!-- Treasure Chest --> <defs>
+         <lineargradient id="chest-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+         </lineargradient>
+        </defs> <!-- Chest body --> <rect x="20" y="50" width="60" height="35" fill="url(#chest-blue)" stroke="#1e40af" stroke-width="2" rx="3" /> <!-- Chest lid --> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-blue)" stroke="#1e40af" stroke-width="2" /> <!-- Lock --> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <!-- Chest bands --> <rect x="15" y="55" width="70" height="3" fill="#1e40af" /> <rect x="15" y="75" width="70" height="3" fill="#1e40af" /> <!-- Sparkles --> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
+       </svg>
+       <div class="bin-title">
+        Paper &amp; Cardboard
+       </div>
+      </div>
+      <div class="bin-items" id="paperBin"></div>
+     </div>
+     <div class="bin green" data-type="plastic">
+      <div class="bin-header">
+       <svg class="basket-icon" viewbox="0 0 100 100"><defs>
+         <lineargradient id="chest-green" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+         </lineargradient>
+        </defs> <rect x="20" y="50" width="60" height="35" fill="url(#chest-green)" stroke="#047857" stroke-width="2" rx="3" /> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-green)" stroke="#047857" stroke-width="2" /> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <rect x="15" y="55" width="70" height="3" fill="#047857" /> <rect x="15" y="75" width="70" height="3" fill="#047857" /> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
+       </svg>
+       <div class="bin-title">
+        Plastic &amp; Cans
+       </div>
+      </div>
+      <div class="bin-items" id="plasticBin"></div>
+     </div>
+     <div class="bin brown" data-type="organic">
+      <div class="bin-header">
+       <svg class="basket-icon" viewbox="0 0 100 100"><defs>
+         <lineargradient id="chest-orange" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#c2410c;stop-opacity:1" />
+         </lineargradient>
+        </defs> <rect x="20" y="50" width="60" height="35" fill="url(#chest-orange)" stroke="#9a3412" stroke-width="2" rx="3" /> <path d="M 20 50 Q 20 35 50 30 Q 80 35 80 50 Z" fill="url(#chest-orange)" stroke="#9a3412" stroke-width="2" /> <circle cx="50" cy="60" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" /> <rect x="48" y="60" width="4" height="8" fill="#f59e0b" /> <rect x="15" y="55" width="70" height="3" fill="#9a3412" /> <rect x="15" y="75" width="70" height="3" fill="#9a3412" /> <circle cx="35" cy="40" r="2" fill="#fbbf24" opacity="0.8" /> <circle cx="65" cy="45" r="2" fill="#fbbf24" opacity="0.8" />
+       </svg>
+       <div class="bin-title">
+        Organic Waste
+       </div>
+      </div>
+      <div class="bin-items" id="organicBin"></div>
+     </div>
+    </div>
+    <div class="items-pool">
+     <h3 class="pool-title">🎯 Drag These Items to the Correct Bins!</h3>
+     <div class="items-grid" id="itemsPool"></div>
+    </div>
+   </div>
+   <div class="tips-section">
+    <h2 class="tips-title" id="tipHeader">💡 Recycling Tips for Champions</h2>
+    <div class="tips-grid">
+     <div class="tip-card">
+      <div class="tip-icon">
+       📰
+      </div>
+      <p class="tip-text"><strong>Paper:</strong> Newspapers, magazines, and cardboard boxes can be recycled. Keep them dry and clean!</p>
+     </div>
+     <div class="tip-card">
+      <div class="tip-icon">
+       🥤
+      </div>
+      <p class="tip-text"><strong>Plastic:</strong> Rinse bottles and containers before recycling. Check for the recycling symbol!</p>
+     </div>
+     <div class="tip-card">
+      <div class="tip-icon">
+       🍎
+      </div>
+      <p class="tip-text"><strong>Organic:</strong> Food scraps and plant waste can be composted to create natural fertiliser for gardens.</p>
+     </div>
+     <div class="tip-card">
+      <div class="tip-icon">
+       🌍
+      </div>
+      <p class="tip-text"><strong>Impact:</strong> Recycling one tonne of paper saves 17 trees and 7,000 gallons of water!</p>
+     </div>
+     <div class="tip-card">
+      <div class="tip-icon">
+       ♻️
+      </div>
+      <p class="tip-text"><strong>Malaysia's 3R:</strong> Reduce waste first, Reuse items when possible, then Recycle properly!</p>
+     </div>
+     <div class="tip-card">
+      <div class="tip-icon">
+       🦧
+      </div>
+      <p class="tip-text"><strong>Wildlife:</strong> Proper waste disposal protects Malaysian wildlife like orangutans, tapirs, and hornbills!</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="feedback" id="feedback"></div>
+  <div class="tapir-mascot" id="tapirMascot" title="Click me for ocean tips!">
+   🐢
+  </div>
+  <div class="speech-bubble" id="speechBubble"><button class="close-bubble" onclick="closeSpeech()" aria-label="Close">×</button>
+   <p class="speech-text" id="speechText"></p>
+  </div>
+  <div class="game-complete" id="gameComplete">
+   <div class="complete-card">
+    <div class="complete-title">
+     🏆 Tahniah! Congratulations!
+    </div>
+    <p class="complete-message">You've successfully sorted all the waste! You're a true Malaysian EcoChampion!</p>
+    <p class="complete-message" id="finalScore"></p><button class="btn-restart" onclick="restartGame()">Main Lagi! (Play Again)</button>
+   </div>
+  </div>
   <script>
-        const defaultConfig = {
-            main_title: "Sistem Mekanikal",
-            subtitle: "Alat Pembelajaran Interaktif",
-            definition_title: "Apakah Sistem Mekanikal?",
-            background_color: "#9F7AEA",
-            surface_color: "#F5F3FF",
-            text_color: "#4A5568",
-            primary_action_color: "#9F7AEA",
-            secondary_action_color: "#68D391",
-            font_family: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
-            font_size: 16
-        };
+    const defaultConfig = {
+      game_title: "♻️ EcoChampion Recycling Challenge",
+      instructions_text: "Drag each item emoji from the pool below",
+      tip_header: "💡 Recycling Tips for Champions"
+    };
 
-        async function onConfigChange(config) {
-            const mainTitle = config.main_title || defaultConfig.main_title;
-            const subtitle = config.subtitle || defaultConfig.subtitle;
-            const definitionTitle = config.definition_title || defaultConfig.definition_title;
-            const backgroundColor = config.background_color || defaultConfig.background_color;
-            const surfaceColor = config.surface_color || defaultConfig.surface_color;
-            const textColor = config.text_color || defaultConfig.text_color;
-            const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
-            const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
-            const fontFamily = config.font_family || defaultConfig.font_family;
-            const fontSize = config.font_size || defaultConfig.font_size;
+    let config = { ...defaultConfig };
 
-            document.getElementById('main-title').textContent = mainTitle;
-            document.getElementById('subtitle').textContent = subtitle;
-            document.getElementById('definition-title').textContent = definitionTitle;
+    const tapirMessages = [
+      "🌊 Keep going! You're helping save our precious oceans!",
+      "🐢 Fun fact: Sea turtles can live over 100 years! Keep our waters clean!",
+      "��� Amazing work! Every item sorted helps marine life like me!",
+      "🏖️ Did you know? 8 million tons of plastic enter our oceans yearly!",
+      "✨ You're an Ocean Champion! Keep sorting and saving sea life!",
+      "🐠 Proper recycling keeps our coral reefs healthy and vibrant!",
+      "🌊 Excellent! Clean oceans mean safe homes for turtles and fish!",
+      "🦈 Your good work protects whales, dolphins, and all ocean creatures!",
+      "💪 Strong effort! Every piece of trash removed saves marine animals!",
+      "🌏 You're making Malaysian beaches cleaner! Terima kasih!"
+    ];
 
-            document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryActionColor} 100%)`;
-            
-            const cards = document.querySelectorAll('.definition-card, .example-section, .visual-container');
-            cards.forEach(card => {
-                card.style.background = surfaceColor;
-            });
+    let lastTapirMessage = -1;
 
-            const allText = document.querySelectorAll('p, .info-card p');
-            allText.forEach(el => {
-                el.style.color = textColor;
-            });
+    function showTapirMessage() {
+      const tapir = document.getElementById('tapirMascot');
+      const bubble = document.getElementById('speechBubble');
+      const speechText = document.getElementById('speechText');
 
-            const headings = document.querySelectorAll('.definition-card h2, .example-section h2, .component-highlight, .card-header h3');
-            headings.forEach(h => {
-                h.style.color = primaryActionColor;
-            });
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * tapirMessages.length);
+      } while (randomIndex === lastTapirMessage && tapirMessages.length > 1);
+      
+      lastTapirMessage = randomIndex;
 
-            const activeTab = document.querySelector('.tab-button.active');
-            if (activeTab) {
-                activeTab.style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
-            }
+      speechText.textContent = tapirMessages[randomIndex];
+      bubble.classList.add('show');
+      tapir.classList.add('speaking');
 
-            const inactiveTabs = document.querySelectorAll('.tab-button:not(.active)');
-            inactiveTabs.forEach(tab => {
-                tab.style.borderColor = primaryActionColor;
-                tab.style.color = primaryActionColor;
-            });
+      setTimeout(() => {
+        tapir.classList.remove('speaking');
+      }, 500);
 
-            const baseFontStack = 'Arial, sans-serif';
-            document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      setTimeout(() => {
+        bubble.classList.remove('show');
+      }, 5000);
+    }
 
-            document.querySelector('.header h1').style.fontSize = `${fontSize * 2.5}px`;
-            document.querySelector('.header p').style.fontSize = `${fontSize * 1.1}px`;
-            document.querySelectorAll('.definition-card h2, .example-section h2').forEach(h2 => {
-                h2.style.fontSize = `${fontSize * 1.5}px`;
-            });
-            document.querySelectorAll('p').forEach(p => {
-                p.style.fontSize = `${fontSize}px`;
-            });
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.style.fontSize = `${fontSize}px`;
-            });
+    function closeSpeech() {
+      const bubble = document.getElementById('speechBubble');
+      bubble.classList.remove('show');
+    }
+
+    const items = [
+      { emoji: '📰', type: 'paper', name: 'Newspaper' },
+      { emoji: '📦', type: 'paper', name: 'Cardboard Box' },
+      { emoji: '📄', type: 'paper', name: 'Paper' },
+      { emoji: '📚', type: 'paper', name: 'Magazine' },
+      { emoji: '🎫', type: 'paper', name: 'Ticket' },
+      { emoji: '🧻', type: 'paper', name: 'Toilet Paper Roll' },
+      { emoji: '🥤', type: 'plastic', name: 'Plastic Cup' },
+      { emoji: '🥫', type: 'plastic', name: 'Aluminium Can' },
+      { emoji: '🧃', type: 'plastic', name: 'Juice Box' },
+      { emoji: '🧴', type: 'plastic', name: 'Lotion Bottle' },
+      { emoji: '💿', type: 'plastic', name: 'CD/DVD Disc' },
+      { emoji: '🕶️', type: 'plastic', name: 'Sunglasses' },
+      { emoji: '🍎', type: 'organic', name: 'Apple Core' },
+      { emoji: '🍌', type: 'organic', name: 'Banana Peel' },
+      { emoji: '🥕', type: 'organic', name: 'Vegetable Scraps' },
+      { emoji: '🍃', type: 'organic', name: 'Leaves' },
+      { emoji: '🍊', type: 'organic', name: 'Orange Peel' },
+      { emoji: '🥚', type: 'organic', name: 'Eggshell' }
+    ];
+
+    let score = 0;
+    let streak = 0;
+    let itemsRemaining = items.length;
+    let draggedElement = null;
+    let draggedItem = null;
+
+    function initializeGame() {
+      const itemsPool = document.getElementById('itemsPool');
+      itemsPool.innerHTML = '';
+
+      const shuffledItems = [...items].sort(() => Math.random() - 0.5);
+
+      shuffledItems.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item';
+        itemDiv.draggable = true;
+        itemDiv.textContent = item.emoji;
+        itemDiv.dataset.type = item.type;
+        itemDiv.dataset.name = item.name;
+        itemDiv.dataset.id = index;
+
+        itemDiv.addEventListener('dragstart', handleDragStart);
+        itemDiv.addEventListener('dragend', handleDragEnd);
+
+        itemDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+        itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
+        itemDiv.addEventListener('touchend', handleTouchEnd);
+
+        itemsPool.appendChild(itemDiv);
+      });
+
+      score = 0;
+      streak = 0;
+      itemsRemaining = items.length;
+      updateScore();
+
+      const bins = document.querySelectorAll('.bin');
+      bins.forEach(bin => {
+        bin.addEventListener('dragover', handleDragOver);
+        bin.addEventListener('drop', handleDrop);
+        bin.addEventListener('dragleave', handleDragLeave);
+
+        const binItems = bin.querySelector('.bin-items');
+        binItems.innerHTML = '';
+      });
+    }
+
+    function handleDragStart(e) {
+      draggedElement = e.target;
+      draggedItem = {
+        type: e.target.dataset.type,
+        emoji: e.target.textContent,
+        name: e.target.dataset.name,
+        id: e.target.dataset.id
+      };
+      e.target.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragEnd(e) {
+      e.target.classList.remove('dragging');
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const bin = e.currentTarget;
+      bin.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e) {
+      if (e.currentTarget === e.target.closest('.bin')) {
+        e.currentTarget.classList.remove('drag-over');
+      }
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      const bin = e.currentTarget;
+      bin.classList.remove('drag-over');
+
+      if (!draggedItem) return;
+
+      const binType = bin.dataset.type;
+      const isCorrect = draggedItem.type === binType;
+
+      if (isCorrect) {
+        handleCorrectDrop(bin);
+      } else {
+        handleIncorrectDrop();
+      }
+
+      draggedElement = null;
+      draggedItem = null;
+    }
+
+    function handleCorrectDrop(bin) {
+      const binItems = bin.querySelector('.bin-items');
+      const newItem = document.createElement('div');
+      newItem.className = 'item placed';
+      newItem.textContent = draggedItem.emoji;
+      newItem.title = draggedItem.name;
+      binItems.appendChild(newItem);
+
+      draggedElement.remove();
+
+      streak++;
+      const points = 10 + (streak * 5);
+      score += points;
+      itemsRemaining--;
+
+      // Create celebration bubbles
+      createCelebrationBubbles(bin);
+
+      showFeedback(`✓ Betul! (Correct!) +${points} points`, 'correct');
+      updateScore();
+
+      if (itemsRemaining === 0) {
+        setTimeout(showGameComplete, 500);
+      }
+    }
+
+    function createCelebrationBubbles(bin) {
+      const rect = bin.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Create 12 celebration bubbles
+      for (let i = 0; i < 12; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'celebration-bubble';
+        
+        const size = Math.random() * 30 + 20;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${centerX + (Math.random() - 0.5) * 100}px`;
+        bubble.style.top = `${centerY}px`;
+        
+        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4'];
+        bubble.style.background = `radial-gradient(circle at 30% 30%, ${colors[Math.floor(Math.random() * colors.length)]}, transparent)`;
+        bubble.style.animationDelay = `${i * 0.05}s`;
+        
+        document.body.appendChild(bubble);
+
+        setTimeout(() => {
+          bubble.remove();
+        }, 2000);
+      }
+    }
+
+    function handleIncorrectDrop() {
+      streak = 0;
+      showFeedback('✗ Salah! (Wrong bin!) Cuba lagi! (Try again!)', 'incorrect');
+      updateScore();
+    }
+
+    function showFeedback(message, type) {
+      const feedback = document.getElementById('feedback');
+      feedback.textContent = message;
+      feedback.className = `feedback ${type} show`;
+
+      setTimeout(() => {
+        feedback.classList.remove('show');
+      }, 1500);
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = score;
+      document.getElementById('streak').textContent = streak;
+      document.getElementById('itemsLeft').textContent = itemsRemaining;
+    }
+
+    function showGameComplete() {
+      document.getElementById('finalScore').textContent = `Final Score: ${score} points! 🌟`;
+      document.getElementById('gameComplete').style.display = 'flex';
+    }
+
+    function restartGame() {
+      document.getElementById('gameComplete').style.display = 'none';
+      initializeGame();
+    }
+
+    let touchStartX, touchStartY, touchElement, touchClone;
+
+    function handleTouchStart(e) {
+      e.preventDefault();
+      touchElement = e.target;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+
+      draggedItem = {
+        type: touchElement.dataset.type,
+        emoji: touchElement.textContent,
+        name: touchElement.dataset.name,
+        id: touchElement.dataset.id
+      };
+
+      touchClone = touchElement.cloneNode(true);
+      touchClone.style.position = 'fixed';
+      touchClone.style.zIndex = '1000';
+      touchClone.style.pointerEvents = 'none';
+      touchClone.style.opacity = '0.8';
+      touchClone.style.left = `${touch.clientX - 35}px`;
+      touchClone.style.top = `${touch.clientY - 35}px`;
+      document.body.appendChild(touchClone);
+
+      touchElement.style.opacity = '0.3';
+    }
+
+    function handleTouchMove(e) {
+      e.preventDefault();
+      if (!touchClone) return;
+
+      const touch = e.touches[0];
+      touchClone.style.left = `${touch.clientX - 35}px`;
+      touchClone.style.top = `${touch.clientY - 35}px`;
+    }
+
+    function handleTouchEnd(e) {
+      e.preventDefault();
+      if (!touchClone) return;
+
+      const touch = e.changedTouches[0];
+      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+      const bin = dropTarget?.closest('.bin');
+
+      touchClone.remove();
+      touchClone = null;
+      touchElement.style.opacity = '1';
+
+      if (bin && draggedItem) {
+        const binType = bin.dataset.type;
+        const isCorrect = draggedItem.type === binType;
+
+        if (isCorrect) {
+          draggedElement = touchElement;
+          handleCorrectDrop(bin);
+        } else {
+          handleIncorrectDrop();
         }
+      }
 
-        // Tab switching functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabName = this.getAttribute('data-tab');
-                    
-                    // Remove active class from all tabs and contents
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    
-                    // Add active class to clicked tab and corresponding content
-                    this.classList.add('active');
-                    document.getElementById(`tab-${tabName}`).classList.add('active');
-                    
-                    // Clear all highlights when switching tabs
-                    document.querySelectorAll('.component-card').forEach(c => c.classList.remove('active'));
-                    document.querySelectorAll('.part').forEach(p => p.classList.remove('highlighted'));
-                });
-            });
+      draggedItem = null;
+      touchElement = null;
+    }
 
-            // Interactive card and SVG highlighting for all tabs
-            const cards = document.querySelectorAll('.component-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const part = this.getAttribute('data-part');
-                    const currentTab = this.closest('.tab-content');
-                    
-                    // Remove active states only within current tab
-                    currentTab.querySelectorAll('.component-card').forEach(c => c.classList.remove('active'));
-                    currentTab.querySelectorAll('.part').forEach(p => p.classList.remove('highlighted'));
-                    
-                    // Add active state to clicked card
-                    this.classList.add('active');
-                    
-                    // Highlight corresponding SVG part based on data-part attribute
-                    if (part === 'basikal-hendal') {
-                        document.getElementById('svg-basikal-hendal').classList.add('highlighted');
-                    } else if (part === 'basikal-brek') {
-                        document.getElementById('svg-basikal-brek').classList.add('highlighted');
-                    } else if (part === 'basikal-roda') {
-                        document.getElementById('svg-basikal-roda-back').classList.add('highlighted');
-                        document.getElementById('svg-basikal-roda-front').classList.add('highlighted');
-                    } else if (part === 'basikal-pedal') {
-                        document.getElementById('svg-basikal-pedal').classList.add('highlighted');
-                    } else if (part === 'pita-gelendong') {
-                        document.getElementById('svg-pita-gelendong').classList.add('highlighted');
-                    } else if (part === 'pita-putih') {
-                        document.getElementById('svg-pita-putih').classList.add('highlighted');
-                        document.getElementById('svg-pita-gear').classList.add('highlighted');
-                    } else if (part === 'pita-bucu') {
-                        document.getElementById('svg-pita-bucu').classList.add('highlighted');
-                    } else if (part === 'monopod-batang') {
-                        document.getElementById('svg-monopod-batang').classList.add('highlighted');
-                    } else if (part === 'monopod-kepala') {
-                        document.getElementById('svg-monopod-kepala').classList.add('highlighted');
-                    } else if (part === 'monopod-pengapit') {
-                        document.getElementById('svg-monopod-pengapit').classList.add('highlighted');
-                    }
-                });
-            });
-        });
+    async function onConfigChange(newConfig) {
+      const gameTitle = document.getElementById('gameTitle');
+      const instruction1 = document.getElementById('instruction1');
+      const tipHeader = document.getElementById('tipHeader');
 
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities: (config) => ({
-                    recolorables: [
-                        {
-                            get: () => config.background_color || defaultConfig.background_color,
-                            set: (value) => {
-                                config.background_color = value;
-                                window.elementSdk.setConfig({ background_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.surface_color || defaultConfig.surface_color,
-                            set: (value) => {
-                                config.surface_color = value;
-                                window.elementSdk.setConfig({ surface_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.text_color || defaultConfig.text_color,
-                            set: (value) => {
-                                config.text_color = value;
-                                window.elementSdk.setConfig({ text_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
-                            set: (value) => {
-                                config.primary_action_color = value;
-                                window.elementSdk.setConfig({ primary_action_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-                            set: (value) => {
-                                config.secondary_action_color = value;
-                                window.elementSdk.setConfig({ secondary_action_color: value });
-                            }
-                        }
-                    ],
-                    borderables: [],
-                    fontEditable: {
-                        get: () => config.font_family || defaultConfig.font_family,
-                        set: (value) => {
-                            config.font_family = value;
-                            window.elementSdk.setConfig({ font_family: value });
-                        }
-                    },
-                    fontSizeable: {
-                        get: () => config.font_size || defaultConfig.font_size,
-                        set: (value) => {
-                            config.font_size = value;
-                            window.elementSdk.setConfig({ font_size: value });
-                        }
-                    }
-                }),
-                mapToEditPanelValues: (config) => new Map([
-                    ["main_title", config.main_title || defaultConfig.main_title],
-                    ["subtitle", config.subtitle || defaultConfig.subtitle],
-                    ["definition_title", config.definition_title || defaultConfig.definition_title]
-                ])
-            });
-        }
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7f7165b4c226b8',t:'MTc2NDcyNjkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+      gameTitle.textContent = newConfig.game_title || defaultConfig.game_title;
+      instruction1.textContent = newConfig.instructions_text || defaultConfig.instructions_text;
+      tipHeader.textContent = newConfig.tip_header || defaultConfig.tip_header;
+    }
+
+    const element = {
+      defaultConfig,
+      onConfigChange,
+      mapToCapabilities: (config) => ({
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['game_title', config.game_title || defaultConfig.game_title],
+        ['instructions_text', config.instructions_text || defaultConfig.instructions_text],
+        ['tip_header', config.tip_header || defaultConfig.tip_header]
+      ])
+    };
+
+    if (window.elementSdk) {
+      window.elementSdk.init(element);
+      config = window.elementSdk.config;
+    }
+
+    function createFish() {
+      const fishContainer = document.getElementById('fishContainer');
+      const fishEmojis = ['🐠', '🐟', '🐡', '🦈', '🐙'];
+      
+      for (let i = 0; i < 8; i++) {
+        const fish = document.createElement('div');
+        fish.className = 'fish';
+        fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+        fish.style.top = `${Math.random() * 80 + 10}%`;
+        fish.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        fish.style.animationDelay = `${Math.random() * 5}s`;
+        fishContainer.appendChild(fish);
+      }
+    }
+
+    function createBubbles() {
+      const fishContainer = document.getElementById('fishContainer');
+      
+      setInterval(() => {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.style.left = `${Math.random() * 100}%`;
+        bubble.style.width = `${Math.random() * 20 + 10}px`;
+        bubble.style.height = bubble.style.width;
+        bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
+        fishContainer.appendChild(bubble);
+
+        setTimeout(() => {
+          bubble.remove();
+        }, 10000);
+      }, 800);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeGame();
+      onConfigChange(config);
+      createFish();
+      createBubbles();
+
+      const tapir = document.getElementById('tapirMascot');
+      tapir.addEventListener('click', showTapirMessage);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7fe6f1b12f1be4',t:'MTc2NDczMTc1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
