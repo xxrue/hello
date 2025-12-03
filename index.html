@@ -4,20 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Hero - Interactive Poetry Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Lato:wght@300;400&amp;display=swap" rel="stylesheet">
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Lato', sans-serif;
+      background: radial-gradient(ellipse at top, #1a2a4e 0%, #0d1528 50%, #020408 100%);
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       min-height: 100%;
       height: 100%;
       width: 100%;
+      padding: 20px;
+      position: relative;
+      overflow-y: auto;
     }
 
     html {
@@ -25,109 +29,231 @@
       width: 100%;
     }
 
-    .book-container {
-      background: #f5f5dc;
-      width: 90%;
-      max-width: 800px;
-      height: 85%;
-      border-radius: 15px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    /* Starry background */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .firefly {
+      position: absolute;
+      background: #ffd700;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+      animation: fireflyFloat 15s ease-in-out infinite, fireflyGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes fireflyFloat {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(50px, -80px); }
+      50% { transform: translate(-30px, -150px); }
+      75% { transform: translate(-70px, -70px); }
+    }
+
+    @keyframes fireflyGlow {
+      0%, 100% { 
+        opacity: 0.4; 
+        box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+      }
+      50% { 
+        opacity: 1; 
+        box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700, 0 0 45px #ffd700, 0 0 60px #ffed4e;
+      }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .star:nth-child(1) { width: 1px; height: 1px; top: 10%; left: 20%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0s; }
+    .star:nth-child(2) { width: 1px; height: 1px; top: 20%; left: 80%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.5s; }
+    .star:nth-child(3) { width: 1.5px; height: 1.5px; top: 30%; left: 50%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1s; }
+    .star:nth-child(4) { width: 1px; height: 1px; top: 40%; left: 10%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.5s; }
+    .star:nth-child(5) { width: 1.5px; height: 1.5px; top: 50%; left: 90%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2s; }
+    .star:nth-child(6) { width: 1px; height: 1px; top: 60%; left: 30%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.5s; }
+    .star:nth-child(7) { width: 1.5px; height: 1.5px; top: 70%; left: 70%; animation: float 8s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.3s; }
+    .star:nth-child(8) { width: 1px; height: 1px; top: 80%; left: 45%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.8s; }
+    .star:nth-child(9) { width: 1px; height: 1px; top: 15%; left: 60%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.3s; }
+    .star:nth-child(10) { width: 1px; height: 1px; top: 85%; left: 15%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.8s; }
+    .star:nth-child(11) { width: 1.5px; height: 1.5px; top: 25%; left: 85%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.3s; }
+    .star:nth-child(12) { width: 1px; height: 1px; top: 55%; left: 65%; animation: float 12s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.6s; }
+    .star:nth-child(13) { width: 1px; height: 1px; top: 5%; left: 35%; animation: float 9s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.2s; }
+    .star:nth-child(14) { width: 1px; height: 1px; top: 45%; left: 75%; animation: float 11s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 0.4s; }
+    .star:nth-child(15) { width: 1.5px; height: 1.5px; top: 65%; left: 55%; animation: float 10s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 1.7s; }
+    .star:nth-child(16) { width: 1px; height: 1px; top: 75%; left: 25%; animation: float 13s ease-in-out infinite, twinkle 3s ease-in-out infinite; animation-delay: 2.1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(10px, -15px); }
+      50% { transform: translate(-5px, -25px); }
+      75% { transform: translate(-15px, -10px); }
+    }
+
+    /* Main container */
+    .poetry-container {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header card */
+    .header-card {
+      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
+      border: 1px solid rgba(100, 180, 255, 0.2);
+      text-align: center;
+    }
+
+    .moon-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #e8f4ff;
+      margin: 0 0 15px 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(100, 180, 255, 0.3);
+    }
+
+    .header-author {
+      font-family: 'Lato', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #b8d4f0;
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* Content card */
+    .content-card {
+      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
+      border: 1px solid rgba(100, 180, 255, 0.2);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      align-items: center;
+      justify-content: center;
       position: relative;
     }
 
-    .page {
-      flex: 1;
-      padding: 40px;
+    .content-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
       display: none;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      overflow-y: auto;
+      justify-content: center;
+      text-align: center;
+      gap: 40px;
     }
 
-    .page.active {
+    .page-content.active {
       display: flex;
+      animation: fadeIn 0.6s ease-in;
     }
 
-    .cover-page {
-      text-align: center;
-    }
-
-    .cover-title {
-      font-size: 48px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #2c3e50;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .cover-author {
-      font-size: 24px;
-      font-style: italic;
-      color: #555;
-    }
-
-    .cover-decoration {
-      font-size: 80px;
-      margin: 30px 0;
-    }
-
-    .stanza-page {
-      text-align: center;
-      gap: 30px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .illustration {
       font-size: 120px;
-      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 12px rgba(100, 180, 255, 0.3));
     }
 
     .stanza-text {
+      font-family: 'Lato', sans-serif;
       font-size: 20px;
-      line-height: 1.8;
-      color: #333;
+      line-height: 2;
+      color: #e8f4ff;
       max-width: 600px;
+      font-weight: 300;
     }
 
     .glossary-word {
-      color: #667eea;
-      font-weight: bold;
+      color: #64b4ff;
+      font-weight: 400;
       cursor: pointer;
       position: relative;
-      border-bottom: 2px dotted #667eea;
+      border-bottom: 1px solid rgba(100, 180, 255, 0.4);
       transition: all 0.3s ease;
+      padding: 0 2px;
+      display: inline-block;
     }
 
     .glossary-word:hover {
-      color: #764ba2;
-      border-bottom-color: #764ba2;
+      color: #8fcdff;
+      border-bottom-color: rgba(143, 205, 255, 0.6);
     }
 
     .tooltip {
       position: absolute;
-      background: white;
-      border: 2px solid #667eea;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      max-width: 250px;
+      background: linear-gradient(135deg, rgba(31, 58, 96, 0.98) 0%, rgba(21, 40, 66, 0.98) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 180, 255, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(100, 180, 255, 0.2);
+      z-index: 10000;
+      max-width: 280px;
       font-size: 14px;
-      line-height: 1.5;
-      color: #333;
-      font-family: 'Arial', sans-serif;
-      display: none;
+      line-height: 1.6;
+      color: #e8f4ff;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      bottom: 100%;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 100%;
       margin-bottom: 10px;
     }
 
     .tooltip.show {
-      display: block;
+      opacity: 1;
+      visibility: visible;
     }
 
     .tooltip::after {
@@ -137,26 +263,45 @@
       left: 50%;
       transform: translateX(-50%);
       border: 8px solid transparent;
-      border-top-color: #667eea;
+      border-top-color: rgba(31, 58, 96, 0.98);
     }
 
-    .navigation {
+    /* Navigation card */
+    .navigation-card {
+      background: linear-gradient(135deg, rgba(31, 58, 96, 0.95) 0%, rgba(21, 40, 66, 0.95) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(100, 180, 255, 0.1);
+      border: 1px solid rgba(100, 180, 255, 0.2);
       display: flex;
       justify-content: space-between;
-      padding: 20px 40px;
-      background: rgba(255, 255, 255, 0.5);
-      border-top: 2px solid #ddd;
+      align-items: center;
     }
 
     .nav-button {
-      padding: 12px 30px;
+      padding: 14px 32px;
       font-size: 16px;
-      border: none;
-      border-radius: 25px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      border: 1px solid rgba(100, 180, 255, 0.3);
+      border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: 'Georgia', serif;
-      font-weight: bold;
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(64, 140, 220, 0.15) 100%);
+      color: #e8f4ff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-button:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.25) 0%, rgba(64, 140, 220, 0.25) 100%);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow: 0 6px 20px rgba(100, 180, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .nav-button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     .nav-button:disabled {
@@ -164,64 +309,88 @@
       cursor: not-allowed;
     }
 
-    .nav-button.prev {
-      background: #95a5a6;
-      color: white;
-    }
-
-    .nav-button.prev:hover:not(:disabled) {
-      background: #7f8c8d;
-      transform: translateX(-5px);
-    }
-
-    .nav-button.next {
-      background: #667eea;
-      color: white;
-    }
-
-    .nav-button.next:hover:not(:disabled) {
-      background: #764ba2;
-      transform: translateX(5px);
-    }
-
-    .nav-button.home {
-      background: #3498db;
-      color: white;
-    }
-
-    .nav-button.home:hover {
-      background: #2980b9;
-      transform: scale(1.05);
-    }
-
-    .page-number {
-      text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      color: #666;
+    .page-indicator {
+      font-family: 'Lato', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #b8d4f0;
       font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .header-card {
+        padding: 40px 30px;
+      }
+
+      .header-title {
+        font-size: 36px;
+      }
+
+      .content-card {
+        padding: 40px 30px;
+        min-height: 350px;
+      }
+
+      .illustration {
+        font-size: 90px;
+      }
+
+      .stanza-text {
+        font-size: 18px;
+      }
+
+      .navigation-card {
+        padding: 20px 25px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .page-indicator {
+        order: -1;
+      }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body>
-  <main class="book-container"><!-- Cover Page -->
-   <div class="page active" data-page="0">
-    <div class="cover-page">
-     <div class="cover-decoration">
-      📖
-     </div>
-     <h1 class="cover-title" id="book-title">My Hero</h1>
-     <p class="cover-author" id="author-name">by Willis Hall</p>
-     <div class="cover-decoration">
-      ⭐
-     </div>
+ <body><!-- Starry background -->
+  <div class="stars">
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="star"></div>
+   <div class="firefly" style="width: 3px; height: 3px; top: 15%; left: 25%; animation-delay: 0s;"></div>
+   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 35%; left: 70%; animation-delay: 2s;"></div>
+   <div class="firefly" style="width: 3px; height: 3px; top: 55%; left: 40%; animation-delay: 4s;"></div>
+   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 75%; left: 80%; animation-delay: 6s;"></div>
+   <div class="firefly" style="width: 3px; height: 3px; top: 25%; left: 60%; animation-delay: 3s;"></div>
+   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 65%; left: 20%; animation-delay: 5s;"></div>
+   <div class="firefly" style="width: 3px; height: 3px; top: 45%; left: 85%; animation-delay: 1s;"></div>
+   <div class="firefly" style="width: 2.5px; height: 2.5px; top: 10%; left: 50%; animation-delay: 7s;"></div>
+  </div>
+  <div class="poetry-container"><!-- Header Card -->
+   <header class="header-card">
+    <div class="moon-icon">
+     🌙
     </div>
-   </div><!-- Stanza 1 -->
-   <div class="page" data-page="1">
-    <div class="stanza-page">
+    <h1 class="header-title" id="book-title">My Hero</h1>
+    <p class="header-author" id="author-name">by Willis Hall</p>
+   </header><!-- Content Card -->
+   <main class="content-card"><!-- Stanza 1 -->
+    <div class="page-content active" data-page="0">
      <div class="illustration">
       🦸‍♂️
      </div>
@@ -232,10 +401,8 @@
        Or anything under the sun. 
       <div class="tooltip"></div>
      </div>
-    </div>
-   </div><!-- Stanza 2 -->
-   <div class="page" data-page="2">
-    <div class="stanza-page">
+    </div><!-- Stanza 2 -->
+    <div class="page-content" data-page="1">
      <div class="illustration">
       📺👻
      </div>
@@ -246,10 +413,8 @@
        Not dad, not on your <span class="glossary-word" data-definition="British expression meaning 'definitely not' or 'no way'">Nelly</span>! 
       <div class="tooltip"></div>
      </div>
-    </div>
-   </div><!-- Stanza 3 -->
-   <div class="page" data-page="3">
-    <div class="stanza-page">
+    </div><!-- Stanza 3 -->
+    <div class="page-content" data-page="2">
      <div class="illustration">
       👻🤝
      </div>
@@ -260,10 +425,8 @@
        My dad could just <span class="glossary-word" data-definition="To win against or overcome">defeat 'em</span>. 
       <div class="tooltip"></div>
      </div>
-    </div>
-   </div><!-- Stanza 4 -->
-   <div class="page" data-page="4">
-    <div class="stanza-page">
+    </div><!-- Stanza 4 -->
+    <div class="page-content" data-page="3">
      <div class="illustration">
       🧛‍♂️🐺
      </div>
@@ -274,10 +437,8 @@
        He wouldn't let that <span class="glossary-word" data-definition="Make someone worried, unhappy, or disturbed">upset</span> him. 
       <div class="tooltip"></div>
      </div>
-    </div>
-   </div><!-- Stanza 5 -->
-   <div class="page" data-page="5">
-    <div class="stanza-page">
+    </div><!-- Stanza 5 -->
+    <div class="page-content" data-page="4">
      <div class="illustration">
       🕷️🛁
      </div>
@@ -289,33 +450,33 @@
       <div class="tooltip"></div>
      </div>
     </div>
-   </div>
-   <div class="page-number" id="page-indicator">
-    Page 1 of 6
-   </div>
-   <nav class="navigation"><button class="nav-button prev" id="prev-btn" disabled> <span id="prev-text">← Previous</span> </button> <button class="nav-button home" id="home-btn"> 🏠 Home </button> <button class="nav-button next" id="next-btn"> <span id="next-text">Next →</span> </button>
+   </main><!-- Navigation Card -->
+   <nav class="navigation-card"><button class="nav-button" id="prev-btn" disabled> <span id="prev-text">← Previous</span> </button>
+    <div class="page-indicator" id="page-indicator">
+     Page 1 of 5
+    </div><button class="nav-button" id="next-btn"> <span id="next-text">Next →</span> </button>
    </nav>
-  </main>
+  </div>
   <script>
     const defaultConfig = {
       book_title: "My Hero",
       author_name: "by Willis Hall",
       next_button_text: "Next →",
       previous_button_text: "← Previous",
-      background_color: "#667eea",
-      secondary_surface_color: "#f5f5dc",
-      text_color: "#2c3e50",
-      primary_action_color: "#667eea",
-      secondary_action_color: "#95a5a6",
-      font_family: "Georgia",
+      background_color: "#1f3a60",
+      secondary_surface_color: "#152842",
+      text_color: "#e8f4ff",
+      primary_action_color: "#64b4ff",
+      secondary_action_color: "#408cdc",
+      font_family: "Lato",
       font_size: 16
     };
 
     let currentPage = 0;
-    const totalPages = 5;
+    const totalPages = 4;
 
     function updatePageDisplay() {
-      const pages = document.querySelectorAll('.page');
+      const pages = document.querySelectorAll('.page-content');
       pages.forEach((page, index) => {
         page.classList.toggle('active', index === currentPage);
       });
@@ -339,48 +500,45 @@
       }
     });
 
-    document.getElementById('home-btn').addEventListener('click', () => {
-      currentPage = 0;
-      updatePageDisplay();
-    });
-
     // Glossary functionality
-    document.querySelectorAll('.stanza-text').forEach(stanzaContainer => {
-      const words = stanzaContainer.querySelectorAll('.glossary-word');
-      const tooltip = stanzaContainer.querySelector('.tooltip');
+    document.querySelectorAll('.glossary-word').forEach(word => {
+      const definition = word.getAttribute('data-definition');
       
-      words.forEach(word => {
-        const definition = word.getAttribute('data-definition');
-
-        word.addEventListener('click', (e) => {
-          e.stopPropagation();
-          
-          // Hide all tooltips first
-          document.querySelectorAll('.tooltip').forEach(t => t.classList.remove('show'));
-          
-          // Show this tooltip with the definition
-          tooltip.textContent = definition;
-          
-          // Position tooltip near the clicked word
-          const rect = word.getBoundingClientRect();
-          const containerRect = stanzaContainer.getBoundingClientRect();
-          tooltip.style.left = '50%';
-          tooltip.classList.add('show');
+      word.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        document.querySelectorAll('.tooltip').forEach(t => {
+          t.classList.remove('show');
+          t.textContent = '';
         });
+        
+        const stanzaContainer = word.closest('.stanza-text');
+        const tooltip = stanzaContainer.querySelector('.tooltip');
+        
+        tooltip.textContent = definition;
+        tooltip.classList.add('show');
+      });
 
-        word.addEventListener('mouseenter', () => {
-          tooltip.textContent = definition;
-          tooltip.classList.add('show');
-        });
+      word.addEventListener('mouseenter', (e) => {
+        const stanzaContainer = word.closest('.stanza-text');
+        const tooltip = stanzaContainer.querySelector('.tooltip');
+        
+        tooltip.textContent = definition;
+        tooltip.classList.add('show');
+      });
 
-        word.addEventListener('mouseleave', () => {
-          tooltip.classList.remove('show');
-        });
+      word.addEventListener('mouseleave', (e) => {
+        const stanzaContainer = word.closest('.stanza-text');
+        const tooltip = stanzaContainer.querySelector('.tooltip');
+        tooltip.classList.remove('show');
       });
     });
 
     document.addEventListener('click', () => {
-      document.querySelectorAll('.tooltip').forEach(t => t.classList.remove('show'));
+      document.querySelectorAll('.tooltip').forEach(t => {
+        t.classList.remove('show');
+        t.textContent = '';
+      });
     });
 
     async function onConfigChange(config) {
@@ -401,32 +559,39 @@
       document.getElementById('next-text').textContent = nextText;
       document.getElementById('prev-text').textContent = prevText;
 
-      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryColor} 100%)`;
-      document.querySelector('.book-container').style.background = surfaceColor;
-      document.querySelector('.cover-title').style.color = textColor;
+      const cards = document.querySelectorAll('.header-card, .content-card, .navigation-card');
+      cards.forEach(card => {
+        card.style.background = `linear-gradient(135deg, ${backgroundColor}f2 0%, ${surfaceColor}f2 100%)`;
+        card.style.borderColor = `${primaryColor}33`;
+      });
+
+      document.querySelector('.header-title').style.color = textColor;
+      document.querySelector('.header-author').style.color = textColor;
       document.querySelectorAll('.stanza-text').forEach(el => el.style.color = textColor);
+      document.querySelector('.page-indicator').style.color = textColor;
       
       document.querySelectorAll('.glossary-word').forEach(word => {
         word.style.color = primaryColor;
-        word.style.borderBottomColor = primaryColor;
+        word.style.borderBottomColor = `${primaryColor}66`;
       });
 
       document.querySelectorAll('.tooltip').forEach(tooltip => {
-        tooltip.style.borderColor = primaryColor;
+        tooltip.style.background = `linear-gradient(135deg, ${backgroundColor}fa 0%, ${surfaceColor}fa 100%)`;
+        tooltip.style.borderColor = `${primaryColor}4d`;
       });
 
-      document.querySelectorAll('.nav-button.next').forEach(btn => {
-        btn.style.background = primaryColor;
+      document.querySelectorAll('.nav-button').forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${primaryColor}26 0%, ${secondaryColor}26 100%)`;
+        btn.style.borderColor = `${primaryColor}4d`;
+        btn.style.color = textColor;
       });
 
-      document.querySelectorAll('.nav-button.prev').forEach(btn => {
-        btn.style.background = secondaryColor;
-      });
-
-      const baseFontStack = 'Georgia, serif';
+      const baseFontStack = 'Lato, sans-serif';
+      const titleFontStack = 'Playfair Display, serif';
       document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
-      document.querySelector('.cover-title').style.fontSize = `${fontSize * 3}px`;
-      document.querySelector('.cover-author').style.fontSize = `${fontSize * 1.5}px`;
+      document.querySelector('.header-title').style.fontFamily = `${fontFamily}, ${titleFontStack}`;
+      document.querySelector('.header-title').style.fontSize = `${fontSize * 3}px`;
+      document.querySelector('.header-author').style.fontSize = `${fontSize * 1.125}px`;
       document.querySelectorAll('.stanza-text').forEach(el => {
         el.style.fontSize = `${fontSize * 1.25}px`;
       });
@@ -502,5 +667,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a803a16a1fd454a',t:'MTc2NDczNTE1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a807ed2d67524d2',t:'MTc2NDczNzk3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
