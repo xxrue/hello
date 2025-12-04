@@ -3,1571 +3,1580 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opinion Writing Guide - Modern Café</title>
+  <title>Future Time Expressions Quiz</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Caveat:wght@400;600&display=swap');
-
-        body {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1410 0%, #2d1f1a 50%, #1a1410 100%);
-            min-height: 100%;
-            width: 100%;
-            color: #2d2520;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Ambient café background elements */
-        .cafe-ambiance {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0.15;
-        }
-
-        .plant-decoration {
-            position: absolute;
-            font-size: 4em;
-            opacity: 0.3;
-            animation: sway 8s ease-in-out infinite;
-        }
-
-        .plant-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .plant-2 { top: 40%; right: 8%; animation-delay: 2s; }
-        .plant-3 { bottom: 15%; left: 10%; animation-delay: 4s; }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-
-        /* Cozy string lights */
-        .string-lights {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .light-bulb {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 220, 150, 0.9), rgba(255, 200, 100, 0.4));
-            box-shadow: 0 0 20px rgba(255, 220, 150, 0.6);
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .light-bulb:nth-child(even) {
-            animation-delay: 1.5s;
-        }
-
-        /* Floating coffee steam particles */
-        .steam-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            animation: floatUp 10s ease-in infinite;
-        }
-
-        @keyframes floatUp {
-            0% { 
-                transform: translateY(0) translateX(0) scale(1);
-                opacity: 0;
-            }
-            10% { opacity: 0.6; }
-            100% { 
-                transform: translateY(-100%) translateX(20px) scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* Falling leaves */
-        .falling-leaf {
-            position: absolute;
-            font-size: 2em;
-            opacity: 0.7;
-            filter: drop-shadow(0 0 8px rgba(165, 214, 167, 0.8)) brightness(1.3);
-            animation: fallLeaf 15s ease-in infinite;
-        }
-
-        @keyframes fallLeaf {
-            0% { 
-                transform: translateY(-10%) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.6; }
-            100% { 
-                transform: translateY(110vh) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Sparkling light particles */
-        .light-particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(255, 240, 200, 0.9));
-            border-radius: 50%;
-            box-shadow: 
-                0 0 10px rgba(255, 255, 255, 1),
-                0 0 20px rgba(255, 240, 200, 0.8),
-                0 0 30px rgba(255, 220, 150, 0.6),
-                0 0 40px rgba(255, 200, 100, 0.4);
-            animation: sparkle 2s ease-in-out infinite;
-            opacity: 0;
-        }
-
-        @keyframes sparkle {
-            0% { 
-                transform: scale(0);
-                opacity: 0;
-            }
-            10% { 
-                opacity: 1;
-                transform: scale(1);
-            }
-            20% {
-                opacity: 0.3;
-                transform: scale(0.6);
-            }
-            30% {
-                opacity: 1;
-                transform: scale(1.4);
-            }
-            40% {
-                opacity: 0.5;
-                transform: scale(0.8);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.8);
-            }
-            60% {
-                opacity: 0.4;
-                transform: scale(1);
-            }
-            70% {
-                opacity: 0.9;
-                transform: scale(1.5);
-            }
-            80% {
-                opacity: 0.6;
-                transform: scale(0.7);
-            }
-            90% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-            100% { 
-                transform: scale(0);
-                opacity: 0;
-            }
-        }
-
-        .light-particle:nth-child(odd) {
-            animation-duration: 2.5s;
-        }
-
-        .light-particle:nth-child(3n) {
-            animation-duration: 1.8s;
-        }
-
-        .light-particle:nth-child(4n) {
-            animation-duration: 2.2s;
-        }
-
-        .light-particle:nth-child(odd) {
-            animation-duration: 15s;
-        }
-
-        .light-particle:nth-child(3n) {
-            animation-duration: 10s;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 40px;
-            padding-bottom: 160px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Modern café header with brewing equipment aesthetic */
-        .cafe-header {
-            background: linear-gradient(135deg, #f8f6f3 0%, #fdfdfb 100%);
-            border-radius: 24px;
-            padding: 60px 50px;
-            margin-bottom: 40px;
-            position: relative;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-            overflow: hidden;
-        }
-
-        /* Decorative coffee beans */
-        .cafe-header::before {
-            content: '☕';
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-size: 5em;
-            opacity: 0.08;
-            transform: rotate(-15deg);
-        }
-
-        /* Subtle plant silhouette */
-        .cafe-header::after {
-            content: '🌿';
-            position: absolute;
-            bottom: 20px;
-            left: 30px;
-            font-size: 6em;
-            opacity: 0.06;
-        }
-
-        .header-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4.5em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #2d1f1a 0%, #5d4037 50%, #2d1f1a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0 0 20px 0;
-            text-align: center;
-            position: relative;
-            letter-spacing: -1px;
-        }
-
-        .header-subtitle {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4em;
-            font-weight: 300;
-            color: #8d7a6d;
-            text-align: center;
-            margin: 0;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* Music note decorations */
-        .music-note {
-            position: absolute;
-            font-size: 2em;
-            opacity: 0.15;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .note-1 { top: 30px; left: 80px; animation-delay: 0s; }
-        .note-2 { top: 80px; right: 100px; animation-delay: 2s; }
-        .note-3 { bottom: 60px; left: 120px; animation-delay: 4s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        /* Modern minimalist tabs */
-        .modern-tabs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 0;
-            padding: 0 20px;
-            flex-wrap: wrap;
-        }
-
-        .modern-tab {
-            background: rgba(248, 246, 243, 0.9);
-            backdrop-filter: blur(10px);
-            color: #5d4037;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 16px 16px 0 0;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1em;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
-            border-bottom: 3px solid transparent;
-        }
-
-        .modern-tab:hover {
-            background: rgba(253, 253, 251, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 -6px 20px rgba(0,0,0,0.2);
-        }
-
-        .modern-tab.active {
-            background: #fdfdfb;
-            border-bottom-color: #8d6e63;
-            transform: translateY(0);
-            z-index: 10;
-            box-shadow: 0 -8px 24px rgba(0,0,0,0.25);
-        }
-
-        /* Main content - clean modern card */
-        .cafe-content {
-            background: #fdfdfb;
-            border-radius: 24px;
-            padding: 50px;
-            min-height: 500px;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-            position: relative;
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeSlideIn 0.5s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeSlideIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-
-        /* Modern brewing station card style */
-        .brew-card {
-            background: linear-gradient(135deg, #f5f3f0 0%, #faf9f7 100%);
-            padding: 40px;
-            margin: 30px 0;
-            border-radius: 20px;
-            box-shadow: 
-                0 10px 30px rgba(0,0,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.8);
-            position: relative;
-            border: 1px solid rgba(141, 122, 109, 0.1);
-        }
-
-        /* Plant accent on cards */
-        .brew-card::before {
-            content: '🌱';
-            position: absolute;
-            top: -15px;
-            right: 30px;
-            font-size: 2.5em;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-
-        .brew-card::after {
-            content: '🪴';
-            position: absolute;
-            bottom: -10px;
-            left: 20px;
-            font-size: 2em;
-            opacity: 0.7;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-
-        .brew-card:nth-child(even)::before {
-            content: '🍃';
-        }
-
-        .brew-card:nth-child(even)::after {
-            content: '🌿';
-        }
-
-        .cafe-content::before {
-            content: '🌿';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 3em;
-            opacity: 0.15;
-            z-index: 0;
-        }
-
-        .cafe-content::after {
-            content: '🪴';
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            font-size: 3.5em;
-            opacity: 0.15;
-            z-index: 0;
-        }
-
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8em;
-            color: #2d1f1a;
-            margin: 0 0 25px 0;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Clean note style */
-        .clean-note {
-            background: #ffffff;
-            border-left: 5px solid #8d6e63;
-            padding: 25px 30px;
-            margin: 20px 0;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            line-height: 1.8;
-            font-size: 1.05em;
-        }
-
-        /* Modern accordion - coffee menu inspired */
-        .modern-accordion {
-            background: #ffffff;
-            border: 1px solid rgba(141, 110, 99, 0.2);
-            border-radius: 16px;
-            margin: 25px 0;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .modern-accordion:hover {
-            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-        }
-
-        .accordion-header {
-            padding: 25px 30px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1.3em;
-            color: #2d1f1a;
-            background: linear-gradient(to right, transparent, rgba(141, 122, 109, 0.05), transparent);
-            transition: all 0.3s ease;
-        }
-
-        .accordion-header:hover {
-            background: linear-gradient(to right, transparent, rgba(141, 122, 109, 0.12), transparent);
-        }
-
-        .accordion-icon {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-            color: #8d6e63;
-        }
-
-        .modern-accordion.open .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .modern-accordion.open .accordion-content {
-            max-height: 2000px;
-        }
-
-        .accordion-inner {
-            padding: 30px;
-            background: #fafafa;
-            border-top: 1px solid rgba(141, 110, 99, 0.1);
-        }
-
-        /* Coffee brewing step badge */
-        .brew-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #5d4037 0%, #795548 100%);
-            color: #ffffff;
-            border-radius: 50%;
-            font-family: 'Poppins', sans-serif;
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            box-shadow: 
-                0 8px 20px rgba(93, 64, 55, 0.4),
-                inset 0 2px 0 rgba(255,255,255,0.2);
-            border: 4px solid #f5f3f0;
-        }
-
-        /* Icon grid - modern minimalist */
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            margin: 35px 0;
-        }
-
-        .icon-card {
-            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-            color: #2d1f1a;
-            padding: 35px 30px;
-            border-radius: 20px;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1.3em;
-            box-shadow: 
-                0 8px 24px rgba(0,0,0,0.12),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-            border: 1px solid rgba(141, 110, 99, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            word-wrap: break-word;
-        }
-
-        .click-indicator {
-            font-size: 0.9em;
-            color: #8d6e63;
-            margin-top: 10px;
-            transition: transform 0.3s ease;
-            display: block;
-        }
-
-        .icon-card.expanded .click-indicator {
-            transform: rotate(180deg);
-        }
-
-        .icon-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
-        }
-
-        .icon-card .example-extra {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            opacity: 0;
-        }
-
-        .icon-card.expanded .example-extra {
-            max-height: 500px;
-            opacity: 1;
-        }
-
-        .card-icon {
-            font-size: 3em;
-            display: block;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
-        }
-
-        /* Flowchart - brewing process style */
-        .brew-flow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            margin: 40px 0;
-        }
-
-        .flow-box {
-            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-            border: 2px solid #8d6e63;
-            border-radius: 16px;
-            padding: 30px 40px;
-            min-width: 320px;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4em;
-            font-weight: 600;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            position: relative;
-            color: #2d1f1a;
-        }
-
-        .flow-arrow {
-            font-size: 3em;
-            color: #8d6e63;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-
-        /* Example card - modern clean */
-        .example-card {
-            background: #ffffff;
-            border: 1px solid rgba(141, 110, 99, 0.2);
-            padding: 25px 30px;
-            margin: 25px 0;
-            border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .example-card:hover {
-            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-            transform: translateY(-4px);
-        }
-
-        .example-label {
-            font-weight: 600;
-            color: #2d1f1a;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2em;
-        }
-
-        .expand-arrow {
-            color: #8d6e63;
-            transition: transform 0.3s ease;
-            font-size: 1.3em;
-        }
-
-        .example-card.expanded .expand-arrow {
-            transform: rotate(180deg);
-        }
-
-        .example-text {
-            font-style: italic;
-            color: #5d5d5d;
-            line-height: 1.9;
-            font-size: 1.05em;
-        }
-
-        .example-extra {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .example-card.expanded .example-extra {
-            max-height: 600px;
-            margin-top: 18px;
-        }
-
-        /* Modern checklist */
-        .modern-checklist {
-            list-style: none;
-            padding: 0;
-            margin: 25px 0;
-        }
-
-        .modern-checklist li {
-            padding: 20px 0 20px 55px;
-            position: relative;
-            line-height: 1.9;
-            font-size: 1.1em;
-            border-bottom: 1px solid rgba(141, 110, 99, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .modern-checklist li:last-child {
-            border-bottom: none;
-        }
-
-        .modern-checklist li::before {
-            content: '✅';
-            position: absolute;
-            left: 0;
-            top: 18px;
-            font-size: 1.8em;
-        }
-
-        .modern-checklist li:hover {
-            background: rgba(141, 122, 109, 0.03);
-            padding-left: 60px;
-        }
-
-        /* Highlighted text */
-        .highlight-espresso {
-            background: linear-gradient(180deg, transparent 60%, #8d6e63 60%);
-            padding: 2px 8px;
-            font-weight: 600;
-        }
-
-        .highlight-plant {
-            background: linear-gradient(180deg, transparent 60%, #a5d6a7 60%);
-            padding: 2px 8px;
-            font-weight: 600;
-        }
-
-        /* Color coding */
-        .main-sentence {
-            color: #5d4037;
-            font-weight: 700;
-        }
-
-        .support-sentence {
-            color: #6d4c41;
-        }
-
-        /* Modern tip box */
-        .modern-tip {
-            background: linear-gradient(135deg, #8d6e63 0%, #a1887f 100%);
-            color: #ffffff;
-            padding: 30px 35px;
-            margin: 30px 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(141, 110, 99, 0.4);
-            font-size: 1.1em;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .modern-tip::before {
-            content: '💡';
-            font-size: 2.5em;
-            position: absolute;
-            top: -20px;
-            left: 30px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        .modern-tip strong {
-            font-weight: 700;
-        }
-
-        /* Music player assistant */
-        .music-player-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .music-bubble {
-            position: absolute;
-            bottom: 90px;
-            right: 180px;
-            background: #fdfdfb;
-            border: 2px solid #8d6e63;
-            border-radius: 20px;
-            padding: 20px 25px;
-            max-width: 280px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .music-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: 20px;
-            right: -15px;
-            width: 0;
-            height: 0;
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
-            border-left: 15px solid #8d6e63;
-        }
-
-        .music-bubble.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .bubble-text {
-            color: #2d1f1a;
-            font-size: 1.05em;
-            line-height: 1.7;
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .music-player {
-            background: linear-gradient(135deg, #2d1f1a 0%, #5d4037 100%);
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            box-shadow: 
-                0 15px 40px rgba(0,0,0,0.5),
-                inset 0 0 20px rgba(0,0,0,0.3);
-            position: relative;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 5px solid #f5f3f0;
-        }
-
-        .music-player:hover {
-            transform: scale(1.08) rotate(5deg);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-
-        /* Vinyl record effect */
-        .music-player::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #1a1410 0%, #2d1f1a 100%);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 0 2px rgba(141, 110, 99, 0.3),
-                0 0 0 20px rgba(93, 64, 55, 0.1),
-                0 0 0 22px rgba(141, 110, 99, 0.2);
-        }
-
-        .player-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .player-btn {
-            background: rgba(245, 243, 240, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(245, 243, 240, 0.5);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            color: #f5f3f0;
-        }
-
-        .player-btn:hover {
-            background: rgba(245, 243, 240, 0.3);
-            transform: scale(1.15);
-            border-color: #f5f3f0;
-        }
-
-        .player-icon {
-            font-size: 4em;
-            margin: 18px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-        }
-
-        .player-icon:active {
-            transform: scale(0.9);
-        }
-
-        .player-label {
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #f5f3f0;
-            margin-top: 12px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* Dark section for contrast */
-        .dark-brew-section {
-            background: linear-gradient(135deg, #2d1f1a 0%, #3e2723 100%);
-            border-radius: 20px;
-            padding: 35px;
-            margin: 30px 0;
-            box-shadow: 
-                inset 0 0 40px rgba(0,0,0,0.5),
-                0 8px 24px rgba(0,0,0,0.3);
-            color: #f5f3f0;
-        }
-
-        .dark-brew-section h3 {
-            color: #f5f3f0;
-            margin-bottom: 20px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .dark-brew-section p {
-            line-height: 1.9;
-            color: #e0d5cc;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 40px 20px;
-                padding-bottom: 220px;
-            }
-
-            .header-title {
-                font-size: 2.5em;
-                word-wrap: break-word;
-            }
-
-            .header-subtitle {
-                font-size: 1em;
-                word-wrap: break-word;
-            }
-
-            .brew-card {
-                padding: 25px 20px;
-                margin: 25px 0;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-
-            .modern-tab {
-                padding: 12px 16px;
-                font-size: 0.85em;
-            }
-
-            .icon-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            #wisemen .icon-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-
-            .icon-card {
-                padding: 25px 20px;
-                font-size: 1.1em;
-                word-wrap: break-word;
-            }
-
-            .music-player-container {
-                bottom: 20px;
-                right: 50%;
-                transform: translateX(50%);
-            }
-
-            .music-bubble {
-                max-width: 220px;
-                bottom: 140px;
-                right: 50%;
-                transform: translateX(50%);
-            }
-
-            .music-bubble::after {
-                bottom: -15px;
-                right: 50%;
-                left: auto;
-                transform: translateX(50%) rotate(90deg);
-            }
-
-            .music-player {
-                width: 120px;
-                height: 120px;
-            }
-
-            .player-icon {
-                font-size: 3em;
-            }
-
-            .player-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1em;
-            }
-
-            .player-label {
-                font-size: 1em;
-            }
-
-            .card-title {
-                font-size: 2em;
-                word-wrap: break-word;
-            }
-
-            .accordion-header {
-                padding: 20px 20px;
-                font-size: 1.1em;
-                word-wrap: break-word;
-            }
-
-            .flow-box {
-                min-width: 240px;
-                max-width: 100%;
-                padding: 20px 25px;
-                font-size: 1.2em;
-                word-wrap: break-word;
-            }
-
-            .example-card {
-                padding: 20px 20px;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-            }
-
-            .example-label {
-                font-size: 1.1em;
-                word-wrap: break-word;
-            }
-
-            .clean-note {
-                padding: 20px 20px;
-                font-size: 1em;
-                word-wrap: break-word;
-            }
-
-            .modern-tip {
-                padding: 25px 25px;
-                font-size: 1em;
-                word-wrap: break-word;
-            }
-
-            .accordion-inner {
-                padding: 20px;
-                word-wrap: break-word;
-            }
-
-            .brew-badge {
-                width: 60px;
-                height: 60px;
-                font-size: 2em;
-            }
-
-            .dark-brew-section {
-                padding: 25px 20px;
-                word-wrap: break-word;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-title {
-                font-size: 2em;
-            }
-
-            .header-subtitle {
-                font-size: 0.9em;
-            }
-
-            .cafe-content {
-                padding: 25px 20px;
-            }
-
-            .cafe-header {
-                padding: 40px 30px;
-            }
-
-            .modern-tabs {
-                padding: 0 10px;
-            }
-
-            .modern-tab {
-                padding: 10px 12px;
-                font-size: 0.8em;
-            }
-
-            .flow-box {
-                min-width: 200px;
-                padding: 18px 20px;
-                font-size: 1.1em;
-            }
-
-            .card-title {
-                font-size: 1.8em;
-            }
-
-            .icon-card {
-                font-size: 1em;
-                padding: 20px 15px;
-            }
-
-            .card-icon {
-                font-size: 2.5em;
-            }
-
-            .music-player {
-                width: 110px;
-                height: 110px;
-            }
-
-            .player-icon {
-                font-size: 2.5em;
-            }
-        }
-    </style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100%;
+      width: 100%;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    .quiz-wrapper {
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stars-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    .planet {
+      position: absolute;
+      font-size: 3em;
+      opacity: 0.4;
+      animation: planetFloat 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes planetFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-30px) rotate(180deg);
+      }
+    }
+
+    .spaceship {
+      position: absolute;
+      font-size: 2em;
+      opacity: 0;
+      animation: spaceshipFly 15s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes spaceshipFly {
+      0% {
+        opacity: 0;
+        left: -100px;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        left: calc(100% + 100px);
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #ffd700;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkleFloat 2s ease-out forwards;
+      box-shadow: 0 0 6px #ffd700;
+    }
+
+    @keyframes sparkleFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0);
+      }
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: explode 0.8s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      animation: confettiFall 3s ease-out forwards;
+      z-index: 9999;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100%) rotate(720deg);
+      }
+    }
+
+    .firework {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fireworkExplode 1s ease-out forwards;
+      z-index: 9999;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    @keyframes fireworkExplode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--fx), var(--fy)) scale(0);
+      }
+    }
+
+    .emoji-reaction {
+      position: absolute;
+      font-size: 3em;
+      pointer-events: none;
+      animation: emojiPop 1s ease-out forwards;
+      z-index: 1000;
+    }
+
+    @keyframes emojiPop {
+      0% {
+        opacity: 0;
+        transform: scale(0) translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2) translateY(-20px);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1) translateY(-60px);
+      }
+    }
+
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(255, 255, 255, 0.1);
+      max-width: 800px;
+      width: 100%;
+      padding: 40px;
+      animation: fadeIn 0.5s ease-in;
+      position: relative;
+      z-index: 10;
+    }
+
+    .quiz-container::before {
+      content: '✨';
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 3em;
+      opacity: 0.3;
+      animation: starTwinkle 2s ease-in-out infinite;
+    }
+
+    .quiz-container::after {
+      content: '⭐';
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: 2.5em;
+      opacity: 0.3;
+      animation: starTwinkle 2s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .quiz-title {
+      font-size: 2em;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 40px rgba(118, 75, 162, 0.6);
+      margin: 0 0 10px 0;
+      font-weight: bold;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .quiz-subtitle {
+      font-size: 1.1em;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .start-screen, .question-screen, .result-screen {
+      display: none;
+    }
+
+    .start-screen.active, .question-screen.active, .result-screen.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .instructions {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border-left: 5px solid #667eea;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .instructions p {
+      margin: 0 0 15px 0;
+      color: #ffffff;
+      line-height: 1.6;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .instructions p:last-child {
+      margin-bottom: 0;
+    }
+
+    .progress-bar {
+      background: #e0e0e0;
+      height: 12px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      transition: width 0.4s ease;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill::after {
+      content: '🚀';
+      position: absolute;
+      right: -15px;
+      top: -18px;
+      font-size: 1.8em;
+      animation: rocketFloat 1s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    @keyframes rocketFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-10deg);
+      }
+      50% {
+        transform: translateY(-5px) rotate(10deg);
+      }
+    }
+
+    .question-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .question-text {
+      font-size: 1.3em;
+      color: #ffffff !important;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      font-weight: 700;
+      animation: cardFlip 0.6s ease-in-out;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
+      filter: brightness(1.3);
+    }
+
+    @keyframes cardFlip {
+      0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(-90deg);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg);
+      }
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .option {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.05em;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out backwards;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .option:nth-child(1) { animation-delay: 0.1s; }
+    .option:nth-child(2) { animation-delay: 0.2s; }
+    .option:nth-child(3) { animation-delay: 0.3s; }
+    .option:nth-child(4) { animation-delay: 0.4s; }
+
+    .option:hover {
+      background: rgba(102, 126, 234, 0.3);
+      border-color: #667eea;
+      transform: translateX(5px);
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    }
+
+    .option.selected {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+    }
+
+    .option.correct {
+      background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+      color: white;
+      border-color: #4caf50;
+      animation: correctPulse 0.5s ease;
+    }
+
+    @keyframes correctPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .option.incorrect {
+      background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+      color: white;
+      border-color: #f44336;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-10px);
+      }
+      75% {
+        transform: translateX(10px);
+      }
+    }
+
+    .option.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 500;
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      color: #1b5e20;
+      border-left: 5px solid #4caf50;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    .feedback.incorrect {
+      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+      color: #b71c1c;
+      border-left: 5px solid #f44336;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    .result-screen {
+      text-align: center;
+    }
+
+    .score-display {
+      font-size: 4em;
+      color: #ffffff;
+      text-shadow: 0 0 30px rgba(102, 126, 234, 0.9), 0 0 60px rgba(118, 75, 162, 0.7);
+      font-weight: bold;
+      margin: 30px 0;
+      animation: scoreReveal 1s ease-out;
+    }
+
+    @keyframes scoreReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .score-message {
+      font-size: 1.5em;
+      color: #ffffff !important;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
+      filter: brightness(1.3);
+    }
+
+    .score-details {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-details p {
+      margin: 10px 0;
+      color: #ffffff;
+      font-size: 1.1em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .mascot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .mascot {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      animation: mascotFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes mascotFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-10px) rotate(-5deg);
+      }
+      75% {
+        transform: translateY(-5px) rotate(5deg);
+      }
+    }
+
+    .mascot:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .mascot.dance {
+      animation: mascotDance 0.6s ease-in-out;
+    }
+
+    @keyframes mascotDance {
+      0%, 100% {
+        transform: rotate(0deg) scale(1);
+      }
+      25% {
+        transform: rotate(-15deg) scale(1.1);
+      }
+      50% {
+        transform: rotate(15deg) scale(1.2);
+      }
+      75% {
+        transform: rotate(-10deg) scale(1.1);
+      }
+    }
+
+    .ripple {
+      position: absolute;
+      border: 3px solid rgba(102, 126, 234, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: rippleEffect 1s ease-out forwards;
+    }
+
+    @keyframes rippleEffect {
+      0% {
+        width: 80px;
+        height: 80px;
+        opacity: 1;
+        top: 0;
+        left: 0;
+      }
+      100% {
+        width: 160px;
+        height: 160px;
+        opacity: 0;
+        top: -40px;
+        left: -40px;
+      }
+    }
+
+    .mascot-message {
+      position: absolute;
+      bottom: 100px;
+      right: 0;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      max-width: 300px;
+      display: none;
+      animation: slideUp 0.4s ease;
+      cursor: pointer;
+    }
+
+    .mascot-message.show {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mascot-message::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: 30px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid white;
+    }
+
+    .mascot-message-text {
+      color: #1a1a2e;
+      font-size: 0.95em;
+      line-height: 1.6;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .mascot-message-title {
+      color: #667eea;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+      font-size: 1.1em;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 25px 20px;
+      }
+
+      .quiz-title {
+        font-size: 1.5em;
+      }
+
+      .quiz-subtitle {
+        font-size: 0.95em;
+      }
+
+      .question-text {
+        font-size: 1.1em;
+      }
+
+      .option {
+        padding: 15px;
+        font-size: 0.95em;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        font-size: 1em;
+      }
+
+      .score-display {
+        font-size: 3em;
+      }
+
+      .score-message {
+        font-size: 1.2em;
+      }
+
+      .mascot {
+        width: 60px;
+        height: 60px;
+        font-size: 2em;
+      }
+
+      .mascot-container {
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .mascot-message {
+        max-width: 250px;
+        bottom: 80px;
+        right: -10px;
+        padding: 15px;
+      }
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Ambient café decorations -->
-  <div class="cafe-ambiance">
-   <div class="plant-decoration plant-1">
-    🌿
-   </div>
-   <div class="plant-decoration plant-2">
-    🪴
-   </div>
-   <div class="plant-decoration plant-3">
-    🌱
-   </div><!-- Cozy string lights -->
-   <div class="string-lights" id="stringLights"></div>
-  </div>
-  <div class="main-container"><!-- Modern Café Header -->
-   <div class="cafe-header"><span class="music-note note-1">🎵</span> <span class="music-note note-2">🎶</span> <span class="music-note note-3">🎵</span>
-    <h1 class="header-title" id="mainTitle">Writing an Opinion</h1>
-    <p class="header-subtitle" id="subtitle">A Complete Guide for Students</p>
-   </div><!-- Modern Tabs -->
-   <div class="modern-tabs"><button class="modern-tab active" onclick="switchTab('basics')">📚 Basics</button> <button class="modern-tab" onclick="switchTab('structure')">🏗️ Structure</button> <button class="modern-tab" onclick="switchTab('wisemen')">👥 6 Wise Men</button> <button class="modern-tab" onclick="switchTab('example')">📖 Example</button> <button class="modern-tab" onclick="switchTab('checklist')">✅ Checklist</button>
-   </div><!-- Main Content -->
-   <div class="cafe-content"><!-- BASICS TAB -->
-    <div id="basics" class="tab-content active">
-     <div class="brew-card">
-      <h2 class="card-title">💭 What is an Opinion?</h2>
-      <div class="clean-note">
-       <p style="margin: 0;"><strong>Definition:</strong> An opinion is a personal point of view based entirely on personal judgement about an issue that can be argued both ways.</p>
-      </div>
-      <p style="text-align: center; font-size: 1.5em; margin: 40px 0; font-weight: 600; color: #2d1f1a;">An opinion comes from:</p>
-      <div class="icon-grid">
-       <div class="icon-card" onclick="toggleExample(this)"><span class="card-icon">👀</span> VIEWS <span class="click-indicator">▼</span>
-        <div class="example-extra" style="margin-top: 15px; font-size: 0.75em; font-weight: 400; text-align: left; line-height: 1.6;"><em>"From what I've observed, students with smartphones tend to be more distracted in class."</em>
-        </div>
-       </div>
-       <div class="icon-card" onclick="toggleExample(this)"><span class="card-icon">💡</span> UNDERSTANDING <span class="click-indicator">▼</span>
-        <div class="example-extra" style="margin-top: 15px; font-size: 0.75em; font-weight: 400; text-align: left; line-height: 1.6;"><em>"Based on research, I know that exercise improves brain function and memory."</em>
-        </div>
-       </div>
-       <div class="icon-card" onclick="toggleExample(this)"><span class="card-icon">💖</span> FEELINGS <span class="click-indicator">▼</span>
-        <div class="example-extra" style="margin-top: 15px; font-size: 0.75em; font-weight: 400; text-align: left; line-height: 1.6;"><em>"I feel that homework creates unnecessary stress and takes away family time."</em>
-        </div>
-       </div>
-       <div class="icon-card" onclick="toggleExample(this)"><span class="card-icon">✨</span> BELIEFS <span class="click-indicator">▼</span>
-        <div class="example-extra" style="margin-top: 15px; font-size: 0.75em; font-weight: 400; text-align: left; line-height: 1.6;"><em>"I believe that education should focus on creativity, not just memorization."</em>
-        </div>
-       </div>
-      </div>
-      <div class="example-card" onclick="toggleExample(this)">
-       <div class="example-label">
-        Topic: Should school uniforms be abolished? <span class="expand-arrow">▼</span>
-       </div>
-       <div class="example-extra">
-        <p class="example-text">"I believe school uniforms should be maintained in schools because they promote equality, instill discipline, and create a sense of unity among students from diverse backgrounds."</p>
-       </div>
-      </div>
+ <body>
+  <div class="quiz-wrapper">
+   <div class="stars-container" id="starsContainer"></div>
+   <div class="quiz-container">
+    <div class="quiz-header">
+     <h1 class="quiz-title" id="quizTitle">🚀 Future Time Expressions Quiz</h1>
+     <p class="quiz-subtitle">Test Your Knowledge</p>
+    </div><!-- Start Screen -->
+    <div class="start-screen active" id="startScreen">
+     <div class="instructions">
+      <p id="instructionText">Welcome! This quiz will test your understanding of future time expressions including 'will', 'when + will', and 'would like'.</p>
+      <p><strong>Instructions:</strong></p>
+      <p>• You will answer 12 randomly selected questions</p>
+      <p>• Choose the correct answer for each question</p>
+      <p>• Click submit to check your answer</p>
+      <p>• Click next to move to the following question</p>
      </div>
-     <div class="brew-card">
-      <h2 class="card-title">🤔 Key Considerations</h2>
-      <div class="modern-accordion open">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Step 1:</strong> Take a Stand</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <div class="brew-badge">
-          1
-         </div>
-         <h3 style="color: #2d1f1a; margin-bottom: 20px; font-size: 2em;">TAKE A STAND</h3>
-         <p style="line-height: 1.9;">Do you agree or disagree with the topic?</p>
-         <div class="example-card" style="margin-top: 20px;">
-          <p class="example-text">"I agree that social media has a positive impact on youth."</p>
-          <p class="example-text" style="margin-top: 10px;"><em>OR</em></p>
-          <p class="example-text">"I disagree that tuition classes are necessary for academic success."</p>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="modern-accordion open">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Step 2:</strong> Support Your View</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <div class="brew-badge">
-          2
-         </div>
-         <h3 style="color: #2d1f1a; margin-bottom: 20px; font-size: 2em;">SUPPORT YOUR VIEW</h3>
-         <p style="line-height: 1.9;">Give examples, facts &amp; beliefs to back up your opinion.</p>
-         <div class="example-card" style="margin-top: 20px;">
-          <p class="example-text">"Social media platforms like Instagram and TikTok allow students to showcase their talents, connect with global communities, and learn new skills through educational content."</p>
-         </div>
-        </div>
-       </div>
-      </div>
-      <div class="modern-accordion open">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Step 3:</strong> Conclude Strongly</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <div class="brew-badge">
-          3
-         </div>
-         <h3 style="color: #2d1f1a; margin-bottom: 20px; font-size: 2em;">CONCLUDE STRONGLY</h3>
-         <p style="line-height: 1.9;">Reaffirm your point of view with confidence.</p>
-         <div class="example-card" style="margin-top: 20px;">
-          <p class="example-text">"Therefore, when used responsibly, social media is a valuable tool that empowers youth to learn, grow, and express themselves in meaningful ways."</p>
-         </div>
-        </div>
-       </div>
-      </div>
+     <div class="btn-container"><button class="btn" id="startBtn">Start Quiz</button>
      </div>
-    </div><!-- STRUCTURE TAB -->
-    <div id="structure" class="tab-content">
-     <div class="brew-card">
-      <h2 class="card-title">📋 Opinion Writing Structure</h2>
-      <div class="brew-flow">
-       <div class="flow-box" style="border-color: #8d6e63;">
-        🎯 YOUR OPINION<br><span style="font-size: 0.7em; font-weight: normal;">State your stance clearly</span>
-       </div>
-       <div class="flow-arrow">
-        ⬇️
-       </div>
-       <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-        <div class="flow-box" style="min-width: 220px; border-color: #a1887f;">
-         📌 Point 1<br><span style="font-size: 0.65em;">+ Supporting Detail</span>
-        </div>
-        <div class="flow-box" style="min-width: 220px; border-color: #a1887f;">
-         📌 Point 2<br><span style="font-size: 0.65em;">+ Supporting Detail</span>
-        </div>
-        <div class="flow-box" style="min-width: 220px; border-color: #a1887f;">
-         📌 Point 3<br><span style="font-size: 0.65em;">+ Supporting Detail</span>
-        </div>
-       </div>
-       <div class="flow-arrow">
-        ⬇️
-       </div>
-       <div class="flow-box" style="border-color: #a5d6a7;">
-        ✅ CONCLUSION<br><span style="font-size: 0.7em; font-weight: normal;">Reaffirm your opinion</span>
-       </div>
-      </div>
-      <div class="modern-tip"><strong>Pro Brewing Tip:</strong> Each main point needs solid supporting details to make your opinion convincing—just like a perfect espresso needs the right grind and pressure!
-      </div>
+    </div><!-- Question Screen -->
+    <div class="question-screen" id="questionScreen">
+     <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
      </div>
-    </div><!-- 6 WISE MEN TAB -->
-    <div id="wisemen" class="tab-content">
-     <div class="brew-card">
-      <h2 class="card-title">👴 The 6 Wise Men Approach</h2>
-      <p style="font-size: 1.2em; text-align: center; margin-bottom: 40px; line-height: 1.8;">To strengthen your opinion, use the <span class="highlight-espresso">6 Wise Men</span> to develop your supporting details:</p>
-      <div class="icon-grid six-wise-men" style="grid-template-columns: repeat(3, 1fr);">
-       <div class="icon-card"><span class="card-icon">👥</span> WHO
-       </div>
-       <div class="icon-card"><span class="card-icon">❓</span> WHAT
-       </div>
-       <div class="icon-card"><span class="card-icon">⏱️</span> WHEN
-       </div>
-       <div class="icon-card"><span class="card-icon">📍</span> WHERE
-       </div>
-       <div class="icon-card"><span class="card-icon">💭</span> WHY
-       </div>
-       <div class="icon-card"><span class="card-icon">⚙️</span> HOW
-       </div>
-      </div>
-      <div class="modern-tip"><strong>Brewing Wisdom:</strong> Not all 6 wise men need to be used in every point, but they help you think of strong supporting details—like choosing the perfect coffee blend!
-      </div>
-      <div class="example-card" onclick="toggleExample(this)">
-       <div class="example-label">
-        Topic: Longer recess times benefit students <span class="expand-arrow">▼</span>
-       </div>
-       <div class="example-extra">
-        <p class="example-text"><strong style="color: #8d6e63;">WHO:</strong> Students spend 6-7 hours in class daily<br><strong style="color: #5d4037;">WHAT:</strong> Physical activities like futsal and badminton<br><strong style="color: #a1887f;">WHERE:</strong> At the school field<br><strong style="color: #a5d6a7;">WHY:</strong> Helps combat childhood obesity<br><strong style="color: #8d6e63;">HOW:</strong> Through active play and movement during recess</p>
-       </div>
-      </div>
+     <div class="question-info"><span id="questionNumber">Question 1 of 12</span> <span id="scoreTracker">Score: 0/12</span>
      </div>
-    </div><!-- EXAMPLE TAB -->
-    <div id="example" class="tab-content">
-     <div class="brew-card">
-      <h2 class="card-title">📝 Complete Example</h2>
-      <div class="clean-note">
-       <p style="margin: 0;"><strong>Topic:</strong> Should schools have longer recess times?</p>
-      </div>
-      <div class="dark-brew-section" style="margin-top: 30px;"><strong style="font-size: 1.2em; display: block; margin-bottom: 15px;">Opinion Statement:</strong>
-       <p style="line-height: 1.9; margin: 0;">"I strongly believe that schools should extend recess time from 20 minutes to at least 40 minutes because it benefits students' physical health, mental wellbeing, and social development."</p>
-      </div>
-      <div class="modern-accordion">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Main Point 1:</strong> Physical Health</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <p style="line-height: 1.9;"><span class="main-sentence">Firstly, longer recess times promote physical health among students.</span> <span class="support-sentence">Students spend 6-7 hours sitting in classrooms daily. A longer recess allows them to engage in physical activities like playing futsal or badminton at the school field, which helps combat childhood obesity—a growing concern where studies show 30% of children are overweight.</span></p>
-        </div>
-       </div>
-      </div>
-      <div class="modern-accordion">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Main Point 2:</strong> Mental Wellbeing</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <p style="line-height: 1.9;"><span class="main-sentence">Secondly, extended recess improves students' mental wellbeing and focus.</span> <span class="support-sentence">After intensive morning classes in subjects like Mathematics and Science, students need adequate time to relax their minds. When I have a longer break, I return to class feeling refreshed and ready to concentrate. Research shows that breaks improve cognitive performance and reduce stress levels among students.</span></p>
-        </div>
-       </div>
-      </div>
-      <div class="modern-accordion">
-       <div class="accordion-header" onclick="toggleAccordion(this)"><span><strong>Main Point 3:</strong> Social Development</span> <span class="accordion-icon">▼</span>
-       </div>
-       <div class="accordion-content">
-        <div class="accordion-inner">
-         <p style="line-height: 1.9;"><span class="main-sentence">Thirdly, longer recess periods enhance social development.</span> <span class="support-sentence">Schools are multicultural environments where students from different backgrounds learn together. Longer recess periods provide valuable opportunities for students to build friendships across cultural boundaries, practice communication skills, and develop important social values that reflect our spirit of unity.</span></p>
-        </div>
-       </div>
-      </div>
-      <div class="dark-brew-section" style="margin-top: 30px;"><strong style="font-size: 1.2em; display: block; margin-bottom: 15px;">Conclusion:</strong>
-       <p style="line-height: 1.9; margin: 0;">"In conclusion, extending recess time in schools is not merely about giving students more playtime—it is an investment in their holistic development. By providing adequate time for physical activity, mental rest, and social interaction, we prepare our students to become healthier, happier, and more well-rounded individuals."</p>
-      </div>
-      <div class="modern-tip" style="margin-top: 35px;"><strong>Color Key:</strong><br><span style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: rgba(255,255,255,0.2); border-radius: 10px;"> <strong style="color: #5d4037;">Brown = Main point</strong> | <strong style="color: #6d4c41;">Lighter = Supporting details</strong> </span>
-      </div>
+     <div class="question-text" id="questionText"></div>
+     <div class="options-container" id="optionsContainer"></div>
+     <div class="feedback" id="feedback"></div>
+     <div class="btn-container"><button class="btn" id="submitBtn" disabled>Submit Answer</button> <button class="btn" id="nextBtn" style="display: none;">Next Question</button>
      </div>
-    </div><!-- CHECKLIST TAB -->
-    <div id="checklist" class="tab-content">
-     <div class="brew-card">
-      <h2 class="card-title">✅ Quick Checklist</h2>
-      <div class="modern-tip"><strong>Before submitting your opinion, brew through this checklist:</strong>
-      </div>
-      <ul class="modern-checklist">
-       <li>Clearly stated whether you agree or disagree</li>
-       <li>Provided 3 main points to support your opinion</li>
-       <li>Included supporting details with examples or facts</li>
-       <li>Used relevant context and examples</li>
-       <li>Written a strong conclusion that reaffirms your stance</li>
-       <li>Checked your grammar and spelling</li>
-      </ul>
+    </div><!-- Result Screen -->
+    <div class="result-screen" id="resultScreen">
+     <div class="score-display" id="finalScore">
+      0/12
+     </div>
+     <div class="score-message" id="scoreMessage"></div>
+     <div class="score-details">
+      <p><strong>Correct Answers:</strong> <span id="correctCount">0</span></p>
+      <p><strong>Incorrect Answers:</strong> <span id="incorrectCount">0</span></p>
+      <p><strong>Percentage:</strong> <span id="percentage">0%</span></p>
+     </div>
+     <div class="btn-container"><button class="btn" id="restartBtn">Restart Quiz</button>
      </div>
     </div>
-   </div>
-  </div><!-- Music Player Assistant -->
-  <div class="music-player-container">
-   <div class="music-bubble" id="musicBubble">
-    <p class="bubble-text" id="musicMessage">Click me for writing vibes! 🎵</p>
-   </div>
-   <div class="music-player">
-    <div class="player-controls"><button class="player-btn" onclick="changeSong(-1)">▲</button>
-     <div class="player-icon" id="songIcon" onclick="showSongTip()">
-      🎧
-     </div><button class="player-btn" onclick="changeSong(1)">▼</button>
+   </div><!-- Mascot -->
+   <div class="mascot-container">
+    <div class="mascot-message" id="mascotMessage">
+     <h4 class="mascot-message-title" id="mascotTitle">💡 Tip</h4>
+     <p class="mascot-message-text" id="mascotText">Click me to get helpful tips!</p>
     </div>
-   </div>
-   <div class="player-label" id="songLabel">
-    Lo-fi Beats
+    <div class="mascot" id="mascot">
+     🪐
+    </div>
    </div>
   </div>
   <script>
-        const defaultConfig = {
-            main_title: "Writing an Opinion",
-            subtitle: "A Complete Guide for Students"
-        };
+    const defaultConfig = {
+      quiz_title: "🚀 Future Time Expressions Quiz",
+      instruction_text: "Welcome! This quiz will test your understanding of future time expressions including 'will', 'when + will', and 'would like'.",
+      start_button_text: "Start Quiz",
+      submit_button_text: "Submit Answer",
+      next_button_text: "Next Question",
+      restart_button_text: "Restart Quiz",
+      background_color: "#1a1a2e",
+      secondary_surface_color: "#e8eaf6",
+      text_color: "#333333",
+      primary_action_color: "#667eea",
+      secondary_action_color: "#764ba2"
+    };
 
-        const songs = [
-            { icon: '🎧', name: 'Lo-fi Beats' },
-            { icon: '🎹', name: 'Jazz Café' },
-            { icon: '🎸', name: 'Acoustic Chill' },
-            { icon: '🎵', name: 'Indie Vibes' }
-        ];
+    const allQuestions = [
+      {
+        question: "I ___ visit my grandmother tomorrow.",
+        correct: "will",
+        distractors: ["would", "am", "going"]
+      },
+      {
+        question: "They ___ finish the project next week.",
+        correct: "will",
+        distractors: ["would", "are", "can"]
+      },
+      {
+        question: "When she ___ home, she will cook dinner.",
+        correct: "arrives",
+        distractors: ["will arrive", "arriving", "arrived"]
+      },
+      {
+        question: "Sarah ___ to travel to Japan one day.",
+        correct: "would like",
+        distractors: ["will like", "likes", "liking"]
+      },
+      {
+        question: "We will go to the beach ___.",
+        correct: "this summer",
+        distractors: ["yesterday", "last year", "ago"]
+      },
+      {
+        question: "___ you like to have some tea?",
+        correct: "Would",
+        distractors: ["Will", "Do", "Are"]
+      },
+      {
+        question: "When I ___ my exam, I will celebrate.",
+        correct: "pass",
+        distractors: ["will pass", "passed", "passing"]
+      },
+      {
+        question: "The students will submit their assignments ___.",
+        correct: "next Monday",
+        distractors: ["last Monday", "yesterday", "two days ago"]
+      },
+      {
+        question: "He ___ like to learn how to play the guitar.",
+        correct: "would",
+        distractors: ["will", "does", "is"]
+      },
+      {
+        question: "I will call you ___.",
+        correct: "soon",
+        distractors: ["yesterday", "last night", "ago"]
+      },
+      {
+        question: "When they ___ the news, they will be happy.",
+        correct: "hear",
+        distractors: ["will hear", "heard", "hearing"]
+      },
+      {
+        question: "___ the children like to go to the park?",
+        correct: "Would",
+        distractors: ["Will", "Do", "Are"]
+      },
+      {
+        question: "We will have a party ___.",
+        correct: "next Saturday",
+        distractors: ["last Saturday", "yesterday", "two weeks ago"]
+      },
+      {
+        question: "She would ___ to become a doctor.",
+        correct: "like",
+        distractors: ["likes", "liking", "liked"]
+      },
+      {
+        question: "When it ___ raining, we will go outside.",
+        correct: "stops",
+        distractors: ["will stop", "stopped", "stopping"]
+      },
+      {
+        question: "They ___ move to a new house one day.",
+        correct: "will",
+        distractors: ["would", "are", "can"]
+      },
+      {
+        question: "Would you ___ to join our team?",
+        correct: "like",
+        distractors: ["likes", "liking", "liked"]
+      },
+      {
+        question: "I will finish my homework ___.",
+        correct: "tonight",
+        distractors: ["last night", "yesterday", "two days ago"]
+      },
+      {
+        question: "When the teacher ___, the class will begin.",
+        correct: "comes",
+        distractors: ["will come", "came", "coming"]
+      },
+      {
+        question: "Everyone would like ___ in a safe environment.",
+        correct: "to live",
+        distractors: ["living", "live", "lives"]
+      },
+      {
+        question: "I ___ go to the party tomorrow.",
+        correct: "won't",
+        distractors: ["don't", "didn't", "wouldn't"]
+      },
+      {
+        question: "She ___ like to eat spicy food.",
+        correct: "wouldn't",
+        distractors: ["won't", "doesn't", "isn't"]
+      },
+      {
+        question: "When he ___ ready, we won't wait anymore.",
+        correct: "isn't",
+        distractors: ["won't be", "wasn't", "wouldn't be"]
+      },
+      {
+        question: "They ___ finish their work on time next week.",
+        correct: "won't",
+        distractors: ["wouldn't", "don't", "aren't"]
+      },
+      {
+        question: "___ you like to come with us? No, I wouldn't.",
+        correct: "Would",
+        distractors: ["Will", "Do", "Won't"]
+      }
+    ];
 
-        const songTips = [
-            "Your opinion is brewing perfectly! Keep that flow going! ☕",
-            "Great structure! You're crafting something beautiful! 🌱",
-            "Pro writer tip: Use the 6 Wise Men like ingredients in your recipe! 🎯",
-            "You're on fire! Take a breather if needed—the best ideas come when relaxed! ✨",
-            "Support each point like layering a perfect latte—rich and smooth! 📚",
-            "Your conclusion should hit like the perfect espresso shot! 💡",
-            "Stay in the zone! One paragraph at a time, like enjoying good music! 🎵",
-            "Practice makes perfect—you're becoming a writing barista! 🎓",
-            "Color-code those sentences—main ideas stand out like great coffee! 🎨",
-            "Believe in your voice—you're creating something meaningful! ⭐"
-        ];
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let answered = false;
 
-        let currentSong = 0;
-        let lastTipIndex = -1;
+    // Create twinkling stars
+    function createStars() {
+      const container = document.getElementById('starsContainer');
+      const starCount = 100;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 3 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        container.appendChild(star);
+      }
 
-        function switchTab(tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
+      // Add planets
+      const planets = ['🪐', '🌍', '🌙', '🌕', '🌑'];
+      for (let i = 0; i < 5; i++) {
+        const planet = document.createElement('div');
+        planet.className = 'planet';
+        planet.textContent = planets[i];
+        planet.style.left = `${Math.random() * 90 + 5}%`;
+        planet.style.top = `${Math.random() * 80 + 10}%`;
+        planet.style.animationDelay = `${Math.random() * 5}s`;
+        planet.style.animationDuration = `${15 + Math.random() * 10}s`;
+        container.appendChild(planet);
+      }
 
-            const tabBtns = document.querySelectorAll('.modern-tab');
-            tabBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
+      // Add spaceships
+      const spaceships = ['🛸', '🚀', '🛰️'];
+      for (let i = 0; i < 3; i++) {
+        const spaceship = document.createElement('div');
+        spaceship.className = 'spaceship';
+        spaceship.textContent = spaceships[i % spaceships.length];
+        spaceship.style.top = `${Math.random() * 70 + 15}%`;
+        spaceship.style.animationDelay = `${i * 5 + Math.random() * 3}s`;
+        spaceship.style.animationDuration = `${12 + Math.random() * 6}s`;
+        container.appendChild(spaceship);
+      }
+    }
 
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
+    // Create sparkle effect
+    function createSparkles(x, y, count = 10) {
+      for (let i = 0; i < count; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+        sparkle.style.animationDelay = `${Math.random() * 0.3}s`;
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => sparkle.remove(), 2000);
+      }
+    }
 
-        function toggleAccordion(header) {
-            const accordion = header.parentElement;
-            accordion.classList.toggle('open');
-        }
+    // Create particle explosion
+    function createParticleExplosion(element) {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const colors = ['#4caf50', '#66bb6a', '#81c784', '#a5d6a7', '#ffd700'];
+      
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = `${centerX}px`;
+        particle.style.top = `${centerY}px`;
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        const angle = (Math.PI * 2 * i) / 30;
+        const velocity = 50 + Math.random() * 50;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+        
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+        
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+      }
+    }
 
-        function toggleExample(element) {
-            element.classList.toggle('expanded');
-        }
+    // Create confetti shower
+    function createConfetti() {
+      const colors = ['#667eea', '#764ba2', '#4caf50', '#ffd700', '#ff6b6b', '#4ecdc4'];
+      const shapes = ['🌟', '⭐', '✨', '💫', '🎉', '🎊'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `-20px`;
+        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+        confetti.style.fontSize = `${Math.random() * 20 + 15}px`;
+        
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
 
-        function changeSong(direction) {
-            currentSong = (currentSong + direction + songs.length) % songs.length;
-            document.getElementById('songIcon').textContent = songs[currentSong].icon;
-            document.getElementById('songLabel').textContent = songs[currentSong].name;
-        }
+    // Create fireworks
+    function createFirework(x, y) {
+      const colors = ['#667eea', '#764ba2', '#4caf50', '#ffd700', '#ff6b6b'];
+      
+      for (let i = 0; i < 40; i++) {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+        firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        const angle = (Math.PI * 2 * i) / 40;
+        const velocity = 80 + Math.random() * 80;
+        const fx = Math.cos(angle) * velocity;
+        const fy = Math.sin(angle) * velocity;
+        
+        firework.style.setProperty('--fx', `${fx}px`);
+        firework.style.setProperty('--fy', `${fy}px`);
+        
+        document.body.appendChild(firework);
+        setTimeout(() => firework.remove(), 1000);
+      }
+    }
 
-        function showSongTip() {
-            const bubble = document.getElementById('musicBubble');
-            const messageEl = document.getElementById('musicMessage');
+    // Create emoji reaction
+    function createEmojiReaction(emoji, x, y) {
+      const reaction = document.createElement('div');
+      reaction.className = 'emoji-reaction';
+      reaction.textContent = emoji;
+      reaction.style.left = `${x}px`;
+      reaction.style.top = `${y}px`;
+      
+      document.body.appendChild(reaction);
+      setTimeout(() => reaction.remove(), 1000);
+    }
+
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+
+    function selectRandomQuestions() {
+      const shuffled = shuffleArray(allQuestions);
+      return shuffled.slice(0, 12);
+    }
+
+    function startQuiz() {
+      currentQuestions = selectRandomQuestions();
+      currentQuestionIndex = 0;
+      score = 0;
+      
+      document.getElementById('startScreen').classList.remove('active');
+      document.getElementById('questionScreen').classList.add('active');
+      
+      displayQuestion();
+    }
+
+    function displayQuestion() {
+      answered = false;
+      selectedAnswer = null;
+      
+      const question = currentQuestions[currentQuestionIndex];
+      const allAnswers = [question.correct, ...question.distractors];
+      const shuffledAnswers = shuffleArray(allAnswers);
+      
+      document.getElementById('questionText').textContent = question.question;
+      document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1} of 12`;
+      document.getElementById('scoreTracker').textContent = `Score: ${score}/12`;
+      
+      const progress = ((currentQuestionIndex) / 12) * 100;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+      
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      
+      shuffledAnswers.forEach((answer, index) => {
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.textContent = answer;
+        option.dataset.answer = answer;
+        option.addEventListener('click', () => selectOption(option, answer));
+        optionsContainer.appendChild(option);
+      });
+      
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('feedback').classList.remove('show', 'correct', 'incorrect');
+    }
+
+    function selectOption(optionElement, answer) {
+      if (answered) return;
+      
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      
+      optionElement.classList.add('selected');
+      selectedAnswer = answer;
+      document.getElementById('submitBtn').disabled = false;
+      
+      // Create sparkle effect on selection
+      const rect = optionElement.getBoundingClientRect();
+      createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 5);
+    }
+
+    function submitAnswer() {
+      if (!selectedAnswer || answered) return;
+      
+      answered = true;
+      const question = currentQuestions[currentQuestionIndex];
+      const isCorrect = selectedAnswer === question.correct;
+      
+      if (isCorrect) {
+        score++;
+      }
+      
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.add('disabled');
+        if (opt.dataset.answer === question.correct) {
+          opt.classList.add('correct');
+          
+          if (isCorrect) {
+            // Particle explosion for correct answer
+            createParticleExplosion(opt);
             
-            let tipIndex;
-            do {
-                tipIndex = Math.floor(Math.random() * songTips.length);
-            } while (tipIndex === lastTipIndex && songTips.length > 1);
-            
-            lastTipIndex = tipIndex;
-            messageEl.textContent = songTips[tipIndex];
-            
-            bubble.classList.add('show');
-            
-            setTimeout(() => {
-                bubble.classList.remove('show');
-            }, 5000);
+            // Emoji reaction
+            const rect = opt.getBoundingClientRect();
+            const emojis = ['🎉', '⭐', '🌟', '✨', '💫'];
+            createEmojiReaction(emojis[Math.floor(Math.random() * emojis.length)], 
+                              rect.left + rect.width / 2, rect.top);
+          }
+        } else if (opt.dataset.answer === selectedAnswer && !isCorrect) {
+          opt.classList.add('incorrect');
+          
+          // Emoji reaction for incorrect
+          const rect = opt.getBoundingClientRect();
+          createEmojiReaction('💪', rect.left + rect.width / 2, rect.top);
         }
+      });
+      
+      const feedback = document.getElementById('feedback');
+      feedback.classList.add('show');
+      
+      if (isCorrect) {
+        feedback.classList.add('correct');
+        feedback.textContent = '✓ Correct! Well done!';
+      } else {
+        feedback.classList.add('incorrect');
+        feedback.textContent = `✗ Incorrect. The correct answer is: ${question.correct}`;
+      }
+      
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'inline-block';
+    }
 
-        async function onConfigChange(config) {
-            const mainTitle = config.main_title || defaultConfig.main_title;
-            const subtitle = config.subtitle || defaultConfig.subtitle;
-            
-            document.getElementById('mainTitle').textContent = mainTitle;
-            document.getElementById('subtitle').textContent = subtitle;
-        }
+    function nextQuestion() {
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < 12) {
+        displayQuestion();
+        document.getElementById('submitBtn').style.display = 'inline-block';
+      } else {
+        showResults();
+      }
+    }
 
-        function mapToEditPanelValues(config) {
-            return new Map([
-                ["main_title", config.main_title || defaultConfig.main_title],
-                ["subtitle", config.subtitle || defaultConfig.subtitle]
-            ]);
-        }
+    function showResults() {
+      document.getElementById('questionScreen').classList.remove('active');
+      document.getElementById('resultScreen').classList.add('active');
+      
+      const percentage = (score / 12) * 100;
+      const incorrect = 12 - score;
+      
+      document.getElementById('finalScore').textContent = `${score}/12`;
+      document.getElementById('correctCount').textContent = score;
+      document.getElementById('incorrectCount').textContent = incorrect;
+      document.getElementById('percentage').textContent = `${Math.round(percentage)}%`;
+      
+      let message = '';
+      if (percentage >= 90) {
+        message = '🎉 Excellent! You have mastered future time expressions!';
+        // Confetti shower for high scores
+        createConfetti();
+        
+        // Multiple fireworks
+        setTimeout(() => {
+          createFirework(window.innerWidth * 0.3, window.innerHeight * 0.3);
+        }, 200);
+        setTimeout(() => {
+          createFirework(window.innerWidth * 0.7, window.innerHeight * 0.3);
+        }, 400);
+        setTimeout(() => {
+          createFirework(window.innerWidth * 0.5, window.innerHeight * 0.5);
+        }, 600);
+      } else if (percentage >= 70) {
+        message = '👍 Great job! You have a good understanding!';
+        createConfetti();
+      } else if (percentage >= 50) {
+        message = '📚 Good effort! Keep practicing to improve!';
+      } else {
+        message = '💪 Keep learning! Review the material and try again!';
+      }
+      
+      document.getElementById('scoreMessage').textContent = message;
+    }
 
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities: () => ({
-                    recolorables: [],
-                    borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
-                }),
-                mapToEditPanelValues
-            });
-        }
+    function restartQuiz() {
+      currentQuestions = [];
+      currentQuestionIndex = 0;
+      score = 0;
+      selectedAnswer = null;
+      answered = false;
+      
+      document.getElementById('resultScreen').classList.remove('active');
+      document.getElementById('startScreen').classList.add('active');
+      document.getElementById('submitBtn').style.display = 'inline-block';
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('nextBtn').style.display = 'none';
+    }
 
-        // Create floating steam particles
-        function createSteamParticles() {
-            const container = document.querySelector('.cafe-ambiance');
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'steam-particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
-                container.appendChild(particle);
+    document.getElementById('startBtn').addEventListener('click', startQuiz);
+    document.getElementById('submitBtn').addEventListener('click', submitAnswer);
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+
+    // Mascot functionality
+    const mascotMessages = {
+      start: [
+        { title: "📚 Study Tip", text: "Remember: 'will' is used with time expressions like tomorrow, next week, and soon!" },
+        { title: "💡 Quick Reminder", text: "When using 'when + will', the verb after 'when' stays in present tense!" },
+        { title: "🎯 Grammar Tip", text: "'Would like' means the same as 'want' but sounds more polite!" },
+        { title: "✨ Helpful Hint", text: "Read each question carefully and look for time expressions to guide your answer!" }
+      ],
+      question: [
+        { title: "�� Think About It", text: "Look for keywords like 'tomorrow', 'next week', or 'one day' - they often go with 'will'!" },
+        { title: "💪 You've Got This", text: "If you see 'when' in the sentence, remember the verb after it should be in present tense!" },
+        { title: "🌟 Pro Tip", text: "For 'would like', it's always followed by 'to' + the base form of a verb!" },
+        { title: "🎓 Remember", text: "Take your time! There's no rush - understanding is more important than speed!" },
+        { title: "✏️ Grammar Hint", text: "Questions with 'would like' start with 'Would' + subject + 'like'!" }
+      ],
+      correct: [
+        { title: "🎉 Amazing", text: "You're doing great! Keep up the excellent work!" },
+        { title: "⭐ Fantastic", text: "That's correct! You really understand future time expressions!" },
+        { title: "🏆 Excellent", text: "Perfect answer! Your grammar skills are improving!" },
+        { title: "💯 Well Done", text: "Correct! You've mastered this concept!" }
+      ],
+      incorrect: [
+        { title: "💪 Keep Going", text: "Don't worry! Learning takes practice. Review the correct answer and try the next one!" },
+        { title: "📖 Learning Moment", text: "Mistakes help us learn! Read the explanation and you'll get the next one!" },
+        { title: "🌱 Growth Mindset", text: "Every mistake is a step toward improvement. You're doing great by trying!" },
+        { title: "✨ Stay Positive", text: "Remember, even experts were once beginners. Keep practicing!" }
+      ],
+      result: [
+        { title: "🎊 Great Job", text: "You've completed the quiz! Review the topics you found challenging and try again!" },
+        { title: "📚 Keep Learning", text: "Practice makes perfect! The more you practice, the better you'll become!" },
+        { title: "🌟 Well Done", text: "You've finished! Review your answers and try to understand any mistakes!" }
+      ]
+    };
+
+    let currentMascotState = 'start';
+    let isMessageVisible = false;
+
+    function showMascotMessage(category) {
+      const messages = mascotMessages[category];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      
+      document.getElementById('mascotTitle').textContent = randomMessage.title;
+      document.getElementById('mascotText').textContent = randomMessage.text;
+      document.getElementById('mascotMessage').classList.add('show');
+      isMessageVisible = true;
+    }
+
+    function hideMascotMessage() {
+      document.getElementById('mascotMessage').classList.remove('show');
+      isMessageVisible = false;
+    }
+
+    document.getElementById('mascot').addEventListener('click', () => {
+      // Mascot dance animation
+      const mascot = document.getElementById('mascot');
+      mascot.classList.add('dance');
+      setTimeout(() => mascot.classList.remove('dance'), 600);
+      
+      // Create sparkles around mascot
+      const rect = mascot.getBoundingClientRect();
+      createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 15);
+      
+      // Create ripple effect
+      const mascotContainer = document.querySelector('.mascot-container');
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const ripple = document.createElement('div');
+          ripple.className = 'ripple';
+          mascotContainer.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 1000);
+        }, i * 200);
+      }
+      
+      if (isMessageVisible) {
+        hideMascotMessage();
+      } else {
+        showMascotMessage(currentMascotState);
+      }
+    });
+
+    document.getElementById('mascotMessage').addEventListener('click', (e) => {
+      e.stopPropagation();
+      hideMascotMessage();
+    });
+
+    // Update mascot state based on quiz progress
+    const originalStartQuiz = startQuiz;
+    startQuiz = function() {
+      currentMascotState = 'question';
+      hideMascotMessage();
+      originalStartQuiz();
+    };
+
+    const originalSubmitAnswer = submitAnswer;
+    submitAnswer = function() {
+      if (!selectedAnswer || answered) return;
+      originalSubmitAnswer();
+      
+      const question = currentQuestions[currentQuestionIndex];
+      const isCorrect = selectedAnswer === question.correct;
+      currentMascotState = isCorrect ? 'correct' : 'incorrect';
+    };
+
+    const originalNextQuestion = nextQuestion;
+    nextQuestion = function() {
+      currentMascotState = 'question';
+      hideMascotMessage();
+      originalNextQuestion();
+    };
+
+    const originalShowResults = showResults;
+    showResults = function() {
+      currentMascotState = 'result';
+      hideMascotMessage();
+      originalShowResults();
+    };
+
+    const originalRestartQuiz = restartQuiz;
+    restartQuiz = function() {
+      currentMascotState = 'start';
+      hideMascotMessage();
+      originalRestartQuiz();
+    };
+
+    // Initialize stars
+    createStars();
+
+    // Continuous sparkle generation in background
+    setInterval(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      createSparkles(x, y, 1);
+    }, 1000);
+
+    async function onConfigChange(config) {
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const secondarySurfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.querySelector('.quiz-wrapper').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryActionColor} 50%, ${secondaryActionColor} 100%)`;
+      
+      const allText = document.querySelectorAll('.score-details p, .instructions p');
+      allText.forEach(el => el.style.color = textColor);
+      
+      const allSurfaces = document.querySelectorAll('.instructions, .score-details');
+      allSurfaces.forEach(el => el.style.background = `linear-gradient(135deg, ${secondarySurfaceColor} 0%, ${secondarySurfaceColor}dd 100%)`);
+      
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
+      });
+
+      document.querySelector('.mascot').style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
+
+      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('instructionText').textContent = config.instruction_text || defaultConfig.instruction_text;
+      document.getElementById('startBtn').textContent = config.start_button_text || defaultConfig.start_button_text;
+      document.getElementById('submitBtn').textContent = config.submit_button_text || defaultConfig.submit_button_text;
+      document.getElementById('nextBtn').textContent = config.next_button_text || defaultConfig.next_button_text;
+      document.getElementById('restartBtn').textContent = config.restart_button_text || defaultConfig.restart_button_text;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+              set: (value) => {
+                config.secondary_surface_color = value;
+                window.elementSdk.setConfig({ secondary_surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
             }
-        }
-
-        // Create falling leaves
-        function createFallingLeaves() {
-            const container = document.querySelector('.cafe-ambiance');
-            const leafEmojis = ['🍂', '🍃', '🌿'];
-            for (let i = 0; i < 12; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'falling-leaf';
-                leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
-                leaf.style.left = Math.random() * 100 + '%';
-                leaf.style.animationDelay = Math.random() * 15 + 's';
-                leaf.style.animationDuration = (12 + Math.random() * 6) + 's';
-                container.appendChild(leaf);
-            }
-        }
-
-        // Create cozy string lights
-        function createStringLights() {
-            const container = document.getElementById('stringLights');
-            const positions = [
-                { top: '5%', left: '10%' },
-                { top: '8%', left: '25%' },
-                { top: '5%', left: '40%' },
-                { top: '8%', left: '55%' },
-                { top: '5%', left: '70%' },
-                { top: '8%', left: '85%' },
-                { top: '30%', left: '5%' },
-                { top: '30%', right: '5%' },
-                { top: '60%', left: '8%' },
-                { top: '60%', right: '8%' },
-                { bottom: '25%', left: '15%' },
-                { bottom: '25%', right: '15%' }
-            ];
-
-            positions.forEach((pos, index) => {
-                const light = document.createElement('div');
-                light.className = 'light-bulb';
-                Object.assign(light.style, pos);
-                light.style.animationDelay = (index * 0.3) + 's';
-                container.appendChild(light);
-            });
-        }
-
-        // Create floating light particles
-        function createLightParticles() {
-            const container = document.querySelector('.cafe-ambiance');
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'light-particle';
-                
-                // Random starting position
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                
-                // Random float direction
-                const floatX = (Math.random() - 0.5) * 200;
-                const floatY = (Math.random() - 0.5) * 200;
-                particle.style.setProperty('--float-x', floatX + 'px');
-                particle.style.setProperty('--float-y', floatY + 'px');
-                
-                // Random animation delay and duration
-                particle.style.animationDelay = Math.random() * 12 + 's';
-                
-                container.appendChild(particle);
-            }
-        }
-
-        createSteamParticles();
-        createFallingLeaves();
-        createStringLights();
-        createLightParticles();
-        setTimeout(showSongTip, 2000);
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a825c3ae2dd6b5d',t:'MTc2NDc1NzUyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["instruction_text", config.instruction_text || defaultConfig.instruction_text],
+          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+          ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text],
+          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+          ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a880ccdf12e26b8',t:'MTc2NDgxNzE5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
