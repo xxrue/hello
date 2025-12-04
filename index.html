@@ -3,20 +3,28 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>-ed and -ing Adjectives Flashcards</title>
+  <title>Recipe Book - Linking Words Kitchen</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
+    }
+    
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #E8D5F2 0%, #C9E4F5 50%, #F5E1E8 100%);
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(135deg, #FFF8DC 0%, #FAEBD7 100%);
       min-height: 100%;
+      width: 100%;
+      padding: 2rem 1rem;
       position: relative;
     }
-
-    /* Subtle screen tone pattern overlay */
+    
     body::before {
       content: '';
       position: fixed;
@@ -25,703 +33,695 @@
       width: 100%;
       height: 100%;
       background-image: 
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 69, 19, 0.03) 2px, rgba(139, 69, 19, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 69, 19, 0.03) 2px, rgba(139, 69, 19, 0.03) 4px);
       pointer-events: none;
       z-index: 1;
     }
-
-    html {
-      height: 100%;
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    .app-wrapper {
-      width: 100%;
-      min-height: 100%;
-      padding: 3rem 2rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    /* Main Menu */
-    .main-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .main-title {
-      color: #6B4C9A;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
-      letter-spacing: -0.5px;
-    }
-
-    .main-subtitle {
-      color: #8B7BA8;
-      font-size: 1.25rem;
-      margin: 0;
-    }
-
-    .subtitle {
-      color: #8B7BA8;
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .menu-option {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 2.5rem;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 8px 20px rgba(107, 76, 154, 0.15);
-      border: 3px solid #E8D5F2;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Decorative corner accent */
-    .menu-option::before {
+    
+    body::after {
       content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #FFD6E8 0%, #C9E4F5 100%);
-      border-radius: 0 24px 0 100%;
-      opacity: 0.6;
-    }
-
-    .menu-option:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(107, 76, 154, 0.25);
-      border-color: #C9A5E8;
-    }
-
-    .menu-option h2 {
-      color: #6B4C9A;
-      font-size: 1.75rem;
-      margin: 0 0 0.75rem 0;
-      position: relative;
-    }
-
-    .menu-option p {
-      color: #8B7BA8;
-      font-size: 1.05rem;
-      margin: 0;
-      line-height: 1.6;
-      position: relative;
-    }
-
-    /* Back Button */
-    .back-btn {
-      background: #ffffff;
-      color: #6B4C9A;
-      border: 2px solid #E8D5F2;
-      padding: 0.875rem 1.75rem;
-      border-radius: 20px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 2.5rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 4px 12px rgba(107, 76, 154, 0.15);
-    }
-
-    .back-btn:hover {
-      background: #FAF8FC;
-      transform: translateX(-4px);
-      border-color: #C9A5E8;
-    }
-
-    /* Note Flashcards */
-    .flashcards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
-      margin-top: 2rem;
-    }
-
-    .flashcard-container {
-      perspective: 1200px;
-      height: 380px;
-    }
-
-    .flashcard {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
-
-    .flashcard.is-flipped {
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-side {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2.5rem;
-      box-shadow: 0 8px 25px rgba(107, 76, 154, 0.2);
-      border: 3px solid #E8D5F2;
-    }
-
-    .flashcard-front {
-      background: linear-gradient(135deg, #FFFFFF 0%, #F9F5FC 100%);
-    }
-
-    .flashcard-back {
-      background: linear-gradient(135deg, #E8F4FD 0%, #F0E8F7 100%);
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-front h3 {
-      color: #6B4C9A;
-      font-size: 2rem;
-      margin: 0;
-      font-weight: 700;
-      text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
-    }
-
-    .flashcard-back h4 {
-      color: #6B4C9A;
-      font-size: 1.5rem;
-      margin: 0 0 1.25rem 0;
-      font-weight: 700;
-    }
-
-    .flashcard-back p {
-      color: #5A4B6B;
-      line-height: 1.7;
-      margin: 0.75rem 0;
-      text-align: center;
-      font-size: 1.05rem;
-    }
-
-    .flashcard-example {
-      font-style: italic;
-      color: #8B7BA8;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
-    }
-
-    /* Quiz Section */
-    .quiz-header {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 2rem;
-      margin-bottom: 2.5rem;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(107, 76, 154, 0.15);
-      border: 3px solid #E8D5F2;
-    }
-
-    .quiz-header h3 {
-      color: #6B4C9A;
-      font-size: 1.5rem;
-      margin: 0 0 1rem 0;
-      text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
-    }
-
-    .quiz-header p {
-      color: #5A4B6B;
-      line-height: 1.7;
-      margin: 0.5rem 0;
-    }
-
-    .quiz-hints {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .quiz-hint {
-      background: #f3f4f6;
-      padding: 0.75rem 1.5rem;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 2px solid transparent;
-    }
-
-    .quiz-hint.ed-hint {
-      background: linear-gradient(135deg, #D4E8F7 0%, #C9E4F5 100%);
-      color: #4A7BA7;
-      border-color: #A8CDE8;
-    }
-
-    .quiz-hint.ing-hint {
-      background: linear-gradient(135deg, #FFE8F0 0%, #FFD6E8 100%);
-      color: #B75C8A;
-      border-color: #F7B4D4;
-    }
-
-    .quiz-progress {
-      color: #6B4C9A;
-      font-size: 1.5rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 2rem;
-      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
-    }
-
-    /* Quiz Card */
-    .quiz-card-wrapper {
-      perspective: 1200px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .quiz-card {
-      position: relative;
-      width: 100%;
-      min-height: 450px;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .quiz-card.is-flipped {
-      transform: rotateY(180deg);
-    }
-
-    .quiz-card-side {
-      position: absolute;
-      width: 100%;
-      min-height: 450px;
-      backface-visibility: hidden;
-      border-radius: 28px;
-      box-shadow: 0 12px 40px rgba(107, 76, 154, 0.25);
-      background: #ffffff;
-      border: 4px solid #E8D5F2;
-    }
-
-    .quiz-front {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .quiz-question-area {
-      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 50%, #E8D5F2 100%);
-      padding: 3rem 2.5rem;
-      border-radius: 24px 24px 0 0;
-      min-height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Decorative orbs */
-    .quiz-question-area::before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .quiz-question-area::after {
-      content: '';
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .quiz-question-text {
-      color: #ffffff;
-      font-size: 1.5rem;
-      font-weight: 500;
-      line-height: 1.8;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quiz-answers-area {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      flex: 1;
-    }
-
-    .quiz-answer-btn {
-      padding: 3rem 2rem;
-      border: none;
-      background: #ffffff;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      font-family: inherit;
-    }
-
-    .quiz-answer-btn:first-child {
-      border-right: 3px solid #E8D5F2;
-      border-radius: 0 0 0 24px;
-    }
-
-    .quiz-answer-btn:last-child {
-      border-radius: 0 0 24px 0;
-    }
-
-    .quiz-answer-btn:hover {
-      background: #FAF8FC;
-    }
-
-    .quiz-answer-btn.ed-option:hover {
-      background: linear-gradient(135deg, #EFF7FC 0%, #E8F4FD 100%);
-    }
-
-    .quiz-answer-btn.ing-option:hover {
-      background: linear-gradient(135deg, #FFF5F9 0%, #FFE8F0 100%);
-    }
-
-    .answer-label {
-      font-size: 3rem;
-      font-weight: 800;
-      margin: 0;
-      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
-    }
-
-    .ed-option .answer-label {
-      color: #5B9AC8;
-    }
-
-    .ing-option .answer-label {
-      color: #D97BAA;
-    }
-
-    .answer-description {
-      color: #8B7BA8;
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
-
-    /* Quiz Result */
-    .quiz-back {
-      transform: rotateY(180deg);
-      padding: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .result-icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .result-title {
-      font-size: 2.25rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-    }
-
-    .result-title.correct {
-      color: #6BA587;
-    }
-
-    .result-title.incorrect {
-      color: #D88AA0;
-    }
-
-    .result-answer {
-      font-size: 1.75rem;
-      color: #6B4C9A;
-      font-weight: 600;
-      margin: 1.5rem 0;
-    }
-
-    .result-explanation {
-      color: #5A4B6B;
-      font-size: 1.15rem;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .next-question-btn {
-      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 100%);
-      color: #ffffff;
-      border: none;
-      padding: 1.25rem 2.5rem;
-      border-radius: 24px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      font-family: inherit;
-      box-shadow: 0 6px 20px rgba(169, 140, 200, 0.3);
-    }
-
-    .next-question-btn:hover {
-      background: linear-gradient(135deg, #8E6FB0 0%, #B58DD3 100%);
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(169, 140, 200, 0.4);
-    }
-
-    /* Quiz Complete */
-    .quiz-complete {
-      text-align: center;
-      color: #6B4C9A;
-      padding: 2rem;
-    }
-
-    .quiz-complete h2 {
-      font-size: 3rem;
-      margin: 0 0 2rem 0;
-      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
-    }
-
-    .final-score {
-      font-size: 4rem;
-      font-weight: 800;
-      margin: 2rem 0;
-      color: #A98CC8;
-      text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.8);
-    }
-
-    .score-message {
-      font-size: 1.75rem;
-      margin: 1.5rem 0;
-      color: #8B7BA8;
-    }
-
-    .restart-quiz-btn {
-      background: #ffffff;
-      color: #6B4C9A;
-      border: 3px solid #E8D5F2;
-      padding: 1.25rem 2.5rem;
-      border-radius: 24px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 2rem;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      font-family: inherit;
-      box-shadow: 0 6px 20px rgba(107, 76, 154, 0.2);
-    }
-
-    .restart-quiz-btn:hover {
-      background: #FAF8FC;
-      transform: scale(1.05);
-      border-color: #C9A5E8;
-    }
-
-    /* Animations */
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100%) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100%) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 12px 40px rgba(107, 76, 154, 0.25); }
-      50% { box-shadow: 0 15px 50px rgba(169, 140, 200, 0.4); }
-    }
-
-    @keyframes score-pop {
-      0% { transform: scale(0.8); opacity: 0; }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes speed-lines {
-      0% {
-        transform: translateX(-100%) scaleX(0);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(100%) scaleX(1);
-        opacity: 0;
-      }
-    }
-
-    @keyframes sparkle {
-      0%, 100% {
-        transform: scale(0) rotate(0deg);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1) rotate(180deg);
-        opacity: 1;
-      }
-    }
-
-    .confetti-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(244, 164, 96, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(196, 69, 54, 0.05) 0%, transparent 50%);
       pointer-events: none;
-      z-index: 9999;
-      overflow: hidden;
+      z-index: 1;
     }
-
-    .confetti-piece {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      animation: confetti-fall 3s ease-out forwards;
-      border-radius: 2px;
+    
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 2;
     }
-
-    .speed-line {
+    
+    .page-wrapper {
+      background: #FFFEF7;
+      border-radius: 8px;
+      box-shadow: 
+        0 2px 10px rgba(0,0,0,0.1),
+        inset 0 0 100px rgba(139, 69, 19, 0.02);
+      margin-bottom: 3rem;
+      padding: 3rem 2.5rem;
+      position: relative;
+      border: 1px solid rgba(139, 69, 19, 0.15);
+    }
+    
+    .page-wrapper::before {
+      content: '';
       position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(169, 140, 200, 0.6), transparent);
-      width: 200px;
+      top: 0;
+      left: 40px;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+        transparent 0%, 
+        rgba(196, 69, 54, 0.3) 5%, 
+        rgba(196, 69, 54, 0.3) 95%, 
+        transparent 100%);
+      box-shadow: 1px 0 2px rgba(0,0,0,0.1);
+    }
+    
+    .page-wrapper::after {
+      content: attr(data-page);
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      font-size: 0.9rem;
+      color: #8B4513;
+      font-style: italic;
+      opacity: 0.6;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.8s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .header::before {
+      content: "👨‍🍳";
+      position: absolute;
+      left: 10%;
       top: 50%;
-      left: 0;
-      animation: speed-lines 0.6s ease-out;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      animation: bounce 2s infinite;
     }
-
-    .sparkle {
+    
+    .header::after {
+      content: "👩‍🍳";
       position: absolute;
-      width: 20px;
-      height: 20px;
-      animation: sparkle 1s ease-out;
-      pointer-events: none;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      animation: bounce 2s infinite 1s;
     }
-
-    .sparkle::before,
-    .sparkle::after {
-      content: '✨';
+    
+    .header h1 {
+      color: #C44536;
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+    
+    .header p {
+      color: #F4A460;
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+    
+    .intro-card h2 {
+      color: #C44536;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    
+    .intro-card p {
+      color: #4A2C2A;
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+    
+    .intro-card::before {
+      content: "📖";
       position: absolute;
-      font-size: 20px;
+      top: 20px;
+      right: 30px;
+      font-size: 3rem;
+      transform: rotate(15deg);
     }
-
-    .shake-animation {
-      animation: shake 0.5s ease-in-out;
+    
+    .category-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
     }
-
-    .quiz-card.correct-answer {
-      animation: pulse-glow 0.6s ease-in-out;
+    
+    .category-card h3 {
+      color: #C44536;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
     }
-
-    .result-title.correct {
-      animation: score-pop 0.5s ease-out;
+    
+    .category-card p {
+      color: #4A2C2A;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      line-height: 1.6;
     }
-
-    .result-title.incorrect {
-      animation: score-pop 0.5s ease-out;
+    
+    .category-card[data-category="sequence"] .page-wrapper {
+      border-left: 6px solid #3498db;
     }
-
-    .quiz-question-area.animated {
-      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 25%, #E8D5F2 50%, #C9A5E8 75%, #A98CC8 100%);
-      background-size: 200% 200%;
-      animation: gradient-shift 4s ease infinite;
+    
+    .category-card[data-category="addition"] .page-wrapper {
+      border-left: 6px solid #27ae60;
     }
-
-    .highlight-blank {
-      color: #FFE08A;
-      font-weight: 700;
-      text-decoration: underline;
-      text-decoration-color: #FFE08A;
-      text-decoration-thickness: 3px;
-      text-underline-offset: 4px;
-      text-shadow: 1px 1px 2px rgba(169, 140, 200, 0.3);
+    
+    .category-card[data-category="contrast"] .page-wrapper {
+      border-left: 6px solid #e74c3c;
     }
-
-    /* Visibility */
-    .hidden {
+    
+    .category-card[data-category="cause"] .page-wrapper {
+      border-left: 6px solid #f39c12;
+    }
+    
+    .category-card[data-category="example"] .page-wrapper {
+      border-left: 6px solid #9b59b6;
+    }
+    
+    .category-card[data-category="conclusion"] .page-wrapper {
+      border-left: 6px solid #C44536;
+    }
+    
+    .examples-list {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px dashed rgba(244, 164, 96, 0.3);
+    }
+    
+    .examples-list.active {
+      display: block;
+      animation: slideDown 0.4s ease-out;
+    }
+    
+    .example-item {
+      background: rgba(250, 235, 215, 0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      border-left: 4px solid #F4A460;
+      position: relative;
+    }
+    
+    .example-item::before {
+      content: "🥄";
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+    }
+    
+    .example-item strong {
+      color: #C44536;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1.15rem;
+    }
+    
+    .example-item p {
+      color: #4A2C2A;
+      margin-top: 0.5rem;
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+    
+    .toggle-btn {
+      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.6s ease;
+      margin-top: 0.5rem;
+      font-family: Georgia, serif;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .toggle-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .toggle-btn:hover {
+      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(244, 164, 96, 0.4);
+    }
+    
+    .toggle-btn:hover::before {
+      left: 100%;
+    }
+    
+    .toggle-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .practice-section h2 {
+      color: #C44536;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .practice-section::before {
+      content: "🍽️";
+      position: absolute;
+      top: 15px;
+      right: 30px;
+      font-size: 4rem;
+    }
+    
+    .practice-item {
+      background: rgba(250, 235, 215, 0.2);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 2px solid rgba(139, 69, 19, 0.2);
+      position: relative;
+    }
+    
+    .practice-item p {
+      color: #4A2C2A;
+      font-size: 1.3rem;
+      line-height: 2;
+      margin-bottom: 1rem;
+    }
+    
+    .blank {
+      display: inline-block;
+      min-width: 120px;
+      border-bottom: 2px dashed #F4A460;
+      padding: 0 8px;
+      margin: 0 4px;
+    }
+    
+    .word-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    
+    .word-btn {
+      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.6s ease;
+      font-weight: 600;
+      font-family: Georgia, serif;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    }
+    
+    .word-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .word-btn:hover {
+      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
+      transform: scale(1.05);
+      box-shadow: 0 5px 10px rgba(244, 164, 96, 0.4);
+    }
+    
+    .word-btn:hover::before {
+      left: 100%;
+    }
+    
+    .word-btn.used {
+      background: #bdc3c7;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    .word-btn.used::before {
       display: none;
     }
-
-    @media (max-width: 768px) {
-      .app-wrapper {
-        padding: 2rem 1rem;
+    
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      display: none;
+    }
+    
+    .feedback.show {
+      display: block;
+      animation: slideDown 0.4s ease-out;
+    }
+    
+    .feedback.correct {
+      background: #d4edda;
+      color: #155724;
+      border: 2px solid #c3e6cb;
+    }
+    
+    .feedback.incorrect {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+    }
+    
+    .instructions-box {
+      background: linear-gradient(135deg, #fff3cd, #ffe8a1);
+      border-left: 5px solid #ffc107;
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+    }
+    
+    .instructions-box p {
+      color: #856404;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    
+    .instructions-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .control-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .reset-btn, .check-btn {
+      background: #95a5a6;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-family: Georgia, serif;
+    }
+    
+    .reset-btn:hover, .check-btn:hover {
+      background: #7f8c8d;
+      transform: scale(1.05);
+    }
+    
+    .check-btn {
+      background: #27ae60;
+    }
+    
+    .check-btn:hover {
+      background: #229954;
+    }
+    
+    .reset-btn:active, .check-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .blank.filled {
+      background: rgba(244, 164, 96, 0.2);
+      border-radius: 5px;
+      padding: 2px 8px;
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
       }
-
-      .main-title {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+      to {
+        opacity: 1;
+        max-height: 1000px;
+      }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-60%) scale(1.1); }
+    }
+    
+    @keyframes float {
+      0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(-100px) rotate(360deg); 
+        opacity: 0; 
+      }
+    }
+    
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.5rem;
+      z-index: 9999;
+      animation: float 3s ease-out forwards;
+    }
+    
+    @keyframes stampAppear {
+      0% {
+        transform: translate(-50%, -50%) rotate(-15deg) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(-15deg) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .recipe-stamp {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg) scale(0);
+      font-size: 3rem;
+      color: #27ae60;
+      text-align: center;
+      font-weight: bold;
+      opacity: 0;
+      z-index: 100;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      pointer-events: none;
+    }
+    
+    .recipe-stamp.show {
+      animation: stampAppear 0.6s ease-out forwards;
+    }
+    
+    .recipe-stamp::before {
+      content: '✓ RECIPE TESTED';
+      display: block;
+      border: 4px solid #27ae60;
+      border-radius: 10px;
+      padding: 1rem 2rem;
+      background: rgba(212, 237, 218, 0.9);
+      font-family: Arial, sans-serif;
+      letter-spacing: 3px;
+      font-size: 1.5rem;
+    }
+    
+    .page-navigation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 15px;
+      border: 2px solid rgba(139, 69, 19, 0.2);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .nav-btn {
+      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.6s ease;
+      font-family: Georgia, serif;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .nav-btn:hover {
+      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(244, 164, 96, 0.4);
+    }
+    
+    .nav-btn:hover::before {
+      left: 100%;
+    }
+    
+    .nav-btn:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    
+    .nav-btn:disabled:hover {
+      transform: scale(1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .nav-btn:disabled::before {
+      display: none;
+    }
+    
+    .page-indicator {
+      font-size: 1.1rem;
+      color: #4A2C2A;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      background: rgba(250, 235, 215, 0.5);
+      border-radius: 20px;
+      border: 2px solid rgba(196, 69, 54, 0.3);
+      min-width: 180px;
+      text-align: center;
+    }
+    
+    .page-content {
+      display: none;
+    }
+    
+    .page-content.active {
+      display: block;
+      animation: fadeInPage 0.5s ease-out;
+    }
+    
+    @keyframes fadeInPage {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      
+      .header::before,
+      .header::after {
+        display: none;
+      }
+      
+      .header h1 {
         font-size: 2rem;
       }
-
-      .main-subtitle {
-        font-size: 1.1rem;
+      
+      .header p {
+        font-size: 1rem;
       }
-
-      .flashcards-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .quiz-question-text {
-        font-size: 1.25rem;
+      
+      .page-wrapper {
         padding: 2rem 1.5rem;
       }
-
-      .answer-label {
+      
+      .page-wrapper::before {
+        left: 20px;
+      }
+      
+      .intro-card h2, .practice-section h2 {
+        font-size: 1.5rem;
+      }
+      
+      .category-icon {
         font-size: 2.5rem;
       }
-
-      .quiz-hints {
-        flex-direction: column;
+      
+      .word-options {
+        gap: 0.5rem;
+      }
+      
+      .word-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+      }
+      
+      .recipe-stamp::before {
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
       }
     }
   </style>
@@ -730,346 +730,659 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-wrapper">
-   <div class="container"><!-- Main Menu -->
-    <main id="mainMenu">
-     <header class="main-header">
-      <h1 class="main-title" id="mainTitle">Master -ed and -ing Adjectives</h1>
-      <p class="main-subtitle" id="mainSubtitle">Learn the difference and test your skills!</p>
-     </header>
-     <div class="menu-grid">
-      <div class="menu-option" onclick="showSection('notes')">
-       <h2 id="noteTitle">📚 Note Flashcards</h2>
-       <p id="noteDescription">Review the rules and examples for -ed and -ing adjectives</p>
-      </div>
-      <div class="menu-option" onclick="showSection('quiz')">
-       <h2 id="quizTitle">🎯 Quiz Flashcards</h2>
-       <p id="quizDescription">Test your understanding with 10 interactive questions</p>
-      </div>
+  <div class="app-container">
+   <header class="header">
+    <h1 id="mainTitle">🍳 The Linking Words Recipe Book</h1>
+    <p id="subtitle">Secret ingredients for delicious storytelling!</p>
+   </header><!-- Page Navigation -->
+   <div class="page-navigation"><button class="nav-btn" id="prevBtn" disabled> ← Previous </button>
+    <div class="page-indicator" id="pageIndicator">
+     Introduction
+    </div><button class="nav-btn" id="nextBtn"> Next → </button>
+   </div><!-- Page 0: Introduction -->
+   <div class="page-content active" data-page-num="0">
+    <div class="intro-card">
+     <div class="page-wrapper" data-page="Introduction">
+      <h2 id="introTitle">���� Welcome to Your Writing Kitchen!</h2>
+      <p id="introText">Just like a master chef uses special ingredients to make food taste amazing, great writers use linking words to make their stories flow beautifully! These magical "word ingredients" connect your ideas, mix your sentences smoothly, and add the perfect flavor to your writing. Ready to cook up some wonderful stories?</p>
      </div>
-    </main><!-- Notes Section -->
-    <div id="notesSection" class="hidden"><button class="back-btn" onclick="showSection('main')">← Back to Main Menu</button>
-     <header class="main-header">
-      <h1 class="main-title" id="mainTitleNotes">Master -ed and -ing Adjectives</h1>
-      <p class="subtitle" id="noteTitleHeader">📚 Note Flashcards</p>
-     </header>
-     <div class="flashcards-grid">
-      <div class="flashcard-container">
-       <div class="flashcard" onclick="flipNoteCard(this)">
-        <div class="flashcard-side flashcard-front">
-         <h3>-ed Adjectives</h3>
-        </div>
-        <div class="flashcard-side flashcard-back">
-         <h4>Describes Emotions</h4>
-         <p>Use -ed adjectives to describe how someone feels</p>
-         <p class="flashcard-example">She seems interested in Biology</p>
-         <p class="flashcard-example">He seems tired when he got back from school</p>
-        </div>
+    </div>
+   </div><!-- Page 1: Step-by-Step -->
+   <div class="page-content" data-page-num="1">
+    <div class="categories-grid">
+     <div class="category-card" data-category="sequence">
+      <div class="page-wrapper" data-page="Page 1">
+       <div class="category-icon">
+        1️⃣
        </div>
-      </div>
-      <div class="flashcard-container">
-       <div class="flashcard" onclick="flipNoteCard(this)">
-        <div class="flashcard-side flashcard-front">
-         <h3>-ing Adjectives</h3>
+       <h3>Step-by-Step Ingredients <span style="color: #95a5a6; font-size: 0.85rem;">(Sequence)</span></h3>
+       <p>Like following a recipe in order, these words show the sequence of your cooking adventure!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>First / Firstly:</strong>
+         <p>"First, preheat your oven to 180°C for the perfect golden crust."</p>
         </div>
-        <div class="flashcard-side flashcard-back">
-         <h4>Describes the Cause</h4>
-         <p>Use -ing adjectives to describe what causes the emotion</p>
-         <p class="flashcard-example">That movie is absolutely horrifying</p>
-         <p class="flashcard-example">Suzy is an interesting girl</p>
+        <div class="example-item"><strong>Then / Next:</strong>
+         <p>"Then, mix the flour and sugar together in a large bowl."</p>
         </div>
-       </div>
-      </div>
-     </div>
-    </div><!-- Quiz Section -->
-    <div id="quizSection" class="hidden"><button class="back-btn" onclick="showSection('main')">← Back to Main Menu</button>
-     <header class="main-header">
-      <h1 class="main-title" id="mainTitleQuiz">Master -ed and -ing Adjectives</h1>
-      <p class="subtitle" id="quizTitleHeader">🎯 Quiz Flashcards</p>
-     </header>
-     <div class="quiz-header">
-      <h3>How to Answer</h3>
-      <p>Read the sentence and decide if the adjective should end with -ed or -ing</p>
-      <p><strong>Tap LEFT</strong> if the adjective describes someone's feelings (-ed)</p>
-      <p><strong>Tap RIGHT</strong> if the adjective describes what causes the feeling (-ing)</p>
-      <div class="quiz-hints">
-       <div class="quiz-hint ed-hint">
-        LEFT → -ed (feelings)
-       </div>
-       <div class="quiz-hint ing-hint">
-        RIGHT → -ing (causes)
+        <div class="example-item"><strong>After that / Afterwards:</strong>
+         <p>"After that, crack three eggs into the mixture and whisk thoroughly."</p>
+        </div>
+        <div class="example-item"><strong>Meanwhile:</strong>
+         <p>"Meanwhile, melt the butter in a small saucepan over low heat."</p>
+        </div>
+        <div class="example-item"><strong>Subsequently:</strong>
+         <p>"Subsequently, fold in the chocolate chips gently to avoid breaking them."</p>
+        </div>
+        <div class="example-item"><strong>Before / Prior to:</strong>
+         <p>"Before serving, let the cake cool for at least 20 minutes."</p>
+        </div>
+        <div class="example-item"><strong>Finally / Lastly:</strong>
+         <p>"Finally, dust with powdered sugar and garnish with fresh berries!"</p>
+        </div>
        </div>
       </div>
      </div>
-     <div id="quizArea"></div>
+    </div>
+   </div><!-- Page 2: Extra Toppings -->
+   <div class="page-content" data-page-num="2">
+    <div class="categories-grid">
+     <div class="category-card" data-category="addition">
+      <div class="page-wrapper" data-page="Page 2">
+       <div class="category-icon">
+        ➕
+       </div>
+       <h3>Extra Toppings <span style="color: #95a5a6; font-size: 0.85rem;">(Adding Information)</span></h3>
+       <p>Add more delicious details to your dish, just like adding extra toppings to a pizza!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>Also / Additionally:</strong>
+         <p>"The soup is nutritious. Additionally, it's incredibly warming on cold days."</p>
+        </div>
+        <div class="example-item"><strong>Furthermore / Moreover:</strong>
+         <p>"This recipe is easy to make. Furthermore, it uses only five ingredients."</p>
+        </div>
+        <div class="example-item"><strong>Besides / As well as:</strong>
+         <p>"Besides being tasty, homemade bread fills your kitchen with wonderful aromas."</p>
+        </div>
+        <div class="example-item"><strong>In addition:</strong>
+         <p>"In addition to the main course, we prepared a colorful salad."</p>
+        </div>
+        <div class="example-item"><strong>Not only... but also:</strong>
+         <p>"The dessert was not only beautiful but also surprisingly light."</p>
+        </div>
+        <div class="example-item"><strong>What's more:</strong>
+         <p>"The pasta was perfectly cooked. What's more, the sauce was incredible!"</p>
+        </div>
+        <div class="example-item"><strong>Along with:</strong>
+         <p>"Along with the roasted chicken, we served herb-roasted potatoes."</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page 3: Sweet & Sour Mix -->
+   <div class="page-content" data-page-num="3">
+    <div class="categories-grid">
+     <div class="category-card" data-category="contrast">
+      <div class="page-wrapper" data-page="Page 3">
+       <div class="category-icon">
+        ⚖️
+       </div>
+       <h3>Sweet &amp; Sour Mix <span style="color: #95a5a6; font-size: 0.85rem;">(Contrast)</span></h3>
+       <p>Show contrasts in your cooking story, like balancing sweet and savory flavors!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>However / Nevertheless:</strong>
+         <p>"The recipe seemed complicated. However, it was actually quite simple."</p>
+        </div>
+        <div class="example-item"><strong>Although / Even though:</strong>
+         <p>"Although the dish looks fancy, anyone can make it at home."</p>
+        </div>
+        <div class="example-item"><strong>On the other hand:</strong>
+         <p>"Some prefer their cookies chewy. On the other hand, others like them crispy."</p>
+        </div>
+        <div class="example-item"><strong>Despite / In spite of:</strong>
+         <p>"Despite using healthy ingredients, the cake tastes indulgent."</p>
+        </div>
+        <div class="example-item"><strong>While / Whereas:</strong>
+         <p>"While some chefs use butter, others prefer olive oil for this recipe."</p>
+        </div>
+        <div class="example-item"><strong>Yet / Still:</strong>
+         <p>"The batter looked runny, yet it baked into a perfect fluffy pancake."</p>
+        </div>
+        <div class="example-item"><strong>Conversely:</strong>
+         <p>"The appetizer was spicy. Conversely, the dessert was refreshingly cool."</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page 4: Cause & Effect -->
+   <div class="page-content" data-page-num="4">
+    <div class="categories-grid">
+     <div class="category-card" data-category="cause">
+      <div class="page-wrapper" data-page="Page 4">
+       <div class="category-icon">
+        🔥
+       </div>
+       <h3>Cause &amp; Effect Flavors <span style="color: #95a5a6; font-size: 0.85rem;">(Cause &amp; Effect)</span></h3>
+       <p>Explain why things happen in your kitchen, like why bread rises or cakes fall!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>Because / Since:</strong>
+         <p>"The cake rose beautifully because we used fresh baking powder."</p>
+        </div>
+        <div class="example-item"><strong>Therefore / Thus:</strong>
+         <p>"The oven was too hot. Therefore, we lowered the temperature immediately."</p>
+        </div>
+        <div class="example-item"><strong>As a result / Consequently:</strong>
+         <p>"We forgot to add salt. As a result, the bread tasted rather bland."</p>
+        </div>
+        <div class="example-item"><strong>So:</strong>
+         <p>"The sauce was too thick, so we added a splash of cream."</p>
+        </div>
+        <div class="example-item"><strong>Due to / Owing to:</strong>
+         <p>"Due to the fresh herbs, the dish had an incredible aroma."</p>
+        </div>
+        <div class="example-item"><strong>Hence:</strong>
+         <p>"The dough needs time to rest. Hence, we prepared it the night before."</p>
+        </div>
+        <div class="example-item"><strong>For this reason:</strong>
+         <p>"For this reason, professional bakers always weigh their ingredients precisely."</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page 5: Sample Platters -->
+   <div class="page-content" data-page-num="5">
+    <div class="categories-grid">
+     <div class="category-card" data-category="example">
+      <div class="page-wrapper" data-page="Page 5">
+       <div class="category-icon">
+        🥗
+       </div>
+       <h3>Sample Platters <span style="color: #95a5a6; font-size: 0.85rem;">(Giving Examples)</span></h3>
+       <p>Give specific examples of ingredients or dishes to make your recipe clearer!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>For example / For instance:</strong>
+         <p>"You can use various fruits. For example, strawberries, blueberries, or mangoes."</p>
+        </div>
+        <div class="example-item"><strong>Such as / Like:</strong>
+         <p>"Add green vegetables such as spinach, kale, or broccoli to the stir-fry."</p>
+        </div>
+        <div class="example-item"><strong>Particularly / Especially:</strong>
+         <p>"All the desserts were delicious, particularly the chocolate lava cake."</p>
+        </div>
+        <div class="example-item"><strong>Namely:</strong>
+         <p>"Three basic ingredients are essential, namely flour, eggs, and milk."</p>
+        </div>
+        <div class="example-item"><strong>To illustrate:</strong>
+         <p>"This technique works with many dishes. To illustrate, you can use it for pasta, rice, or noodles."</p>
+        </div>
+        <div class="example-item"><strong>Specifically:</strong>
+         <p>"The recipe requires citrus zest, specifically from lemons or limes."</p>
+        </div>
+        <div class="example-item"><strong>In particular:</strong>
+         <p>"Several spices enhance the flavor, in particular cumin and coriander."</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Page 6: Final Presentation -->
+   <div class="page-content" data-page-num="6">
+    <div class="categories-grid">
+     <div class="category-card" data-category="conclusion">
+      <div class="page-wrapper" data-page="Page 6">
+       <div class="category-icon">
+        ✨
+       </div>
+       <h3>Final Presentation <span style="color: #95a5a6; font-size: 0.85rem;">(Concluding)</span></h3>
+       <p>Serve up your conclusion beautifully, like plating a finished masterpiece!</p><button class="toggle-btn">View Recipe</button>
+       <div class="examples-list">
+        <div class="example-item"><strong>In conclusion / To conclude:</strong>
+         <p>"In conclusion, cooking from scratch is both rewarding and delicious!"</p>
+        </div>
+        <div class="example-item"><strong>Overall / All in all:</strong>
+         <p>"Overall, this recipe proves that simple ingredients make the best dishes."</p>
+        </div>
+        <div class="example-item"><strong>To sum up:</strong>
+         <p>"To sum up, baking requires patience, precision, and passion."</p>
+        </div>
+        <div class="example-item"><strong>In summary:</strong>
+         <p>"In summary, we prepared, cooked, and served a five-course meal."</p>
+        </div>
+        <div class="example-item"><strong>Ultimately:</strong>
+         <p>"Ultimately, the secret to great cooking is using fresh, quality ingredients."</p>
+        </div>
+        <div class="example-item"><strong>In the end:</strong>
+         <p>"In the end, everyone agreed it was the best meal they'd ever tasted."</p>
+        </div>
+        <div class="example-item"><strong>On the whole:</strong>
+         <p>"On the whole, learning to cook has been an incredible journey."</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Page 7: Kitchen Practice -->
+  <div class="page-content" data-page-num="7">
+   <div class="practice-section">
+    <div class="page-wrapper" data-page="Page 7 - Practice">
+     <h2>👨‍🍳 Kitchen Practice Time!</h2>
+     <div class="instructions-box">
+      <p><strong>📋 Your Cooking Challenge:</strong></p>
+      <p>Read the recipe story below and select the correct linking word "ingredients" to complete it. Mix in the right words to make your story flow smoothly! Use the "Reset" button if you want to start your recipe from scratch!</p>
+     </div>
+     <div class="practice-item">
+      <p><strong>Complete the recipe for Perfect Chocolate Chip Cookies:</strong></p>
+      <p id="storyText"><span class="blank" data-answer="first">_______</span>, gather all your ingredients on the counter. <span class="blank" data-answer="then">_______</span>, cream together the butter and sugar until fluffy. <span class="blank" data-answer="although">_______</span> it takes time, this step is crucial for soft cookies. <span class="blank" data-answer="because">_______</span> the mixture needs to incorporate air, beat it well. <span class="blank" data-answer="finally">_______</span>, bake for 12 minutes and enjoy warm cookies with milk!</p>
+      <div class="word-options"><button class="word-btn" data-word="first">First</button> <button class="word-btn" data-word="then">Then</button> <button class="word-btn" data-word="however">However</button> <button class="word-btn" data-word="although">Although</button> <button class="word-btn" data-word="because">Because</button> <button class="word-btn" data-word="finally">Finally</button> <button class="word-btn" data-word="therefore">Therefore</button>
+      </div>
+      <div class="control-buttons"><button class="reset-btn" id="resetBtn">🔄 Start Over</button> <button class="check-btn" id="checkBtn" style="display: none;">✓ Taste Test</button>
+      </div>
+      <div class="feedback"></div>
+     </div>
     </div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      main_title: "Master -ed and -ing Adjectives",
-      main_subtitle: "Learn the difference and test your skills!",
-      note_title: "📚 Note Flashcards",
-      note_description: "Review the rules and examples for -ed and -ing adjectives",
-      quiz_title: "🎯 Quiz Flashcards",
-      quiz_description: "Test your understanding with 10 interactive questions"
+      main_title: "�� The Linking Words Recipe Book",
+      subtitle: "Secret ingredients for delicious storytelling!",
+      intro_title: "📚 Welcome to Your Writing Kitchen!",
+      intro_text: "Just like a master chef uses special ingredients to make food taste amazing, great writers use linking words to make their stories flow beautifully! These magical \"word ingredients\" connect your ideas, mix your sentences smoothly, and add the perfect flavor to your writing. Ready to cook up some wonderful stories?",
+      background_color: "#FFF8DC",
+      card_color: "#FFFEF7",
+      primary_color: "#C44536",
+      text_color: "#4A2C2A",
+      accent_color: "#F4A460",
+      font_family: "Georgia",
+      font_size: 16
     };
-
-    const questions = [
-      { sentence: "The documentary was absolutely _____ (fascinate).", answer: "ing", explanation: "The documentary causes fascination" },
-      { sentence: "She felt _____ (excite) about the trip.", answer: "ed", explanation: "She experiences the feeling of excitement" },
-      { sentence: "The lecture was quite _____ (bore).", answer: "ing", explanation: "The lecture causes boredom" },
-      { sentence: "They were _____ (surprise) by the news.", answer: "ed", explanation: "They experienced surprise" },
-      { sentence: "This puzzle is really _____ (challenge).", answer: "ing", explanation: "The puzzle causes a challenge" },
-      { sentence: "I was _____ (disappoint) with my grade.", answer: "ed", explanation: "I felt disappointment" },
-      { sentence: "The roller coaster ride was _____ (thrill).", answer: "ing", explanation: "The ride causes thrills" },
-      { sentence: "He seemed _____ (confuse) by the instructions.", answer: "ed", explanation: "He felt confusion" },
-      { sentence: "The story had an _____ (amaze) ending.", answer: "ing", explanation: "The ending causes amazement" },
-      { sentence: "We were _____ (exhaust) after the hike.", answer: "ed", explanation: "We felt exhaustion" }
-    ];
-
-    let currentQuestionIndex = 0;
-    let totalScore = 0;
-    let hasAnswered = false;
-
-    function flipNoteCard(card) {
-      card.classList.toggle('is-flipped');
-    }
-
-    function showSection(section) {
-      document.getElementById('mainMenu').classList.toggle('hidden', section !== 'main');
-      document.getElementById('notesSection').classList.toggle('hidden', section !== 'notes');
-      document.getElementById('quizSection').classList.toggle('hidden', section !== 'quiz');
-
-      if (section === 'quiz') {
-        initQuiz();
-      }
-    }
-
-    let shuffledQuestions = [];
-
-    function initQuiz() {
-      currentQuestionIndex = 0;
-      totalScore = 0;
-      hasAnswered = false;
-      shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-      displayQuestion();
-    }
-
-    function displayQuestion() {
-      if (currentQuestionIndex >= shuffledQuestions.length) {
-        showFinalScore();
-        return;
-      }
-
-      hasAnswered = false;
-      const question = shuffledQuestions[currentQuestionIndex];
-      
-      // Highlight the blank in the sentence
-      const highlightedSentence = question.sentence.replace('_____', '<span class="highlight-blank">_____</span>');
-
-      document.getElementById('quizArea').innerHTML = `
-        <div class="quiz-progress">Question ${currentQuestionIndex + 1} of ${shuffledQuestions.length}</div>
-        <div class="quiz-card-wrapper">
-          <div class="quiz-card" id="quizCard">
-            <div class="quiz-card-side quiz-front">
-              <div class="quiz-question-area animated">
-                <p class="quiz-question-text">${highlightedSentence}</p>
-              </div>
-              <div class="quiz-answers-area">
-                <button class="quiz-answer-btn ed-option" onclick="checkAnswer('ed')">
-                  <div class="answer-label">-ed</div>
-                  <div class="answer-description">Feeling</div>
-                </button>
-                <button class="quiz-answer-btn ing-option" onclick="checkAnswer('ing')">
-                  <div class="answer-label">-ing</div>
-                  <div class="answer-description">Cause</div>
-                </button>
-              </div>
-            </div>
-            <div class="quiz-card-side quiz-back" id="resultSide"></div>
-          </div>
-        </div>
-      `;
-    }
-
-    function checkAnswer(userAnswer) {
-      if (hasAnswered) return;
-      hasAnswered = true;
-
-      const question = shuffledQuestions[currentQuestionIndex];
-      const isCorrect = userAnswer === question.answer;
-      
-      if (isCorrect) {
-        totalScore++;
-        triggerConfetti();
-        document.getElementById('quizCard').classList.add('correct-answer');
-      } else {
-        document.getElementById('quizCard').classList.add('shake-animation');
-        setTimeout(() => {
-          document.getElementById('quizCard').classList.remove('shake-animation');
-        }, 500);
-      }
-
-      const resultHTML = `
-        <div class="result-icon">${isCorrect ? '✓' : '✗'}</div>
-        <h3 class="result-title ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct!' : 'Incorrect'}</h3>
-        <p class="result-answer">Answer: ${question.answer === 'ed' ? '-ed' : '-ing'}</p>
-        <p class="result-explanation">${question.explanation}</p>
-        <button class="next-question-btn" onclick="goToNextQuestion()">Next Question →</button>
-      `;
-
-      document.getElementById('resultSide').innerHTML = resultHTML;
-      
-      setTimeout(() => {
-        document.getElementById('quizCard').classList.add('is-flipped');
-      }, 300);
-    }
-
-    function triggerConfetti() {
-      const container = document.createElement('div');
-      container.className = 'confetti-container';
-      document.body.appendChild(container);
-
-      const colors = ['#C9A5E8', '#FFD6E8', '#C9E4F5', '#B5D4E8', '#E8D5F2', '#F7D4E5'];
-      
-      // Add speed lines effect
-      const speedLineContainer = document.createElement('div');
-      speedLineContainer.style.position = 'fixed';
-      speedLineContainer.style.top = '0';
-      speedLineContainer.style.left = '0';
-      speedLineContainer.style.width = '100%';
-      speedLineContainer.style.height = '100%';
-      speedLineContainer.style.pointerEvents = 'none';
-      speedLineContainer.style.zIndex = '9998';
-      speedLineContainer.style.overflow = 'hidden';
-      document.body.appendChild(speedLineContainer);
-
-      for (let i = 0; i < 5; i++) {
-        const line = document.createElement('div');
-        line.className = 'speed-line';
-        line.style.top = (20 + i * 15) + '%';
-        line.style.animationDelay = (i * 0.1) + 's';
-        speedLineContainer.appendChild(line);
-      }
-
-      setTimeout(() => {
-        speedLineContainer.remove();
-      }, 1000);
-
-      // Add sparkles (キラキラ)
-      const sparkleContainer = document.createElement('div');
-      sparkleContainer.style.position = 'fixed';
-      sparkleContainer.style.top = '0';
-      sparkleContainer.style.left = '0';
-      sparkleContainer.style.width = '100%';
-      sparkleContainer.style.height = '100%';
-      sparkleContainer.style.pointerEvents = 'none';
-      sparkleContainer.style.zIndex = '10000';
-      document.body.appendChild(sparkleContainer);
-
-      for (let i = 0; i < 8; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = Math.random() * 100 + '%';
-        sparkle.style.top = Math.random() * 100 + '%';
-        sparkle.style.animationDelay = Math.random() * 0.5 + 's';
-        sparkleContainer.appendChild(sparkle);
-      }
-
-      setTimeout(() => {
-        sparkleContainer.remove();
-      }, 2000);
-      
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti-piece';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 0.3 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        container.appendChild(confetti);
-      }
-
-      setTimeout(() => {
-        container.remove();
-      }, 4000);
-    }
-
-    function goToNextQuestion() {
-      const card = document.getElementById('quizCard');
-      card.classList.remove('is-flipped');
-
-      setTimeout(() => {
-        currentQuestionIndex++;
-        displayQuestion();
-      }, 300);
-    }
-
-    function showFinalScore() {
-      const percentage = Math.round((totalScore / shuffledQuestions.length) * 100);
-      let message = '';
-
-      if (percentage >= 90) message = 'Outstanding! 🌟';
-      else if (percentage >= 70) message = 'Great job! 🎉';
-      else if (percentage >= 50) message = 'Good effort! 👍';
-      else message = 'Keep practicing! 💪';
-
-      document.getElementById('quizArea').innerHTML = `
-        <div class="quiz-complete">
-          <h2>Quiz Complete!</h2>
-          <div class="final-score">${totalScore} / ${shuffledQuestions.length}</div>
-          <p class="score-message">${message}</p>
-          <p style="font-size: 1.25rem;">You scored ${percentage}%</p>
-          <button class="restart-quiz-btn" onclick="initQuiz()">Try Again</button>
-        </div>
-      `;
-
-      // Trigger confetti for high scores
-      if (percentage >= 70) {
-        triggerConfetti();
-        setTimeout(() => triggerConfetti(), 1000);
-      }
-    }
-
+    
     async function onConfigChange(config) {
-      const mainTitle = config.main_title || defaultConfig.main_title;
-      const noteTitle = config.note_title || defaultConfig.note_title;
-      const quizTitle = config.quiz_title || defaultConfig.quiz_title;
-
-      document.getElementById('mainTitle').textContent = mainTitle;
-      document.getElementById('mainSubtitle').textContent = config.main_subtitle || defaultConfig.main_subtitle;
-      document.getElementById('noteTitle').textContent = noteTitle;
-      document.getElementById('noteDescription').textContent = config.note_description || defaultConfig.note_description;
-      document.getElementById('quizTitle').textContent = quizTitle;
-      document.getElementById('quizDescription').textContent = config.quiz_description || defaultConfig.quiz_description;
-
-      document.getElementById('mainTitleNotes').textContent = mainTitle;
-      document.getElementById('noteTitleHeader').textContent = noteTitle;
-      document.getElementById('mainTitleQuiz').textContent = mainTitle;
-      document.getElementById('quizTitleHeader').textContent = quizTitle;
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig: defaultConfig,
-        onConfigChange: onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["main_title", config.main_title || defaultConfig.main_title],
-          ["main_subtitle", config.main_subtitle || defaultConfig.main_subtitle],
-          ["note_title", config.note_title || defaultConfig.note_title],
-          ["note_description", config.note_description || defaultConfig.note_description],
-          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-          ["quiz_description", config.quiz_description || defaultConfig.quiz_description]
-        ])
+      const mainTitle = document.getElementById('mainTitle');
+      const subtitle = document.getElementById('subtitle');
+      const introTitle = document.getElementById('introTitle');
+      const introText = document.getElementById('introText');
+      
+      if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+      if (introTitle) introTitle.textContent = config.intro_title || defaultConfig.intro_title;
+      if (introText) introText.textContent = config.intro_text || defaultConfig.intro_text;
+      
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const cardColor = config.card_color || defaultConfig.card_color;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      document.body.style.background = `linear-gradient(135deg, ${bgColor} 0%, #FAEBD7 100%)`;
+      
+      const cards = document.querySelectorAll('.page-wrapper');
+      cards.forEach(card => {
+        card.style.background = cardColor;
+      });
+      
+      const headings = document.querySelectorAll('.intro-card h2, .category-card h3, .practice-section h2, .header h1');
+      headings.forEach(heading => {
+        heading.style.color = primaryColor;
+      });
+      
+      const texts = document.querySelectorAll('.intro-card p, .practice-item p, .header p, .category-card p, .example-item p');
+      texts.forEach(text => {
+        text.style.color = textColor;
+      });
+      
+      const buttons = document.querySelectorAll('.toggle-btn, .word-btn');
+      buttons.forEach(btn => {
+        if (!btn.classList.contains('used')) {
+          btn.style.background = `linear-gradient(180deg, ${accentColor} 0%, #D2691E 100%)`;
+        }
+      });
+      
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'Times New Roman, serif';
+      
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      if (mainTitle) mainTitle.style.fontSize = `${baseSize * 1.875}px`;
+      if (subtitle) subtitle.style.fontSize = `${baseSize * 0.75}px`;
+      if (introTitle) introTitle.style.fontSize = `${baseSize * 1.25}px`;
+      if (introText) introText.style.fontSize = `${baseSize * 1.2}px`;
+      
+      document.querySelectorAll('.category-card h3').forEach(h => {
+        h.style.fontSize = `${baseSize * 0.9375}px`;
+      });
+      
+      document.querySelectorAll('.category-card p').forEach(p => {
+        if (!p.closest('.example-item')) {
+          p.style.fontSize = `${baseSize * 1.2}px`;
+        }
+      });
+      
+      document.querySelectorAll('.example-item strong').forEach(s => {
+        s.style.fontSize = `${baseSize * 1.15}px`;
+      });
+      
+      document.querySelectorAll('.example-item p').forEach(p => {
+        p.style.fontSize = `${baseSize * 1.1}px`;
+      });
+      
+      document.querySelectorAll('.practice-item p').forEach(p => {
+        p.style.fontSize = `${baseSize * 1.3}px`;
+      });
+      
+      document.querySelectorAll('.instructions-box p').forEach(p => {
+        p.style.fontSize = `${baseSize * 1.15}px`;
+      });
+      
+      document.querySelectorAll('.practice-section h2').forEach(h => {
+        h.style.fontSize = `${baseSize * 1.25}px`;
       });
     }
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => {
+              config.card_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["subtitle", config.subtitle || defaultConfig.subtitle],
+        ["intro_title", config.intro_title || defaultConfig.intro_title],
+        ["intro_text", config.intro_text || defaultConfig.intro_text]
+      ]);
+    }
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Page navigation functionality
+    let currentPage = 0;
+    const totalPages = 8; // Introduction + 6 categories + 1 practice
+    const pageNames = [
+      "Introduction",
+      "Page 1: Step-by-Step",
+      "Page 2: Extra Toppings",
+      "Page 3: Sweet & Sour",
+      "Page 4: Cause & Effect",
+      "Page 5: Sample Platters",
+      "Page 6: Final Presentation",
+      "Page 7: Kitchen Practice"
+    ];
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const pages = document.querySelectorAll('.page-content');
+    
+    function updatePageNavigation() {
+      // Hide all pages
+      pages.forEach(page => page.classList.remove('active'));
+      
+      // Show current page
+      pages[currentPage].classList.add('active');
+      
+      // Update indicator
+      pageIndicator.textContent = pageNames[currentPage];
+      
+      // Update button states
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === totalPages - 1;
+      
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        updatePageNavigation();
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        updatePageNavigation();
+      }
+    });
+    
+    // Toggle examples functionality
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const card = this.closest('.category-card');
+        const examplesList = card.querySelector('.examples-list');
+        
+        if (examplesList.classList.contains('active')) {
+          examplesList.classList.remove('active');
+          this.textContent = 'View Recipe';
+        } else {
+          examplesList.classList.add('active');
+          this.textContent = 'Hide Recipe';
+        }
+      });
+    });
+    
+    // Practice exercise functionality
+    let currentBlankIndex = 0;
+    const blanks = document.querySelectorAll('.blank');
+    const wordButtons = document.querySelectorAll('.word-btn');
+    const feedback = document.querySelector('.feedback');
+    const resetBtn = document.getElementById('resetBtn');
+    const checkBtn = document.getElementById('checkBtn');
+    const answers = [];
+    
+    wordButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.classList.contains('used')) return;
+        if (currentBlankIndex >= blanks.length) return;
+        
+        const word = this.getAttribute('data-word');
+        const currentBlank = blanks[currentBlankIndex];
+        const correctAnswer = currentBlank.getAttribute('data-answer');
+        
+        currentBlank.textContent = this.textContent;
+        currentBlank.style.color = '#C44536';
+        currentBlank.style.fontWeight = 'bold';
+        currentBlank.classList.add('filled');
+        
+        answers.push({
+          blank: currentBlank,
+          word: word,
+          correct: word === correctAnswer,
+          button: this
+        });
+        
+        this.classList.add('used');
+        currentBlankIndex++;
+        
+        if (currentBlankIndex === blanks.length) {
+          checkBtn.style.display = 'inline-block';
+        }
+      });
+    });
+    
+    checkBtn.addEventListener('click', function() {
+      checkAnswers();
+    });
+    
+    resetBtn.addEventListener('click', function() {
+      resetPractice();
+    });
+    
+    function checkAnswers() {
+      const allCorrect = answers.every(a => a.correct);
+      const correctCount = answers.filter(a => a.correct).length;
+      
+      feedback.classList.add('show');
+      
+      answers.forEach(answer => {
+        if (answer.correct) {
+          answer.blank.style.background = '#d4edda';
+          answer.blank.style.color = '#155724';
+        } else {
+          answer.blank.style.background = '#f8d7da';
+          answer.blank.style.color = '#721c24';
+        }
+      });
+      
+      if (allCorrect) {
+        feedback.className = 'feedback show correct';
+        feedback.textContent = '🎉 Perfectly cooked! Your recipe flows beautifully with all the right ingredients! You\'re a master chef of linking words!';
+        
+        // Create particle effects
+        createParticles();
+        
+        // Show recipe tested stamp
+        showRecipeStamp();
+      } else {
+        feedback.className = 'feedback show incorrect';
+        feedback.textContent = `👨‍🍳 Good effort! You got ${correctCount} out of ${blanks.length} ingredients right. Click "Start Over" to perfect your recipe!`;
+      }
+    }
+    
+    function createParticles() {
+      const particles = ['🧈', '🌾', '��', '⭐', '🥄'];
+      const practiceSection = document.querySelector('.practice-section');
+      const rect = practiceSection.getBoundingClientRect();
+      
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+        particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+        particle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+        particle.style.animationDelay = (Math.random() * 0.5) + 's';
+        
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, 3500);
+      }
+    }
+    
+    function showRecipeStamp() {
+      const practiceItem = document.querySelector('.practice-item');
+      
+      // Remove existing stamp if any
+      const existingStamp = practiceItem.querySelector('.recipe-stamp');
+      if (existingStamp) {
+        existingStamp.remove();
+      }
+      
+      const stamp = document.createElement('div');
+      stamp.className = 'recipe-stamp';
+      practiceItem.style.position = 'relative';
+      practiceItem.appendChild(stamp);
+      
+      setTimeout(() => {
+        stamp.classList.add('show');
+      }, 100);
+    }
+    
+    function resetPractice() {
+      currentBlankIndex = 0;
+      answers.length = 0;
+      
+      blanks.forEach(blank => {
+        blank.textContent = '_______';
+        blank.style.color = '';
+        blank.style.fontWeight = '';
+        blank.style.background = '';
+        blank.classList.remove('filled');
+      });
+      
+      wordButtons.forEach(btn => {
+        btn.classList.remove('used');
+      });
+      
+      feedback.classList.remove('show');
+      checkBtn.style.display = 'none';
+      
+      // Remove stamp
+      const stamp = document.querySelector('.recipe-stamp');
+      if (stamp) {
+        stamp.remove();
+      }
+    }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a88892ce0ec2e0e',t:'MTc2NDgyMjI4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a897d23c2421685',t:'MTc2NDgzMjI3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
