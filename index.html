@@ -3,386 +3,892 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adjective Flashcards</title>
+  <title>-ed and -ing Adjectives Flashcards</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #E8D5F2 0%, #C9E4F5 50%, #F5E1E8 100%);
+      min-height: 100%;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle screen tone pattern overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      background-image: 
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
+      pointer-events: none;
+      z-index: 1;
     }
-    
+
     html {
       height: 100%;
     }
-    
-    * {
+
+    *, *::before, *::after {
       box-sizing: border-box;
     }
-    
+
     .app-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
       min-height: 100%;
-      width: 100%;
-      padding: 1.5rem;
-    }
-    
-    .screen {
-      display: none;
-      width: 100%;
-      max-width: 900px;
-      animation: fadeIn 0.4s ease;
-    }
-    
-    .screen.active {
-      display: block;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .app-title {
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin: 0 0 3rem 0;
-    }
-    
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      width: 100%;
-    }
-    
-    .menu-card {
-      padding: 2rem;
-      border-radius: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    
-    .menu-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .menu-card-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0 0 1rem 0;
-    }
-    
-    .menu-card-desc {
-      font-size: 1rem;
-      opacity: 0.8;
-      line-height: 1.5;
-      margin: 0;
-    }
-    
-    .note-header, .quiz-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    
-    .mode-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 0 0 0.5rem 0;
-    }
-    
-    .note-cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .note-card-wrapper {
-      perspective: 1000px;
-      height: 400px;
-    }
-    
-    .note-card {
+      padding: 3rem 2rem;
       position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      cursor: pointer;
+      z-index: 2;
     }
-    
-    .note-card.flipped {
-      transform: rotateY(180deg);
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
     }
-    
-    .note-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 1rem;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+
+    /* Floating sparkle particles */
+    .sparkle-particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: float-sparkle 15s infinite ease-in-out;
     }
-    
-    .note-front {
-      transform: rotateY(0deg);
+
+    @keyframes float-sparkle {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(0) translateX(0) scale(0);
+      }
+      10% {
+        opacity: 0.8;
+        transform: translateY(-20px) translateX(10px) scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: translateY(-50%) translateX(-10px) scale(0.8);
+      }
+      90% {
+        opacity: 0.8;
+        transform: translateY(-80%) translateX(15px) scale(1);
+      }
     }
-    
-    .note-back {
-      transform: rotateY(180deg);
+
+    /* Gradient orbs */
+    .gradient-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(60px);
+      opacity: 0.15;
+      animation: pulse-orb 8s infinite ease-in-out;
     }
-    
-    .note-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
+
+    @keyframes pulse-orb {
+      0%, 100% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0.15;
+      }
+      50% {
+        transform: scale(1.2) translate(20px, -20px);
+        opacity: 0.25;
+      }
     }
-    
-    .note-card-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin: 0;
-      text-align: center;
+
+    /* Holographic shimmer effect */
+    @keyframes holographic-shimmer {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
     }
-    
-    .note-description {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin: 1rem 0;
-      text-align: center;
-    }
-    
-    .note-examples {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      font-style: italic;
-      opacity: 0.9;
-      text-align: left;
-      margin-top: 1rem;
-    }
-    
-    .quiz-instructions {
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    
-    .quiz-card-container {
-      perspective: 1000px;
-      margin-bottom: 2rem;
-      height: 400px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .quiz-card {
+
+    .holographic {
       position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      cursor: pointer;
+      overflow: hidden;
     }
-    
-    .quiz-card.flipped {
-      transform: rotateY(180deg);
-    }
-    
-    .quiz-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 1rem;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
-    
-    .quiz-front {
-      transform: rotateY(0deg);
-    }
-    
-    .quiz-back {
-      transform: rotateY(180deg);
-    }
-    
-    .quiz-question-number {
-      font-size: 1rem;
-      font-weight: 600;
-      opacity: 0.7;
-      margin-bottom: 1.5rem;
-    }
-    
-    .quiz-sentence {
-      font-size: 1.6rem;
-      font-weight: 500;
-      text-align: center;
-      line-height: 1.8;
-      margin-bottom: 1rem;
-    }
-    
-    .quiz-word {
-      font-weight: bold;
-      text-decoration: underline;
-    }
-    
-    .quiz-hint {
-      font-size: 1rem;
-      opacity: 0.7;
-      text-align: center;
-      font-style: italic;
-      margin-top: 1.5rem;
-    }
-    
-    .quiz-emoji {
-      font-size: 3rem;
-      margin-top: 1rem;
-    }
-    
-    .quiz-clickable-areas {
+
+    .holographic::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 182, 193, 0.1) 25%,
+        rgba(173, 216, 230, 0.15) 50%,
+        rgba(255, 218, 185, 0.1) 75%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .holographic:hover::before {
+      opacity: 1;
+      animation: holographic-shimmer 2s linear infinite;
+    }
+
+    /* Chibi mascot */
+    .chibi-mascot {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      z-index: 1000;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+
+    .chibi-character {
+      width: 100%;
+      height: 100%;
+      font-size: 60px;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 4px 8px rgba(107, 76, 154, 0.3));
     }
-    
-    .quiz-click-left, .quiz-click-right {
-      flex: 1;
-      cursor: pointer;
-      transition: background 0.2s ease;
+
+    @keyframes chibi-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
     }
-    
-    .quiz-click-left:hover {
-      background: rgba(59, 130, 246, 0.1);
+
+    @keyframes chibi-celebrate {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
     }
-    
-    .quiz-click-right:hover {
-      background: rgba(16, 185, 129, 0.1);
+
+    @keyframes chibi-sad {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(5px) rotate(-5deg); }
+      75% { transform: translateY(5px) rotate(5deg); }
     }
-    
-    .quiz-result {
+
+    .chibi-mascot.celebrating .chibi-character {
+      animation: chibi-celebrate 0.6s ease-in-out;
+    }
+
+    .chibi-mascot.sad .chibi-character {
+      animation: chibi-sad 0.6s ease-in-out;
+    }
+
+    .chibi-mascot.idle .chibi-character {
+      animation: chibi-bounce 2s ease-in-out infinite;
+    }
+
+    /* Main Menu */
+    .main-header {
       text-align: center;
+      margin-bottom: 3rem;
     }
-    
-    .result-text {
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-    
-    .result-answer {
+
+    .main-title {
+      color: #6B4C9A;
       font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+      letter-spacing: -0.5px;
     }
-    
-    .result-emoji {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+
+    .main-subtitle {
+      color: #8B7BA8;
+      font-size: 1.25rem;
+      margin: 0;
     }
-    
-    .result-explanation {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-    
-    .quiz-score {
-      text-align: center;
-      font-size: 1.2rem;
+
+    .subtitle {
+      color: #8B7BA8;
+      font-size: 1.5rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      margin: 0;
     }
-    
-    .btn {
-      padding: 0.875rem 2rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-    }
-    
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    .btn:active {
-      transform: translateY(0);
-    }
-    
-    .back-btn-container {
-      text-align: center;
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
       margin-top: 2rem;
     }
-    
+
+    .menu-option {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 20px rgba(107, 76, 154, 0.15);
+      border: 3px solid #E8D5F2;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative corner accent */
+    .menu-option::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #FFD6E8 0%, #C9E4F5 100%);
+      border-radius: 0 24px 0 100%;
+      opacity: 0.6;
+    }
+
+    .menu-option:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(107, 76, 154, 0.25);
+      border-color: #C9A5E8;
+    }
+
+    .menu-option h2 {
+      color: #6B4C9A;
+      font-size: 1.75rem;
+      margin: 0 0 0.75rem 0;
+      position: relative;
+    }
+
+    .menu-option p {
+      color: #8B7BA8;
+      font-size: 1.05rem;
+      margin: 0;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* Back Button */
+    .back-btn {
+      background: #ffffff;
+      color: #6B4C9A;
+      border: 2px solid #E8D5F2;
+      padding: 0.875rem 1.75rem;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(107, 76, 154, 0.15);
+    }
+
+    .back-btn:hover {
+      background: #FAF8FC;
+      transform: translateX(-4px);
+      border-color: #C9A5E8;
+    }
+
+    /* Note Flashcards */
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .flashcard-container {
+      perspective: 1200px;
+      height: 380px;
+    }
+
+    .flashcard {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2.5rem;
+      box-shadow: 0 8px 25px rgba(107, 76, 154, 0.2);
+      border: 3px solid #E8D5F2;
+    }
+
+    .flashcard-front {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F9F5FC 100%);
+      z-index: 2;
+      transform: rotateY(0deg);
+    }
+
+    .flashcard-back {
+      background: linear-gradient(135deg, #E8F4FD 0%, #F0E8F7 100%);
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    .flashcard-front h3 {
+      color: #6B4C9A;
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 700;
+      text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+    }
+
+    .flashcard-back h4 {
+      color: #6B4C9A;
+      font-size: 1.5rem;
+      margin: 0 0 1.25rem 0;
+      font-weight: 700;
+    }
+
+    .flashcard-back p {
+      color: #5A4B6B;
+      line-height: 1.7;
+      margin: 0.75rem 0;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .flashcard-example {
+      font-style: italic;
+      color: #8B7BA8;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Quiz Section */
+    .quiz-header {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(107, 76, 154, 0.15);
+      border: 3px solid #E8D5F2;
+    }
+
+    .quiz-header h3 {
+      color: #6B4C9A;
+      font-size: 1.5rem;
+      margin: 0 0 1rem 0;
+      text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-header p {
+      color: #5A4B6B;
+      line-height: 1.7;
+      margin: 0.5rem 0;
+    }
+
+    .quiz-hints {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .quiz-hint {
+      background: #f3f4f6;
+      padding: 0.75rem 1.5rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 2px solid transparent;
+    }
+
+    .quiz-hint.ed-hint {
+      background: linear-gradient(135deg, #D4E8F7 0%, #C9E4F5 100%);
+      color: #4A7BA7;
+      border-color: #A8CDE8;
+    }
+
+    .quiz-hint.ing-hint {
+      background: linear-gradient(135deg, #FFE8F0 0%, #FFD6E8 100%);
+      color: #B75C8A;
+      border-color: #F7B4D4;
+    }
+
+    .quiz-progress {
+      color: #6B4C9A;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Quiz Card */
+    .quiz-card-wrapper {
+      perspective: 1200px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quiz-card {
+      position: relative;
+      width: 100%;
+      min-height: 450px;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .quiz-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .quiz-card-side {
+      position: absolute;
+      width: 100%;
+      min-height: 450px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(107, 76, 154, 0.25);
+      background: #ffffff;
+      border: 4px solid #E8D5F2;
+    }
+
+    .quiz-front {
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+      transform: rotateY(0deg);
+    }
+
+    .quiz-question-area {
+      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 50%, #E8D5F2 100%);
+      padding: 3rem 2.5rem;
+      border-radius: 24px 24px 0 0;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative orbs */
+    .quiz-question-area::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .quiz-question-area::after {
+      content: '';
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .quiz-question-text {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.8;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quiz-answers-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      flex: 1;
+    }
+
+    .quiz-answer-btn {
+      padding: 3rem 2rem;
+      border: none;
+      background: #ffffff;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+    }
+
+    .quiz-answer-btn:first-child {
+      border-right: 3px solid #E8D5F2;
+      border-radius: 0 0 0 24px;
+    }
+
+    .quiz-answer-btn:last-child {
+      border-radius: 0 0 24px 0;
+    }
+
+    .quiz-answer-btn:hover {
+      background: #FAF8FC;
+    }
+
+    .quiz-answer-btn.ed-option:hover {
+      background: linear-gradient(135deg, #EFF7FC 0%, #E8F4FD 100%);
+    }
+
+    .quiz-answer-btn.ing-option:hover {
+      background: linear-gradient(135deg, #FFF5F9 0%, #FFE8F0 100%);
+    }
+
+    .answer-label {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 0;
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+    }
+
+    .ed-option .answer-label {
+      color: #5B9AC8;
+    }
+
+    .ing-option .answer-label {
+      color: #D97BAA;
+    }
+
+    .answer-description {
+      color: #8B7BA8;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    /* Quiz Result */
+    .quiz-back {
+      transform: rotateY(180deg);
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .result-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .result-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+    }
+
+    .result-title.correct {
+      color: #6BA587;
+    }
+
+    .result-title.incorrect {
+      color: #D88AA0;
+    }
+
+    .result-answer {
+      font-size: 1.75rem;
+      color: #6B4C9A;
+      font-weight: 600;
+      margin: 1.5rem 0;
+    }
+
+    .result-explanation {
+      color: #5A4B6B;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .next-question-btn {
+      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 100%);
+      color: #ffffff;
+      border: none;
+      padding: 1.25rem 2.5rem;
+      border-radius: 24px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+      box-shadow: 0 6px 20px rgba(169, 140, 200, 0.3);
+    }
+
+    .next-question-btn:hover {
+      background: linear-gradient(135deg, #8E6FB0 0%, #B58DD3 100%);
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(169, 140, 200, 0.4);
+    }
+
+    /* Quiz Complete */
+    .quiz-complete {
+      text-align: center;
+      color: #6B4C9A;
+      padding: 2rem;
+    }
+
+    .quiz-complete h2 {
+      font-size: 3rem;
+      margin: 0 0 2rem 0;
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+    }
+
+    .final-score {
+      font-size: 4rem;
+      font-weight: 800;
+      margin: 2rem 0;
+      color: #A98CC8;
+      text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.8);
+    }
+
+    .score-message {
+      font-size: 1.75rem;
+      margin: 1.5rem 0;
+      color: #8B7BA8;
+    }
+
+    .restart-quiz-btn {
+      background: #ffffff;
+      color: #6B4C9A;
+      border: 3px solid #E8D5F2;
+      padding: 1.25rem 2.5rem;
+      border-radius: 24px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+      box-shadow: 0 6px 20px rgba(107, 76, 154, 0.2);
+    }
+
+    .restart-quiz-btn:hover {
+      background: #FAF8FC;
+      transform: scale(1.05);
+      border-color: #C9A5E8;
+    }
+
+    /* Animations */
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100%) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 12px 40px rgba(107, 76, 154, 0.25); }
+      50% { box-shadow: 0 15px 50px rgba(169, 140, 200, 0.4); }
+    }
+
+    @keyframes score-pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes speed-lines {
+      0% {
+        transform: translateX(-100%) scaleX(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(100%) scaleX(1);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 1;
+      }
+    }
+
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      animation: confetti-fall 3s ease-out forwards;
+      border-radius: 2px;
+    }
+
+    .speed-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(169, 140, 200, 0.6), transparent);
+      width: 200px;
+      top: 50%;
+      left: 0;
+      animation: speed-lines 0.6s ease-out;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      animation: sparkle 1s ease-out;
+      pointer-events: none;
+    }
+
+    .sparkle::before,
+    .sparkle::after {
+      content: '✨';
+      position: absolute;
+      font-size: 20px;
+    }
+
+    .shake-animation {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .quiz-card.correct-answer {
+      animation: pulse-glow 0.6s ease-in-out;
+    }
+
+    .result-title.correct {
+      animation: score-pop 0.5s ease-out;
+    }
+
+    .result-title.incorrect {
+      animation: score-pop 0.5s ease-out;
+    }
+
+    .quiz-question-area.animated {
+      background: linear-gradient(135deg, #A98CC8 0%, #C9A5E8 25%, #E8D5F2 50%, #C9A5E8 75%, #A98CC8 100%);
+      background-size: 200% 200%;
+      animation: gradient-shift 4s ease infinite;
+    }
+
+    .highlight-blank {
+      color: #FFE08A;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: #FFE08A;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 4px;
+      text-shadow: 1px 1px 2px rgba(169, 140, 200, 0.3);
+    }
+
+    /* Visibility */
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .app-wrapper {
-        padding: 1rem;
+        padding: 2rem 1rem;
       }
-      
-      .app-title {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
+
+      .main-title {
+        font-size: 2rem;
       }
-      
-      .menu-grid {
+
+      .main-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .flashcards-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
       }
-      
-      .mode-title {
-        font-size: 1.5rem;
+
+      .quiz-question-text {
+        font-size: 1.25rem;
+        padding: 2rem 1.5rem;
       }
-      
-      .note-cards-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+
+      .answer-label {
+        font-size: 2.5rem;
       }
-      
-      .note-card-wrapper {
-        height: 380px;
-      }
-      
-      .quiz-card-container {
-        height: 320px;
-      }
-      
-      .quiz-sentence {
-        font-size: 1.3rem;
-      }
-      
-      .quiz-buttons {
+
+      .quiz-hints {
         flex-direction: column;
+      }
+
+      .chibi-mascot {
+        bottom: 15px;
+        right: 15px;
+        width: 60px;
+        height: 60px;
+      }
+
+      .chibi-character {
+        font-size: 45px;
       }
     }
   </style>
@@ -390,507 +896,421 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body>
-  <div class="app-wrapper"><!-- Main Menu Screen -->
-   <main id="menuScreen" class="screen active">
-    <h1 class="app-title" id="appTitle">-ed and -ing Adjectives</h1>
-    <div class="menu-grid">
-     <div class="menu-card" id="noteCard">
-      <div class="menu-card-title" id="noteCardTitle">
-       📝 Note Flashcard
+ <body><!-- Chibi Mascot -->
+  <div class="chibi-mascot idle" id="chibiMascot">
+   <div class="chibi-character" id="chibiCharacter">
+    🐱
+   </div>
+  </div>
+  <div class="app-wrapper">
+   <div class="container"><!-- Main Menu -->
+    <main id="mainMenu">
+     <header class="main-header">
+      <h1 class="main-title" id="mainTitle">Master -ed and -ing Adjectives</h1>
+      <p class="main-subtitle" id="mainSubtitle">Learn the difference and test your skills!</p>
+     </header>
+     <div class="menu-grid">
+      <div class="menu-option holographic" onclick="showSection('notes')">
+       <h2 id="noteTitle">📚 Note Flashcards</h2>
+       <p id="noteDescription">Review the rules and examples for -ed and -ing adjectives</p>
       </div>
-      <p class="menu-card-desc" id="noteCardDesc">Learn the rules for -ed and -ing adjectives with detailed explanations and examples</p>
-     </div>
-     <div class="menu-card" id="quizCard">
-      <div class="menu-card-title" id="quizCardTitle">
-       ✏️ Quiz Flashcard
-      </div>
-      <p class="menu-card-desc" id="quizCardDesc">Test your knowledge with 10 interactive questions and instant feedback</p>
-     </div>
-    </div>
-   </main><!-- Note Mode Screen -->
-   <div id="noteScreen" class="screen">
-    <header class="note-header">
-     <h2 class="mode-title" id="noteTitle">📝 Note Flashcard</h2>
-    </header>
-    <div class="note-cards-container">
-     <div class="note-card-wrapper">
-      <div class="note-card" id="edCard">
-       <div class="note-face note-front">
-        <div class="note-emoji">
-         ���
-        </div>
-        <h3 class="note-card-title">-ed Adjectives</h3>
-       </div>
-       <div class="note-face note-back">
-        <h3 class="note-card-title">-ed Adjectives</h3>
-        <p class="note-description">Used to describe emotions or feelings that someone experiences</p>
-        <div class="note-examples"><strong>Examples:</strong><br>
-          • She seems interested in Biology<br>
-          • He seems tired when he got back from school<br>
-          • I was horrified by the movie
-        </div>
-       </div>
+      <div class="menu-option holographic" onclick="showSection('quiz')">
+       <h2 id="quizTitle">🎯 Quiz Flashcards</h2>
+       <p id="quizDescription">Test your understanding with 10 interactive questions</p>
       </div>
      </div>
-     <div class="note-card-wrapper">
-      <div class="note-card" id="ingCard">
-       <div class="note-face note-front">
-        <div class="note-emoji">
-         ✨
+    </main><!-- Notes Section -->
+    <div id="notesSection" class="hidden"><button class="back-btn holographic" onclick="showSection('main')">← Back to Main Menu</button>
+     <header class="main-header">
+      <h1 class="main-title" id="mainTitleNotes">Master -ed and -ing Adjectives</h1>
+      <p class="subtitle" id="noteTitleHeader">📚 Note Flashcards</p>
+     </header>
+     <div class="flashcards-grid">
+      <div class="flashcard-container">
+       <div class="flashcard holographic" onclick="flipNoteCard(this)">
+        <div class="flashcard-side flashcard-front">
+         <h3>-ed Adjectives</h3>
         </div>
-        <h3 class="note-card-title">-ing Adjectives</h3>
+        <div class="flashcard-side flashcard-back">
+         <h4>Describes Emotions</h4>
+         <p>Use -ed adjectives to describe how someone feels</p>
+         <p class="flashcard-example">She seems interested in Biology</p>
+         <p class="flashcard-example">He seems tired when he got back from school</p>
+        </div>
        </div>
-       <div class="note-face note-back">
-        <h3 class="note-card-title">-ing Adjectives</h3>
-        <p class="note-description">Used to describe the thing that causes the emotion or feeling</p>
-        <div class="note-examples"><strong>Examples:</strong><br>
-          • That movie is absolutely horrifying<br>
-          • Suzy is an interesting girl<br>
-          • The school day was tiring
+      </div>
+      <div class="flashcard-container">
+       <div class="flashcard holographic" onclick="flipNoteCard(this)">
+        <div class="flashcard-side flashcard-front">
+         <h3>-ing Adjectives</h3>
+        </div>
+        <div class="flashcard-side flashcard-back">
+         <h4>Describes the Cause</h4>
+         <p>Use -ing adjectives to describe what causes the emotion</p>
+         <p class="flashcard-example">That movie is absolutely horrifying</p>
+         <p class="flashcard-example">Suzy is an interesting girl</p>
         </div>
        </div>
       </div>
      </div>
-    </div>
-    <div class="back-btn-container"><button class="btn" id="noteBackBtn">← Back to Main Menu</button>
-    </div>
-   </div><!-- Quiz Mode Screen -->
-   <div id="quizScreen" class="screen">
-    <header class="quiz-header">
-     <h2 class="mode-title" id="quizTitle">✏️ Quiz Flashcard</h2>
-    </header>
-    <div class="quiz-instructions" id="instructions"><strong>How to play:</strong> Read the sentence and decide if the adjective should end with <strong>-ed</strong> or <strong>-ing</strong>. Click the left button for -ed or the right button for -ing!
-    </div>
-    <div class="quiz-score" id="quizScore">
-     Question 1 of 10 | Score: 0
-    </div>
-    <div class="quiz-card-container">
-     <div class="quiz-card" id="quizCard">
-      <div class="quiz-face quiz-front">
-       <div class="quiz-question-number" id="questionNumber">
-        Question 1
+    </div><!-- Quiz Section -->
+    <div id="quizSection" class="hidden"><button class="back-btn holographic" onclick="showSection('main')">← Back to Main Menu</button>
+     <header class="main-header">
+      <h1 class="main-title" id="mainTitleQuiz">Master -ed and -ing Adjectives</h1>
+      <p class="subtitle" id="quizTitleHeader">🎯 Quiz Flashcards</p>
+     </header>
+     <div class="quiz-header holographic">
+      <h3>How to Answer</h3>
+      <p>Read the sentence and decide if the adjective should end with -ed or -ing</p>
+      <p><strong>Tap LEFT</strong> if the adjective describes someone's feelings (-ed)</p>
+      <p><strong>Tap RIGHT</strong> if the adjective describes what causes the feeling (-ing)</p>
+      <div class="quiz-hints">
+       <div class="quiz-hint ed-hint">
+        LEFT → -ed (feelings)
        </div>
-       <div class="quiz-sentence" id="quizSentence">
-        Loading...
-       </div>
-       <div class="quiz-hint">
-        👈 Click left for -ed | Click right for -ing 👉
-       </div>
-       <div class="quiz-emoji">
-        🤔
-       </div>
-       <div class="quiz-clickable-areas">
-        <div class="quiz-click-left" id="clickLeftArea"></div>
-        <div class="quiz-click-right" id="clickRightArea"></div>
-       </div>
-      </div>
-      <div class="quiz-face quiz-back">
-       <div class="quiz-result">
-        <div class="quiz-question-number" id="backQuestionNumber">
-         Question 1
-        </div>
-        <div class="result-text" id="resultText">
-         Correct!
-        </div>
-        <div class="result-answer" id="resultAnswer">
-         boring
-        </div>
-        <div class="result-emoji" id="resultEmoji">
-         ✨
-        </div>
-        <div class="result-explanation" id="resultExplanation">
-         Explanation goes here
-        </div>
+       <div class="quiz-hint ing-hint">
+        RIGHT → -ing (causes)
        </div>
       </div>
      </div>
-    </div>
-    <div class="back-btn-container" style="margin-bottom: 1rem;"><button class="btn" id="nextQuizBtn">Next Question →</button>
-    </div>
-    <div class="back-btn-container"><button class="btn" id="quizBackBtn">← Back to Main Menu</button>
+     <div id="quizArea"></div>
     </div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      background_color: "#f0f4f8",
-      surface_color: "#ffffff",
-      text_color: "#1e293b",
-      primary_action_color: "#3b82f6",
-      secondary_action_color: "#10b981",
-      font_family: "Segoe UI",
-      font_size: 16,
-      main_title: "-ed and -ing Adjectives",
-      note_title: "📝 Note Flashcard",
-      note_desc: "Learn the rules for -ed and -ing adjectives with detailed explanations and examples",
-      quiz_title: "✏️ Quiz Flashcard",
-      quiz_desc: "Test your knowledge with 10 interactive questions and instant feedback",
-      back_button_text: "← Back to Main Menu"
+      main_title: "Master -ed and -ing Adjectives",
+      main_subtitle: "Learn the difference and test your skills!",
+      note_title: "📚 Note Flashcards",
+      note_description: "Review the rules and examples for -ed and -ing adjectives",
+      quiz_title: "🎯 Quiz Flashcards",
+      quiz_description: "Test your understanding with 10 interactive questions"
     };
 
-    const quizQuestions = [
-      {
-        sentence: "The movie was really (bore)",
-        correct: "ing",
-        word: "boring",
-        explanation: "The movie causes the feeling of boredom, so we use -ing"
-      },
-      {
-        sentence: "I was (bore) during the lecture",
-        correct: "ed",
-        word: "bored",
-        explanation: "You felt the emotion of boredom, so we use -ed"
-      },
-      {
-        sentence: "This puzzle is very (confuse)",
-        correct: "ing",
-        word: "confusing",
-        explanation: "The puzzle causes confusion, so we use -ing"
-      },
-      {
-        sentence: "She felt (excite) about the trip",
-        correct: "ed",
-        word: "excited",
-        explanation: "She felt the emotion of excitement, so we use -ed"
-      },
-      {
-        sentence: "The news was (shock)",
-        correct: "ing",
-        word: "shocking",
-        explanation: "The news causes the feeling of shock, so we use -ing"
-      },
-      {
-        sentence: "We were (amaze) by the performance",
-        correct: "ed",
-        word: "amazed",
-        explanation: "We felt the emotion of amazement, so we use -ed"
-      },
-      {
-        sentence: "His story is really (interest)",
-        correct: "ing",
-        word: "interesting",
-        explanation: "His story causes interest, so we use -ing"
-      },
-      {
-        sentence: "They seemed (worry) about the test",
-        correct: "ed",
-        word: "worried",
-        explanation: "They felt the emotion of worry, so we use -ed"
-      },
-      {
-        sentence: "The roller coaster was (thrill)",
-        correct: "ing",
-        word: "thrilling",
-        explanation: "The roller coaster causes the feeling of thrill, so we use -ing"
-      },
-      {
-        sentence: "He looks (tire) after the gym",
-        correct: "ed",
-        word: "tired",
-        explanation: "He feels the emotion of tiredness, so we use -ed"
-      }
+    const questions = [
+      { sentence: "The documentary was absolutely _____ (fascinate).", answer: "ing", explanation: "The documentary causes fascination" },
+      { sentence: "She felt _____ (excite) about the trip.", answer: "ed", explanation: "She experiences the feeling of excitement" },
+      { sentence: "The lecture was quite _____ (bore).", answer: "ing", explanation: "The lecture causes boredom" },
+      { sentence: "They were _____ (surprise) by the news.", answer: "ed", explanation: "They experienced surprise" },
+      { sentence: "This puzzle is really _____ (challenge).", answer: "ing", explanation: "The puzzle causes a challenge" },
+      { sentence: "I was _____ (disappoint) with my grade.", answer: "ed", explanation: "I felt disappointment" },
+      { sentence: "The roller coaster ride was _____ (thrill).", answer: "ing", explanation: "The ride causes thrills" },
+      { sentence: "He seemed _____ (confuse) by the instructions.", answer: "ed", explanation: "He felt confusion" },
+      { sentence: "The story had an _____ (amaze) ending.", answer: "ing", explanation: "The ending causes amazement" },
+      { sentence: "We were _____ (exhaust) after the hike.", answer: "ed", explanation: "We felt exhaustion" }
     ];
 
-    let currentScreen = 'menu';
-    let currentQuestion = 0;
-    let score = 0;
+    let currentQuestionIndex = 0;
+    let totalScore = 0;
+    let hasAnswered = false;
 
-    function showScreen(screenName) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenName + 'Screen').classList.add('active');
-      currentScreen = screenName;
+    // Create floating sparkle particles
+    function createSparkles() {
+      const sparkleCount = 20;
+      for (let i = 0; i < sparkleCount; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle-particle';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 15 + 's';
+        sparkle.style.animationDuration = (12 + Math.random() * 6) + 's';
+        document.body.appendChild(sparkle);
+      }
     }
 
-    function flipNoteCard(cardId) {
-      document.getElementById(cardId).classList.toggle('flipped');
+    // Create gradient orbs
+    function createGradientOrbs() {
+      const orbColors = [
+        ['#C9A5E8', '#E8D5F2'],
+        ['#FFD6E8', '#F7D4E5'],
+        ['#C9E4F5', '#B5D4E8']
+      ];
+
+      orbColors.forEach((colors, index) => {
+        const orb = document.createElement('div');
+        orb.className = 'gradient-orb';
+        orb.style.width = (150 + Math.random() * 100) + 'px';
+        orb.style.height = orb.style.width;
+        orb.style.background = `radial-gradient(circle, ${colors[0]}, ${colors[1]})`;
+        orb.style.left = (index * 35 + Math.random() * 10) + '%';
+        orb.style.top = (index * 25 + Math.random() * 20) + '%';
+        orb.style.animationDelay = (index * 2) + 's';
+        orb.style.animationDuration = (6 + index * 2) + 's';
+        document.body.appendChild(orb);
+      });
     }
 
-    function loadQuizQuestion() {
-      const q = quizQuestions[currentQuestion];
-      const wordMatch = q.sentence.match(/\(([^)]+)\)/);
-      const baseWord = wordMatch ? wordMatch[1] : '';
-      const sentenceWithUnderline = q.sentence.replace(`(${baseWord})`, `<span class="quiz-word">${baseWord}</span>`);
+    // Initialize ambient effects
+    createSparkles();
+    createGradientOrbs();
+
+    // Chibi mascot controller
+    const chibiMascot = document.getElementById('chibiMascot');
+    const chibiCharacter = document.getElementById('chibiCharacter');
+    const chibiEmojis = {
+      idle: '🐱',
+      happy: '😸',
+      celebrate: '🎉',
+      sad: '😿',
+      thinking: '🤔'
+    };
+
+    function updateChibi(mood) {
+      chibiMascot.className = 'chibi-mascot ' + mood;
+      chibiCharacter.textContent = chibiEmojis[mood] || chibiEmojis.idle;
+    }
+
+    function flipNoteCard(card) {
+      card.classList.toggle('is-flipped');
+    }
+
+    function showSection(section) {
+      document.getElementById('mainMenu').classList.toggle('hidden', section !== 'main');
+      document.getElementById('notesSection').classList.toggle('hidden', section !== 'notes');
+      document.getElementById('quizSection').classList.toggle('hidden', section !== 'quiz');
+
+      if (section === 'quiz') {
+        initQuiz();
+        updateChibi('thinking');
+      } else {
+        updateChibi('idle');
+      }
+    }
+
+    let shuffledQuestions = [];
+
+    function initQuiz() {
+      currentQuestionIndex = 0;
+      totalScore = 0;
+      hasAnswered = false;
+      shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+      displayQuestion();
+      updateChibi('thinking');
+    }
+
+    function displayQuestion() {
+      if (currentQuestionIndex >= shuffledQuestions.length) {
+        showFinalScore();
+        return;
+      }
+
+      hasAnswered = false;
+      const question = shuffledQuestions[currentQuestionIndex];
       
-      document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
-      document.getElementById('backQuestionNumber').textContent = `Question ${currentQuestion + 1}`;
-      document.getElementById('quizSentence').innerHTML = sentenceWithUnderline;
-      document.getElementById('quizScore').textContent = `Question ${currentQuestion + 1} of ${quizQuestions.length} | Score: ${score}`;
-      
-      document.getElementById('quizCard').classList.remove('flipped');
+      const highlightedSentence = question.sentence.replace('_____', '<span class="highlight-blank">_____</span>');
+
+      document.getElementById('quizArea').innerHTML = `
+        <div class="quiz-progress">Question ${currentQuestionIndex + 1} of ${shuffledQuestions.length}</div>
+        <div class="quiz-card-wrapper">
+          <div class="quiz-card holographic" id="quizCard">
+            <div class="quiz-card-side quiz-front">
+              <div class="quiz-question-area animated">
+                <p class="quiz-question-text">${highlightedSentence}</p>
+              </div>
+              <div class="quiz-answers-area">
+                <button class="quiz-answer-btn ed-option" onclick="checkAnswer('ed')">
+                  <div class="answer-label">-ed</div>
+                  <div class="answer-description">Feeling</div>
+                </button>
+                <button class="quiz-answer-btn ing-option" onclick="checkAnswer('ing')">
+                  <div class="answer-label">-ing</div>
+                  <div class="answer-description">Cause</div>
+                </button>
+              </div>
+            </div>
+            <div class="quiz-card-side quiz-back" id="resultSide"></div>
+          </div>
+        </div>
+      `;
+
+      updateChibi('thinking');
     }
 
-    function checkAnswer(answer) {
-      const q = quizQuestions[currentQuestion];
-      const isCorrect = answer === q.correct;
+    function checkAnswer(userAnswer) {
+      if (hasAnswered) return;
+      hasAnswered = true;
+
+      const question = shuffledQuestions[currentQuestionIndex];
+      const isCorrect = userAnswer === question.answer;
       
       if (isCorrect) {
-        score++;
+        totalScore++;
+        triggerConfetti();
+        document.getElementById('quizCard').classList.add('correct-answer');
+        updateChibi('celebrating');
+      } else {
+        document.getElementById('quizCard').classList.add('shake-animation');
+        updateChibi('sad');
+        setTimeout(() => {
+          document.getElementById('quizCard').classList.remove('shake-animation');
+        }, 500);
       }
+
+      const resultHTML = `
+        <div class="result-icon">${isCorrect ? '✓' : '✗'}</div>
+        <h3 class="result-title ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct!' : 'Incorrect'}</h3>
+        <p class="result-answer">Answer: ${question.answer === 'ed' ? '-ed' : '-ing'}</p>
+        <p class="result-explanation">${question.explanation}</p>
+        <button class="next-question-btn holographic" onclick="goToNextQuestion()">Next Question →</button>
+      `;
+
+      document.getElementById('resultSide').innerHTML = resultHTML;
       
-      document.getElementById('resultText').textContent = isCorrect ? 'Correct! ✓' : 'Incorrect ✗';
-      document.getElementById('resultText').style.color = isCorrect ? (window.elementSdk?.config?.secondary_action_color || defaultConfig.secondary_action_color) : '#ef4444';
-      document.getElementById('resultAnswer').textContent = q.word;
-      document.getElementById('resultExplanation').textContent = q.explanation;
-      document.getElementById('resultEmoji').textContent = isCorrect ? '🎉' : '📚';
-      
-      document.getElementById('quizCard').classList.add('flipped');
+      setTimeout(() => {
+        document.getElementById('quizCard').classList.add('is-flipped');
+      }, 300);
     }
 
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < quizQuestions.length) {
-        loadQuizQuestion();
-      } else {
-        showFinalScore();
+    function triggerConfetti() {
+      const container = document.createElement('div');
+      container.className = 'confetti-container';
+      document.body.appendChild(container);
+
+      const colors = ['#C9A5E8', '#FFD6E8', '#C9E4F5', '#B5D4E8', '#E8D5F2', '#F7D4E5'];
+      
+      const speedLineContainer = document.createElement('div');
+      speedLineContainer.style.position = 'fixed';
+      speedLineContainer.style.top = '0';
+      speedLineContainer.style.left = '0';
+      speedLineContainer.style.width = '100%';
+      speedLineContainer.style.height = '100%';
+      speedLineContainer.style.pointerEvents = 'none';
+      speedLineContainer.style.zIndex = '9998';
+      speedLineContainer.style.overflow = 'hidden';
+      document.body.appendChild(speedLineContainer);
+
+      for (let i = 0; i < 5; i++) {
+        const line = document.createElement('div');
+        line.className = 'speed-line';
+        line.style.top = (20 + i * 15) + '%';
+        line.style.animationDelay = (i * 0.1) + 's';
+        speedLineContainer.appendChild(line);
       }
+
+      setTimeout(() => {
+        speedLineContainer.remove();
+      }, 1000);
+
+      const sparkleContainer = document.createElement('div');
+      sparkleContainer.style.position = 'fixed';
+      sparkleContainer.style.top = '0';
+      sparkleContainer.style.left = '0';
+      sparkleContainer.style.width = '100%';
+      sparkleContainer.style.height = '100%';
+      sparkleContainer.style.pointerEvents = 'none';
+      sparkleContainer.style.zIndex = '10000';
+      document.body.appendChild(sparkleContainer);
+
+      for (let i = 0; i < 8; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+        sparkleContainer.appendChild(sparkle);
+      }
+
+      setTimeout(() => {
+        sparkleContainer.remove();
+      }, 2000);
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti-piece';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.3 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(confetti);
+      }
+
+      setTimeout(() => {
+        container.remove();
+      }, 4000);
+    }
+
+    function goToNextQuestion() {
+      const card = document.getElementById('quizCard');
+      card.classList.remove('is-flipped');
+
+      setTimeout(() => {
+        currentQuestionIndex++;
+        displayQuestion();
+      }, 300);
     }
 
     function showFinalScore() {
-      document.getElementById('questionNumber').textContent = 'Quiz Complete!';
-      document.getElementById('backQuestionNumber').textContent = 'Quiz Complete!';
-      document.getElementById('quizSentence').textContent = 'Great job completing all questions!';
-      document.getElementById('quizScore').textContent = `Final Score: ${score} / ${quizQuestions.length}`;
-      
-      const percentage = (score / quizQuestions.length) * 100;
-      let emoji = '🎉';
-      let message = 'Excellent work!';
-      
-      if (percentage < 50) {
-        emoji = '📚';
-        message = 'Keep practicing!';
-      } else if (percentage < 80) {
-        emoji = '👍';
-        message = 'Good job!';
-      }
-      
-      document.getElementById('resultText').textContent = message;
-      document.getElementById('resultText').style.color = window.elementSdk?.config?.text_color || defaultConfig.text_color;
-      document.getElementById('resultAnswer').textContent = `${score} / ${quizQuestions.length}`;
-      document.getElementById('resultEmoji').textContent = emoji;
-      document.getElementById('resultExplanation').textContent = `You scored ${Math.round(percentage)}%! Click "Try Again" to practice more.`;
-      document.getElementById('nextQuizBtn').textContent = 'Try Again';
-    }
+      const percentage = Math.round((totalScore / shuffledQuestions.length) * 100);
+      let message = '';
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      document.getElementById('nextQuizBtn').textContent = 'Next Question →';
-      loadQuizQuestion();
-    }
-
-    // Event Listeners
-    document.getElementById('noteCard').addEventListener('click', () => showScreen('note'));
-    document.getElementById('quizCard').addEventListener('click', () => {
-      showScreen('quiz');
-      restartQuiz();
-    });
-    
-    document.getElementById('edCard').addEventListener('click', () => flipNoteCard('edCard'));
-    document.getElementById('ingCard').addEventListener('click', () => flipNoteCard('ingCard'));
-    
-    document.getElementById('noteBackBtn').addEventListener('click', () => showScreen('menu'));
-    document.getElementById('quizBackBtn').addEventListener('click', () => showScreen('menu'));
-    
-    document.getElementById('clickLeftArea').addEventListener('click', (e) => {
-      e.stopPropagation();
-      checkAnswer('ed');
-    });
-    
-    document.getElementById('clickRightArea').addEventListener('click', (e) => {
-      e.stopPropagation();
-      checkAnswer('ing');
-    });
-    
-    document.getElementById('nextQuizBtn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (document.getElementById('nextQuizBtn').textContent === 'Try Again') {
-        restartQuiz();
+      if (percentage >= 90) {
+        message = 'Outstanding! 🌟';
+        updateChibi('celebrate');
+      } else if (percentage >= 70) {
+        message = 'Great job! 🎉';
+        updateChibi('celebrating');
+      } else if (percentage >= 50) {
+        message = 'Good effort! 👍';
+        updateChibi('happy');
       } else {
-        nextQuestion();
+        message = 'Keep practicing! 💪';
+        updateChibi('sad');
       }
-    });
+
+      document.getElementById('quizArea').innerHTML = `
+        <div class="quiz-complete">
+          <h2>Quiz Complete!</h2>
+          <div class="final-score">${totalScore} / ${shuffledQuestions.length}</div>
+          <p class="score-message">${message}</p>
+          <p style="font-size: 1.25rem;">You scored ${percentage}%</p>
+          <button class="restart-quiz-btn holographic" onclick="initQuiz()">Try Again</button>
+        </div>
+      `;
+
+      if (percentage >= 70) {
+        triggerConfetti();
+        setTimeout(() => triggerConfetti(), 1000);
+      }
+    }
 
     async function onConfigChange(config) {
-      const customFont = config.font_family || defaultConfig.font_family;
-      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
-      const baseSize = config.font_size || defaultConfig.font_size;
-      
-      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-      document.querySelector('.app-wrapper').style.background = config.background_color || defaultConfig.background_color;
-      
-      document.getElementById('appTitle').textContent = config.main_title || defaultConfig.main_title;
-      document.getElementById('appTitle').style.color = config.text_color || defaultConfig.text_color;
-      document.getElementById('appTitle').style.fontSize = `${baseSize * 2.5}px`;
-      
-      document.querySelectorAll('.menu-card').forEach(card => {
-        card.style.background = config.surface_color || defaultConfig.surface_color;
-        card.style.color = config.text_color || defaultConfig.text_color;
-      });
-      
-      document.getElementById('noteCardTitle').textContent = config.note_title || defaultConfig.note_title;
-      document.querySelectorAll('.menu-card-title').forEach(title => {
-        title.style.fontSize = `${baseSize * 1.5}px`;
-      });
-      
-      document.getElementById('noteCardDesc').textContent = config.note_desc || defaultConfig.note_desc;
-      document.getElementById('quizCardTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
-      document.getElementById('quizCardDesc').textContent = config.quiz_desc || defaultConfig.quiz_desc;
-      document.querySelectorAll('.menu-card-desc').forEach(desc => {
-        desc.style.fontSize = `${baseSize}px`;
-      });
-      
-      document.getElementById('noteTitle').textContent = config.note_title || defaultConfig.note_title;
-      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
-      document.querySelectorAll('.mode-title').forEach(title => {
-        title.style.color = config.text_color || defaultConfig.text_color;
-        title.style.fontSize = `${baseSize * 2}px`;
-      });
-      
-      document.querySelectorAll('.note-face').forEach(face => {
-        face.style.background = config.surface_color || defaultConfig.surface_color;
-        face.style.color = config.text_color || defaultConfig.text_color;
-      });
-      
-      document.querySelectorAll('.note-card-title').forEach(title => {
-        title.style.fontSize = `${baseSize * 1.8}px`;
-      });
-      
-      document.querySelectorAll('.note-description').forEach(desc => {
-        desc.style.fontSize = `${baseSize * 1.1}px`;
-      });
-      
-      document.querySelectorAll('.note-examples').forEach(ex => {
-        ex.style.fontSize = `${baseSize * 0.95}px`;
-      });
-      
-      document.getElementById('instructions').style.background = config.surface_color || defaultConfig.surface_color;
-      document.getElementById('instructions').style.color = config.text_color || defaultConfig.text_color;
-      document.getElementById('instructions').style.fontSize = `${baseSize}px`;
-      
-      document.querySelectorAll('.quiz-face').forEach(face => {
-        face.style.background = config.surface_color || defaultConfig.surface_color;
-        face.style.color = config.text_color || defaultConfig.text_color;
-      });
-      
-      document.getElementById('quizScore').style.color = config.text_color || defaultConfig.text_color;
-      document.getElementById('quizScore').style.fontSize = `${baseSize * 1.2}px`;
-      
-      document.getElementById('questionNumber').style.fontSize = `${baseSize}px`;
-      document.getElementById('quizSentence').style.fontSize = `${baseSize * 1.6}px`;
-      
-      document.getElementById('edBtn').style.background = config.primary_action_color || defaultConfig.primary_action_color;
-      document.getElementById('edBtn').style.color = '#ffffff';
-      document.getElementById('edBtn').style.fontSize = `${baseSize * 1.1}px`;
-      
-      document.getElementById('ingBtn').style.background = config.secondary_action_color || defaultConfig.secondary_action_color;
-      document.getElementById('ingBtn').style.color = '#ffffff';
-      document.getElementById('ingBtn').style.fontSize = `${baseSize * 1.1}px`;
-      
-      document.getElementById('resultText').style.fontSize = `${baseSize * 1.8}px`;
-      document.getElementById('resultAnswer').style.fontSize = `${baseSize * 2.5}px`;
-      document.getElementById('resultExplanation').style.fontSize = `${baseSize * 1.1}px`;
-      
-      document.getElementById('nextQuizBtn').style.background = config.primary_action_color || defaultConfig.primary_action_color;
-      document.getElementById('nextQuizBtn').style.color = '#ffffff';
-      document.getElementById('nextQuizBtn').style.fontSize = `${baseSize}px`;
-      
-      document.querySelectorAll('.quiz-hint').forEach(hint => {
-        hint.style.fontSize = `${baseSize}px`;
-      });
-      
-      document.querySelectorAll('#backQuestionNumber').forEach(num => {
-        num.style.fontSize = `${baseSize}px`;
-      });
-      
-      document.getElementById('noteBackBtn').textContent = config.back_button_text || defaultConfig.back_button_text;
-      document.getElementById('quizBackBtn').textContent = config.back_button_text || defaultConfig.back_button_text;
-      
-      document.querySelectorAll('.btn').forEach(btn => {
-        if (btn.id !== 'nextQuizBtn') {
-          btn.style.background = config.primary_action_color || defaultConfig.primary_action_color;
-          btn.style.color = '#ffffff';
-          btn.style.fontSize = `${baseSize}px`;
-        }
-      });
-    }
+      const mainTitle = config.main_title || defaultConfig.main_title;
+      const noteTitle = config.note_title || defaultConfig.note_title;
+      const quizTitle = config.quiz_title || defaultConfig.quiz_title;
 
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [
-          {
-            get: () => config.background_color || defaultConfig.background_color,
-            set: (value) => {
-              config.background_color = value;
-              window.elementSdk.setConfig({ background_color: value });
-            }
-          },
-          {
-            get: () => config.surface_color || defaultConfig.surface_color,
-            set: (value) => {
-              config.surface_color = value;
-              window.elementSdk.setConfig({ surface_color: value });
-            }
-          },
-          {
-            get: () => config.text_color || defaultConfig.text_color,
-            set: (value) => {
-              config.text_color = value;
-              window.elementSdk.setConfig({ text_color: value });
-            }
-          },
-          {
-            get: () => config.primary_action_color || defaultConfig.primary_action_color,
-            set: (value) => {
-              config.primary_action_color = value;
-              window.elementSdk.setConfig({ primary_action_color: value });
-            }
-          },
-          {
-            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-            set: (value) => {
-              config.secondary_action_color = value;
-              window.elementSdk.setConfig({ secondary_action_color: value });
-            }
-          }
-        ],
-        borderables: [],
-        fontEditable: {
-          get: () => config.font_family || defaultConfig.font_family,
-          set: (value) => {
-            config.font_family = value;
-            window.elementSdk.setConfig({ font_family: value });
-          }
-        },
-        fontSizeable: {
-          get: () => config.font_size || defaultConfig.font_size,
-          set: (value) => {
-            config.font_size = value;
-            window.elementSdk.setConfig({ font_size: value });
-          }
-        }
-      };
-    }
+      document.getElementById('mainTitle').textContent = mainTitle;
+      document.getElementById('mainSubtitle').textContent = config.main_subtitle || defaultConfig.main_subtitle;
+      document.getElementById('noteTitle').textContent = noteTitle;
+      document.getElementById('noteDescription').textContent = config.note_description || defaultConfig.note_description;
+      document.getElementById('quizTitle').textContent = quizTitle;
+      document.getElementById('quizDescription').textContent = config.quiz_description || defaultConfig.quiz_description;
 
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["main_title", config.main_title || defaultConfig.main_title],
-        ["note_title", config.note_title || defaultConfig.note_title],
-        ["note_desc", config.note_desc || defaultConfig.note_desc],
-        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-        ["quiz_desc", config.quiz_desc || defaultConfig.quiz_desc],
-        ["back_button_text", config.back_button_text || defaultConfig.back_button_text]
-      ]);
+      document.getElementById('mainTitleNotes').textContent = mainTitle;
+      document.getElementById('noteTitleHeader').textContent = noteTitle;
+      document.getElementById('mainTitleQuiz').textContent = mainTitle;
+      document.getElementById('quizTitleHeader').textContent = quizTitle;
     }
 
     if (window.elementSdk) {
       window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["main_subtitle", config.main_subtitle || defaultConfig.main_subtitle],
+          ["note_title", config.note_title || defaultConfig.note_title],
+          ["note_description", config.note_description || defaultConfig.note_description],
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["quiz_description", config.quiz_description || defaultConfig.quiz_description]
+        ])
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a883face323c0c2',t:'MTc2NDgxOTI3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a889dfc222f4bc5',t:'MTc2NDgyMzEzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
