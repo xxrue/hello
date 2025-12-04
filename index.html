@@ -1,1416 +1,737 @@
 <!doctype html>
-<html lang="en">
+<html lang="ms" style="height: 100%;">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recipe Book - Linking Words Kitchen</title>
+  <title>Graf Fungsi Kuadratik</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    body {
-      box-sizing: border-box;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      background: linear-gradient(135deg, #FFF8DC 0%, #FAEBD7 100%);
-      min-height: 100%;
-      width: 100%;
-      padding: 2rem 1rem;
-      position: relative;
-    }
-    
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 69, 19, 0.03) 2px, rgba(139, 69, 19, 0.03) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 69, 19, 0.03) 2px, rgba(139, 69, 19, 0.03) 4px);
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(244, 164, 96, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 70%, rgba(196, 69, 54, 0.05) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    .app-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .page-wrapper {
-      background: #FFFEF7;
-      border-radius: 8px;
-      box-shadow: 
-        0 2px 10px rgba(0,0,0,0.1),
-        inset 0 0 100px rgba(139, 69, 19, 0.02);
-      margin-bottom: 3rem;
-      padding: 3rem 2.5rem;
-      position: relative;
-      border: 1px solid rgba(139, 69, 19, 0.15);
-    }
-    
-    .page-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 40px;
-      width: 2px;
-      height: 100%;
-      background: linear-gradient(to bottom, 
-        transparent 0%, 
-        rgba(196, 69, 54, 0.3) 5%, 
-        rgba(196, 69, 54, 0.3) 95%, 
-        transparent 100%);
-      box-shadow: 1px 0 2px rgba(0,0,0,0.1);
-    }
-    
-    .page-wrapper::after {
-      content: attr(data-page);
-      position: absolute;
-      bottom: 20px;
-      right: 30px;
-      font-size: 0.9rem;
-      color: #8B4513;
-      font-style: italic;
-      opacity: 0.6;
-    }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      animation: fadeInDown 0.8s ease-out;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .header::before {
-      content: "🍳";
-      position: absolute;
-      left: 10%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 3rem;
-      animation: bounce 2s infinite;
-    }
-    
-    .header::after {
-      content: "📖";
-      position: absolute;
-      right: 10%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 3rem;
-      animation: bounce 2s infinite 1s;
-    }
-    
-    .header h1 {
-      color: #C44536;
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      font-weight: bold;
-    }
-    
-    .header p {
-      color: #F4A460;
-      font-size: 1.2rem;
-      font-style: italic;
-    }
-    
-    .intro-card h2 {
-      color: #C44536;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
-    
-    .intro-card p {
-      color: #4A2C2A;
-      font-size: 1.2rem;
-      line-height: 1.8;
-    }
-    
-    .intro-card::before {
-      content: "📖";
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 3rem;
-      transform: rotate(15deg);
-    }
-    
-    .category-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    
-    .category-card h3 {
-      color: #C44536;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
-    
-    .category-card p {
-      color: #4A2C2A;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-    
-    .category-card[data-category="sequence"] .page-wrapper {
-      border-left: 6px solid #3498db;
-    }
-    
-    .category-card[data-category="addition"] .page-wrapper {
-      border-left: 6px solid #27ae60;
-    }
-    
-    .category-card[data-category="contrast"] .page-wrapper {
-      border-left: 6px solid #e74c3c;
-    }
-    
-    .category-card[data-category="cause"] .page-wrapper {
-      border-left: 6px solid #f39c12;
-    }
-    
-    .category-card[data-category="example"] .page-wrapper {
-      border-left: 6px solid #9b59b6;
-    }
-    
-    .category-card[data-category="conclusion"] .page-wrapper {
-      border-left: 6px solid #C44536;
-    }
-    
-    .examples-list {
-      display: none;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 2px dashed rgba(244, 164, 96, 0.3);
-    }
-    
-    .examples-list.active {
-      display: block;
-      animation: slideDown 0.4s ease-out;
-    }
-    
-    .example-item {
-      background: rgba(250, 235, 215, 0.3);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 0.8rem;
-      border-left: 4px solid #F4A460;
-      position: relative;
-    }
-    
-    .example-item::before {
-      content: "🥄";
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 1.2rem;
-    }
-    
-    .example-item strong {
-      color: #C44536;
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 1.15rem;
-    }
-    
-    .example-item p {
-      color: #4A2C2A;
-      margin-top: 0.5rem;
-      font-style: italic;
-      font-size: 1.1rem;
-    }
-    
-    .toggle-btn {
-      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.6s ease;
-      margin-top: 0.5rem;
-      font-family: Georgia, serif;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .toggle-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .toggle-btn:hover {
-      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(244, 164, 96, 0.4);
-    }
-    
-    .toggle-btn:hover::before {
-      left: 100%;
-    }
-    
-    .toggle-btn:active {
-      transform: scale(0.98);
-    }
-    
-    .practice-section h2 {
-      color: #C44536;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-weight: bold;
-    }
-    
-    .practice-section::before {
-      content: "🍴";
-      position: absolute;
-      top: 15px;
-      right: 30px;
-      font-size: 4rem;
-    }
-    
-    .practice-item {
-      background: rgba(250, 235, 215, 0.2);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      border: 2px solid rgba(139, 69, 19, 0.2);
-      position: relative;
-    }
-    
-    .practice-item p {
-      color: #4A2C2A;
-      font-size: 1.3rem;
-      line-height: 2;
-      margin-bottom: 1rem;
-    }
-    
-    .blank {
-      display: inline-block;
-      min-width: 120px;
-      border-bottom: 2px dashed #F4A460;
-      padding: 0 8px;
-      margin: 0 4px;
-    }
-    
-    .word-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 1rem;
-    }
-    
-    .word-btn {
-      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
-      color: white;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: all 0.6s ease;
-      font-weight: 600;
-      font-family: Georgia, serif;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
-    }
-    
-    .word-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .word-btn:hover {
-      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
-      transform: scale(1.05);
-      box-shadow: 0 5px 10px rgba(244, 164, 96, 0.4);
-    }
-    
-    .word-btn:hover::before {
-      left: 100%;
-    }
-    
-    .word-btn.used {
-      background: #bdc3c7;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    
-    .word-btn.used::before {
-      display: none;
-    }
-    
-    .feedback {
-      margin-top: 1rem;
-      padding: 1rem;
-      border-radius: 15px;
-      font-weight: 600;
-      display: none;
-    }
-    
-    .feedback.show {
-      display: block;
-      animation: slideDown 0.4s ease-out;
-    }
-    
-    .feedback.correct {
-      background: #d4edda;
-      color: #155724;
-      border: 2px solid #c3e6cb;
-    }
-    
-    .feedback.incorrect {
-      background: #f8d7da;
-      color: #721c24;
-      border: 2px solid #f5c6cb;
-    }
-    
-    .instructions-box {
-      background: linear-gradient(135deg, #fff3cd, #ffe8a1);
-      border-left: 5px solid #ffc107;
-      padding: 1.5rem;
-      border-radius: 15px;
-      margin-bottom: 2rem;
-      box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
-    }
-    
-    .instructions-box p {
-      color: #856404;
-      font-size: 1.15rem;
-      line-height: 1.6;
-      margin-bottom: 0.5rem;
-    }
-    
-    .instructions-box p:last-child {
-      margin-bottom: 0;
-    }
-    
-    .control-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .reset-btn, .check-btn {
-      background: #95a5a6;
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      font-family: Georgia, serif;
-    }
-    
-    .reset-btn:hover, .check-btn:hover {
-      background: #7f8c8d;
-      transform: scale(1.05);
-    }
-    
-    .check-btn {
-      background: #27ae60;
-    }
-    
-    .check-btn:hover {
-      background: #229954;
-    }
-    
-    .reset-btn:active, .check-btn:active {
-      transform: scale(0.98);
-    }
-    
-    .blank.filled {
-      background: rgba(244, 164, 96, 0.2);
-      border-radius: 5px;
-      padding: 2px 8px;
-    }
-    
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        max-height: 0;
-      }
-      to {
-        opacity: 1;
-        max-height: 1000px;
-      }
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateY(-50%) scale(1); }
-      50% { transform: translateY(-60%) scale(1.1); }
-    }
-    
-    @keyframes float {
-      0% { 
-        transform: translateY(0) rotate(0deg); 
-        opacity: 1; 
-      }
-      100% { 
-        transform: translateY(-100px) rotate(360deg); 
-        opacity: 0; 
-      }
-    }
-    
-    .particle {
-      position: fixed;
-      pointer-events: none;
-      font-size: 1.5rem;
-      z-index: 9999;
-      animation: float 3s ease-out forwards;
-    }
-    
-    @keyframes stampAppear {
-      0% {
-        transform: translate(-50%, -50%) rotate(-15deg) scale(0);
-        opacity: 0;
-      }
-      50% {
-        transform: translate(-50%, -50%) rotate(-15deg) scale(1.2);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(-50%, -50%) rotate(-15deg) scale(1);
-        opacity: 1;
-      }
-    }
-    
-    .recipe-stamp {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg) scale(0);
-      font-size: 3rem;
-      color: #27ae60;
-      text-align: center;
-      font-weight: bold;
-      opacity: 0;
-      z-index: 100;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-      pointer-events: none;
-    }
-    
-    .recipe-stamp.show {
-      animation: stampAppear 0.6s ease-out forwards;
-    }
-    
-    .recipe-stamp::before {
-      content: '✓ RECIPE TESTED';
-      display: block;
-      border: 4px solid #27ae60;
-      border-radius: 10px;
-      padding: 1rem 2rem;
-      background: rgba(212, 237, 218, 0.9);
-      font-family: Arial, sans-serif;
-      letter-spacing: 3px;
-      font-size: 1.5rem;
-    }
-    
-    .page-navigation {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
-      margin: 2rem 0;
-      padding: 1.5rem;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 15px;
-      border: 2px solid rgba(139, 69, 19, 0.2);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
-    .nav-btn {
-      background: linear-gradient(180deg, #F4A460 0%, #D2691E 100%);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.6s ease;
-      font-family: Georgia, serif;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .nav-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .nav-btn:hover {
-      background: linear-gradient(180deg, #FFD700 0%, #F4A460 100%);
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(244, 164, 96, 0.4);
-    }
-    
-    .nav-btn:hover::before {
-      left: 100%;
-    }
-    
-    .nav-btn:disabled {
-      background: #bdc3c7;
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-    
-    .nav-btn:disabled:hover {
-      transform: scale(1);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .nav-btn:disabled::before {
-      display: none;
-    }
-    
-    .page-indicator {
-      font-size: 1.1rem;
-      color: #4A2C2A;
-      font-weight: 600;
-      padding: 0.5rem 1.5rem;
-      background: rgba(250, 235, 215, 0.5);
-      border-radius: 20px;
-      border: 2px solid rgba(196, 69, 54, 0.3);
-      min-width: 180px;
-      text-align: center;
-    }
-    
-    .page-content {
-      display: none;
-    }
-    
-    .page-content.active {
-      display: block;
-      animation: fadeInPage 0.5s ease-out;
-    }
-    
-    @keyframes fadeInPage {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    
-    .nav-text-mobile {
-      display: none;
-    }
-    
-    @media (max-width: 768px) {
-      body {
-        padding: 1rem 0.5rem;
-      }
-      
-      .header::before,
-      .header::after {
-        display: none;
-      }
-      
-      .header h1 {
-        font-size: 2rem;
-      }
-      
-      .header p {
-        font-size: 1rem;
-      }
-      
-      .page-wrapper {
-        padding: 2rem 1.5rem;
-      }
-      
-      .page-wrapper::before {
-        left: 20px;
-      }
-      
-      .intro-card h2, .practice-section h2 {
-        font-size: 1.5rem;
-      }
-      
-      .category-icon {
-        font-size: 2.5rem;
-      }
-      
-      .word-options {
-        gap: 0.5rem;
-      }
-      
-      .word-btn {
-        font-size: 0.85rem;
-        padding: 0.5rem 1rem;
-      }
-      
-      .recipe-stamp::before {
-        font-size: 1rem;
-        padding: 0.7rem 1.5rem;
-      }
-      
-      .nav-text-desktop {
-        display: none;
-      }
-      
-      .nav-text-mobile {
-        display: inline;
-      }
-      
-      .nav-btn {
-        padding: 0.8rem 1.2rem;
-        font-size: 1.3rem;
-      }
-      
-      .page-navigation {
-        gap: 0.8rem;
-        padding: 1rem;
-      }
-      
-      .page-indicator {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-        min-width: auto;
-      }
-    }
-  </style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #360033 0%, #0b8793 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px;
+            max-width: 1400px;
+            width: 95%;
+            margin: 20px;
+            position: relative;
+        }
+
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: #f7fafc;
+            padding: 6px;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+            z-index: 10;
+        }
+
+        .language-toggle button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 15px;
+            background: transparent;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .language-toggle button.active {
+            background: #0b8793;
+            color: white;
+            box-shadow: 0 2px 8px rgba(11, 135, 147, 0.3);
+        }
+
+        .language-toggle button:hover:not(.active) {
+            background: #e2e8f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .notes-section {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            background: #f7fafc;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            background: #cbd5e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0b8793;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #360033;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0b8793;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            background: #360033;
+        }
+
+        .value-display {
+            min-width: 60px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #0b8793;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 2px solid #0b8793;
+        }
+
+        .graph-container {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canvas-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        canvas {
+            border-radius: 8px;
+            background: white;
+            display: block;
+        }
+
+        .equation-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            padding: 20px;
+            background: #edf2f7;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .symmetry-info {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0b8793;
+            padding: 12px;
+            background: #e6f7f9;
+            border-radius: 8px;
+            border-left: 4px solid #0b8793;
+        }
+
+        .info-box {
+            background: #e6f7f9;
+            border-left: 4px solid #0b8793;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .info-box h3 {
+            margin: 0 0 8px 0;
+            color: #0b8793;
+            font-size: 15px;
+        }
+
+        .info-box p {
+            margin: 3px 0;
+            color: #2d3748;
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .notes-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+                padding-right: 100px;
+            }
+
+            .equation-display {
+                font-size: 18px;
+                padding: 15px;
+            }
+
+            .control-group {
+                padding: 15px;
+            }
+
+            .control-group label {
+                font-size: 14px;
+            }
+
+            .value-display {
+                font-size: 16px;
+                min-width: 50px;
+            }
+
+            .info-box p {
+                font-size: 13px;
+            }
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-container">
-   <header class="header">
-    <h1 id="mainTitle">🍳 The Linking Words Recipe Book</h1>
-    <p id="subtitle">Secret ingredients for delicious storytelling!</p>
-   </header><!-- Page Navigation -->
-   <div class="page-navigation"><button class="nav-btn" id="prevBtn" disabled> <span class="nav-text-desktop">← Previous</span> <span class="nav-text-mobile">←</span> </button>
-    <div class="page-indicator" id="pageIndicator">
-     Introduction
-    </div><button class="nav-btn" id="nextBtn"> <span class="nav-text-desktop">Next →</span> <span class="nav-text-mobile">→</span> </button>
-   </div><!-- Page 0: Introduction -->
-   <div class="page-content active" data-page-num="0">
-    <div class="intro-card">
-     <div class="page-wrapper" data-page="Introduction">
-      <h2 id="introTitle">���� Welcome to Your Writing Kitchen!</h2>
-      <p id="introText">Just like a master chef uses special ingredients to make food taste amazing, great writers use linking words to make their stories flow beautifully! These magical "word ingredients" connect your ideas, mix your sentences smoothly, and add the perfect flavor to your writing. Ready to cook up some wonderful stories?</p>
-     </div>
+  <main class="container">
+   <div class="language-toggle"><button id="lang-ms" class="active">BM</button> <button id="lang-en">EN</button>
+   </div>
+   <h1 id="main-title">Graf Fungsi Kuadratik</h1>
+   <p class="subtitle" id="description-text">f(x) = ax² + bx + c</p>
+   <div class="notes-section">
+    <div class="info-box">
+     <h3 id="note1-title">📊 Kesan Pemalar:</h3>
+     <p id="note1-line1"><strong>a &gt; 0:</strong> Parabola membuka ke atas (U) | <strong>a &lt; 0:</strong> Parabola membuka ke bawah (∩)</p>
+     <p id="note1-line2"><strong>|a| besar:</strong> Graf lebih sempit | <strong>|a| kecil:</strong> Graf lebih lebar</p>
+     <p id="note1-line3"><strong>c:</strong> Pintasan paksi-y (titik pada y apabila x=0)</p>
     </div>
-   </div><!-- Page 1: Step-by-Step -->
-   <div class="page-content" data-page-num="1">
-    <div class="categories-grid">
-     <div class="category-card" data-category="sequence">
-      <div class="page-wrapper" data-page="Page 1">
-       <div class="category-icon">
-        1️⃣
-       </div>
-       <h3>Step-by-Step Ingredients <span style="color: #95a5a6; font-size: 0.85rem;">(Sequence)</span></h3>
-       <p>Like following a recipe in order, these words show the sequence of your cooking adventure!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>First / Firstly:</strong>
-         <p>"First, preheat your oven to 180°C for the perfect golden crust."</p>
-        </div>
-        <div class="example-item"><strong>Then / Next:</strong>
-         <p>"Then, mix the flour and sugar together in a large bowl."</p>
-        </div>
-        <div class="example-item"><strong>After that / Afterwards:</strong>
-         <p>"After that, crack three eggs into the mixture and whisk thoroughly."</p>
-        </div>
-        <div class="example-item"><strong>Meanwhile:</strong>
-         <p>"Meanwhile, melt the butter in a small saucepan over low heat."</p>
-        </div>
-        <div class="example-item"><strong>Subsequently:</strong>
-         <p>"Subsequently, fold in the chocolate chips gently to avoid breaking them."</p>
-        </div>
-        <div class="example-item"><strong>Before / Prior to:</strong>
-         <p>"Before serving, let the cake cool for at least 20 minutes."</p>
-        </div>
-        <div class="example-item"><strong>Finally / Lastly:</strong>
-         <p>"Finally, dust with powdered sugar and garnish with fresh berries!"</p>
-        </div>
-       </div>
+    <div class="info-box">
+     <h3 id="note2-title">🔄 Paksi Simetri (b):</h3>
+     <p id="note2-line1"><strong>Jika a &gt; 0:</strong> b &gt; 0 → paksi simetri di KIRI paksi-y | b &lt; 0 → paksi simetri di KANAN paksi-y | b = 0 → paksi simetri di paksi-y</p>
+     <p id="note2-line2"><strong>Jika a &lt; 0:</strong> b &gt; 0 → paksi simetri di KANAN paksi-y | b &lt; 0 → paksi simetri di KIRI paksi-y | b = 0 → paksi simetri di paksi-y</p>
+    </div>
+   </div>
+   <div class="equation-display" id="equation">
+    f(x) = 1x² + 0x + 0
+   </div>
+   <div class="content-wrapper">
+    <div class="controls-section">
+     <div class="control-group"><label for="slider-a" id="label-a">Pemalar a</label>
+      <div class="slider-container"><input type="range" id="slider-a" min="-5" max="5" step="0.1" value="1"> <span class="value-display" id="value-a">1.0</span>
+      </div>
+     </div>
+     <div class="control-group"><label for="slider-b" id="label-b">Pemalar b</label>
+      <div class="slider-container"><input type="range" id="slider-b" min="-10" max="10" step="0.1" value="0"> <span class="value-display" id="value-b">0.0</span>
+      </div>
+     </div>
+     <div class="control-group"><label for="slider-c" id="label-c">Pemalar c</label>
+      <div class="slider-container"><input type="range" id="slider-c" min="-10" max="10" step="0.1" value="0"> <span class="value-display" id="value-c">0.0</span>
       </div>
      </div>
     </div>
-   </div><!-- Page 2: Extra Toppings -->
-   <div class="page-content" data-page-num="2">
-    <div class="categories-grid">
-     <div class="category-card" data-category="addition">
-      <div class="page-wrapper" data-page="Page 2">
-       <div class="category-icon">
-        ➕
-       </div>
-       <h3>Extra Toppings <span style="color: #95a5a6; font-size: 0.85rem;">(Adding Information)</span></h3>
-       <p>Add more delicious details to your dish, just like adding extra toppings to a pizza!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>Also / Additionally:</strong>
-         <p>"The soup is nutritious. Additionally, it's incredibly warming on cold days."</p>
-        </div>
-        <div class="example-item"><strong>Furthermore / Moreover:</strong>
-         <p>"This recipe is easy to make. Furthermore, it uses only five ingredients."</p>
-        </div>
-        <div class="example-item"><strong>Besides / As well as:</strong>
-         <p>"Besides being tasty, homemade bread fills your kitchen with wonderful aromas."</p>
-        </div>
-        <div class="example-item"><strong>In addition:</strong>
-         <p>"In addition to the main course, we prepared a colorful salad."</p>
-        </div>
-        <div class="example-item"><strong>Not only... but also:</strong>
-         <p>"The dessert was not only beautiful but also surprisingly light."</p>
-        </div>
-        <div class="example-item"><strong>What's more:</strong>
-         <p>"The pasta was perfectly cooked. What's more, the sauce was incredible!"</p>
-        </div>
-        <div class="example-item"><strong>Along with:</strong>
-         <p>"Along with the roasted chicken, we served herb-roasted potatoes."</p>
-        </div>
-       </div>
-      </div>
+    <div class="graph-container">
+     <div class="symmetry-info" id="symmetry-info">
+      Paksi Simetri: x = 0.0
      </div>
-    </div>
-   </div><!-- Page 3: Sweet & Sour Mix -->
-   <div class="page-content" data-page-num="3">
-    <div class="categories-grid">
-     <div class="category-card" data-category="contrast">
-      <div class="page-wrapper" data-page="Page 3">
-       <div class="category-icon">
-        ⚖️
-       </div>
-       <h3>Sweet &amp; Sour Mix <span style="color: #95a5a6; font-size: 0.85rem;">(Contrast)</span></h3>
-       <p>Show contrasts in your cooking story, like balancing sweet and savory flavors!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>However / Nevertheless:</strong>
-         <p>"The recipe seemed complicated. However, it was actually quite simple."</p>
-        </div>
-        <div class="example-item"><strong>Although / Even though:</strong>
-         <p>"Although the dish looks fancy, anyone can make it at home."</p>
-        </div>
-        <div class="example-item"><strong>On the other hand:</strong>
-         <p>"Some prefer their cookies chewy. On the other hand, others like them crispy."</p>
-        </div>
-        <div class="example-item"><strong>Despite / In spite of:</strong>
-         <p>"Despite using healthy ingredients, the cake tastes indulgent."</p>
-        </div>
-        <div class="example-item"><strong>While / Whereas:</strong>
-         <p>"While some chefs use butter, others prefer olive oil for this recipe."</p>
-        </div>
-        <div class="example-item"><strong>Yet / Still:</strong>
-         <p>"The batter looked runny, yet it baked into a perfect fluffy pancake."</p>
-        </div>
-        <div class="example-item"><strong>Conversely:</strong>
-         <p>"The appetizer was spicy. Conversely, the dessert was refreshingly cool."</p>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div><!-- Page 4: Cause & Effect -->
-   <div class="page-content" data-page-num="4">
-    <div class="categories-grid">
-     <div class="category-card" data-category="cause">
-      <div class="page-wrapper" data-page="Page 4">
-       <div class="category-icon">
-        🔥
-       </div>
-       <h3>Cause &amp; Effect Flavors <span style="color: #95a5a6; font-size: 0.85rem;">(Cause &amp; Effect)</span></h3>
-       <p>Explain why things happen in your kitchen, like why bread rises or cakes fall!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>Because / Since:</strong>
-         <p>"The cake rose beautifully because we used fresh baking powder."</p>
-        </div>
-        <div class="example-item"><strong>Therefore / Thus:</strong>
-         <p>"The oven was too hot. Therefore, we lowered the temperature immediately."</p>
-        </div>
-        <div class="example-item"><strong>As a result / Consequently:</strong>
-         <p>"We forgot to add salt. As a result, the bread tasted rather bland."</p>
-        </div>
-        <div class="example-item"><strong>So:</strong>
-         <p>"The sauce was too thick, so we added a splash of cream."</p>
-        </div>
-        <div class="example-item"><strong>Due to / Owing to:</strong>
-         <p>"Due to the fresh herbs, the dish had an incredible aroma."</p>
-        </div>
-        <div class="example-item"><strong>Hence:</strong>
-         <p>"The dough needs time to rest. Hence, we prepared it the night before."</p>
-        </div>
-        <div class="example-item"><strong>For this reason:</strong>
-         <p>"For this reason, professional bakers always weigh their ingredients precisely."</p>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div><!-- Page 5: Sample Platters -->
-   <div class="page-content" data-page-num="5">
-    <div class="categories-grid">
-     <div class="category-card" data-category="example">
-      <div class="page-wrapper" data-page="Page 5">
-       <div class="category-icon">
-        🥗
-       </div>
-       <h3>Sample Platters <span style="color: #95a5a6; font-size: 0.85rem;">(Giving Examples)</span></h3>
-       <p>Give specific examples of ingredients or dishes to make your recipe clearer!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>For example / For instance:</strong>
-         <p>"You can use various fruits. For example, strawberries, blueberries, or mangoes."</p>
-        </div>
-        <div class="example-item"><strong>Such as / Like:</strong>
-         <p>"Add green vegetables such as spinach, kale, or broccoli to the stir-fry."</p>
-        </div>
-        <div class="example-item"><strong>Particularly / Especially:</strong>
-         <p>"All the desserts were delicious, particularly the chocolate lava cake."</p>
-        </div>
-        <div class="example-item"><strong>Namely:</strong>
-         <p>"Three basic ingredients are essential, namely flour, eggs, and milk."</p>
-        </div>
-        <div class="example-item"><strong>To illustrate:</strong>
-         <p>"This technique works with many dishes. To illustrate, you can use it for pasta, rice, or noodles."</p>
-        </div>
-        <div class="example-item"><strong>Specifically:</strong>
-         <p>"The recipe requires citrus zest, specifically from lemons or limes."</p>
-        </div>
-        <div class="example-item"><strong>In particular:</strong>
-         <p>"Several spices enhance the flavor, in particular cumin and coriander."</p>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div><!-- Page 6: Final Presentation -->
-   <div class="page-content" data-page-num="6">
-    <div class="categories-grid">
-     <div class="category-card" data-category="conclusion">
-      <div class="page-wrapper" data-page="Page 6">
-       <div class="category-icon">
-        ✨
-       </div>
-       <h3>Final Presentation <span style="color: #95a5a6; font-size: 0.85rem;">(Concluding)</span></h3>
-       <p>Serve up your conclusion beautifully, like plating a finished masterpiece!</p><button class="toggle-btn">View Recipe</button>
-       <div class="examples-list">
-        <div class="example-item"><strong>In conclusion / To conclude:</strong>
-         <p>"In conclusion, cooking from scratch is both rewarding and delicious!"</p>
-        </div>
-        <div class="example-item"><strong>Overall / All in all:</strong>
-         <p>"Overall, this recipe proves that simple ingredients make the best dishes."</p>
-        </div>
-        <div class="example-item"><strong>To sum up:</strong>
-         <p>"To sum up, baking requires patience, precision, and passion."</p>
-        </div>
-        <div class="example-item"><strong>In summary:</strong>
-         <p>"In summary, we prepared, cooked, and served a five-course meal."</p>
-        </div>
-        <div class="example-item"><strong>Ultimately:</strong>
-         <p>"Ultimately, the secret to great cooking is using fresh, quality ingredients."</p>
-        </div>
-        <div class="example-item"><strong>In the end:</strong>
-         <p>"In the end, everyone agreed it was the best meal they'd ever tasted."</p>
-        </div>
-        <div class="example-item"><strong>On the whole:</strong>
-         <p>"On the whole, learning to cook has been an incredible journey."</p>
-        </div>
-       </div>
-      </div>
+     <div class="canvas-wrapper">
+      <canvas id="graph" width="700" height="600"></canvas>
      </div>
     </div>
    </div>
-  </div><!-- Page 7: Kitchen Practice -->
-  <div class="page-content" data-page-num="7">
-   <div class="practice-section">
-    <div class="page-wrapper" data-page="Page 7 - Practice">
-     <h2>🍳 Kitchen Practice Time!</h2>
-     <div class="instructions-box">
-      <p><strong>📋 Your Cooking Challenge:</strong></p>
-      <p>Read the recipe story below and select the correct linking word "ingredients" to complete it. Mix in the right words to make your story flow smoothly! Use the "Reset" button if you want to start your recipe from scratch!</p>
-     </div>
-     <div class="practice-item">
-      <p><strong>Complete the recipe for Perfect Chocolate Chip Cookies:</strong></p>
-      <p id="storyText"><span class="blank" data-answer="first">_______</span>, gather all your ingredients on the counter. <span class="blank" data-answer="then">_______</span>, cream together the butter and sugar until fluffy. <span class="blank" data-answer="although">_______</span> it takes time, this step is crucial for soft cookies. <span class="blank" data-answer="because">_______</span> the mixture needs to incorporate air, beat it well. <span class="blank" data-answer="finally">_______</span>, bake for 12 minutes and enjoy warm cookies with milk!</p>
-      <div class="word-options"><button class="word-btn" data-word="first">First</button> <button class="word-btn" data-word="then">Then</button> <button class="word-btn" data-word="however">However</button> <button class="word-btn" data-word="although">Although</button> <button class="word-btn" data-word="because">Because</button> <button class="word-btn" data-word="finally">Finally</button> <button class="word-btn" data-word="therefore">Therefore</button>
-      </div>
-      <div class="control-buttons"><button class="reset-btn" id="resetBtn">🔄 Start Over</button> <button class="check-btn" id="checkBtn" style="display: none;">✓ Taste Test</button>
-      </div>
-      <div class="feedback"></div>
-     </div>
-    </div>
-   </div>
-  </div>
+  </main>
   <script>
-    const defaultConfig = {
-      main_title: "�� The Linking Words Recipe Book",
-      subtitle: "Secret ingredients for delicious storytelling!",
-      intro_title: "📚 Welcome to Your Writing Kitchen!",
-      intro_text: "Just like a master chef uses special ingredients to make food taste amazing, great writers use linking words to make their stories flow beautifully! These magical \"word ingredients\" connect your ideas, mix your sentences smoothly, and add the perfect flavor to your writing. Ready to cook up some wonderful stories?",
-      background_color: "#FFF8DC",
-      card_color: "#FFFEF7",
-      primary_color: "#C44536",
-      text_color: "#4A2C2A",
-      accent_color: "#F4A460",
-      font_family: "Georgia",
-      font_size: 16
-    };
-    
-    async function onConfigChange(config) {
-      const mainTitle = document.getElementById('mainTitle');
-      const subtitle = document.getElementById('subtitle');
-      const introTitle = document.getElementById('introTitle');
-      const introText = document.getElementById('introText');
-      
-      if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
-      if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
-      if (introTitle) introTitle.textContent = config.intro_title || defaultConfig.intro_title;
-      if (introText) introText.textContent = config.intro_text || defaultConfig.intro_text;
-      
-      const bgColor = config.background_color || defaultConfig.background_color;
-      const cardColor = config.card_color || defaultConfig.card_color;
-      const primaryColor = config.primary_color || defaultConfig.primary_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const accentColor = config.accent_color || defaultConfig.accent_color;
-      
-      document.body.style.background = `linear-gradient(135deg, ${bgColor} 0%, #FAEBD7 100%)`;
-      
-      const cards = document.querySelectorAll('.page-wrapper');
-      cards.forEach(card => {
-        card.style.background = cardColor;
-      });
-      
-      const headings = document.querySelectorAll('.intro-card h2, .category-card h3, .practice-section h2, .header h1');
-      headings.forEach(heading => {
-        heading.style.color = primaryColor;
-      });
-      
-      const texts = document.querySelectorAll('.intro-card p, .practice-item p, .header p, .category-card p, .example-item p');
-      texts.forEach(text => {
-        text.style.color = textColor;
-      });
-      
-      const buttons = document.querySelectorAll('.toggle-btn, .word-btn');
-      buttons.forEach(btn => {
-        if (!btn.classList.contains('used')) {
-          btn.style.background = `linear-gradient(180deg, ${accentColor} 0%, #D2691E 100%)`;
+        const defaultConfig = {
+            main_title: "Graf Fungsi Kuadratik",
+            description_text: "f(x) = ax² + bx + c",
+            background_color: "#360033",
+            surface_color: "#ffffff",
+            text_color: "#2d3748",
+            primary_action_color: "#0b8793",
+            secondary_action_color: "#360033",
+            font_family: "Segoe UI",
+            font_size: 16
+        };
+
+        // Language translations
+        const translations = {
+            ms: {
+                title: "Graf Fungsi Kuadratik",
+                subtitle: "f(x) = ax² + bx + c",
+                note1Title: "📊 Kesan Pemalar:",
+                note1Line1: "<strong>a > 0:</strong> Parabola membuka ke atas (U) | <strong>a < 0:</strong> Parabola membuka ke bawah (∩)",
+                note1Line2: "<strong>|a| besar:</strong> Graf lebih sempit | <strong>|a| kecil:</strong> Graf lebih lebar",
+                note1Line3: "<strong>c:</strong> Pintasan paksi-y (titik pada y apabila x=0)",
+                note2Title: "🔄 Paksi Simetri (b):",
+                note2Line1: "<strong>Jika a > 0:</strong> b > 0 → paksi simetri di KIRI paksi-y | b < 0 → paksi simetri di KANAN paksi-y | b = 0 → paksi simetri di paksi-y",
+                note2Line2: "<strong>Jika a < 0:</strong> b > 0 → paksi simetri di KANAN paksi-y | b < 0 → paksi simetri di KIRI paksi-y | b = 0 → paksi simetri di paksi-y",
+                labelA: "Pemalar a",
+                labelB: "Pemalar b",
+                labelC: "Pemalar c",
+                symmetryAxis: "Paksi Simetri",
+                vertex: "Puncak"
+            },
+            en: {
+                title: "Quadratic Function Graph",
+                subtitle: "f(x) = ax² + bx + c",
+                note1Title: "📊 Constants Effect:",
+                note1Line1: "<strong>a > 0:</strong> Parabola opens upward (U) | <strong>a < 0:</strong> Parabola opens downward (∩)",
+                note1Line2: "<strong>|a| large:</strong> Narrower graph | <strong>|a| small:</strong> Wider graph",
+                note1Line3: "<strong>c:</strong> Y-intercept (point on y when x=0)",
+                note2Title: "🔄 Axis of Symmetry (b):",
+                note2Line1: "<strong>If a > 0:</strong> b > 0 → axis of symmetry on LEFT of y-axis | b < 0 → axis of symmetry on RIGHT of y-axis | b = 0 → axis of symmetry on y-axis",
+                note2Line2: "<strong>If a < 0:</strong> b > 0 → axis of symmetry on RIGHT of y-axis | b < 0 → axis of symmetry on LEFT of y-axis | b = 0 → axis of symmetry on y-axis",
+                labelA: "Constant a",
+                labelB: "Constant b",
+                labelC: "Constant c",
+                symmetryAxis: "Axis of Symmetry",
+                vertex: "Vertex"
+            }
+        };
+
+        let currentLang = 'ms';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            document.getElementById('main-title').textContent = t.title;
+            document.getElementById('description-text').textContent = t.subtitle;
+            document.getElementById('note1-title').textContent = t.note1Title;
+            document.getElementById('note1-line1').innerHTML = t.note1Line1;
+            document.getElementById('note1-line2').innerHTML = t.note1Line2;
+            document.getElementById('note1-line3').innerHTML = t.note1Line3;
+            document.getElementById('note2-title').textContent = t.note2Title;
+            document.getElementById('note2-line1').innerHTML = t.note2Line1;
+            document.getElementById('note2-line2').innerHTML = t.note2Line2;
+            document.getElementById('label-a').textContent = t.labelA;
+            document.getElementById('label-b').textContent = t.labelB;
+            document.getElementById('label-c').textContent = t.labelC;
+            
+            // Update buttons
+            document.getElementById('lang-ms').classList.toggle('active', lang === 'ms');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            
+            // Redraw graph with new language
+            drawGraph();
         }
-      });
-      
-      const customFont = config.font_family || defaultConfig.font_family;
-      const baseSize = config.font_size || defaultConfig.font_size;
-      const baseFontStack = 'Times New Roman, serif';
-      
-      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-      
-      if (mainTitle) mainTitle.style.fontSize = `${baseSize * 1.875}px`;
-      if (subtitle) subtitle.style.fontSize = `${baseSize * 0.75}px`;
-      if (introTitle) introTitle.style.fontSize = `${baseSize * 1.25}px`;
-      if (introText) introText.style.fontSize = `${baseSize * 1.2}px`;
-      
-      document.querySelectorAll('.category-card h3').forEach(h => {
-        h.style.fontSize = `${baseSize * 0.9375}px`;
-      });
-      
-      document.querySelectorAll('.category-card p').forEach(p => {
-        if (!p.closest('.example-item')) {
-          p.style.fontSize = `${baseSize * 1.2}px`;
+
+        document.getElementById('lang-ms').addEventListener('click', () => switchLanguage('ms'));
+        document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
+
+        const canvas = document.getElementById('graph');
+        const ctx = canvas.getContext('2d');
+        
+        let a = 1, b = 0, c = 0;
+
+        function drawGraph() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const scale = 35;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw grid
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            
+            for (let i = -20; i <= 20; i++) {
+                // Vertical lines
+                ctx.beginPath();
+                ctx.moveTo(centerX + i * scale, 0);
+                ctx.lineTo(centerX + i * scale, height);
+                ctx.stroke();
+                
+                // Horizontal lines
+                ctx.beginPath();
+                ctx.moveTo(0, centerY + i * scale);
+                ctx.lineTo(width, centerY + i * scale);
+                ctx.stroke();
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#2d3748';
+            ctx.lineWidth = 2;
+            
+            // X-axis
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+            
+            // Y-axis
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.stroke();
+
+            // Draw axis of symmetry
+            if (a !== 0) {
+                const symmetryX = -b / (2 * a);
+                const symmetryCanvasX = centerX + symmetryX * scale;
+                
+                ctx.strokeStyle = '#f56565';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(symmetryCanvasX, 0);
+                ctx.lineTo(symmetryCanvasX, height);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Update symmetry info
+                const t = translations[currentLang];
+                document.getElementById('symmetry-info').textContent = 
+                    `${t.symmetryAxis}: x = ${symmetryX.toFixed(2)}`;
+            }
+
+            // Draw axis labels
+            ctx.fillStyle = '#4a5568';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('x', width - 25, centerY - 15);
+            ctx.fillText('y', centerX + 20, 20);
+
+            // Draw scale numbers
+            ctx.font = '11px Arial';
+            for (let i = -10; i <= 10; i += 2) {
+                if (i !== 0) {
+                    // X-axis numbers
+                    ctx.fillText(i, centerX + i * scale, centerY + 20);
+                    // Y-axis numbers
+                    ctx.fillText(i, centerX - 25, centerY - i * scale + 5);
+                }
+            }
+
+            // Draw parabola
+            ctx.strokeStyle = '#0b8793';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            
+            let firstPoint = true;
+            for (let x = -20; x <= 20; x += 0.05) {
+                const y = a * x * x + b * x + c;
+                const canvasX = centerX + x * scale;
+                const canvasY = centerY - y * scale;
+                
+                if (canvasY >= -10 && canvasY <= height + 10) {
+                    if (firstPoint) {
+                        ctx.moveTo(canvasX, canvasY);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(canvasX, canvasY);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Draw vertex point
+            if (a !== 0) {
+                const vertexX = -b / (2 * a);
+                const vertexY = a * vertexX * vertexX + b * vertexX + c;
+                const vertexCanvasX = centerX + vertexX * scale;
+                const vertexCanvasY = centerY - vertexY * scale;
+                
+                if (vertexCanvasX >= -10 && vertexCanvasX <= width + 10 && 
+                    vertexCanvasY >= -10 && vertexCanvasY <= height + 10) {
+                    ctx.fillStyle = '#360033';
+                    ctx.beginPath();
+                    ctx.arc(vertexCanvasX, vertexCanvasY, 7, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Vertex label
+                    const t = translations[currentLang];
+                    ctx.fillStyle = '#2d3748';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(`${t.vertex} (${vertexX.toFixed(2)}, ${vertexY.toFixed(2)})`, 
+                                vertexCanvasX + 12, vertexCanvasY - 8);
+                }
+            }
+
+            // Draw y-intercept point
+            const yInterceptCanvasX = centerX;
+            const yInterceptCanvasY = centerY - c * scale;
+            
+            if (yInterceptCanvasY >= -10 && yInterceptCanvasY <= height + 10) {
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.arc(yInterceptCanvasX, yInterceptCanvasY, 6, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Y-intercept label
+                ctx.fillStyle = '#2d3748';
+                ctx.font = 'bold 11px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(`(0, ${c.toFixed(1)})`, yInterceptCanvasX + 10, yInterceptCanvasY + 5);
+            }
         }
-      });
-      
-      document.querySelectorAll('.example-item strong').forEach(s => {
-        s.style.fontSize = `${baseSize * 1.15}px`;
-      });
-      
-      document.querySelectorAll('.example-item p').forEach(p => {
-        p.style.fontSize = `${baseSize * 1.1}px`;
-      });
-      
-      document.querySelectorAll('.practice-item p').forEach(p => {
-        p.style.fontSize = `${baseSize * 1.3}px`;
-      });
-      
-      document.querySelectorAll('.instructions-box p').forEach(p => {
-        p.style.fontSize = `${baseSize * 1.15}px`;
-      });
-      
-      document.querySelectorAll('.practice-section h2').forEach(h => {
-        h.style.fontSize = `${baseSize * 1.25}px`;
-      });
-    }
-    
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [
-          {
-            get: () => config.background_color || defaultConfig.background_color,
-            set: (value) => {
-              config.background_color = value;
-              if (window.elementSdk) {
-                window.elementSdk.setConfig({ background_color: value });
-              }
+
+        function updateEquation() {
+            if (a === 0) {
+                const notQuadratic = currentLang === 'ms' ? '(Bukan fungsi kuadratik)' : '(Not a quadratic function)';
+                document.getElementById('equation').textContent = `f(x) = 0 ${notQuadratic}`;
+                return;
             }
-          },
-          {
-            get: () => config.card_color || defaultConfig.card_color,
-            set: (value) => {
-              config.card_color = value;
-              if (window.elementSdk) {
-                window.elementSdk.setConfig({ card_color: value });
-              }
-            }
-          },
-          {
-            get: () => config.text_color || defaultConfig.text_color,
-            set: (value) => {
-              config.text_color = value;
-              if (window.elementSdk) {
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            }
-          },
-          {
-            get: () => config.primary_color || defaultConfig.primary_color,
-            set: (value) => {
-              config.primary_color = value;
-              if (window.elementSdk) {
-                window.elementSdk.setConfig({ primary_color: value });
-              }
-            }
-          },
-          {
-            get: () => config.accent_color || defaultConfig.accent_color,
-            set: (value) => {
-              config.accent_color = value;
-              if (window.elementSdk) {
-                window.elementSdk.setConfig({ accent_color: value });
-              }
-            }
-          }
-        ],
-        borderables: [],
-        fontEditable: {
-          get: () => config.font_family || defaultConfig.font_family,
-          set: (value) => {
-            config.font_family = value;
-            if (window.elementSdk) {
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          }
-        },
-        fontSizeable: {
-          get: () => config.font_size || defaultConfig.font_size,
-          set: (value) => {
-            config.font_size = value;
-            if (window.elementSdk) {
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
+
+            const aStr = a === 1 ? '' : a === -1 ? '-' : a.toFixed(1);
+            const bStr = b === 0 ? '' : b > 0 ? ` + ${b.toFixed(1)}x` : ` - ${Math.abs(b).toFixed(1)}x`;
+            const cStr = c === 0 ? '' : c > 0 ? ` + ${c.toFixed(1)}` : ` - ${Math.abs(c).toFixed(1)}`;
+            
+            let equation = `f(x) = ${aStr}x²${bStr}${cStr}`;
+            if (equation === 'f(x) = x²') equation = 'f(x) = x²';
+            document.getElementById('equation').textContent = equation;
         }
-      };
-    }
-    
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["main_title", config.main_title || defaultConfig.main_title],
-        ["subtitle", config.subtitle || defaultConfig.subtitle],
-        ["intro_title", config.intro_title || defaultConfig.intro_title],
-        ["intro_text", config.intro_text || defaultConfig.intro_text]
-      ]);
-    }
-    
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
-    
-    // Page navigation functionality
-    let currentPage = 0;
-    const totalPages = 8; // Introduction + 6 categories + 1 practice
-    const pageNames = [
-      "Introduction",
-      "Page 1: Step-by-Step",
-      "Page 2: Extra Toppings",
-      "Page 3: Sweet & Sour",
-      "Page 4: Cause & Effect",
-      "Page 5: Sample Platters",
-      "Page 6: Final Presentation",
-      "Page 7: Kitchen Practice"
-    ];
-    
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const pageIndicator = document.getElementById('pageIndicator');
-    const pages = document.querySelectorAll('.page-content');
-    
-    function updatePageNavigation() {
-      // Hide all pages
-      pages.forEach(page => page.classList.remove('active'));
-      
-      // Show current page
-      pages[currentPage].classList.add('active');
-      
-      // Update indicator
-      pageIndicator.textContent = pageNames[currentPage];
-      
-      // Update button states
-      prevBtn.disabled = currentPage === 0;
-      nextBtn.disabled = currentPage === totalPages - 1;
-      
-      // Scroll to top smoothly
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        updatePageNavigation();
-      }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < totalPages - 1) {
-        currentPage++;
-        updatePageNavigation();
-      }
-    });
-    
-    // Toggle examples functionality
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const card = this.closest('.category-card');
-        const examplesList = card.querySelector('.examples-list');
-        
-        if (examplesList.classList.contains('active')) {
-          examplesList.classList.remove('active');
-          this.textContent = 'View Recipe';
-        } else {
-          examplesList.classList.add('active');
-          this.textContent = 'Hide Recipe';
-        }
-      });
-    });
-    
-    // Practice exercise functionality
-    let currentBlankIndex = 0;
-    const blanks = document.querySelectorAll('.blank');
-    const wordButtons = document.querySelectorAll('.word-btn');
-    const feedback = document.querySelector('.feedback');
-    const resetBtn = document.getElementById('resetBtn');
-    const checkBtn = document.getElementById('checkBtn');
-    const answers = [];
-    
-    wordButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        if (this.classList.contains('used')) return;
-        if (currentBlankIndex >= blanks.length) return;
-        
-        const word = this.getAttribute('data-word');
-        const currentBlank = blanks[currentBlankIndex];
-        const correctAnswer = currentBlank.getAttribute('data-answer');
-        
-        currentBlank.textContent = this.textContent;
-        currentBlank.style.color = '#C44536';
-        currentBlank.style.fontWeight = 'bold';
-        currentBlank.classList.add('filled');
-        
-        answers.push({
-          blank: currentBlank,
-          word: word,
-          correct: word === correctAnswer,
-          button: this
+
+        document.getElementById('slider-a').addEventListener('input', (e) => {
+            a = parseFloat(e.target.value);
+            if (Math.abs(a) < 0.1) a = 0.1 * Math.sign(a);
+            document.getElementById('value-a').textContent = a.toFixed(1);
+            updateEquation();
+            drawGraph();
         });
-        
-        this.classList.add('used');
-        currentBlankIndex++;
-        
-        if (currentBlankIndex === blanks.length) {
-          checkBtn.style.display = 'inline-block';
+
+        document.getElementById('slider-b').addEventListener('input', (e) => {
+            b = parseFloat(e.target.value);
+            document.getElementById('value-b').textContent = b.toFixed(1);
+            updateEquation();
+            drawGraph();
+        });
+
+        document.getElementById('slider-c').addEventListener('input', (e) => {
+            c = parseFloat(e.target.value);
+            document.getElementById('value-c').textContent = c.toFixed(1);
+            updateEquation();
+            drawGraph();
+        });
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('main-title');
+            const descElement = document.getElementById('description-text');
+            
+            titleElement.textContent = config.main_title || defaultConfig.main_title;
+            descElement.textContent = config.description_text || defaultConfig.description_text;
+            
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+            const baseSize = config.font_size || defaultConfig.font_size;
+            
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            titleElement.style.fontSize = `${baseSize * 2}px`;
+            descElement.style.fontSize = `${baseSize * 1.125}px`;
+            
+            const bgGradient = config.background_color || defaultConfig.background_color;
+            const secondaryGradient = config.secondary_action_color || defaultConfig.secondary_action_color;
+            document.body.style.background = `linear-gradient(135deg, ${bgGradient} 0%, ${secondaryGradient} 100%)`;
+            
+            const surfaceColor = config.surface_color || defaultConfig.surface_color;
+            document.querySelector('.container').style.background = surfaceColor;
+            
+            const textColor = config.text_color || defaultConfig.text_color;
+            titleElement.style.color = textColor;
+            document.querySelector('.equation-display').style.color = textColor;
+            document.querySelectorAll('.control-group label').forEach(el => el.style.color = textColor);
+            document.querySelectorAll('.info-box p').forEach(el => el.style.color = textColor);
+            
+            const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const style = document.createElement('style');
+                style.textContent = `
+                    input[type="range"]::-webkit-slider-thumb { background: ${primaryColor}; }
+                    input[type="range"]::-moz-range-thumb { background: ${primaryColor}; }
+                `;
+                document.head.appendChild(style);
+            });
+            
+            document.querySelectorAll('.value-display').forEach(el => {
+                el.style.color = primaryColor;
+                el.style.borderColor = primaryColor;
+            });
         }
-      });
-    });
-    
-    checkBtn.addEventListener('click', function() {
-      checkAnswers();
-    });
-    
-    resetBtn.addEventListener('click', function() {
-      resetPractice();
-    });
-    
-    function checkAnswers() {
-      const allCorrect = answers.every(a => a.correct);
-      const correctCount = answers.filter(a => a.correct).length;
-      
-      feedback.classList.add('show');
-      
-      answers.forEach(answer => {
-        if (answer.correct) {
-          answer.blank.style.background = '#d4edda';
-          answer.blank.style.color = '#155724';
-        } else {
-          answer.blank.style.background = '#f8d7da';
-          answer.blank.style.color = '#721c24';
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                window.elementSdk.config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                window.elementSdk.config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                window.elementSdk.config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                window.elementSdk.config.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                window.elementSdk.config.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            window.elementSdk.config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            window.elementSdk.config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["description_text", config.description_text || defaultConfig.description_text]
+                ])
+            });
         }
-      });
-      
-      if (allCorrect) {
-        feedback.className = 'feedback show correct';
-        feedback.textContent = '🎉 Perfectly cooked! Your recipe flows beautifully with all the right ingredients! You\'re a master chef of linking words!';
-        
-        // Create particle effects
-        createParticles();
-        
-        // Show recipe tested stamp
-        showRecipeStamp();
-      } else {
-        feedback.className = 'feedback show incorrect';
-        feedback.textContent = `🍳 Good effort! You got ${correctCount} out of ${blanks.length} ingredients right. Click "Start Over" to perfect your recipe!`;
-      }
-    }
-    
-    function createParticles() {
-      const particles = ['⭐', '✨', '🌟', '💫', '🎉'];
-      const practiceSection = document.querySelector('.practice-section');
-      const rect = practiceSection.getBoundingClientRect();
-      
-      for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.textContent = particles[Math.floor(Math.random() * particles.length)];
-        particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
-        particle.style.top = (rect.top + Math.random() * rect.height) + 'px';
-        particle.style.animationDelay = (Math.random() * 0.5) + 's';
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-          particle.remove();
-        }, 3500);
-      }
-    }
-    
-    function showRecipeStamp() {
-      const practiceItem = document.querySelector('.practice-item');
-      
-      // Remove existing stamp if any
-      const existingStamp = practiceItem.querySelector('.recipe-stamp');
-      if (existingStamp) {
-        existingStamp.remove();
-      }
-      
-      const stamp = document.createElement('div');
-      stamp.className = 'recipe-stamp';
-      practiceItem.style.position = 'relative';
-      practiceItem.appendChild(stamp);
-      
-      setTimeout(() => {
-        stamp.classList.add('show');
-      }, 100);
-    }
-    
-    function resetPractice() {
-      currentBlankIndex = 0;
-      answers.length = 0;
-      
-      blanks.forEach(blank => {
-        blank.textContent = '_______';
-        blank.style.color = '';
-        blank.style.fontWeight = '';
-        blank.style.background = '';
-        blank.classList.remove('filled');
-      });
-      
-      wordButtons.forEach(btn => {
-        btn.classList.remove('used');
-      });
-      
-      feedback.classList.remove('show');
-      checkBtn.style.display = 'none';
-      
-      // Remove stamp
-      const stamp = document.querySelector('.recipe-stamp');
-      if (stamp) {
-        stamp.remove();
-      }
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8985bd71ac1685',t:'MTc2NDgzMjYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+        // Initial draw
+        drawGraph();
+        updateEquation();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8a1bfd71f7dce2',t:'MTc2NDgzODc4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
