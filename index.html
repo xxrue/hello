@@ -1,865 +1,1176 @@
 <!doctype html>
-<html lang="ms" style="height: 100%;">
+<html lang="ms">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Graf Fungsi Kuadratik</title>
+  <title>Nota Asas Nombor</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-        body {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a0033 0%, #4a148c 50%, #6a1b9a 100%);
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100%;
-            width: 100%;
-            position: relative;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+      width: 100%;
+      height: 100%;
+    }
+    
+    html {
+      height: 100%;
+    }
+    
+    .app-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    
+    .sidebar {
+      width: 260px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .sidebar-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #667eea;
+      margin: 0;
+    }
 
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+    .language-toggle {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: float-twinkle linear infinite;
-            opacity: 0;
-        }
+    .lang-button {
+      padding: 0.5rem 1rem;
+      background: #f0f4ff;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      color: #667eea;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+    }
 
-        @keyframes float-twinkle {
-            0% {
-                transform: translateY(0) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100%) scale(1);
-                opacity: 0;
-            }
-        }
+    .lang-button:hover {
+      background: #e0e8ff;
+    }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            padding: 40px;
-            max-width: 1200px;
-            width: 90%;
-            margin: 20px auto;
-            position: relative;
-            box-sizing: border-box;
-        }
+    .lang-button.active {
+      background: #667eea;
+      color: white;
+    }
+    
+    .nav-button {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.5rem;
+      background: #f0f4ff;
+      border: 2px solid #667eea;
+      border-radius: 10px;
+      color: #667eea;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    
+    .nav-button:hover {
+      background: #667eea;
+      color: white;
+      transform: translateX(5px);
+    }
+    
+    .nav-button.active {
+      background: #667eea;
+      color: white;
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 850px;
+      margin: 0 auto;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .content-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .base-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #667eea;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .base-subtitle {
+      font-size: 1.4rem;
+      color: #764ba2;
+      margin: 0;
+    }
 
-        .language-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 8px;
-            background: #f7fafc;
-            padding: 6px;
-            border-radius: 20px;
-            border: 2px solid #e2e8f0;
-            z-index: 10;
-        }
+    .tab-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
 
-        .language-toggle button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 15px;
-            background: transparent;
-            color: #4a5568;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+    .tab-button {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #666;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
 
-        .language-toggle button.active {
-            background: #7b1fa2;
-            color: white;
-            box-shadow: 0 2px 8px rgba(123, 31, 162, 0.3);
-        }
+    .tab-button:hover {
+      color: #667eea;
+      background: #f8f9ff;
+    }
 
-        .language-toggle button:hover:not(.active) {
-            background: #e2e8f0;
-        }
+    .tab-button.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      background: #f8f9ff;
+    }
 
-        h1 {
-            text-align: center;
-            color: #2d3748;
-            margin-bottom: 10px;
-            font-size: 42px;
-            font-weight: 700;
-        }
+    .tab-content {
+      display: none;
+    }
 
-        .subtitle {
-            text-align: center;
-            color: #4a5568;
-            margin-bottom: 30px;
-            font-size: 18px;
-        }
+    .tab-content.active {
+      display: block;
+    }
+    
+    .section {
+      margin-bottom: 2.5rem;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      color: #764ba2;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .section-content {
+      color: #444;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
 
-        .notes-section {
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+    .intro-box {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border-left: 5px solid #764ba2;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
 
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
+    .intro-title {
+      font-weight: 700;
+      color: #764ba2;
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+    }
 
-        .controls-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .intro-text {
+      color: #444;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+    
+    .digits {
+      display: inline-flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .digit {
+      background: #f0f4ff;
+      padding: 0.6rem 1.1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #667eea;
+      border: 2px solid #667eea;
+      font-size: 1.15rem;
+    }
+    
+    .examples-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    
+    .example-item {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border-left: 5px solid #764ba2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .example-label {
+      font-weight: 600;
+      color: #764ba2;
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+    
+    .example-number {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+    
+    .nilai-tempat {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    
+    .tempat-box {
+      background: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      border: 2px solid #667eea;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .tempat-digit {
+      font-size: 1.6rem;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+    
+    .tempat-power {
+      font-size: 0.95rem;
+      color: #764ba2;
+      font-weight: 600;
+      border-top: 2px solid #764ba2;
+      padding-top: 0.25rem;
+    }
+    
+    .pronunciation {
+      background: #fff5e6;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      margin-top: 0.75rem;
+      border-left: 4px solid #ff9800;
+      font-style: italic;
+      color: #d68200;
+      font-size: 1.05rem;
+    }
 
-        .control-group {
-            background: #f7fafc;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-        }
+    @media (max-width: 768px) {
+      .app-wrapper {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        max-height: 220px;
+        padding: 1rem;
+      }
+      
+      .nav-button {
+        font-size: 0.85rem;
+        padding: 0.6rem;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .content-card {
+        padding: 1.5rem;
+      }
 
-        .control-group label {
-            display: block;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        input[type="range"] {
-            flex: 1;
-            height: 8px;
-            border-radius: 5px;
-            background: #cbd5e0;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #7b1fa2;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            background: #4a148c;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #7b1fa2;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        input[type="range"]::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            background: #4a148c;
-        }
-
-        .value-display {
-            min-width: 60px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 18px;
-            color: #7b1fa2;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 2px solid #7b1fa2;
-        }
-
-        .graph-container {
-            background: #f7fafc;
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .canvas-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            overflow-x: auto;
-        }
-
-        canvas {
-            border-radius: 8px;
-            background: white;
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .equation-display {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d3748;
-            padding: 20px;
-            background: #edf2f7;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .symmetry-info {
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: #7b1fa2;
-            padding: 12px;
-            background: #f3e5f5;
-            border-radius: 8px;
-            border-left: 4px solid #7b1fa2;
-        }
-
-        .info-box {
-            background: #f3e5f5;
-            border-left: 4px solid #7b1fa2;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .info-box h3 {
-            margin: 0 0 8px 0;
-            color: #7b1fa2;
-            font-size: 15px;
-        }
-
-        .info-box strong {
-            color: #7b1fa2;
-        }
-
-        .info-box p {
-            margin: 3px 0;
-            color: #2d3748;
-            line-height: 1.5;
-            font-size: 12px;
-        }
-
-        @media (max-width: 1024px) {
-            .content-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .notes-section {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 30px 20px;
-            }
-
-            h1 {
-                font-size: 34px;
-            }
-
-            .subtitle {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            body {
-                align-items: flex-start;
-            }
-
-            .container {
-                padding: 15px 10px;
-                margin: 10px;
-                width: calc(100% - 20px);
-                border-radius: 15px;
-            }
-
-            .language-toggle {
-                top: 10px;
-                right: 10px;
-                padding: 4px;
-            }
-
-            .language-toggle button {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-
-            h1 {
-                font-size: 24px;
-                padding-right: 90px;
-                margin-bottom: 5px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-
-            .equation-display {
-                font-size: 16px;
-                padding: 12px;
-                margin-bottom: 15px;
-            }
-
-            .control-group {
-                padding: 10px;
-            }
-
-            .control-group label {
-                font-size: 13px;
-                margin-bottom: 6px;
-            }
-
-            .value-display {
-                font-size: 14px;
-                min-width: 45px;
-                padding: 4px 8px;
-            }
-
-            .info-box {
-                padding: 10px;
-            }
-
-            .info-box h3 {
-                font-size: 13px;
-            }
-
-            .info-box p {
-                font-size: 11px;
-            }
-
-            .symmetry-info {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .graph-container {
-                padding: 15px 10px;
-            }
-
-            canvas {
-                width: 100% !important;
-                height: auto !important;
-            }
-        }
-    </style>
+      .tab-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="stars-container" id="stars"></div>
-  <main class="container">
-   <div class="language-toggle"><button id="lang-ms" class="active">BM</button> <button id="lang-en">EN</button>
-   </div>
-   <h1 id="main-title">Graf Fungsi Kuadratik</h1>
-   <p class="subtitle" id="description-text">f(x) = ax² + bx + c</p>
-   <div class="notes-section">
-    <div class="info-box">
-     <h3 id="note1-title">📊 Kesan Pemalar:</h3>
-     <p id="note1-line1"><strong>a &gt; 0:</strong> Parabola membuka ke atas (U) | <strong>a &lt; 0:</strong> Parabola membuka ke bawah (∩)</p>
-     <p id="note1-line2"><strong>|a| besar:</strong> Graf lebih sempit | <strong>|a| kecil:</strong> Graf lebih lebar</p>
-     <p id="note1-line3"><strong>c:</strong> Pintasan paksi-y (titik pada y apabila x=0)</p>
+  <div class="app-wrapper">
+   <aside class="sidebar">
+    <div class="sidebar-header">
+     <h2 class="sidebar-title" id="sidebar-title">Pilih Asas Nombor</h2>
     </div>
-    <div class="info-box">
-     <h3 id="note2-title">🔄 Paksi Simetri (b):</h3>
-     <p id="note2-line1"><strong>Jika a &gt; 0:</strong> b &gt; 0 → paksi simetri di KIRI paksi-y | b &lt; 0 → paksi simetri di KANAN paksi-y | b = 0 → paksi simetri di paksi-y</p>
-     <p id="note2-line2"><strong>Jika a &lt; 0:</strong> b &gt; 0 → paksi simetri di KANAN paksi-y | b &lt; 0 → paksi simetri di KIRI paksi-y | b = 0 → paksi simetri di paksi-y</p>
+    <div class="language-toggle"><button class="lang-button active" onclick="switchLanguage('ms')">Bahasa</button> <button class="lang-button" onclick="switchLanguage('en')">English</button>
     </div>
-   </div>
-   <div class="equation-display" id="equation">
-    f(x) = 1x² + 0x + 0
-   </div>
-   <div class="content-wrapper">
-    <div class="controls-section">
-     <div class="control-group"><label for="slider-a" id="label-a">Pemalar a</label>
-      <div class="slider-container"><input type="range" id="slider-a" min="-5" max="5" step="0.1" value="1"> <span class="value-display" id="value-a">1.0</span>
-      </div>
-     </div>
-     <div class="control-group"><label for="slider-b" id="label-b">Pemalar b</label>
-      <div class="slider-container"><input type="range" id="slider-b" min="-10" max="10" step="0.1" value="0"> <span class="value-display" id="value-b">0.0</span>
-      </div>
-     </div>
-     <div class="control-group"><label for="slider-c" id="label-c">Pemalar c</label>
-      <div class="slider-container"><input type="range" id="slider-c" min="-10" max="10" step="0.1" value="0"> <span class="value-display" id="value-c">0.0</span>
-      </div>
-     </div>
-    </div>
-    <div class="graph-container">
-     <div class="symmetry-info" id="symmetry-info">
-      Paksi Simetri: x = 0.0
-     </div>
-     <div class="canvas-wrapper">
-      <canvas id="graph" width="700" height="600"></canvas>
-     </div>
-    </div>
-   </div>
-  </main>
+    <nav id="nav-buttons"><!-- Navigation buttons will be generated here -->
+    </nav>
+   </aside>
+   <main class="main-content">
+    <article class="content-card" id="content-area"><!-- Content will be generated here -->
+    </article>
+   </main>
+  </div>
   <script>
-        const defaultConfig = {
-            main_title: "Graf Fungsi Kuadratik",
-            description_text: "f(x) = ax² + bx + c",
-            background_color: "#1a0033",
-            surface_color: "#ffffff",
-            text_color: "#2d3748",
-            primary_action_color: "#7b1fa2",
-            secondary_action_color: "#6a1b9a",
-            font_family: "Segoe UI",
-            font_size: 16
-        };
+    const translations = {
+      ms: {
+        sidebarTitle: "Pilih Asas Nombor",
+        introduction: "Pengenalan",
+        introSubtitle: "Konsep Asas Sistem Nombor",
+        allowedDigitsTitle: "📝 Digit yang Dibenarkan",
+        allowedDigitsText: "Setiap asas nombor mempunyai set digit tertentu. Dalam sesuatu asas, kita menggunakan <strong>digit 0 hingga digit yang kurang daripada asasnya</strong>.",
+        placeValueTitle: "📊 Nilai Tempat",
+        placeValueText: "Kedudukan nombor paling kanan ialah asas⁰ (nilai 1), kemudian asas¹, asas², asas³, dan seterusnya ke kiri. Labelkan setiap digit dengan kuasa asas dari kanan ke kiri.",
+        pronunciationTitle: "🗣️ Cara Sebutan",
+        pronunciationText: "Untuk menyebut nombor dalam sesuatu asas, sebut setiap digit satu persatu dari kiri ke kanan, kemudian sebutkan asas nombor di hujung.",
+        examplesLabel: "Contoh:",
+        tabAllowedDigits: "📝 Digit yang Dibenarkan",
+        tabExamples: "✏️ Contoh Nombor",
+        allowedDigitsInBase: "Digit yang Dibenarkan dalam Asas",
+        allowedDigitsDescription: "Dalam Asas {base}, digit yang dibenarkan ialah 0 hingga {maxDigit}. Ini bermakna kita menggunakan digit 0 hingga digit yang kurang daripada {base}.",
+        exampleLabel: "Contoh",
+        placeValue: "Nilai Tempat"
+      },
+      en: {
+        sidebarTitle: "Choose Number Base",
+        introduction: "Introduction",
+        introSubtitle: "Number System Concepts",
+        allowedDigitsTitle: "📝 Allowed Digits",
+        allowedDigitsText: "Each number base has a specific set of digits. In any base, we use <strong>digits 0 up to one less than the base</strong>.",
+        placeValueTitle: "📊 Place Value",
+        placeValueText: "The rightmost position is base⁰ (value 1), then base¹, base², base³, and so on to the left. Label each digit with powers of the base from right to left.",
+        pronunciationTitle: "🗣️ Pronunciation",
+        pronunciationText: "To pronounce a number in any base, say each digit one by one from left to right, then state the base at the end.",
+        examplesLabel: "Examples:",
+        tabAllowedDigits: "📝 Allowed Digits",
+        tabExamples: "✏️ Number Examples",
+        allowedDigitsInBase: "Allowed Digits in Base",
+        allowedDigitsDescription: "In Base {base}, the allowed digits are 0 to {maxDigit}. This means we use digits 0 up to one less than {base}.",
+        exampleLabel: "Example",
+        placeValue: "Place Value"
+      }
+    };
 
-        // Language translations
-        const translations = {
-            ms: {
-                title: "Graf Fungsi Kuadratik",
-                subtitle: "f(x) = ax² + bx + c",
-                note1Title: "📊 Kesan Pemalar:",
-                note1Line1: "<strong>a > 0:</strong> Parabola membuka ke atas (U) | <strong>a < 0:</strong> Parabola membuka ke bawah (∩)",
-                note1Line2: "<strong>|a| besar:</strong> Graf lebih sempit | <strong>|a| kecil:</strong> Graf lebih lebar",
-                note1Line3: "<strong>c:</strong> Pintasan paksi-y (titik pada y apabila x=0)",
-                note2Title: "🔄 Paksi Simetri (b):",
-                note2Line1: "<strong>Jika a > 0:</strong> b > 0 → paksi simetri di KIRI paksi-y | b < 0 → paksi simetri di KANAN paksi-y | b = 0 → paksi simetri di paksi-y",
-                note2Line2: "<strong>Jika a < 0:</strong> b > 0 → paksi simetri di KANAN paksi-y | b < 0 → paksi simetri di KIRI paksi-y | b = 0 → paksi simetri di paksi-y",
-                labelA: "Pemalar a",
-                labelB: "Pemalar b",
-                labelC: "Pemalar c",
-                symmetryAxis: "Paksi Simetri",
-                vertex: "Puncak"
-            },
-            en: {
-                title: "Quadratic Function Graph",
-                subtitle: "f(x) = ax² + bx + c",
-                note1Title: "📊 Constants Effect:",
-                note1Line1: "<strong>a > 0:</strong> Parabola opens upward (U) | <strong>a < 0:</strong> Parabola opens downward (∩)",
-                note1Line2: "<strong>|a| large:</strong> Narrower graph | <strong>|a| small:</strong> Wider graph",
-                note1Line3: "<strong>c:</strong> Y-intercept (point on y when x=0)",
-                note2Title: "🔄 Axis of Symmetry (b):",
-                note2Line1: "<strong>If a > 0:</strong> b > 0 → axis of symmetry on LEFT of y-axis | b < 0 → axis of symmetry on RIGHT of y-axis | b = 0 → axis of symmetry on y-axis",
-                note2Line2: "<strong>If a < 0:</strong> b > 0 → axis of symmetry on RIGHT of y-axis | b < 0 → axis of symmetry on LEFT of y-axis | b = 0 → axis of symmetry on y-axis",
-                labelA: "Constant a",
-                labelB: "Constant b",
-                labelC: "Constant c",
-                symmetryAxis: "Axis of Symmetry",
-                vertex: "Vertex"
-            }
-        };
+    const defaultConfig = {
+      sidebar_title: "Pilih Asas Nombor",
+      background_color: "#667eea",
+      secondary_surface: "#ffffff",
+      text_color: "#333333",
+      primary_action: "#764ba2",
+      secondary_action: "#667eea",
+      font_family: "Segoe UI",
+      font_size: 16
+    };
 
-        let currentLang = 'ms';
+    const basesData = [
+      {
+        base: 'pengenalan',
+        name: "Pengenalan",
+        isPengenalan: true
+      },
+      {
+        base: 2,
+        name: "Binary",
+        nameMalay: "Asas Dua",
+        digits: ["0", "1"],
+        examples: [
+          {
+            form: "1011₂",
+            places: [
+              { digit: "1", power: "2³" },
+              { digit: "0", power: "2²" },
+              { digit: "1", power: "2¹" },
+              { digit: "1", power: "2⁰" }
+            ],
+            pronunciation: "Satu-sifar-satu-satu asas dua",
+            pronunciationEn: "One-zero-one-one base two"
+          },
+          {
+            form: "1101₂",
+            places: [
+              { digit: "1", power: "2³" },
+              { digit: "1", power: "2²" },
+              { digit: "0", power: "2¹" },
+              { digit: "1", power: "2⁰" }
+            ],
+            pronunciation: "Satu-satu-sifar-satu asas dua",
+            pronunciationEn: "One-one-zero-one base two"
+          },
+          {
+            form: "10110₂",
+            places: [
+              { digit: "1", power: "2⁴" },
+              { digit: "0", power: "2³" },
+              { digit: "1", power: "2²" },
+              { digit: "1", power: "2¹" },
+              { digit: "0", power: "2⁰" }
+            ],
+            pronunciation: "Satu-sifar-satu-satu-sifar asas dua",
+            pronunciationEn: "One-zero-one-one-zero base two"
+          }
+        ]
+      },
+      {
+        base: 3,
+        name: "Ternary",
+        nameMalay: "Asas Tiga",
+        digits: ["0", "1", "2"],
+        examples: [
+          {
+            form: "102₃",
+            places: [
+              { digit: "1", power: "3²" },
+              { digit: "0", power: "3¹" },
+              { digit: "2", power: "3⁰" }
+            ],
+            pronunciation: "Satu-sifar-dua asas tiga",
+            pronunciationEn: "One-zero-two base three"
+          },
+          {
+            form: "212₃",
+            places: [
+              { digit: "2", power: "3²" },
+              { digit: "1", power: "3¹" },
+              { digit: "2", power: "3⁰" }
+            ],
+            pronunciation: "Dua-satu-dua asas tiga",
+            pronunciationEn: "Two-one-two base three"
+          },
+          {
+            form: "1021₃",
+            places: [
+              { digit: "1", power: "3³" },
+              { digit: "0", power: "3²" },
+              { digit: "2", power: "3¹" },
+              { digit: "1", power: "3⁰" }
+            ],
+            pronunciation: "Satu-sifar-dua-satu asas tiga",
+            pronunciationEn: "One-zero-two-one base three"
+          }
+        ]
+      },
+      {
+        base: 4,
+        name: "Quaternary",
+        nameMalay: "Asas Empat",
+        digits: ["0", "1", "2", "3"],
+        examples: [
+          {
+            form: "123₄",
+            places: [
+              { digit: "1", power: "4²" },
+              { digit: "2", power: "4¹" },
+              { digit: "3", power: "4⁰" }
+            ],
+            pronunciation: "Satu-dua-tiga asas empat",
+            pronunciationEn: "One-two-three base four"
+          },
+          {
+            form: "302₄",
+            places: [
+              { digit: "3", power: "4²" },
+              { digit: "0", power: "4¹" },
+              { digit: "2", power: "4⁰" }
+            ],
+            pronunciation: "Tiga-sifar-dua asas empat",
+            pronunciationEn: "Three-zero-two base four"
+          },
+          {
+            form: "2130₄",
+            places: [
+              { digit: "2", power: "4³" },
+              { digit: "1", power: "4²" },
+              { digit: "3", power: "4¹" },
+              { digit: "0", power: "4⁰" }
+            ],
+            pronunciation: "Dua-satu-tiga-sifar asas empat",
+            pronunciationEn: "Two-one-three-zero base four"
+          }
+        ]
+      },
+      {
+        base: 5,
+        name: "Quinary",
+        nameMalay: "Asas Lima",
+        digits: ["0", "1", "2", "3", "4"],
+        examples: [
+          {
+            form: "234₅",
+            places: [
+              { digit: "2", power: "5²" },
+              { digit: "3", power: "5¹" },
+              { digit: "4", power: "5⁰" }
+            ],
+            pronunciation: "Dua-tiga-empat asas lima",
+            pronunciationEn: "Two-three-four base five"
+          },
+          {
+            form: "413₅",
+            places: [
+              { digit: "4", power: "5²" },
+              { digit: "1", power: "5¹" },
+              { digit: "3", power: "5⁰" }
+            ],
+            pronunciation: "Empat-satu-tiga asas lima",
+            pronunciationEn: "Four-one-three base five"
+          },
+          {
+            form: "3042₅",
+            places: [
+              { digit: "3", power: "5³" },
+              { digit: "0", power: "5²" },
+              { digit: "4", power: "5¹" },
+              { digit: "2", power: "5⁰" }
+            ],
+            pronunciation: "Tiga-sifar-empat-dua asas lima",
+            pronunciationEn: "Three-zero-four-two base five"
+          }
+        ]
+      },
+      {
+        base: 6,
+        name: "Senary",
+        nameMalay: "Asas Enam",
+        digits: ["0", "1", "2", "3", "4", "5"],
+        examples: [
+          {
+            form: "345₆",
+            places: [
+              { digit: "3", power: "6²" },
+              { digit: "4", power: "6¹" },
+              { digit: "5", power: "6⁰" }
+            ],
+            pronunciation: "Tiga-empat-lima asas enam",
+            pronunciationEn: "Three-four-five base six"
+          },
+          {
+            form: "521₆",
+            places: [
+              { digit: "5", power: "6²" },
+              { digit: "2", power: "6¹" },
+              { digit: "1", power: "6⁰" }
+            ],
+            pronunciation: "Lima-dua-satu asas enam",
+            pronunciationEn: "Five-two-one base six"
+          },
+          {
+            form: "4053₆",
+            places: [
+              { digit: "4", power: "6³" },
+              { digit: "0", power: "6²" },
+              { digit: "5", power: "6¹" },
+              { digit: "3", power: "6⁰" }
+            ],
+            pronunciation: "Empat-sifar-lima-tiga asas enam",
+            pronunciationEn: "Four-zero-five-three base six"
+          }
+        ]
+      },
+      {
+        base: 7,
+        name: "Septenary",
+        nameMalay: "Asas Tujuh",
+        digits: ["0", "1", "2", "3", "4", "5", "6"],
+        examples: [
+          {
+            form: "456₇",
+            places: [
+              { digit: "4", power: "7²" },
+              { digit: "5", power: "7¹" },
+              { digit: "6", power: "7⁰" }
+            ],
+            pronunciation: "Empat-lima-enam asas tujuh",
+            pronunciationEn: "Four-five-six base seven"
+          },
+          {
+            form: "632₇",
+            places: [
+              { digit: "6", power: "7²" },
+              { digit: "3", power: "7¹" },
+              { digit: "2", power: "7⁰" }
+            ],
+            pronunciation: "Enam-tiga-dua asas tujuh",
+            pronunciationEn: "Six-three-two base seven"
+          },
+          {
+            form: "5164₇",
+            places: [
+              { digit: "5", power: "7³" },
+              { digit: "1", power: "7²" },
+              { digit: "6", power: "7¹" },
+              { digit: "4", power: "7⁰" }
+            ],
+            pronunciation: "Lima-satu-enam-empat asas tujuh",
+            pronunciationEn: "Five-one-six-four base seven"
+          }
+        ]
+      },
+      {
+        base: 8,
+        name: "Octal",
+        nameMalay: "Asas Lapan",
+        digits: ["0", "1", "2", "3", "4", "5", "6", "7"],
+        examples: [
+          {
+            form: "567₈",
+            places: [
+              { digit: "5", power: "8²" },
+              { digit: "6", power: "8¹" },
+              { digit: "7", power: "8⁰" }
+            ],
+            pronunciation: "Lima-enam-tujuh asas lapan",
+            pronunciationEn: "Five-six-seven base eight"
+          },
+          {
+            form: "743₈",
+            places: [
+              { digit: "7", power: "8²" },
+              { digit: "4", power: "8¹" },
+              { digit: "3", power: "8⁰" }
+            ],
+            pronunciation: "Tujuh-empat-tiga asas lapan",
+            pronunciationEn: "Seven-four-three base eight"
+          },
+          {
+            form: "6275₈",
+            places: [
+              { digit: "6", power: "8³" },
+              { digit: "2", power: "8²" },
+              { digit: "7", power: "8¹" },
+              { digit: "5", power: "8⁰" }
+            ],
+            pronunciation: "Enam-dua-tujuh-lima asas lapan",
+            pronunciationEn: "Six-two-seven-five base eight"
+          }
+        ]
+      },
+      {
+        base: 9,
+        name: "Nonary",
+        nameMalay: "Asas Sembilan",
+        digits: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
+        examples: [
+          {
+            form: "678₉",
+            places: [
+              { digit: "6", power: "9²" },
+              { digit: "7", power: "9¹" },
+              { digit: "8", power: "9⁰" }
+            ],
+            pronunciation: "Enam-tujuh-lapan asas sembilan",
+            pronunciationEn: "Six-seven-eight base nine"
+          },
+          {
+            form: "854₉",
+            places: [
+              { digit: "8", power: "9²" },
+              { digit: "5", power: "9¹" },
+              { digit: "4", power: "9⁰" }
+            ],
+            pronunciation: "Lapan-lima-empat asas sembilan",
+            pronunciationEn: "Eight-five-four base nine"
+          },
+          {
+            form: "7386₉",
+            places: [
+              { digit: "7", power: "9³" },
+              { digit: "3", power: "9²" },
+              { digit: "8", power: "9¹" },
+              { digit: "6", power: "9⁰" }
+            ],
+            pronunciation: "Tujuh-tiga-lapan-enam asas sembilan",
+            pronunciationEn: "Seven-three-eight-six base nine"
+          }
+        ]
+      },
+      {
+        base: 10,
+        name: "Decimal",
+        nameMalay: "Asas Sepuluh",
+        digits: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        examples: [
+          {
+            form: "789₁₀",
+            places: [
+              { digit: "7", power: "10²" },
+              { digit: "8", power: "10¹" },
+              { digit: "9", power: "10⁰" }
+            ],
+            pronunciation: "Tujuh-lapan-sembilan asas sepuluh",
+            pronunciationEn: "Seven-eight-nine base ten"
+          },
+          {
+            form: "965₁₀",
+            places: [
+              { digit: "9", power: "10²" },
+              { digit: "6", power: "10¹" },
+              { digit: "5", power: "10⁰" }
+            ],
+            pronunciation: "Sembilan-enam-lima asas sepuluh",
+            pronunciationEn: "Nine-six-five base ten"
+          },
+          {
+            form: "8497₁₀",
+            places: [
+              { digit: "8", power: "10³" },
+              { digit: "4", power: "10²" },
+              { digit: "9", power: "10¹" },
+              { digit: "7", power: "10⁰" }
+            ],
+            pronunciation: "Lapan-empat-sembilan-tujuh asas sepuluh",
+            pronunciationEn: "Eight-four-nine-seven base ten"
+          }
+        ]
+      }
+    ];
 
-        function switchLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-            
-            document.getElementById('main-title').textContent = t.title;
-            document.getElementById('description-text').textContent = t.subtitle;
-            document.getElementById('note1-title').textContent = t.note1Title;
-            document.getElementById('note1-line1').innerHTML = t.note1Line1;
-            document.getElementById('note1-line2').innerHTML = t.note1Line2;
-            document.getElementById('note1-line3').innerHTML = t.note1Line3;
-            document.getElementById('note2-title').textContent = t.note2Title;
-            document.getElementById('note2-line1').innerHTML = t.note2Line1;
-            document.getElementById('note2-line2').innerHTML = t.note2Line2;
-            document.getElementById('label-a').textContent = t.labelA;
-            document.getElementById('label-b').textContent = t.labelB;
-            document.getElementById('label-c').textContent = t.labelC;
-            
-            // Update buttons
-            document.getElementById('lang-ms').classList.toggle('active', lang === 'ms');
-            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-            
-            // Redraw graph with new language
-            drawGraph();
+    let currentBase = 'pengenalan';
+    let currentTab = 'digit';
+    let currentLanguage = 'ms';
+
+    function renderNavigation() {
+      const navContainer = document.getElementById('nav-buttons');
+      navContainer.innerHTML = '';
+      const t = translations[currentLanguage];
+      
+      basesData.forEach(data => {
+        const button = document.createElement('button');
+        button.className = 'nav-button';
+        if (data.base === currentBase) {
+          button.classList.add('active');
         }
+        button.textContent = data.isPengenalan ? t.introduction : (currentLanguage === 'ms' ? `Asas ${data.base}` : `Base ${data.base}`);
+        button.onclick = () => {
+          currentBase = data.base;
+          currentTab = 'digit';
+          renderNavigation();
+          renderContent();
+        };
+        navContainer.appendChild(button);
+      });
+    }
 
-        document.getElementById('lang-ms').addEventListener('click', () => switchLanguage('ms'));
-        document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      
+      const langButtons = document.querySelectorAll('.lang-button');
+      langButtons.forEach(btn => {
+        if (btn.textContent === (lang === 'ms' ? 'Bahasa' : 'English')) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
 
-        const canvas = document.getElementById('graph');
-        const ctx = canvas.getContext('2d');
+      renderNavigation();
+      renderContent();
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      
+      const tabs = document.querySelectorAll('.tab-button');
+      tabs.forEach(tab => {
+        if (tab.dataset.tab === tabName) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        if (content.dataset.tab === tabName) {
+          content.classList.add('active');
+        } else {
+          content.classList.remove('active');
+        }
+      });
+    }
+
+    function renderContent() {
+      const contentArea = document.getElementById('content-area');
+      const data = basesData.find(d => d.base === currentBase);
+      const t = translations[currentLanguage];
+      
+      if (!data) return;
+      
+      if (data.isPengenalan) {
+        const examplesText = currentLanguage === 'ms' 
+          ? `• Asas 2 → digit 0, 1 sahaja<br>
+                • Asas 5 → digit 0, 1, 2, 3, 4<br>
+                • Asas 10 → digit 0, 1, 2, 3, 4, 5, 6, 7, 8, 9`
+          : `• Base 2 → digits 0, 1 only<br>
+                • Base 5 → digits 0, 1, 2, 3, 4<br>
+                • Base 10 → digits 0, 1, 2, 3, 4, 5, 6, 7, 8, 9`;
         
-        let a = 1, b = 0, c = 0;
+        const placeValueExample = currentLanguage === 'ms'
+          ? `<strong>Contoh dalam Asas 5:</strong><br>
+                Nombor 234₅ mempunyai kedudukan:<br>
+                • 2 → 5²<br>
+                • 3 → 5¹<br>
+                • 4 → 5⁰`
+          : `<strong>Example in Base 5:</strong><br>
+                Number 234₅ has positions:<br>
+                • 2 → 5²<br>
+                • 3 → 5¹<br>
+                • 4 → 5⁰`;
+        
+        const pronunciationExamples = currentLanguage === 'ms'
+          ? `• 1011₂ → "satu-sifar-satu-satu asas dua"<br>
+                • 234₅ → "dua-tiga-empat asas lima"<br>
+                • 567₈ → "lima-enam-tujuh asas lapan"`
+          : `• 1011₂ → "one-zero-one-one base two"<br>
+                • 234₅ → "two-three-four base five"<br>
+                • 567₈ → "five-six-seven base eight"`;
 
-        function drawGraph() {
-            const width = canvas.width;
-            const height = canvas.height;
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const scale = 35;
+        contentArea.innerHTML = `
+          <div class="content-header">
+            <h1 class="base-title">${t.introduction}</h1>
+            <p class="base-subtitle">${t.introSubtitle}</p>
+          </div>
 
-            // Clear canvas
-            ctx.clearRect(0, 0, width, height);
+          <section class="section">
+            <div class="intro-box">
+              <div class="intro-title">${t.allowedDigitsTitle}</div>
+              <div class="intro-text">${t.allowedDigitsText}</div>
+              <div class="intro-text" style="margin-top: 1rem;">
+                <strong>${t.examplesLabel}</strong><br>
+                ${examplesText}
+              </div>
+            </div>
 
-            // Draw grid
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1;
-            
-            for (let i = -20; i <= 20; i++) {
-                // Vertical lines
-                ctx.beginPath();
-                ctx.moveTo(centerX + i * scale, 0);
-                ctx.lineTo(centerX + i * scale, height);
-                ctx.stroke();
-                
-                // Horizontal lines
-                ctx.beginPath();
-                ctx.moveTo(0, centerY + i * scale);
-                ctx.lineTo(width, centerY + i * scale);
-                ctx.stroke();
-            }
+            <div class="intro-box">
+              <div class="intro-title">${t.placeValueTitle}</div>
+              <div class="intro-text" style="margin-top: 1rem;">
+                ${t.placeValueText}
+              </div>
+              <div class="intro-text" style="margin-top: 1rem;">
+                ${placeValueExample}
+              </div>
+            </div>
 
-            // Draw axes
-            ctx.strokeStyle = '#2d3748';
-            ctx.lineWidth = 2;
-            
-            // X-axis
-            ctx.beginPath();
-            ctx.moveTo(0, centerY);
-            ctx.lineTo(width, centerY);
-            ctx.stroke();
-            
-            // Y-axis
-            ctx.beginPath();
-            ctx.moveTo(centerX, 0);
-            ctx.lineTo(centerX, height);
-            ctx.stroke();
+            <div class="intro-box">
+              <div class="intro-title">${t.pronunciationTitle}</div>
+              <div class="intro-text">${t.pronunciationText}</div>
+              <div class="intro-text" style="margin-top: 1rem;">
+                <strong>${t.examplesLabel}</strong><br>
+                ${pronunciationExamples}
+              </div>
+            </div>
+          </section>
+        `;
+        return;
+      }
+      
+      const baseTitle = currentLanguage === 'ms' ? `Asas ${data.base}` : `Base ${data.base}`;
+      const baseSubtitle = currentLanguage === 'ms' ? data.nameMalay : data.name;
+      const allowedDigitsDesc = t.allowedDigitsDescription
+        .replace('{base}', data.base)
+        .replace('{maxDigit}', data.base - 1)
+        .replace('{base}', data.base);
 
-            // Draw axis of symmetry
-            if (a !== 0) {
-                const symmetryX = -b / (2 * a);
-                const symmetryCanvasX = centerX + symmetryX * scale;
-                
-                ctx.strokeStyle = '#f56565';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([5, 5]);
-                ctx.beginPath();
-                ctx.moveTo(symmetryCanvasX, 0);
-                ctx.lineTo(symmetryCanvasX, height);
-                ctx.stroke();
-                ctx.setLineDash([]);
+      contentArea.innerHTML = `
+        <div class="content-header">
+          <h1 class="base-title">${baseTitle}</h1>
+          <p class="base-subtitle">${baseSubtitle}</p>
+        </div>
 
-                // Update symmetry info
-                const t = translations[currentLang];
-                document.getElementById('symmetry-info').textContent = 
-                    `${t.symmetryAxis}: x = ${symmetryX.toFixed(2)}`;
-            }
+        <div class="tab-container">
+          <button class="tab-button active" data-tab="digit" onclick="switchTab('digit')">
+            ${t.tabAllowedDigits}
+          </button>
+          <button class="tab-button" data-tab="contoh" onclick="switchTab('contoh')">
+            ${t.tabExamples}
+          </button>
+        </div>
 
-            // Draw axis labels
-            ctx.fillStyle = '#4a5568';
-            ctx.font = 'bold 14px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('x', width - 25, centerY - 15);
-            ctx.fillText('y', centerX + 20, 20);
+        <div class="tab-content active" data-tab="digit">
+          <section class="section">
+            <div class="intro-box">
+              <div class="intro-title">${t.allowedDigitsInBase} ${data.base}</div>
+              <div class="intro-text">${allowedDigitsDesc}</div>
+              <div class="digits" style="margin-top: 1.5rem;">
+                ${data.digits.map(d => `<span class="digit">${d}</span>`).join('')}
+              </div>
+            </div>
+          </section>
+        </div>
 
-            // Draw scale numbers
-            ctx.font = '11px Arial';
-            for (let i = -10; i <= 10; i += 2) {
-                if (i !== 0) {
-                    // X-axis numbers
-                    ctx.fillText(i, centerX + i * scale, centerY + 20);
-                    // Y-axis numbers
-                    ctx.fillText(i, centerX - 25, centerY - i * scale + 5);
-                }
-            }
+        <div class="tab-content" data-tab="contoh">
+          <section class="section">
+            <div class="examples-container">
+              ${data.examples.map((ex, idx) => `
+                <div class="example-item">
+                  <div class="example-label">${t.exampleLabel} ${idx + 1}:</div>
+                  <div class="example-number">${ex.form}</div>
+                  
+                  <div>
+                    <strong style="color: #764ba2;">${t.placeValue}:</strong>
+                    <div class="nilai-tempat">
+                      ${ex.places.map(p => `
+                        <div class="tempat-box">
+                          <div class="tempat-digit">${p.digit}</div>
+                          <div class="tempat-power">${p.power}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                  
+                  <div class="pronunciation">
+                    🗣️ "${currentLanguage === 'ms' ? ex.pronunciation : ex.pronunciationEn}"
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        </div>
+      `;
 
-            // Draw parabola
-            ctx.strokeStyle = '#7b1fa2';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            
-            let firstPoint = true;
-            for (let x = -20; x <= 20; x += 0.05) {
-                const y = a * x * x + b * x + c;
-                const canvasX = centerX + x * scale;
-                const canvasY = centerY - y * scale;
-                
-                if (canvasY >= -10 && canvasY <= height + 10) {
-                    if (firstPoint) {
-                        ctx.moveTo(canvasX, canvasY);
-                        firstPoint = false;
-                    } else {
-                        ctx.lineTo(canvasX, canvasY);
-                    }
-                }
-            }
-            ctx.stroke();
+      const tabButtons = contentArea.querySelectorAll('.tab-button');
+      tabButtons.forEach(btn => {
+        btn.onclick = () => switchTab(btn.dataset.tab);
+      });
+    }
 
-            // Draw vertex point
-            if (a !== 0) {
-                const vertexX = -b / (2 * a);
-                const vertexY = a * vertexX * vertexX + b * vertexX + c;
-                const vertexCanvasX = centerX + vertexX * scale;
-                const vertexCanvasY = centerY - vertexY * scale;
-                
-                if (vertexCanvasX >= -10 && vertexCanvasX <= width + 10 && 
-                    vertexCanvasY >= -10 && vertexCanvasY <= height + 10) {
-                    ctx.fillStyle = '#4a148c';
-                    ctx.beginPath();
-                    ctx.arc(vertexCanvasX, vertexCanvasY, 7, 0, 2 * Math.PI);
-                    ctx.fill();
-                    
-                    // Vertex label
-                    const t = translations[currentLang];
-                    ctx.fillStyle = '#2d3748';
-                    ctx.font = 'bold 12px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText(`${t.vertex} (${vertexX.toFixed(2)}, ${vertexY.toFixed(2)})`, 
-                                vertexCanvasX + 12, vertexCanvasY - 8);
-                }
-            }
-
-            // Draw y-intercept point
-            const yInterceptCanvasX = centerX;
-            const yInterceptCanvasY = centerY - c * scale;
-            
-            if (yInterceptCanvasY >= -10 && yInterceptCanvasY <= height + 10) {
-                ctx.fillStyle = '#f59e0b';
-                ctx.beginPath();
-                ctx.arc(yInterceptCanvasX, yInterceptCanvasY, 6, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                // Y-intercept label
-                ctx.fillStyle = '#2d3748';
-                ctx.font = 'bold 11px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText(`(0, ${c.toFixed(1)})`, yInterceptCanvasX + 10, yInterceptCanvasY + 5);
-            }
+    async function onConfigChange(config) {
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      
+      document.body.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, ${config.primary_action || defaultConfig.primary_action} 100%)`;
+      
+      const sidebarTitleEl = document.getElementById('sidebar-title');
+      if (sidebarTitleEl) {
+        const t = translations[currentLanguage];
+        sidebarTitleEl.textContent = t.sidebarTitle;
+        sidebarTitleEl.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        sidebarTitleEl.style.fontSize = `${baseSize * 1.3}px`;
+      }
+      
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar) {
+        sidebar.style.backgroundColor = config.secondary_surface || defaultConfig.secondary_surface;
+      }
+      
+      const contentCard = document.querySelector('.content-card');
+      if (contentCard) {
+        contentCard.style.backgroundColor = config.secondary_surface || defaultConfig.secondary_surface;
+      }
+      
+      const navButtons = document.querySelectorAll('.nav-button');
+      navButtons.forEach(btn => {
+        btn.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        btn.style.fontSize = `${baseSize * 0.95}px`;
+        btn.style.borderColor = config.secondary_action || defaultConfig.secondary_action;
+        btn.style.color = config.secondary_action || defaultConfig.secondary_action;
+        
+        if (btn.classList.contains('active')) {
+          btn.style.backgroundColor = config.secondary_action || defaultConfig.secondary_action;
+          btn.style.color = config.secondary_surface || defaultConfig.secondary_surface;
+        } else {
+          btn.style.backgroundColor = '#f0f4ff';
         }
+      });
+      
+      const baseTitle = document.querySelector('.base-title');
+      if (baseTitle) {
+        baseTitle.style.color = config.secondary_action || defaultConfig.secondary_action;
+        baseTitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        baseTitle.style.fontSize = `${baseSize * 2.5}px`;
+      }
+      
+      const baseSubtitle = document.querySelector('.base-subtitle');
+      if (baseSubtitle) {
+        baseSubtitle.style.color = config.primary_action || defaultConfig.primary_action;
+        baseSubtitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        baseSubtitle.style.fontSize = `${baseSize * 1.4}px`;
+      }
 
-        function updateEquation() {
-            if (a === 0) {
-                const notQuadratic = currentLang === 'ms' ? '(Bukan fungsi kuadratik)' : '(Not a quadratic function)';
-                document.getElementById('equation').textContent = `f(x) = 0 ${notQuadratic}`;
-                return;
+      const tabButtons = document.querySelectorAll('.tab-button');
+      tabButtons.forEach(btn => {
+        btn.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        btn.style.fontSize = `${baseSize}px`;
+        
+        if (btn.classList.contains('active')) {
+          btn.style.color = config.secondary_action || defaultConfig.secondary_action;
+          btn.style.borderBottomColor = config.secondary_action || defaultConfig.secondary_action;
+        }
+      });
+
+      const introTitles = document.querySelectorAll('.intro-title');
+      introTitles.forEach(el => {
+        el.style.color = config.primary_action || defaultConfig.primary_action;
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize * 1.15}px`;
+      });
+
+      const introTexts = document.querySelectorAll('.intro-text');
+      introTexts.forEach(el => {
+        el.style.color = config.text_color || defaultConfig.text_color;
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize}px`;
+      });
+      
+      const exampleLabels = document.querySelectorAll('.example-label');
+      exampleLabels.forEach(el => {
+        el.style.color = config.primary_action || defaultConfig.primary_action;
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize * 1.05}px`;
+      });
+      
+      const pronunciations = document.querySelectorAll('.pronunciation');
+      pronunciations.forEach(el => {
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize * 1.05}px`;
+      });
+      
+      const digits = document.querySelectorAll('.digit');
+      digits.forEach(el => {
+        el.style.color = config.secondary_action || defaultConfig.secondary_action;
+        el.style.borderColor = config.secondary_action || defaultConfig.secondary_action;
+        el.style.fontSize = `${baseSize * 1.15}px`;
+      });
+      
+      const exampleNumbers = document.querySelectorAll('.example-number');
+      exampleNumbers.forEach(el => {
+        el.style.color = config.secondary_action || defaultConfig.secondary_action;
+        el.style.fontSize = `${baseSize * 1.6}px`;
+      });
+      
+      const tempatBoxes = document.querySelectorAll('.tempat-box');
+      tempatBoxes.forEach(el => {
+        el.style.borderColor = config.secondary_action || defaultConfig.secondary_action;
+      });
+      
+      const tempatDigits = document.querySelectorAll('.tempat-digit');
+      tempatDigits.forEach(el => {
+        el.style.color = config.text_color || defaultConfig.text_color;
+        el.style.fontSize = `${baseSize * 1.6}px`;
+      });
+      
+      const tempatPowers = document.querySelectorAll('.tempat-power');
+      tempatPowers.forEach(el => {
+        el.style.color = config.primary_action || defaultConfig.primary_action;
+        el.style.borderTopColor = config.primary_action || defaultConfig.primary_action;
+        el.style.fontSize = `${baseSize * 0.95}px`;
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_surface || defaultConfig.secondary_surface,
+              set: (value) => {
+                config.secondary_surface = value;
+                window.elementSdk.setConfig({ secondary_surface: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action || defaultConfig.primary_action,
+              set: (value) => {
+                config.primary_action = value;
+                window.elementSdk.setConfig({ primary_action: value });
+              }
+            },
+            {
+              get: () => config.secondary_action || defaultConfig.secondary_action,
+              set: (value) => {
+                config.secondary_action = value;
+                window.elementSdk.setConfig({ secondary_action: value });
+              }
             }
-
-            const aStr = a === 1 ? '' : a === -1 ? '-' : a.toFixed(1);
-            const bStr = b === 0 ? '' : b > 0 ? ` + ${b.toFixed(1)}x` : ` - ${Math.abs(b).toFixed(1)}x`;
-            const cStr = c === 0 ? '' : c > 0 ? ` + ${c.toFixed(1)}` : ` - ${Math.abs(c).toFixed(1)}`;
-            
-            let equation = `f(x) = ${aStr}x²${bStr}${cStr}`;
-            if (equation === 'f(x) = x²') equation = 'f(x) = x²';
-            document.getElementById('equation').textContent = equation;
-        }
-
-        document.getElementById('slider-a').addEventListener('input', (e) => {
-            a = parseFloat(e.target.value);
-            if (Math.abs(a) < 0.1) a = 0.1 * Math.sign(a);
-            document.getElementById('value-a').textContent = a.toFixed(1);
-            updateEquation();
-            drawGraph();
-        });
-
-        document.getElementById('slider-b').addEventListener('input', (e) => {
-            b = parseFloat(e.target.value);
-            document.getElementById('value-b').textContent = b.toFixed(1);
-            updateEquation();
-            drawGraph();
-        });
-
-        document.getElementById('slider-c').addEventListener('input', (e) => {
-            c = parseFloat(e.target.value);
-            document.getElementById('value-c').textContent = c.toFixed(1);
-            updateEquation();
-            drawGraph();
-        });
-
-        async function onConfigChange(config) {
-            const titleElement = document.getElementById('main-title');
-            const descElement = document.getElementById('description-text');
-            
-            titleElement.textContent = config.main_title || defaultConfig.main_title;
-            descElement.textContent = config.description_text || defaultConfig.description_text;
-            
-            const customFont = config.font_family || defaultConfig.font_family;
-            const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
-            const baseSize = config.font_size || defaultConfig.font_size;
-            
-            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-            titleElement.style.fontSize = `${baseSize * 2}px`;
-            descElement.style.fontSize = `${baseSize * 1.125}px`;
-            
-            const bgGradient = config.background_color || defaultConfig.background_color;
-            const secondaryGradient = config.secondary_action_color || defaultConfig.secondary_action_color;
-            document.body.style.background = `linear-gradient(135deg, ${bgGradient} 0%, #4a148c 50%, ${secondaryGradient} 100%)`;
-            document.body.style.backgroundAttachment = 'fixed';
-            
-            const surfaceColor = config.surface_color || defaultConfig.surface_color;
-            document.querySelector('.container').style.background = surfaceColor;
-            
-            const textColor = config.text_color || defaultConfig.text_color;
-            titleElement.style.color = textColor;
-            document.querySelector('.equation-display').style.color = textColor;
-            document.querySelectorAll('.control-group label').forEach(el => el.style.color = textColor);
-            document.querySelectorAll('.info-box p').forEach(el => el.style.color = textColor);
-            
-            const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
-            const sliders = document.querySelectorAll('input[type="range"]');
-            sliders.forEach(slider => {
-                const style = document.createElement('style');
-                style.textContent = `
-                    input[type="range"]::-webkit-slider-thumb { background: ${primaryColor}; }
-                    input[type="range"]::-moz-range-thumb { background: ${primaryColor}; }
-                `;
-                document.head.appendChild(style);
-            });
-            
-            document.querySelectorAll('.value-display').forEach(el => {
-                el.style.color = primaryColor;
-                el.style.borderColor = primaryColor;
-            });
-        }
-
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities: (config) => ({
-                    recolorables: [
-                        {
-                            get: () => config.background_color || defaultConfig.background_color,
-                            set: (value) => {
-                                window.elementSdk.config.background_color = value;
-                                window.elementSdk.setConfig({ background_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.surface_color || defaultConfig.surface_color,
-                            set: (value) => {
-                                window.elementSdk.config.surface_color = value;
-                                window.elementSdk.setConfig({ surface_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.text_color || defaultConfig.text_color,
-                            set: (value) => {
-                                window.elementSdk.config.text_color = value;
-                                window.elementSdk.setConfig({ text_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
-                            set: (value) => {
-                                window.elementSdk.config.primary_action_color = value;
-                                window.elementSdk.setConfig({ primary_action_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-                            set: (value) => {
-                                window.elementSdk.config.secondary_action_color = value;
-                                window.elementSdk.setConfig({ secondary_action_color: value });
-                            }
-                        }
-                    ],
-                    borderables: [],
-                    fontEditable: {
-                        get: () => config.font_family || defaultConfig.font_family,
-                        set: (value) => {
-                            window.elementSdk.config.font_family = value;
-                            window.elementSdk.setConfig({ font_family: value });
-                        }
-                    },
-                    fontSizeable: {
-                        get: () => config.font_size || defaultConfig.font_size,
-                        set: (value) => {
-                            window.elementSdk.config.font_size = value;
-                            window.elementSdk.setConfig({ font_size: value });
-                        }
-                    }
-                }),
-                mapToEditPanelValues: (config) => new Map([
-                    ["main_title", config.main_title || defaultConfig.main_title],
-                    ["description_text", config.description_text || defaultConfig.description_text]
-                ])
-            });
-        }
-
-        // Create floating stars (reduced count for mobile performance)
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const isMobile = window.innerWidth <= 768;
-            const starCount = isMobile ? 25 : 50;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Random size between 1-4px
-                const size = Math.random() * 3 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // Random horizontal position
-                star.style.left = `${Math.random() * 100}%`;
-                
-                // Random start position (some start mid-screen)
-                star.style.top = `${Math.random() * 120}%`;
-                
-                // Random animation duration (15-30 seconds for slow floating)
-                const duration = Math.random() * 15 + 15;
-                star.style.animationDuration = `${duration}s`;
-                
-                // Random delay
-                star.style.animationDelay = `${Math.random() * 10}s`;
-                
-                // Random opacity for twinkling effect
-                star.style.setProperty('--max-opacity', Math.random() * 0.5 + 0.3);
-                
-                starsContainer.appendChild(star);
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
             }
-        }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["sidebar_title", config.sidebar_title || defaultConfig.sidebar_title]
+        ])
+      });
+    }
 
-        // Initial draw
-        createStars();
-        drawGraph();
-        updateEquation();
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8a32f923124a9b',t:'MTc2NDgzOTcyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    renderNavigation();
+    renderContent();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8a9b4c94b97a7f',t:'MTc2NDg0Mzk5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
