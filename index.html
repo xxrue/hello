@@ -107,7 +107,7 @@
     }
     
     .header::before {
-      content: "👨‍🍳";
+      content: "🍳";
       position: absolute;
       left: 10%;
       top: 50%;
@@ -117,7 +117,7 @@
     }
     
     .header::after {
-      content: "👩‍🍳";
+      content: "📖";
       position: absolute;
       right: 10%;
       top: 50%;
@@ -299,7 +299,7 @@
     }
     
     .practice-section::before {
-      content: "🍽️";
+      content: "🍴";
       position: absolute;
       top: 15px;
       right: 30px;
@@ -676,6 +676,10 @@
       }
     }
     
+    .nav-text-mobile {
+      display: none;
+    }
+    
     @media (max-width: 768px) {
       body {
         padding: 1rem 0.5rem;
@@ -723,6 +727,30 @@
         font-size: 1rem;
         padding: 0.7rem 1.5rem;
       }
+      
+      .nav-text-desktop {
+        display: none;
+      }
+      
+      .nav-text-mobile {
+        display: inline;
+      }
+      
+      .nav-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1.3rem;
+      }
+      
+      .page-navigation {
+        gap: 0.8rem;
+        padding: 1rem;
+      }
+      
+      .page-indicator {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        min-width: auto;
+      }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -735,10 +763,10 @@
     <h1 id="mainTitle">🍳 The Linking Words Recipe Book</h1>
     <p id="subtitle">Secret ingredients for delicious storytelling!</p>
    </header><!-- Page Navigation -->
-   <div class="page-navigation"><button class="nav-btn" id="prevBtn" disabled> ← Previous </button>
+   <div class="page-navigation"><button class="nav-btn" id="prevBtn" disabled> <span class="nav-text-desktop">← Previous</span> <span class="nav-text-mobile">←</span> </button>
     <div class="page-indicator" id="pageIndicator">
      Introduction
-    </div><button class="nav-btn" id="nextBtn"> Next → </button>
+    </div><button class="nav-btn" id="nextBtn"> <span class="nav-text-desktop">Next →</span> <span class="nav-text-mobile">→</span> </button>
    </div><!-- Page 0: Introduction -->
    <div class="page-content active" data-page-num="0">
     <div class="intro-card">
@@ -968,7 +996,7 @@
   <div class="page-content" data-page-num="7">
    <div class="practice-section">
     <div class="page-wrapper" data-page="Page 7 - Practice">
-     <h2>👨‍🍳 Kitchen Practice Time!</h2>
+     <h2>🍳 Kitchen Practice Time!</h2>
      <div class="instructions-box">
       <p><strong>📋 Your Cooking Challenge:</strong></p>
       <p>Read the recipe story below and select the correct linking word "ingredients" to complete it. Mix in the right words to make your story flow smoothly! Use the "Reset" button if you want to start your recipe from scratch!</p>
@@ -1314,12 +1342,12 @@
         showRecipeStamp();
       } else {
         feedback.className = 'feedback show incorrect';
-        feedback.textContent = `👨‍🍳 Good effort! You got ${correctCount} out of ${blanks.length} ingredients right. Click "Start Over" to perfect your recipe!`;
+        feedback.textContent = `🍳 Good effort! You got ${correctCount} out of ${blanks.length} ingredients right. Click "Start Over" to perfect your recipe!`;
       }
     }
     
     function createParticles() {
-      const particles = ['🧈', '🌾', '��', '⭐', '🥄'];
+      const particles = ['⭐', '✨', '🌟', '💫', '🎉'];
       const practiceSection = document.querySelector('.practice-section');
       const rect = practiceSection.getBoundingClientRect();
       
@@ -1384,5 +1412,5 @@
       }
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a897d23c2421685',t:'MTc2NDgzMjI3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8985bd71ac1685',t:'MTc2NDgzMjYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
