@@ -11,7 +11,8 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #360033 0%, #0b8793 100%);
+            background: linear-gradient(135deg, #1a0033 0%, #4a148c 50%, #6a1b9a 100%);
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,8 +63,8 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             padding: 40px;
-            max-width: 1400px;
-            width: 95%;
+            max-width: 1200px;
+            width: 90%;
             margin: 20px auto;
             position: relative;
             box-sizing: border-box;
@@ -95,9 +96,9 @@
         }
 
         .language-toggle button.active {
-            background: #0b8793;
+            background: #7b1fa2;
             color: white;
-            box-shadow: 0 2px 8px rgba(11, 135, 147, 0.3);
+            box-shadow: 0 2px 8px rgba(123, 31, 162, 0.3);
         }
 
         .language-toggle button:hover:not(.active) {
@@ -108,7 +109,8 @@
             text-align: center;
             color: #2d3748;
             margin-bottom: 10px;
-            font-size: 32px;
+            font-size: 42px;
+            font-weight: 700;
         }
 
         .subtitle {
@@ -174,21 +176,21 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #0b8793;
+            background: #7b1fa2;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         input[type="range"]::-webkit-slider-thumb:hover {
             transform: scale(1.2);
-            background: #360033;
+            background: #4a148c;
         }
 
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #0b8793;
+            background: #7b1fa2;
             cursor: pointer;
             border: none;
             transition: all 0.2s;
@@ -196,7 +198,7 @@
 
         input[type="range"]::-moz-range-thumb:hover {
             transform: scale(1.2);
-            background: #360033;
+            background: #4a148c;
         }
 
         .value-display {
@@ -204,11 +206,11 @@
             text-align: center;
             font-weight: 700;
             font-size: 18px;
-            color: #0b8793;
+            color: #7b1fa2;
             background: white;
             padding: 5px 10px;
             border-radius: 8px;
-            border: 2px solid #0b8793;
+            border: 2px solid #7b1fa2;
         }
 
         .graph-container {
@@ -253,28 +255,28 @@
             text-align: center;
             font-size: 16px;
             font-weight: 600;
-            color: #0b8793;
+            color: #7b1fa2;
             padding: 12px;
-            background: #e6f7f9;
+            background: #f3e5f5;
             border-radius: 8px;
-            border-left: 4px solid #0b8793;
+            border-left: 4px solid #7b1fa2;
         }
 
         .info-box {
-            background: #e6f7f9;
-            border-left: 4px solid #0b8793;
+            background: #f3e5f5;
+            border-left: 4px solid #7b1fa2;
             padding: 12px;
             border-radius: 8px;
         }
 
         .info-box h3 {
             margin: 0 0 8px 0;
-            color: #0b8793;
+            color: #7b1fa2;
             font-size: 15px;
         }
 
         .info-box strong {
-            color: #0b8793;
+            color: #7b1fa2;
         }
 
         .info-box p {
@@ -298,7 +300,7 @@
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 34px;
             }
 
             .subtitle {
@@ -330,7 +332,7 @@
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 24px;
                 padding-right: 90px;
                 margin-bottom: 5px;
             }
@@ -444,11 +446,11 @@
         const defaultConfig = {
             main_title: "Graf Fungsi Kuadratik",
             description_text: "f(x) = ax² + bx + c",
-            background_color: "#360033",
+            background_color: "#1a0033",
             surface_color: "#ffffff",
             text_color: "#2d3748",
-            primary_action_color: "#0b8793",
-            secondary_action_color: "#360033",
+            primary_action_color: "#7b1fa2",
+            secondary_action_color: "#6a1b9a",
             font_family: "Segoe UI",
             font_size: 16
         };
@@ -607,7 +609,7 @@
             }
 
             // Draw parabola
-            ctx.strokeStyle = '#0b8793';
+            ctx.strokeStyle = '#7b1fa2';
             ctx.lineWidth = 4;
             ctx.beginPath();
             
@@ -637,7 +639,7 @@
                 
                 if (vertexCanvasX >= -10 && vertexCanvasX <= width + 10 && 
                     vertexCanvasY >= -10 && vertexCanvasY <= height + 10) {
-                    ctx.fillStyle = '#360033';
+                    ctx.fillStyle = '#4a148c';
                     ctx.beginPath();
                     ctx.arc(vertexCanvasX, vertexCanvasY, 7, 0, 2 * Math.PI);
                     ctx.fill();
@@ -725,7 +727,8 @@
             
             const bgGradient = config.background_color || defaultConfig.background_color;
             const secondaryGradient = config.secondary_action_color || defaultConfig.secondary_action_color;
-            document.body.style.background = `linear-gradient(135deg, ${bgGradient} 0%, ${secondaryGradient} 100%)`;
+            document.body.style.background = `linear-gradient(135deg, ${bgGradient} 0%, #4a148c 50%, ${secondaryGradient} 100%)`;
+            document.body.style.backgroundAttachment = 'fixed';
             
             const surfaceColor = config.surface_color || defaultConfig.surface_color;
             document.querySelector('.container').style.background = surfaceColor;
@@ -858,5 +861,5 @@
         drawGraph();
         updateEquation();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8a250fa230dce2',t:'MTc2NDgzOTE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8a32f923124a9b',t:'MTc2NDgzOTcyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
