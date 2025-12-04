@@ -3,816 +3,386 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Future Time Expressions Quiz</title>
+  <title>Adjective Flashcards</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    html, body {
+    body {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 100%;
       height: 100%;
+    }
+    
+    html {
+      height: 100%;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+      width: 100%;
+      padding: 1.5rem;
+    }
+    
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .screen.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .app-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0 0 3rem 0;
+    }
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
       width: 100%;
     }
     
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    .quiz-wrapper {
-      width: 100%;
-      min-height: 100%;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stars-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-    }
-
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle 3s infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-
-    .planet {
-      position: absolute;
-      font-size: 3em;
-      opacity: 0.4;
-      animation: planetFloat 20s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes planetFloat {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-30px) rotate(180deg);
-      }
-    }
-
-    .spaceship {
-      position: absolute;
-      font-size: 2em;
-      opacity: 0;
-      animation: spaceshipFly 15s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes spaceshipFly {
-      0% {
-        opacity: 0;
-        left: -100px;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 0;
-        left: calc(100% + 100px);
-      }
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #ffd700;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: sparkleFloat 2s ease-out forwards;
-      box-shadow: 0 0 6px #ffd700;
-    }
-
-    @keyframes sparkleFloat {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(0);
-      }
-    }
-
-    .particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: explode 0.8s ease-out forwards;
-    }
-
-    @keyframes explode {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0);
-      }
-    }
-
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      pointer-events: none;
-      animation: confettiFall 3s ease-out forwards;
-      z-index: 9999;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        opacity: 1;
-        transform: translateY(0) rotate(0deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(100%) rotate(720deg);
-      }
-    }
-
-    .firework {
-      position: fixed;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: fireworkExplode 1s ease-out forwards;
-      z-index: 9999;
-      box-shadow: 0 0 10px currentColor;
-    }
-
-    @keyframes fireworkExplode {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--fx), var(--fy)) scale(0);
-      }
-    }
-
-    .emoji-reaction {
-      position: absolute;
-      font-size: 3em;
-      pointer-events: none;
-      animation: emojiPop 1s ease-out forwards;
-      z-index: 1000;
-    }
-
-    @keyframes emojiPop {
-      0% {
-        opacity: 0;
-        transform: scale(0) translateY(0);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2) translateY(-20px);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1) translateY(-60px);
-      }
-    }
-
-    .quiz-container {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(255, 255, 255, 0.1);
-      max-width: 800px;
-      width: 100%;
-      padding: 40px;
-      animation: fadeIn 0.5s ease-in;
-      position: relative;
-      z-index: 10;
-    }
-
-    .quiz-container::before {
-      content: '✨';
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      font-size: 3em;
-      opacity: 0.3;
-      animation: starTwinkle 2s ease-in-out infinite;
-    }
-
-    .quiz-container::after {
-      content: '⭐';
-      position: absolute;
-      bottom: 40px;
-      left: 40px;
-      font-size: 2.5em;
-      opacity: 0.3;
-      animation: starTwinkle 2s ease-in-out infinite;
-      animation-delay: 1s;
-    }
-
-    @keyframes starTwinkle {
-      0%, 100% {
-        opacity: 0.2;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.5;
-        transform: scale(1.1);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .quiz-header {
+    .menu-card {
+      padding: 2rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
-      margin-bottom: 30px;
     }
-
-    .quiz-title {
-      font-size: 2em;
-      color: #ffffff;
-      text-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 40px rgba(118, 75, 162, 0.6);
-      margin: 0 0 10px 0;
+    
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .menu-card-title {
+      font-size: 1.5rem;
       font-weight: bold;
+      margin: 0 0 1rem 0;
     }
-
-    @keyframes gradientShift {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .quiz-subtitle {
-      font-size: 1.1em;
-      color: rgba(255, 255, 255, 0.9);
-      margin: 0;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .start-screen, .question-screen, .result-screen {
-      display: none;
-    }
-
-    .start-screen.active, .question-screen.active, .result-screen.active {
-      display: block;
-      animation: fadeIn 0.5s ease-in;
-    }
-
-    .instructions {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      border-left: 5px solid #667eea;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    .instructions p {
-      margin: 0 0 15px 0;
-      color: #ffffff;
-      line-height: 1.6;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .instructions p:last-child {
-      margin-bottom: 0;
-    }
-
-    .progress-bar {
-      background: #e0e0e0;
-      height: 12px;
-      border-radius: 10px;
-      margin-bottom: 25px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-      height: 100%;
-      transition: width 0.4s ease;
-      border-radius: 10px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress-fill::after {
-      content: '🚀';
-      position: absolute;
-      right: -15px;
-      top: -18px;
-      font-size: 1.8em;
-      animation: rocketFloat 1s ease-in-out infinite;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    @keyframes rocketFloat {
-      0%, 100% {
-        transform: translateY(0) rotate(-10deg);
-      }
-      50% {
-        transform: translateY(-5px) rotate(10deg);
-      }
-    }
-
-    .question-info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 0.95em;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .question-text {
-      font-size: 1.3em;
-      color: #ffffff !important;
-      margin-bottom: 30px;
+    
+    .menu-card-desc {
+      font-size: 1rem;
+      opacity: 0.8;
       line-height: 1.5;
-      font-weight: 700;
-      animation: cardFlip 0.6s ease-in-out;
-      text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
-      filter: brightness(1.3);
+      margin: 0;
     }
-
-    @keyframes cardFlip {
-      0% {
-        opacity: 0;
-        transform: perspective(1000px) rotateY(-90deg);
-      }
-      100% {
-        opacity: 1;
-        transform: perspective(1000px) rotateY(0deg);
-      }
+    
+    .note-header, .quiz-header {
+      text-align: center;
+      margin-bottom: 2rem;
     }
-
-    .options-container {
+    
+    .mode-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .note-cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .note-card-wrapper {
+      perspective: 1000px;
+      height: 400px;
+    }
+    
+    .note-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    
+    .note-card.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .note-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 30px;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     }
-
-    .option {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 18px 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.05em;
-      position: relative;
-      overflow: hidden;
-      animation: slideIn 0.5s ease-out backwards;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    
+    .note-front {
+      transform: rotateY(0deg);
     }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    
+    .note-back {
+      transform: rotateY(180deg);
     }
-
-    .option:nth-child(1) { animation-delay: 0.1s; }
-    .option:nth-child(2) { animation-delay: 0.2s; }
-    .option:nth-child(3) { animation-delay: 0.3s; }
-    .option:nth-child(4) { animation-delay: 0.4s; }
-
-    .option:hover {
-      background: rgba(102, 126, 234, 0.3);
-      border-color: #667eea;
-      transform: translateX(5px);
-      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    
+    .note-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
     }
-
-    .option.selected {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-color: #667eea;
-    }
-
-    .option.correct {
-      background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-      color: white;
-      border-color: #4caf50;
-      animation: correctPulse 0.5s ease;
-    }
-
-    @keyframes correctPulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-    }
-
-    .option.incorrect {
-      background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
-      color: white;
-      border-color: #f44336;
-      animation: shake 0.5s ease;
-    }
-
-    @keyframes shake {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      25% {
-        transform: translateX(-10px);
-      }
-      75% {
-        transform: translateX(10px);
-      }
-    }
-
-    .option.disabled {
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      font-size: 1.1em;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      display: inline-block;
+    
+    .note-card-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 0;
       text-align: center;
+    }
+    
+    .note-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .note-examples {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      font-style: italic;
+      opacity: 0.9;
+      text-align: left;
+      margin-top: 1rem;
+    }
+    
+    .quiz-instructions {
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .quiz-card-container {
+      perspective: 1000px;
+      margin-bottom: 2rem;
+      height: 400px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .quiz-card {
       position: relative;
-      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
     }
-
-    .btn::before {
-      content: '';
+    
+    .quiz-card.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .quiz-face {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     }
-
-    .btn:hover::before {
-      width: 300px;
-      height: 300px;
+    
+    .quiz-front {
+      transform: rotateY(0deg);
     }
-
+    
+    .quiz-back {
+      transform: rotateY(180deg);
+    }
+    
+    .quiz-question-number {
+      font-size: 1rem;
+      font-weight: 600;
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .quiz-sentence {
+      font-size: 1.6rem;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    
+    .quiz-word {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    
+    .quiz-hint {
+      font-size: 1rem;
+      opacity: 0.7;
+      text-align: center;
+      font-style: italic;
+      margin-top: 1.5rem;
+    }
+    
+    .quiz-emoji {
+      font-size: 3rem;
+      margin-top: 1rem;
+    }
+    
+    .quiz-clickable-areas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    
+    .quiz-click-left, .quiz-click-right {
+      flex: 1;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    .quiz-click-left:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+    
+    .quiz-click-right:hover {
+      background: rgba(16, 185, 129, 0.1);
+    }
+    
+    .quiz-result {
+      text-align: center;
+    }
+    
+    .result-text {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .result-answer {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .result-emoji {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .result-explanation {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    .quiz-score {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn {
+      padding: 0.875rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
+    
+    .btn:active {
+      transform: translateY(0);
     }
-
-    .btn-container {
+    
+    .back-btn-container {
       text-align: center;
-      margin-top: 30px;
+      margin-top: 2rem;
     }
-
-    .feedback {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      font-weight: 500;
-      display: none;
-      animation: fadeIn 0.5s ease-in;
-    }
-
-    .feedback.show {
-      display: block;
-    }
-
-    .feedback.correct {
-      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      color: #1b5e20;
-      border-left: 5px solid #4caf50;
-      font-weight: 600;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
-    }
-
-    .feedback.incorrect {
-      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-      color: #b71c1c;
-      border-left: 5px solid #f44336;
-      font-weight: 600;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
-    }
-
-    .result-screen {
-      text-align: center;
-    }
-
-    .score-display {
-      font-size: 4em;
-      color: #ffffff;
-      text-shadow: 0 0 30px rgba(102, 126, 234, 0.9), 0 0 60px rgba(118, 75, 162, 0.7);
-      font-weight: bold;
-      margin: 30px 0;
-      animation: scoreReveal 1s ease-out;
-    }
-
-    @keyframes scoreReveal {
-      0% {
-        opacity: 0;
-        transform: scale(0);
-      }
-      50% {
-        transform: scale(1.2);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .score-message {
-      font-size: 1.5em;
-      color: #ffffff !important;
-      margin-bottom: 20px;
-      font-weight: 700;
-      text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
-      filter: brightness(1.3);
-    }
-
-    .score-details {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 25px;
-      border-radius: 12px;
-      margin: 30px 0;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    .score-details p {
-      margin: 10px 0;
-      color: #ffffff;
-      font-size: 1.1em;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .mascot-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .mascot {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5em;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-      animation: mascotFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes mascotFloat {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-10px) rotate(-5deg);
-      }
-      75% {
-        transform: translateY(-5px) rotate(5deg);
-      }
-    }
-
-    .mascot:hover {
-      transform: scale(1.1);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .mascot.dance {
-      animation: mascotDance 0.6s ease-in-out;
-    }
-
-    @keyframes mascotDance {
-      0%, 100% {
-        transform: rotate(0deg) scale(1);
-      }
-      25% {
-        transform: rotate(-15deg) scale(1.1);
-      }
-      50% {
-        transform: rotate(15deg) scale(1.2);
-      }
-      75% {
-        transform: rotate(-10deg) scale(1.1);
-      }
-    }
-
-    .ripple {
-      position: absolute;
-      border: 3px solid rgba(102, 126, 234, 0.6);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: rippleEffect 1s ease-out forwards;
-    }
-
-    @keyframes rippleEffect {
-      0% {
-        width: 80px;
-        height: 80px;
-        opacity: 1;
-        top: 0;
-        left: 0;
-      }
-      100% {
-        width: 160px;
-        height: 160px;
-        opacity: 0;
-        top: -40px;
-        left: -40px;
-      }
-    }
-
-    .mascot-message {
-      position: absolute;
-      bottom: 100px;
-      right: 0;
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      max-width: 300px;
-      display: none;
-      animation: slideUp 0.4s ease;
-      cursor: pointer;
-    }
-
-    .mascot-message.show {
-      display: block;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .mascot-message::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      right: 30px;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 10px solid white;
-    }
-
-    .mascot-message-text {
-      color: #1a1a2e;
-      font-size: 0.95em;
-      line-height: 1.6;
-      margin: 0;
-      font-weight: 500;
-    }
-
-    .mascot-message-title {
-      color: #667eea;
-      font-weight: bold;
-      margin: 0 0 10px 0;
-      font-size: 1.1em;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-    }
-
+    
     @media (max-width: 768px) {
-      .quiz-container {
-        padding: 25px 20px;
+      .app-wrapper {
+        padding: 1rem;
       }
-
-      .quiz-title {
-        font-size: 1.5em;
+      
+      .app-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
       }
-
-      .quiz-subtitle {
-        font-size: 0.95em;
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
-
-      .question-text {
-        font-size: 1.1em;
+      
+      .mode-title {
+        font-size: 1.5rem;
       }
-
-      .option {
-        padding: 15px;
-        font-size: 0.95em;
+      
+      .note-cards-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
-
-      .btn {
-        padding: 12px 30px;
-        font-size: 1em;
+      
+      .note-card-wrapper {
+        height: 380px;
       }
-
-      .score-display {
-        font-size: 3em;
+      
+      .quiz-card-container {
+        height: 320px;
       }
-
-      .score-message {
-        font-size: 1.2em;
+      
+      .quiz-sentence {
+        font-size: 1.3rem;
       }
-
-      .mascot {
-        width: 60px;
-        height: 60px;
-        font-size: 2em;
-      }
-
-      .mascot-container {
-        bottom: 15px;
-        right: 15px;
-      }
-
-      .mascot-message {
-        max-width: 250px;
-        bottom: 80px;
-        right: -10px;
-        padding: 15px;
+      
+      .quiz-buttons {
+        flex-direction: column;
       }
     }
   </style>
@@ -821,762 +391,506 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="quiz-wrapper">
-   <div class="stars-container" id="starsContainer"></div>
-   <div class="quiz-container">
-    <div class="quiz-header">
-     <h1 class="quiz-title" id="quizTitle">🚀 Future Time Expressions Quiz</h1>
-     <p class="quiz-subtitle">Test Your Knowledge</p>
-    </div><!-- Start Screen -->
-    <div class="start-screen active" id="startScreen">
-     <div class="instructions">
-      <p id="instructionText">Welcome! This quiz will test your understanding of future time expressions including 'will', 'when + will', and 'would like'.</p>
-      <p><strong>Instructions:</strong></p>
-      <p>• You will answer 12 randomly selected questions</p>
-      <p>• Choose the correct answer for each question</p>
-      <p>• Click submit to check your answer</p>
-      <p>• Click next to move to the following question</p>
+  <div class="app-wrapper"><!-- Main Menu Screen -->
+   <main id="menuScreen" class="screen active">
+    <h1 class="app-title" id="appTitle">-ed and -ing Adjectives</h1>
+    <div class="menu-grid">
+     <div class="menu-card" id="noteCard">
+      <div class="menu-card-title" id="noteCardTitle">
+       📝 Note Flashcard
+      </div>
+      <p class="menu-card-desc" id="noteCardDesc">Learn the rules for -ed and -ing adjectives with detailed explanations and examples</p>
      </div>
-     <div class="btn-container"><button class="btn" id="startBtn">Start Quiz</button>
-     </div>
-    </div><!-- Question Screen -->
-    <div class="question-screen" id="questionScreen">
-     <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-     </div>
-     <div class="question-info"><span id="questionNumber">Question 1 of 12</span> <span id="scoreTracker">Score: 0/12</span>
-     </div>
-     <div class="question-text" id="questionText"></div>
-     <div class="options-container" id="optionsContainer"></div>
-     <div class="feedback" id="feedback"></div>
-     <div class="btn-container"><button class="btn" id="submitBtn" disabled>Submit Answer</button> <button class="btn" id="nextBtn" style="display: none;">Next Question</button>
-     </div>
-    </div><!-- Result Screen -->
-    <div class="result-screen" id="resultScreen">
-     <div class="score-display" id="finalScore">
-      0/12
-     </div>
-     <div class="score-message" id="scoreMessage"></div>
-     <div class="score-details">
-      <p><strong>Correct Answers:</strong> <span id="correctCount">0</span></p>
-      <p><strong>Incorrect Answers:</strong> <span id="incorrectCount">0</span></p>
-      <p><strong>Percentage:</strong> <span id="percentage">0%</span></p>
-     </div>
-     <div class="btn-container"><button class="btn" id="restartBtn">Restart Quiz</button>
+     <div class="menu-card" id="quizCard">
+      <div class="menu-card-title" id="quizCardTitle">
+       ✏️ Quiz Flashcard
+      </div>
+      <p class="menu-card-desc" id="quizCardDesc">Test your knowledge with 10 interactive questions and instant feedback</p>
      </div>
     </div>
-   </div><!-- Mascot -->
-   <div class="mascot-container">
-    <div class="mascot-message" id="mascotMessage">
-     <h4 class="mascot-message-title" id="mascotTitle">💡 Tip</h4>
-     <p class="mascot-message-text" id="mascotText">Click me to get helpful tips!</p>
+   </main><!-- Note Mode Screen -->
+   <div id="noteScreen" class="screen">
+    <header class="note-header">
+     <h2 class="mode-title" id="noteTitle">📝 Note Flashcard</h2>
+    </header>
+    <div class="note-cards-container">
+     <div class="note-card-wrapper">
+      <div class="note-card" id="edCard">
+       <div class="note-face note-front">
+        <div class="note-emoji">
+         ���
+        </div>
+        <h3 class="note-card-title">-ed Adjectives</h3>
+       </div>
+       <div class="note-face note-back">
+        <h3 class="note-card-title">-ed Adjectives</h3>
+        <p class="note-description">Used to describe emotions or feelings that someone experiences</p>
+        <div class="note-examples"><strong>Examples:</strong><br>
+          • She seems interested in Biology<br>
+          • He seems tired when he got back from school<br>
+          • I was horrified by the movie
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="note-card-wrapper">
+      <div class="note-card" id="ingCard">
+       <div class="note-face note-front">
+        <div class="note-emoji">
+         ✨
+        </div>
+        <h3 class="note-card-title">-ing Adjectives</h3>
+       </div>
+       <div class="note-face note-back">
+        <h3 class="note-card-title">-ing Adjectives</h3>
+        <p class="note-description">Used to describe the thing that causes the emotion or feeling</p>
+        <div class="note-examples"><strong>Examples:</strong><br>
+          • That movie is absolutely horrifying<br>
+          • Suzy is an interesting girl<br>
+          • The school day was tiring
+        </div>
+       </div>
+      </div>
+     </div>
     </div>
-    <div class="mascot" id="mascot">
-     🪐
+    <div class="back-btn-container"><button class="btn" id="noteBackBtn">← Back to Main Menu</button>
+    </div>
+   </div><!-- Quiz Mode Screen -->
+   <div id="quizScreen" class="screen">
+    <header class="quiz-header">
+     <h2 class="mode-title" id="quizTitle">✏️ Quiz Flashcard</h2>
+    </header>
+    <div class="quiz-instructions" id="instructions"><strong>How to play:</strong> Read the sentence and decide if the adjective should end with <strong>-ed</strong> or <strong>-ing</strong>. Click the left button for -ed or the right button for -ing!
+    </div>
+    <div class="quiz-score" id="quizScore">
+     Question 1 of 10 | Score: 0
+    </div>
+    <div class="quiz-card-container">
+     <div class="quiz-card" id="quizCard">
+      <div class="quiz-face quiz-front">
+       <div class="quiz-question-number" id="questionNumber">
+        Question 1
+       </div>
+       <div class="quiz-sentence" id="quizSentence">
+        Loading...
+       </div>
+       <div class="quiz-hint">
+        👈 Click left for -ed | Click right for -ing 👉
+       </div>
+       <div class="quiz-emoji">
+        🤔
+       </div>
+       <div class="quiz-clickable-areas">
+        <div class="quiz-click-left" id="clickLeftArea"></div>
+        <div class="quiz-click-right" id="clickRightArea"></div>
+       </div>
+      </div>
+      <div class="quiz-face quiz-back">
+       <div class="quiz-result">
+        <div class="quiz-question-number" id="backQuestionNumber">
+         Question 1
+        </div>
+        <div class="result-text" id="resultText">
+         Correct!
+        </div>
+        <div class="result-answer" id="resultAnswer">
+         boring
+        </div>
+        <div class="result-emoji" id="resultEmoji">
+         ✨
+        </div>
+        <div class="result-explanation" id="resultExplanation">
+         Explanation goes here
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="back-btn-container" style="margin-bottom: 1rem;"><button class="btn" id="nextQuizBtn">Next Question →</button>
+    </div>
+    <div class="back-btn-container"><button class="btn" id="quizBackBtn">← Back to Main Menu</button>
     </div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      quiz_title: "🚀 Future Time Expressions Quiz",
-      instruction_text: "Welcome! This quiz will test your understanding of future time expressions including 'will', 'when + will', and 'would like'.",
-      start_button_text: "Start Quiz",
-      submit_button_text: "Submit Answer",
-      next_button_text: "Next Question",
-      restart_button_text: "Restart Quiz",
-      background_color: "#1a1a2e",
-      secondary_surface_color: "#e8eaf6",
-      text_color: "#333333",
-      primary_action_color: "#667eea",
-      secondary_action_color: "#764ba2"
+      background_color: "#f0f4f8",
+      surface_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_action_color: "#3b82f6",
+      secondary_action_color: "#10b981",
+      font_family: "Segoe UI",
+      font_size: 16,
+      main_title: "-ed and -ing Adjectives",
+      note_title: "📝 Note Flashcard",
+      note_desc: "Learn the rules for -ed and -ing adjectives with detailed explanations and examples",
+      quiz_title: "✏️ Quiz Flashcard",
+      quiz_desc: "Test your knowledge with 10 interactive questions and instant feedback",
+      back_button_text: "← Back to Main Menu"
     };
 
-    const allQuestions = [
+    const quizQuestions = [
       {
-        question: "I ___ visit my grandmother tomorrow.",
-        correct: "will",
-        distractors: ["would", "am", "going"]
+        sentence: "The movie was really (bore)",
+        correct: "ing",
+        word: "boring",
+        explanation: "The movie causes the feeling of boredom, so we use -ing"
       },
       {
-        question: "They ___ finish the project next week.",
-        correct: "will",
-        distractors: ["would", "are", "can"]
+        sentence: "I was (bore) during the lecture",
+        correct: "ed",
+        word: "bored",
+        explanation: "You felt the emotion of boredom, so we use -ed"
       },
       {
-        question: "When she ___ home, she will cook dinner.",
-        correct: "arrives",
-        distractors: ["will arrive", "arriving", "arrived"]
+        sentence: "This puzzle is very (confuse)",
+        correct: "ing",
+        word: "confusing",
+        explanation: "The puzzle causes confusion, so we use -ing"
       },
       {
-        question: "Sarah ___ to travel to Japan one day.",
-        correct: "would like",
-        distractors: ["will like", "likes", "liking"]
+        sentence: "She felt (excite) about the trip",
+        correct: "ed",
+        word: "excited",
+        explanation: "She felt the emotion of excitement, so we use -ed"
       },
       {
-        question: "We will go to the beach ___.",
-        correct: "this summer",
-        distractors: ["yesterday", "last year", "ago"]
+        sentence: "The news was (shock)",
+        correct: "ing",
+        word: "shocking",
+        explanation: "The news causes the feeling of shock, so we use -ing"
       },
       {
-        question: "___ you like to have some tea?",
-        correct: "Would",
-        distractors: ["Will", "Do", "Are"]
+        sentence: "We were (amaze) by the performance",
+        correct: "ed",
+        word: "amazed",
+        explanation: "We felt the emotion of amazement, so we use -ed"
       },
       {
-        question: "When I ___ my exam, I will celebrate.",
-        correct: "pass",
-        distractors: ["will pass", "passed", "passing"]
+        sentence: "His story is really (interest)",
+        correct: "ing",
+        word: "interesting",
+        explanation: "His story causes interest, so we use -ing"
       },
       {
-        question: "The students will submit their assignments ___.",
-        correct: "next Monday",
-        distractors: ["last Monday", "yesterday", "two days ago"]
+        sentence: "They seemed (worry) about the test",
+        correct: "ed",
+        word: "worried",
+        explanation: "They felt the emotion of worry, so we use -ed"
       },
       {
-        question: "He ___ like to learn how to play the guitar.",
-        correct: "would",
-        distractors: ["will", "does", "is"]
+        sentence: "The roller coaster was (thrill)",
+        correct: "ing",
+        word: "thrilling",
+        explanation: "The roller coaster causes the feeling of thrill, so we use -ing"
       },
       {
-        question: "I will call you ___.",
-        correct: "soon",
-        distractors: ["yesterday", "last night", "ago"]
-      },
-      {
-        question: "When they ___ the news, they will be happy.",
-        correct: "hear",
-        distractors: ["will hear", "heard", "hearing"]
-      },
-      {
-        question: "___ the children like to go to the park?",
-        correct: "Would",
-        distractors: ["Will", "Do", "Are"]
-      },
-      {
-        question: "We will have a party ___.",
-        correct: "next Saturday",
-        distractors: ["last Saturday", "yesterday", "two weeks ago"]
-      },
-      {
-        question: "She would ___ to become a doctor.",
-        correct: "like",
-        distractors: ["likes", "liking", "liked"]
-      },
-      {
-        question: "When it ___ raining, we will go outside.",
-        correct: "stops",
-        distractors: ["will stop", "stopped", "stopping"]
-      },
-      {
-        question: "They ___ move to a new house one day.",
-        correct: "will",
-        distractors: ["would", "are", "can"]
-      },
-      {
-        question: "Would you ___ to join our team?",
-        correct: "like",
-        distractors: ["likes", "liking", "liked"]
-      },
-      {
-        question: "I will finish my homework ___.",
-        correct: "tonight",
-        distractors: ["last night", "yesterday", "two days ago"]
-      },
-      {
-        question: "When the teacher ___, the class will begin.",
-        correct: "comes",
-        distractors: ["will come", "came", "coming"]
-      },
-      {
-        question: "Everyone would like ___ in a safe environment.",
-        correct: "to live",
-        distractors: ["living", "live", "lives"]
-      },
-      {
-        question: "I ___ go to the party tomorrow.",
-        correct: "won't",
-        distractors: ["don't", "didn't", "wouldn't"]
-      },
-      {
-        question: "She ___ like to eat spicy food.",
-        correct: "wouldn't",
-        distractors: ["won't", "doesn't", "isn't"]
-      },
-      {
-        question: "When he ___ ready, we won't wait anymore.",
-        correct: "isn't",
-        distractors: ["won't be", "wasn't", "wouldn't be"]
-      },
-      {
-        question: "They ___ finish their work on time next week.",
-        correct: "won't",
-        distractors: ["wouldn't", "don't", "aren't"]
-      },
-      {
-        question: "___ you like to come with us? No, I wouldn't.",
-        correct: "Would",
-        distractors: ["Will", "Do", "Won't"]
+        sentence: "He looks (tire) after the gym",
+        correct: "ed",
+        word: "tired",
+        explanation: "He feels the emotion of tiredness, so we use -ed"
       }
     ];
 
-    let currentQuestions = [];
-    let currentQuestionIndex = 0;
+    let currentScreen = 'menu';
+    let currentQuestion = 0;
     let score = 0;
-    let selectedAnswer = null;
-    let answered = false;
 
-    // Create twinkling stars
-    function createStars() {
-      const container = document.getElementById('starsContainer');
-      const starCount = 100;
-      
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 3 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDelay = `${Math.random() * 3}s`;
-        container.appendChild(star);
-      }
-
-      // Add planets
-      const planets = ['🪐', '🌍', '🌙', '🌕', '🌑'];
-      for (let i = 0; i < 5; i++) {
-        const planet = document.createElement('div');
-        planet.className = 'planet';
-        planet.textContent = planets[i];
-        planet.style.left = `${Math.random() * 90 + 5}%`;
-        planet.style.top = `${Math.random() * 80 + 10}%`;
-        planet.style.animationDelay = `${Math.random() * 5}s`;
-        planet.style.animationDuration = `${15 + Math.random() * 10}s`;
-        container.appendChild(planet);
-      }
-
-      // Add spaceships
-      const spaceships = ['🛸', '🚀', '🛰️'];
-      for (let i = 0; i < 3; i++) {
-        const spaceship = document.createElement('div');
-        spaceship.className = 'spaceship';
-        spaceship.textContent = spaceships[i % spaceships.length];
-        spaceship.style.top = `${Math.random() * 70 + 15}%`;
-        spaceship.style.animationDelay = `${i * 5 + Math.random() * 3}s`;
-        spaceship.style.animationDuration = `${12 + Math.random() * 6}s`;
-        container.appendChild(spaceship);
-      }
+    function showScreen(screenName) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenName + 'Screen').classList.add('active');
+      currentScreen = screenName;
     }
 
-    // Create sparkle effect
-    function createSparkles(x, y, count = 10) {
-      for (let i = 0; i < count; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
-        sparkle.style.animationDelay = `${Math.random() * 0.3}s`;
-        document.body.appendChild(sparkle);
-        
-        setTimeout(() => sparkle.remove(), 2000);
-      }
+    function flipNoteCard(cardId) {
+      document.getElementById(cardId).classList.toggle('flipped');
     }
 
-    // Create particle explosion
-    function createParticleExplosion(element) {
-      const rect = element.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const colors = ['#4caf50', '#66bb6a', '#81c784', '#a5d6a7', '#ffd700'];
+    function loadQuizQuestion() {
+      const q = quizQuestions[currentQuestion];
+      const wordMatch = q.sentence.match(/\(([^)]+)\)/);
+      const baseWord = wordMatch ? wordMatch[1] : '';
+      const sentenceWithUnderline = q.sentence.replace(`(${baseWord})`, `<span class="quiz-word">${baseWord}</span>`);
       
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = `${centerX}px`;
-        particle.style.top = `${centerY}px`;
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        
-        const angle = (Math.PI * 2 * i) / 30;
-        const velocity = 50 + Math.random() * 50;
-        const tx = Math.cos(angle) * velocity;
-        const ty = Math.sin(angle) * velocity;
-        
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-        
-        document.body.appendChild(particle);
-        setTimeout(() => particle.remove(), 800);
-      }
+      document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
+      document.getElementById('backQuestionNumber').textContent = `Question ${currentQuestion + 1}`;
+      document.getElementById('quizSentence').innerHTML = sentenceWithUnderline;
+      document.getElementById('quizScore').textContent = `Question ${currentQuestion + 1} of ${quizQuestions.length} | Score: ${score}`;
+      
+      document.getElementById('quizCard').classList.remove('flipped');
     }
 
-    // Create confetti shower
-    function createConfetti() {
-      const colors = ['#667eea', '#764ba2', '#4caf50', '#ffd700', '#ff6b6b', '#4ecdc4'];
-      const shapes = ['🌟', '⭐', '✨', '💫', '🎉', '🎊'];
-      
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.top = `-20px`;
-        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-        confetti.style.fontSize = `${Math.random() * 20 + 15}px`;
-        
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3000);
-      }
-    }
-
-    // Create fireworks
-    function createFirework(x, y) {
-      const colors = ['#667eea', '#764ba2', '#4caf50', '#ffd700', '#ff6b6b'];
-      
-      for (let i = 0; i < 40; i++) {
-        const firework = document.createElement('div');
-        firework.className = 'firework';
-        firework.style.left = `${x}px`;
-        firework.style.top = `${y}px`;
-        firework.style.background = colors[Math.floor(Math.random() * colors.length)];
-        
-        const angle = (Math.PI * 2 * i) / 40;
-        const velocity = 80 + Math.random() * 80;
-        const fx = Math.cos(angle) * velocity;
-        const fy = Math.sin(angle) * velocity;
-        
-        firework.style.setProperty('--fx', `${fx}px`);
-        firework.style.setProperty('--fy', `${fy}px`);
-        
-        document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 1000);
-      }
-    }
-
-    // Create emoji reaction
-    function createEmojiReaction(emoji, x, y) {
-      const reaction = document.createElement('div');
-      reaction.className = 'emoji-reaction';
-      reaction.textContent = emoji;
-      reaction.style.left = `${x}px`;
-      reaction.style.top = `${y}px`;
-      
-      document.body.appendChild(reaction);
-      setTimeout(() => reaction.remove(), 1000);
-    }
-
-    function shuffleArray(array) {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    }
-
-    function selectRandomQuestions() {
-      const shuffled = shuffleArray(allQuestions);
-      return shuffled.slice(0, 12);
-    }
-
-    function startQuiz() {
-      currentQuestions = selectRandomQuestions();
-      currentQuestionIndex = 0;
-      score = 0;
-      
-      document.getElementById('startScreen').classList.remove('active');
-      document.getElementById('questionScreen').classList.add('active');
-      
-      displayQuestion();
-    }
-
-    function displayQuestion() {
-      answered = false;
-      selectedAnswer = null;
-      
-      const question = currentQuestions[currentQuestionIndex];
-      const allAnswers = [question.correct, ...question.distractors];
-      const shuffledAnswers = shuffleArray(allAnswers);
-      
-      document.getElementById('questionText').textContent = question.question;
-      document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1} of 12`;
-      document.getElementById('scoreTracker').textContent = `Score: ${score}/12`;
-      
-      const progress = ((currentQuestionIndex) / 12) * 100;
-      document.getElementById('progressFill').style.width = `${progress}%`;
-      
-      const optionsContainer = document.getElementById('optionsContainer');
-      optionsContainer.innerHTML = '';
-      
-      shuffledAnswers.forEach((answer, index) => {
-        const option = document.createElement('div');
-        option.className = 'option';
-        option.textContent = answer;
-        option.dataset.answer = answer;
-        option.addEventListener('click', () => selectOption(option, answer));
-        optionsContainer.appendChild(option);
-      });
-      
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('nextBtn').style.display = 'none';
-      document.getElementById('feedback').classList.remove('show', 'correct', 'incorrect');
-    }
-
-    function selectOption(optionElement, answer) {
-      if (answered) return;
-      
-      document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.remove('selected');
-      });
-      
-      optionElement.classList.add('selected');
-      selectedAnswer = answer;
-      document.getElementById('submitBtn').disabled = false;
-      
-      // Create sparkle effect on selection
-      const rect = optionElement.getBoundingClientRect();
-      createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 5);
-    }
-
-    function submitAnswer() {
-      if (!selectedAnswer || answered) return;
-      
-      answered = true;
-      const question = currentQuestions[currentQuestionIndex];
-      const isCorrect = selectedAnswer === question.correct;
+    function checkAnswer(answer) {
+      const q = quizQuestions[currentQuestion];
+      const isCorrect = answer === q.correct;
       
       if (isCorrect) {
         score++;
       }
       
-      document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.add('disabled');
-        if (opt.dataset.answer === question.correct) {
-          opt.classList.add('correct');
-          
-          if (isCorrect) {
-            // Particle explosion for correct answer
-            createParticleExplosion(opt);
-            
-            // Emoji reaction
-            const rect = opt.getBoundingClientRect();
-            const emojis = ['🎉', '⭐', '🌟', '✨', '💫'];
-            createEmojiReaction(emojis[Math.floor(Math.random() * emojis.length)], 
-                              rect.left + rect.width / 2, rect.top);
-          }
-        } else if (opt.dataset.answer === selectedAnswer && !isCorrect) {
-          opt.classList.add('incorrect');
-          
-          // Emoji reaction for incorrect
-          const rect = opt.getBoundingClientRect();
-          createEmojiReaction('💪', rect.left + rect.width / 2, rect.top);
-        }
-      });
+      document.getElementById('resultText').textContent = isCorrect ? 'Correct! ✓' : 'Incorrect ✗';
+      document.getElementById('resultText').style.color = isCorrect ? (window.elementSdk?.config?.secondary_action_color || defaultConfig.secondary_action_color) : '#ef4444';
+      document.getElementById('resultAnswer').textContent = q.word;
+      document.getElementById('resultExplanation').textContent = q.explanation;
+      document.getElementById('resultEmoji').textContent = isCorrect ? '🎉' : '📚';
       
-      const feedback = document.getElementById('feedback');
-      feedback.classList.add('show');
-      
-      if (isCorrect) {
-        feedback.classList.add('correct');
-        feedback.textContent = '✓ Correct! Well done!';
-      } else {
-        feedback.classList.add('incorrect');
-        feedback.textContent = `✗ Incorrect. The correct answer is: ${question.correct}`;
-      }
-      
-      document.getElementById('submitBtn').style.display = 'none';
-      document.getElementById('nextBtn').style.display = 'inline-block';
+      document.getElementById('quizCard').classList.add('flipped');
     }
 
     function nextQuestion() {
-      currentQuestionIndex++;
-      
-      if (currentQuestionIndex < 12) {
-        displayQuestion();
-        document.getElementById('submitBtn').style.display = 'inline-block';
+      currentQuestion++;
+      if (currentQuestion < quizQuestions.length) {
+        loadQuizQuestion();
       } else {
-        showResults();
+        showFinalScore();
       }
     }
 
-    function showResults() {
-      document.getElementById('questionScreen').classList.remove('active');
-      document.getElementById('resultScreen').classList.add('active');
+    function showFinalScore() {
+      document.getElementById('questionNumber').textContent = 'Quiz Complete!';
+      document.getElementById('backQuestionNumber').textContent = 'Quiz Complete!';
+      document.getElementById('quizSentence').textContent = 'Great job completing all questions!';
+      document.getElementById('quizScore').textContent = `Final Score: ${score} / ${quizQuestions.length}`;
       
-      const percentage = (score / 12) * 100;
-      const incorrect = 12 - score;
+      const percentage = (score / quizQuestions.length) * 100;
+      let emoji = '🎉';
+      let message = 'Excellent work!';
       
-      document.getElementById('finalScore').textContent = `${score}/12`;
-      document.getElementById('correctCount').textContent = score;
-      document.getElementById('incorrectCount').textContent = incorrect;
-      document.getElementById('percentage').textContent = `${Math.round(percentage)}%`;
-      
-      let message = '';
-      if (percentage >= 90) {
-        message = '🎉 Excellent! You have mastered future time expressions!';
-        // Confetti shower for high scores
-        createConfetti();
-        
-        // Multiple fireworks
-        setTimeout(() => {
-          createFirework(window.innerWidth * 0.3, window.innerHeight * 0.3);
-        }, 200);
-        setTimeout(() => {
-          createFirework(window.innerWidth * 0.7, window.innerHeight * 0.3);
-        }, 400);
-        setTimeout(() => {
-          createFirework(window.innerWidth * 0.5, window.innerHeight * 0.5);
-        }, 600);
-      } else if (percentage >= 70) {
-        message = '👍 Great job! You have a good understanding!';
-        createConfetti();
-      } else if (percentage >= 50) {
-        message = '📚 Good effort! Keep practicing to improve!';
-      } else {
-        message = '💪 Keep learning! Review the material and try again!';
+      if (percentage < 50) {
+        emoji = '📚';
+        message = 'Keep practicing!';
+      } else if (percentage < 80) {
+        emoji = '👍';
+        message = 'Good job!';
       }
       
-      document.getElementById('scoreMessage').textContent = message;
+      document.getElementById('resultText').textContent = message;
+      document.getElementById('resultText').style.color = window.elementSdk?.config?.text_color || defaultConfig.text_color;
+      document.getElementById('resultAnswer').textContent = `${score} / ${quizQuestions.length}`;
+      document.getElementById('resultEmoji').textContent = emoji;
+      document.getElementById('resultExplanation').textContent = `You scored ${Math.round(percentage)}%! Click "Try Again" to practice more.`;
+      document.getElementById('nextQuizBtn').textContent = 'Try Again';
     }
 
     function restartQuiz() {
-      currentQuestions = [];
-      currentQuestionIndex = 0;
+      currentQuestion = 0;
       score = 0;
-      selectedAnswer = null;
-      answered = false;
-      
-      document.getElementById('resultScreen').classList.remove('active');
-      document.getElementById('startScreen').classList.add('active');
-      document.getElementById('submitBtn').style.display = 'inline-block';
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('nextQuizBtn').textContent = 'Next Question →';
+      loadQuizQuestion();
     }
 
-    document.getElementById('startBtn').addEventListener('click', startQuiz);
-    document.getElementById('submitBtn').addEventListener('click', submitAnswer);
-    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
-    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
-
-    // Mascot functionality
-    const mascotMessages = {
-      start: [
-        { title: "📚 Study Tip", text: "Remember: 'will' is used with time expressions like tomorrow, next week, and soon!" },
-        { title: "💡 Quick Reminder", text: "When using 'when + will', the verb after 'when' stays in present tense!" },
-        { title: "🎯 Grammar Tip", text: "'Would like' means the same as 'want' but sounds more polite!" },
-        { title: "✨ Helpful Hint", text: "Read each question carefully and look for time expressions to guide your answer!" }
-      ],
-      question: [
-        { title: "�� Think About It", text: "Look for keywords like 'tomorrow', 'next week', or 'one day' - they often go with 'will'!" },
-        { title: "💪 You've Got This", text: "If you see 'when' in the sentence, remember the verb after it should be in present tense!" },
-        { title: "🌟 Pro Tip", text: "For 'would like', it's always followed by 'to' + the base form of a verb!" },
-        { title: "🎓 Remember", text: "Take your time! There's no rush - understanding is more important than speed!" },
-        { title: "✏️ Grammar Hint", text: "Questions with 'would like' start with 'Would' + subject + 'like'!" }
-      ],
-      correct: [
-        { title: "🎉 Amazing", text: "You're doing great! Keep up the excellent work!" },
-        { title: "⭐ Fantastic", text: "That's correct! You really understand future time expressions!" },
-        { title: "🏆 Excellent", text: "Perfect answer! Your grammar skills are improving!" },
-        { title: "💯 Well Done", text: "Correct! You've mastered this concept!" }
-      ],
-      incorrect: [
-        { title: "💪 Keep Going", text: "Don't worry! Learning takes practice. Review the correct answer and try the next one!" },
-        { title: "📖 Learning Moment", text: "Mistakes help us learn! Read the explanation and you'll get the next one!" },
-        { title: "🌱 Growth Mindset", text: "Every mistake is a step toward improvement. You're doing great by trying!" },
-        { title: "✨ Stay Positive", text: "Remember, even experts were once beginners. Keep practicing!" }
-      ],
-      result: [
-        { title: "🎊 Great Job", text: "You've completed the quiz! Review the topics you found challenging and try again!" },
-        { title: "📚 Keep Learning", text: "Practice makes perfect! The more you practice, the better you'll become!" },
-        { title: "🌟 Well Done", text: "You've finished! Review your answers and try to understand any mistakes!" }
-      ]
-    };
-
-    let currentMascotState = 'start';
-    let isMessageVisible = false;
-
-    function showMascotMessage(category) {
-      const messages = mascotMessages[category];
-      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-      
-      document.getElementById('mascotTitle').textContent = randomMessage.title;
-      document.getElementById('mascotText').textContent = randomMessage.text;
-      document.getElementById('mascotMessage').classList.add('show');
-      isMessageVisible = true;
-    }
-
-    function hideMascotMessage() {
-      document.getElementById('mascotMessage').classList.remove('show');
-      isMessageVisible = false;
-    }
-
-    document.getElementById('mascot').addEventListener('click', () => {
-      // Mascot dance animation
-      const mascot = document.getElementById('mascot');
-      mascot.classList.add('dance');
-      setTimeout(() => mascot.classList.remove('dance'), 600);
-      
-      // Create sparkles around mascot
-      const rect = mascot.getBoundingClientRect();
-      createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 15);
-      
-      // Create ripple effect
-      const mascotContainer = document.querySelector('.mascot-container');
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => {
-          const ripple = document.createElement('div');
-          ripple.className = 'ripple';
-          mascotContainer.appendChild(ripple);
-          setTimeout(() => ripple.remove(), 1000);
-        }, i * 200);
-      }
-      
-      if (isMessageVisible) {
-        hideMascotMessage();
-      } else {
-        showMascotMessage(currentMascotState);
-      }
+    // Event Listeners
+    document.getElementById('noteCard').addEventListener('click', () => showScreen('note'));
+    document.getElementById('quizCard').addEventListener('click', () => {
+      showScreen('quiz');
+      restartQuiz();
     });
-
-    document.getElementById('mascotMessage').addEventListener('click', (e) => {
+    
+    document.getElementById('edCard').addEventListener('click', () => flipNoteCard('edCard'));
+    document.getElementById('ingCard').addEventListener('click', () => flipNoteCard('ingCard'));
+    
+    document.getElementById('noteBackBtn').addEventListener('click', () => showScreen('menu'));
+    document.getElementById('quizBackBtn').addEventListener('click', () => showScreen('menu'));
+    
+    document.getElementById('clickLeftArea').addEventListener('click', (e) => {
       e.stopPropagation();
-      hideMascotMessage();
+      checkAnswer('ed');
     });
-
-    // Update mascot state based on quiz progress
-    const originalStartQuiz = startQuiz;
-    startQuiz = function() {
-      currentMascotState = 'question';
-      hideMascotMessage();
-      originalStartQuiz();
-    };
-
-    const originalSubmitAnswer = submitAnswer;
-    submitAnswer = function() {
-      if (!selectedAnswer || answered) return;
-      originalSubmitAnswer();
-      
-      const question = currentQuestions[currentQuestionIndex];
-      const isCorrect = selectedAnswer === question.correct;
-      currentMascotState = isCorrect ? 'correct' : 'incorrect';
-    };
-
-    const originalNextQuestion = nextQuestion;
-    nextQuestion = function() {
-      currentMascotState = 'question';
-      hideMascotMessage();
-      originalNextQuestion();
-    };
-
-    const originalShowResults = showResults;
-    showResults = function() {
-      currentMascotState = 'result';
-      hideMascotMessage();
-      originalShowResults();
-    };
-
-    const originalRestartQuiz = restartQuiz;
-    restartQuiz = function() {
-      currentMascotState = 'start';
-      hideMascotMessage();
-      originalRestartQuiz();
-    };
-
-    // Initialize stars
-    createStars();
-
-    // Continuous sparkle generation in background
-    setInterval(() => {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      createSparkles(x, y, 1);
-    }, 1000);
+    
+    document.getElementById('clickRightArea').addEventListener('click', (e) => {
+      e.stopPropagation();
+      checkAnswer('ing');
+    });
+    
+    document.getElementById('nextQuizBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (document.getElementById('nextQuizBtn').textContent === 'Try Again') {
+        restartQuiz();
+      } else {
+        nextQuestion();
+      }
+    });
 
     async function onConfigChange(config) {
-      const backgroundColor = config.background_color || defaultConfig.background_color;
-      const secondarySurfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
-      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
-
-      document.querySelector('.quiz-wrapper').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryActionColor} 50%, ${secondaryActionColor} 100%)`;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
       
-      const allText = document.querySelectorAll('.score-details p, .instructions p');
-      allText.forEach(el => el.style.color = textColor);
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.querySelector('.app-wrapper').style.background = config.background_color || defaultConfig.background_color;
       
-      const allSurfaces = document.querySelectorAll('.instructions, .score-details');
-      allSurfaces.forEach(el => el.style.background = `linear-gradient(135deg, ${secondarySurfaceColor} 0%, ${secondarySurfaceColor}dd 100%)`);
+      document.getElementById('appTitle').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('appTitle').style.color = config.text_color || defaultConfig.text_color;
+      document.getElementById('appTitle').style.fontSize = `${baseSize * 2.5}px`;
+      
+      document.querySelectorAll('.menu-card').forEach(card => {
+        card.style.background = config.surface_color || defaultConfig.surface_color;
+        card.style.color = config.text_color || defaultConfig.text_color;
+      });
+      
+      document.getElementById('noteCardTitle').textContent = config.note_title || defaultConfig.note_title;
+      document.querySelectorAll('.menu-card-title').forEach(title => {
+        title.style.fontSize = `${baseSize * 1.5}px`;
+      });
+      
+      document.getElementById('noteCardDesc').textContent = config.note_desc || defaultConfig.note_desc;
+      document.getElementById('quizCardTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('quizCardDesc').textContent = config.quiz_desc || defaultConfig.quiz_desc;
+      document.querySelectorAll('.menu-card-desc').forEach(desc => {
+        desc.style.fontSize = `${baseSize}px`;
+      });
+      
+      document.getElementById('noteTitle').textContent = config.note_title || defaultConfig.note_title;
+      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.querySelectorAll('.mode-title').forEach(title => {
+        title.style.color = config.text_color || defaultConfig.text_color;
+        title.style.fontSize = `${baseSize * 2}px`;
+      });
+      
+      document.querySelectorAll('.note-face').forEach(face => {
+        face.style.background = config.surface_color || defaultConfig.surface_color;
+        face.style.color = config.text_color || defaultConfig.text_color;
+      });
+      
+      document.querySelectorAll('.note-card-title').forEach(title => {
+        title.style.fontSize = `${baseSize * 1.8}px`;
+      });
+      
+      document.querySelectorAll('.note-description').forEach(desc => {
+        desc.style.fontSize = `${baseSize * 1.1}px`;
+      });
+      
+      document.querySelectorAll('.note-examples').forEach(ex => {
+        ex.style.fontSize = `${baseSize * 0.95}px`;
+      });
+      
+      document.getElementById('instructions').style.background = config.surface_color || defaultConfig.surface_color;
+      document.getElementById('instructions').style.color = config.text_color || defaultConfig.text_color;
+      document.getElementById('instructions').style.fontSize = `${baseSize}px`;
+      
+      document.querySelectorAll('.quiz-face').forEach(face => {
+        face.style.background = config.surface_color || defaultConfig.surface_color;
+        face.style.color = config.text_color || defaultConfig.text_color;
+      });
+      
+      document.getElementById('quizScore').style.color = config.text_color || defaultConfig.text_color;
+      document.getElementById('quizScore').style.fontSize = `${baseSize * 1.2}px`;
+      
+      document.getElementById('questionNumber').style.fontSize = `${baseSize}px`;
+      document.getElementById('quizSentence').style.fontSize = `${baseSize * 1.6}px`;
+      
+      document.getElementById('edBtn').style.background = config.primary_action_color || defaultConfig.primary_action_color;
+      document.getElementById('edBtn').style.color = '#ffffff';
+      document.getElementById('edBtn').style.fontSize = `${baseSize * 1.1}px`;
+      
+      document.getElementById('ingBtn').style.background = config.secondary_action_color || defaultConfig.secondary_action_color;
+      document.getElementById('ingBtn').style.color = '#ffffff';
+      document.getElementById('ingBtn').style.fontSize = `${baseSize * 1.1}px`;
+      
+      document.getElementById('resultText').style.fontSize = `${baseSize * 1.8}px`;
+      document.getElementById('resultAnswer').style.fontSize = `${baseSize * 2.5}px`;
+      document.getElementById('resultExplanation').style.fontSize = `${baseSize * 1.1}px`;
+      
+      document.getElementById('nextQuizBtn').style.background = config.primary_action_color || defaultConfig.primary_action_color;
+      document.getElementById('nextQuizBtn').style.color = '#ffffff';
+      document.getElementById('nextQuizBtn').style.fontSize = `${baseSize}px`;
+      
+      document.querySelectorAll('.quiz-hint').forEach(hint => {
+        hint.style.fontSize = `${baseSize}px`;
+      });
+      
+      document.querySelectorAll('#backQuestionNumber').forEach(num => {
+        num.style.fontSize = `${baseSize}px`;
+      });
+      
+      document.getElementById('noteBackBtn').textContent = config.back_button_text || defaultConfig.back_button_text;
+      document.getElementById('quizBackBtn').textContent = config.back_button_text || defaultConfig.back_button_text;
       
       document.querySelectorAll('.btn').forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
+        if (btn.id !== 'nextQuizBtn') {
+          btn.style.background = config.primary_action_color || defaultConfig.primary_action_color;
+          btn.style.color = '#ffffff';
+          btn.style.fontSize = `${baseSize}px`;
+        }
       });
+    }
 
-      document.querySelector('.mascot').style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
 
-      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
-      document.getElementById('instructionText').textContent = config.instruction_text || defaultConfig.instruction_text;
-      document.getElementById('startBtn').textContent = config.start_button_text || defaultConfig.start_button_text;
-      document.getElementById('submitBtn').textContent = config.submit_button_text || defaultConfig.submit_button_text;
-      document.getElementById('nextBtn').textContent = config.next_button_text || defaultConfig.next_button_text;
-      document.getElementById('restartBtn').textContent = config.restart_button_text || defaultConfig.restart_button_text;
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["note_title", config.note_title || defaultConfig.note_title],
+        ["note_desc", config.note_desc || defaultConfig.note_desc],
+        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+        ["quiz_desc", config.quiz_desc || defaultConfig.quiz_desc],
+        ["back_button_text", config.back_button_text || defaultConfig.back_button_text]
+      ]);
     }
 
     if (window.elementSdk) {
       window.elementSdk.init({
         defaultConfig,
         onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
-              set: (value) => {
-                config.secondary_surface_color = value;
-                window.elementSdk.setConfig({ secondary_surface_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.primary_action_color || defaultConfig.primary_action_color,
-              set: (value) => {
-                config.primary_action_color = value;
-                window.elementSdk.setConfig({ primary_action_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-              set: (value) => {
-                config.secondary_action_color = value;
-                window.elementSdk.setConfig({ secondary_action_color: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-          ["instruction_text", config.instruction_text || defaultConfig.instruction_text],
-          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
-          ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text],
-          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
-          ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text]
-        ])
+        mapToCapabilities,
+        mapToEditPanelValues
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8816a0534026b8',t:'MTc2NDgxNzU5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a883face323c0c2',t:'MTc2NDgxOTI3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
