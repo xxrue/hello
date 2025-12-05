@@ -3,491 +3,207 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hujah Induktif</title>
+  <title>Operasi Set: Persilangan Set</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
       box-sizing: border-box;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+      width: 100%;
+    }
+    
+    .main-wrapper {
       width: 100%;
       min-height: 100%;
+      padding: 32px 24px;
     }
-
-    *, *::before, *::after {
-      box-sizing: inherit;
+    
+    .content-container {
+      max-width: 1000px;
+      margin: 0 auto;
     }
-
-    html, body {
-      height: 100%;
-    }
-
-    .app-container {
-      width: 100%;
-      min-height: 100%;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .home-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 32px;
-      cursor: pointer;
-      z-index: 1000;
-      transition: transform 0.2s;
-      user-select: none;
-    }
-
-    .home-button:hover {
-      transform: scale(1.2);
-    }
-
-    .language-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      z-index: 1000;
-      transition: all 0.3s;
-      border: 2px solid;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .language-toggle:hover {
-      transform: scale(1.05);
-    }
-
-    .nav-controls {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      width: 100%;
-    }
-
-    .nav-controls .home-button {
-      position: static;
-      font-size: 28px;
-    }
-
-    .nav-controls .language-toggle {
-      position: static;
-      font-size: 13px;
-      padding: 8px 16px;
-    }
-
-    .lang-option {
-      opacity: 0.5;
-      transition: opacity 0.3s;
-    }
-
-    .lang-option.active {
-      opacity: 1;
-      font-weight: 700;
-    }
-
-    .header {
+    
+    header {
       text-align: center;
-      margin-bottom: 40px;
-      width: 100%;
-      max-width: 800px;
+      margin-bottom: 32px;
     }
-
-    .header h1 {
+    
+    h1 {
+      color: #ffffff;
+      font-size: 36px;
       margin: 0 0 12px 0;
-      font-size: 48px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
-
-    .menu-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      width: 100%;
-      max-width: 800px;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .menu-container {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .menu-card {
-      padding: 32px;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-      border: 3px solid;
-    }
-
-    .menu-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    .menu-card h2 {
-      margin: 0 0 16px 0;
-      font-size: 28px;
-    }
-
-    .menu-card p {
-      margin: 0;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    .flashcard-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 32px;
-      width: 100%;
-      max-width: 900px;
-      margin-top: 20px;
-    }
-
-    .flashcard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      width: 100%;
-    }
-
-    .flashcard {
-      perspective: 1000px;
-      height: 280px;
-      cursor: pointer;
-    }
-
-    .flashcard-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .flashcard.flipped .flashcard-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border: 3px solid;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .flashcard-front {
-      transform: rotateY(0deg);
-    }
-
-    .flashcard-back {
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-face h3 {
-      margin: 0 0 16px 0;
-      font-size: 24px;
-      text-align: center;
-    }
-
-    .flashcard-face p {
-      margin: 8px 0;
-      font-size: 16px;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .tap-hint {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-top: 12px;
-    }
-
-    .quiz-container {
-      width: 100%;
-      max-width: 700px;
-      margin-top: 20px;
-      box-sizing: border-box;
-    }
-
-    .quiz-card-wrapper {
-      perspective: 1000px;
-      margin-bottom: 24px;
-      min-height: 400px;
-    }
-
-    .quiz-card {
-      border-radius: 16px;
-      padding: 32px;
-      border: 3px solid;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      position: relative;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .quiz-card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      backface-visibility: hidden;
-      width: 100%;
-    }
-
-    .card-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 32px;
-      transform: rotateY(180deg);
-      box-sizing: border-box;
-    }
-
-    .quiz-question {
+    
+    .instruction {
+      color: #f0f0f0;
       font-size: 18px;
-      line-height: 1.8;
+      margin: 0;
+    }
+    
+    .controls-panel {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 32px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    
+    .legend {
       margin-bottom: 24px;
-      text-align: left;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-    .premise-item {
-      margin: 8px 0;
-      padding-left: 8px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-    .conclusion-item {
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-    .quiz-options {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .option-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .option-label {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      text-align: center;
-    }
-
-    .option-button {
       padding: 16px;
-      border: 2px solid;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-align: center;
+      background: #f8f9fa;
+      border-radius: 8px;
     }
-
-    .option-button:hover:not(:disabled) {
-      transform: scale(1.05);
+    
+    .legend h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: #333;
     }
-
-    .option-button.selected {
-      border-width: 3px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    
+    .legend p {
+      margin: 6px 0;
+      font-size: 15px;
+      color: #555;
     }
-
-    .option-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .quiz-actions {
+    
+    .expression-builder {
       display: flex;
       gap: 12px;
+      align-items: center;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 24px;
     }
-
-    .action-button {
-      padding: 14px 32px;
-      border: none;
-      border-radius: 12px;
+    
+    select {
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
       font-size: 18px;
       font-weight: 600;
+      background: white;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      min-width: 80px;
     }
-
-    .action-button:hover:not(:disabled) {
+    
+    select:hover {
+      border-color: #667eea;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-show {
+      background: #667eea;
+      color: white;
+    }
+    
+    .btn-show:hover {
+      background: #5568d3;
       transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
-
-    .action-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    
+    .btn-reset {
+      background: #f0f0f0;
+      color: #333;
     }
-
-    .answer-content {
-      text-align: left;
+    
+    .btn-reset:hover {
+      background: #e0e0e0;
+      transform: translateY(-2px);
     }
-
-    .answer-display h4 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
+    
+    .venn-container {
+      background: white;
+      border-radius: 16px;
+      padding: 48px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 500px;
     }
-
-    .answer-display p {
-      margin: 8px 0;
-      line-height: 1.6;
+    
+    svg {
+      max-width: 100%;
+      height: auto;
     }
-
-    .score-display {
-      text-align: center;
-      margin-top: 32px;
+    
+    .set-circle {
+      fill: none;
+      stroke: #333;
+      stroke-width: 3;
+      transition: all 0.5s ease;
     }
-
-    .score-display h2 {
-      margin: 0 0 16px 0;
-      font-size: 36px;
+    
+    .set-label {
+      font-size: 24px;
+      font-weight: bold;
+      fill: #333;
     }
-
-    .score-display p {
-      margin: 8px 0;
-      font-size: 20px;
+    
+    .highlight {
+      fill-opacity: 0.5;
+      transition: all 0.5s ease;
     }
-
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      border-radius: 4px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      transition: width 0.3s;
-      border-radius: 4px;
-    }
-
-    @media (max-width: 640px) {
-      .app-container {
-        padding: 12px;
-        padding-top: 70px;
-      }
-
-      .header h1 {
+    
+    @media (max-width: 768px) {
+      h1 {
         font-size: 28px;
       }
-
-      .menu-card {
-        padding: 20px;
-      }
-
-      .menu-card h2 {
-        font-size: 22px;
-      }
-
-      .quiz-options {
-        grid-template-columns: 1fr;
-      }
-
-      .flashcard {
-        height: 320px;
-      }
-
-      .home-button {
-        position: fixed !important;
-        top: 12px !important;
-        left: 12px !important;
-        font-size: 28px !important;
-        display: block !important;
-      }
-
-      .language-toggle {
-        position: fixed !important;
-        top: 12px !important;
-        right: 12px !important;
-        font-size: 12px !important;
-        padding: 8px 14px !important;
-        display: flex !important;
-      }
-
-      .nav-controls {
-        display: none !important;
-      }
-
-      .quiz-card {
-        padding: 20px;
-      }
-
-      .card-back {
-        padding: 20px;
-      }
-
-      .quiz-question {
+      
+      .instruction {
         font-size: 16px;
       }
-
-      .premise-item {
-        font-size: 14px;
+      
+      .control-row {
+        flex-direction: column;
       }
-
-      .conclusion-item {
-        font-size: 14px;
-        padding: 10px;
+      
+      .button-group {
+        flex-direction: column;
       }
-
-      .option-button {
-        font-size: 14px;
-        padding: 12px;
-      }
-
-      .action-button {
-        font-size: 16px;
-        padding: 12px 24px;
+      
+      .venn-container {
+        padding: 24px;
+        min-height: 400px;
       }
     }
   </style>
@@ -496,898 +212,272 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-container" id="app">
-   <div class="home-button" id="homeButton" style="display: none;">
-    🏠
-   </div><button class="language-toggle" id="languageToggle"> <span class="lang-option" id="langBM">BM</span> <span>|</span> <span class="lang-option" id="langEN">ENG</span> </button>
-   <div id="mainMenu">
-    <header class="header">
-     <h1 id="appTitle">Hujah Induktif</h1>
+  <div class="main-wrapper">
+   <div class="content-container">
+    <header>
+     <h1 id="main-title">Operasi Set: Persilangan Set</h1>
+     <p class="instruction" id="instruction-text">Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan</p>
     </header>
-    <div class="menu-container">
-     <div class="menu-card" id="notaCard">
-      <h2 id="notaTitle">📚 Flashcard Nota</h2>
-      <p id="notaDesc">Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif</p>
+    <div class="controls-panel">
+     <div class="legend">
+      <h3>Set Semesta (ξ) mengandungi: Set A, Set B, dan Set C</h3>
+      <p><strong>∩</strong> = Simbol Persilangan (Intersection)</p>
+      <p><strong>∪</strong> = Simbol Kesatuan (Union)</p>
      </div>
-     <div class="menu-card" id="kuizCard">
-      <h2 id="kuizTitle">🎯 Flashcard Kuiz</h2>
-      <p id="kuizDesc">Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif</p>
+     <div class="expression-builder"><select id="setA"> <option value="A">A</option> <option value="A'">A'</option> </select> <select id="operator1"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setB"> <option value="B">B</option> <option value="B'">B'</option> </select> <select id="operator2"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setC"> <option value="C">C</option> <option value="C'">C'</option> </select>
      </div>
-    </div>
-   </div>
-   <div id="notaView" style="display: none;">
-    <div class="nav-controls">
-     <div class="home-button" id="homeButtonMobileNota">
-      🏠
-     </div><button class="language-toggle" id="languageToggleMobileNota"> <span class="lang-option" id="langBMMobileNota">BM</span> <span>|</span> <span class="lang-option" id="langENMobileNota">ENG</span> </button>
-    </div>
-    <header class="header">
-     <h1 id="notaViewTitle">📚 Flashcard Nota</h1>
-    </header>
-    <div class="flashcard-container">
-     <div class="flashcard-grid" id="flashcardGrid"><!-- Flashcards will be generated dynamically -->
+     <div class="button-group"><button class="btn-show" id="showBtn">Tunjukkan Hasil</button> <button class="btn-reset" id="resetBtn">Set Semula</button>
      </div>
     </div>
-   </div>
-   <div id="kuizView" style="display: none;">
-    <div class="nav-controls">
-     <div class="home-button" id="homeButtonMobileKuiz">
-      🏠
-     </div><button class="language-toggle" id="languageToggleMobileKuiz"> <span class="lang-option" id="langBMMobileKuiz">BM</span> <span>|</span> <span class="lang-option" id="langENMobileKuiz">ENG</span> </button>
+    <div class="venn-container">
+     <svg viewbox="0 0 600 450" id="vennDiagram"><!-- Background rectangle for universal set --> <rect x="50" y="50" width="500" height="350" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5" /> <!-- Define clip paths for intersection regions --> <defs>
+       <clippath id="clipA">
+        <circle cx="230" cy="190" r="100" />
+       </clippath>
+       <clippath id="clipB">
+        <circle cx="370" cy="190" r="100" />
+       </clippath>
+       <clippath id="clipC">
+        <circle cx="300" cy="290" r="100" />
+       </clippath>
+      </defs> <!-- Highlight regions (will be filled based on selection) --> <g id="highlights"><!-- Region: Outside all sets -->
+       <rect id="region-outside" x="50" y="50" width="500" height="350" class="highlight" fill="#9ca3af" /> <!-- Region: Only A (A without B and C) -->
+       <path id="region-A-only" class="highlight" fill="#ff6b6b" d="" /> <!-- Region: Only B (B without A and C) -->
+       <path id="region-B-only" class="highlight" fill="#4ecdc4" d="" /> <!-- Region: Only C (C without A and B) -->
+       <path id="region-C-only" class="highlight" fill="#ffb347" d="" /> <!-- Region: A ∩ B (but not C) -->
+       <path id="region-AB" class="highlight" fill="#c779d0" d="" /> <!-- Region: A ∩ C (but not B) -->
+       <path id="region-AC" class="highlight" fill="#fab1a0" d="" /> <!-- Region: B ∩ C (but not A) -->
+       <path id="region-BC" class="highlight" fill="#a3e4d7" d="" /> <!-- Region: A ∩ B ∩ C (all three) -->
+       <path id="region-ABC" class="highlight" fill="#9c88ff" d="" />
+      </g> <!-- Set circles (drawn on top) --> <circle cx="230" cy="190" r="100" class="set-circle" stroke="#FF6B6B" /> <circle cx="370" cy="190" r="100" class="set-circle" stroke="#4ECDC4" /> <circle cx="300" cy="290" r="100" class="set-circle" stroke="#FFB347" /> <!-- Set labels --> <text x="170" y="130" class="set-label" fill="#FF6B6B">
+       A
+      </text> <text x="420" y="130" class="set-label" fill="#4ECDC4">
+       B
+      </text> <text x="290" y="380" class="set-label" fill="#FFB347">
+       C
+      </text> <!-- Universal set label --> <text x="520" y="70" font-size="18" fill="#999">
+       ξ
+      </text>
+     </svg>
     </div>
-    <header class="header">
-     <h1 id="kuizViewTitle">🎯 Flashcard Kuiz</h1>
-    </header>
-    <div class="quiz-container" id="quizContainer"></div>
    </div>
   </div>
   <script>
-    let currentLanguage = 'ms';
-
-    const translations = {
-      ms: {
-        appTitle: "Hujah Induktif",
-        flashcardNotaTitle: "📚 Flashcard Nota",
-        flashcardNotaDesc: "Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif",
-        flashcardKuizTitle: "🎯 Flashcard Kuiz",
-        flashcardKuizDesc: "Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif",
-        notaHeader: "📚 Flashcard Nota",
-        kuizHeader: "🎯 Flashcard Kuiz",
-        strongArgument: "Hujah Induktif Kuat",
-        weakArgument: "Hujah Induktif Lemah",
-        clickToView: "Klik untuk lihat nota",
-        conclusion: "Kesimpulan",
-        true: "Benar",
-        false: "Tidak benar",
-        cogent: "Meyakinkan",
-        notCogent: "Tidak Meyakinkan",
-        cogentIf: "Jika semua premis benar",
-        notCogentIf: "Jika ada premis palsu",
-        alwaysNotCogent: "Hujah induktif lemah sentiasa tidak meyakinkan",
-        question: "Soalan",
-        premise: "Premis",
-        argumentType: "Jenis Hujah",
-        confidenceLevel: "Tahap Keyakinan",
-        strong: "Kuat",
-        weak: "Lemah",
-        checkAnswer: "Semak Jawapan",
-        answer: "Jawapan",
-        explanation: "Penjelasan",
-        next: "Seterusnya",
-        quizResults: "Keputusan Kuiz",
-        correct: "Betul",
-        tryAgain: "Cuba Lagi",
-        backToMenu: "Kembali ke Menu",
-        excellent: "Cemerlang! Anda menguasai konsep hujah induktif! 🌟",
-        good: "Bagus! Teruskan usaha anda! 👍",
-        keepLearning: "Terus belajar! Anda boleh buat lebih baik! 💪"
-      },
-      en: {
-        appTitle: "Inductive Arguments",
-        flashcardNotaTitle: "📚 Notes Flashcard",
-        flashcardNotaDesc: "Learn the basic concepts of strong and weak inductive arguments easily through interactive flashcards",
-        flashcardKuizTitle: "🎯 Quiz Flashcard",
-        flashcardKuizDesc: "Test your understanding with 10 random questions about inductive arguments",
-        notaHeader: "📚 Notes Flashcard",
-        kuizHeader: "🎯 Quiz Flashcard",
-        strongArgument: "Strong Inductive Argument",
-        weakArgument: "Weak Inductive Argument",
-        clickToView: "Click to view notes",
-        conclusion: "Conclusion",
-        true: "True",
-        false: "Not true",
-        cogent: "Cogent",
-        notCogent: "Not Cogent",
-        cogentIf: "If all premises are true",
-        notCogentIf: "If there are false premises",
-        alwaysNotCogent: "Weak inductive arguments are always not cogent",
-        question: "Question",
-        premise: "Premise",
-        argumentType: "Argument Type",
-        confidenceLevel: "Cogency",
-        strong: "Strong",
-        weak: "Weak",
-        checkAnswer: "Check Answer",
-        answer: "Answer",
-        explanation: "Explanation",
-        next: "Next",
-        quizResults: "Quiz Results",
-        correct: "Correct",
-        tryAgain: "Try Again",
-        backToMenu: "Back to Menu",
-        excellent: "Excellent! You have mastered inductive arguments! 🌟",
-        good: "Good! Keep up the effort! 👍",
-        keepLearning: "Keep learning! You can do better! 💪"
-      }
-    };
-
     const defaultConfig = {
-      background_color: "#fef3e2",
-      card_background: "#ffffff",
-      primary_color: "#ea580c",
-      text_color: "#1e293b",
-      accent_color: "#0891b2",
-      font_family: "Segoe UI",
-      font_size: 16,
-      app_title: "Hujah Induktif",
-      flashcard_nota_title: "📚 Flashcard Nota",
-      flashcard_nota_desc: "Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif",
-      flashcard_kuiz_title: "🎯 Flashcard Kuiz",
-      flashcard_kuiz_desc: "Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif"
+      main_title: "Operasi Set: Persilangan Set",
+      instruction_text: "Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan",
+      show_button: "Tunjukkan Hasil",
+      reset_button: "Set Semula"
     };
-
-    const quizQuestions = [
-      {
-        premises: {
-          ms: ["k³ × k⁵ = k⁸", "k⁷ × k² = k⁹", "k⁴ × k³ = k⁷"],
-          en: ["k³ × k⁵ = k⁸", "k⁷ × k² = k⁹", "k⁴ × k³ = k⁷"]
-        },
-        conclusion: {
-          ms: "kᵃ × kᵇ = kᵃ⁺ᵇ",
-          en: "kᵃ × kᵇ = kᵃ⁺ᵇ"
-        },
-        type: "kuat",
-        convincing: "meyakinkan",
-        reason: {
-          ms: "Premis benar berdasarkan hukum indeks. Pola konsisten menunjukkan apabila mengalikan nombor dengan asas sama, kita tambah kuasa. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan.",
-          en: "The premises are true based on the laws of indices. The consistent pattern shows that when multiplying numbers with the same base, we add the powers. The conclusion is the correct general formula. A strong and cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Segi tiga mempunyai jumlah sudut dalaman 180°", "Segi empat mempunyai jumlah sudut dalaman 360°", "Pentagon mempunyai jumlah sudut dalaman 540°"],
-          en: ["A triangle has interior angles summing to 180°", "A quadrilateral has interior angles summing to 360°", "A pentagon has interior angles summing to 540°"]
-        },
-        conclusion: {
-          ms: "Jumlah sudut dalaman polygon = (n-2) × 180°",
-          en: "Sum of interior angles of a polygon = (n-2) × 180°"
-        },
-        type: "kuat",
-        convincing: "meyakinkan",
-        reason: {
-          ms: "Premis benar dan mengikut pola matematik yang konsisten: 3 sisi = (3-2)×180° = 180°, 4 sisi = (4-2)×180° = 360°, 5 sisi = (5-2)×180° = 540°. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan.",
-          en: "The premises are true and follow a consistent mathematical pattern: 3 sides = (3-2)×180° = 180°, 4 sides = (4-2)×180° = 360°, 5 sides = (5-2)×180° = 540°. The conclusion is the correct general formula. A strong and cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Lilitan bulatan 1 dengan jejari 5cm: Lilitan = 2π(5) = 10π cm", "Lilitan bulatan 2 dengan jejari 8cm: Lilitan = 2π(8) = 16π cm", "Lilitan bulatan 3 dengan jejari 12cm: Lilitan = 2π(12) = 24π cm"],
-          en: ["Circumference of circle 1 with radius 5cm: Circumference = 2π(5) = 10π cm", "Circumference of circle 2 with radius 8cm: Circumference = 2π(8) = 16π cm", "Circumference of circle 3 with radius 12cm: Circumference = 2π(12) = 24π cm"]
-        },
-        conclusion: {
-          ms: "Lilitan bulatan = 2πj",
-          en: "Circumference of circle = 2πr"
-        },
-        type: "kuat",
-        convincing: "meyakinkan",
-        reason: {
-          ms: "Premis benar dan konsisten. Pola jelas menunjukkan lilitan = 2 × π × jejari. Ini adalah rumus standard geometri yang betul. Hujah induktif kuat yang meyakinkan.",
-          en: "The premises are true and consistent. The pattern clearly shows circumference = 2 × π × radius. This is the correct standard geometry formula. A strong and cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Isipadu kubus 1 dengan sisi 2cm: Isipadu = 2³ = 8 cm³", "Isipadu kubus 2 dengan sisi 5cm: Isipadu = 5³ = 125 cm³", "Isipadu kubus 3 dengan sisi 10cm: Isipadu = 10³ = 1000 cm³"],
-          en: ["Volume of cube 1 with side 2cm: Volume = 2³ = 8 cm³", "Volume of cube 2 with side 5cm: Volume = 5³ = 125 cm³", "Volume of cube 3 with side 10cm: Volume = 10³ = 1000 cm³"]
-        },
-        conclusion: {
-          ms: "Isipadu kubus = sisi³",
-          en: "Volume of cube = side³"
-        },
-        type: "kuat",
-        convincing: "meyakinkan",
-        reason: {
-          ms: "Premis benar dan konsisten dengan rumus isipadu kubus. Pola jelas Isipadu = sisi × sisi × sisi = sisi³. Kesimpulan adalah rumus standard yang betul. Hujah induktif kuat yang meyakinkan.",
-          en: "The premises are true and consistent with the cube volume formula. The pattern is clear: Volume = side × side × side = side³. The conclusion is the correct standard formula. A strong and cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Dalam segi tiga bersudut tegak 3-4-5: 3² + 4² = 5²", "Dalam segi tiga bersudut tegak 5-12-13: 5² + 12² = 13²", "Dalam segi tiga bersudut tegak 8-15-17: 8² + 15² = 17²"],
-          en: ["In right triangle 3-4-5: 3² + 4² = 5²", "In right triangle 5-12-13: 5² + 12² = 13²", "In right triangle 8-15-17: 8² + 15² = 17²"]
-        },
-        conclusion: {
-          ms: "Teorem Pythagoras: a² + b² = c² untuk semua segi tiga bersudut tegak",
-          en: "Pythagorean Theorem: a² + b² = c² for all right triangles"
-        },
-        type: "kuat",
-        convincing: "meyakinkan",
-        reason: {
-          ms: "Premis benar dengan beberapa contoh konsisten. Ini adalah teorem matematik yang terbukti secara universal untuk semua segi tiga bersudut tegak. Kesimpulan matematik yang pasti. Hujah induktif kuat yang meyakinkan.",
-          en: "The premises are true with several consistent examples. This is a mathematically proven theorem that is universally true for all right triangles. A mathematically certain conclusion. A strong and cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["2 + 4 = 6 (nombor genap)", "6 + 2 = 10 (nombor genap)", "14 + 20 = 34 (nombor genap)"],
-          en: ["2 + 4 = 6 (even number)", "6 + 2 = 10 (even number)", "14 + 20 = 34 (even number)"]
-        },
-        conclusion: {
-          ms: "Jumlah dua nombor genap sentiasa genap",
-          en: "The sum of two even numbers is always even"
-        },
-        type: "kuat",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis kedua palsu kerana 6 + 2 = 8, bukan 10. Walaupun pola kuat dan kesimpulan sebenarnya benar dalam matematik, terdapat premis palsu. Hujah induktif kuat tetapi tidak meyakinkan kerana ada premis yang salah.",
-          en: "The second premise is false because 6 + 2 = 8, not 10. Although the pattern is strong and the conclusion is actually true in mathematics, there is a false premise. A strong inductive argument but not cogent due to a false premise."
-        }
-      },
-      {
-        premises: {
-          ms: ["Dalam segi tiga sama sisi ABC, semua sudut = 60°", "Dalam segi tiga sama sisi DEF, semua sudut = 60°", "Dalam segi tiga sama sisi GHI, semua sudut = 90°"],
-          en: ["In equilateral triangle ABC, all angles = 60°", "In equilateral triangle DEF, all angles = 60°", "In equilateral triangle GHI, all angles = 90°"]
-        },
-        conclusion: {
-          ms: "Semua segi tiga sama sisi mempunyai sudut 60°",
-          en: "All equilateral triangles have 60° angles"
-        },
-        type: "kuat",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis ketiga palsu kerana segi tiga sama sisi tidak boleh mempunyai sudut 90°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan.",
-          en: "The third premise is false because an equilateral triangle cannot have a 90° angle. Although the pattern is strong and the conclusion is actually correct, there is a false premise. A strong inductive argument but not cogent."
-        }
-      },
-      {
-        premises: {
-          ms: ["Luas segi empat sama 1: 5cm × 5cm = 25cm²", "Luas 'segi empat sama' 2: 6cm × 8cm = 48cm²", "Luas segi empat sama 3: 10cm × 10cm = 100cm²"],
-          en: ["Area of square 1: 5cm × 5cm = 25cm²", "Area of 'square' 2: 6cm × 8cm = 48cm²", "Area of square 3: 10cm × 10cm = 100cm²"]
-        },
-        conclusion: {
-          ms: "Luas segi empat sama = sisi × sisi",
-          en: "Area of square = side × side"
-        },
-        type: "kuat",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis kedua palsu kerana 6cm × 8cm bukan segi empat sama (segi empat tepat). Terdapat premis palsu dalam hujah. Kesimpulan betul tetapi hujah induktif kuat yang tidak meyakinkan.",
-          en: "The second premise is false because 6cm × 8cm is not a square (it's a rectangle). There is a false premise in the argument. The conclusion is correct but the inductive argument is strong yet not cogent."
-        }
-      },
-      {
-        premises: {
-          ms: ["Sudut peluaran 110° + sudut pedalam 60° = 180° (pasangan 1)", "Sudut peluaran 120° + sudut pedalam 60° = 180° (pasangan 2)", "Sudut peluaran 130° + sudut pedalam 50° = 180° (pasangan 3)"],
-          en: ["Exterior angle 110° + interior angle 60° = 180° (pair 1)", "Exterior angle 120° + interior angle 60° = 180° (pair 2)", "Exterior angle 130° + interior angle 50° = 180° (pair 3)"]
-        },
-        conclusion: {
-          ms: "Sudut peluaran dan pedalam pada garisan selari sentiasa tambah kepada 180°",
-          en: "Exterior and interior angles on parallel lines always sum to 180°"
-        },
-        type: "kuat",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis pertama palsu kerana 110° + 60° = 170°, bukan 180°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan.",
-          en: "The first premise is false because 110° + 60° = 170°, not 180°. Although the pattern is strong and the conclusion is actually correct, there is a false premise. A strong inductive argument but not cogent."
-        }
-      },
-      {
-        premises: {
-          ms: ["Dalam 50 eksperimen, logam besi tenggelam dalam air", "Dalam 50 eksperimen, logam kuprum tenggelam dalam air", "Kesemua logam yang diuji tenggelam dalam air"],
-          en: ["In 50 experiments, iron metal sank in water", "In 50 experiments, copper metal sank in water", "All metals tested sank in water"]
-        },
-        conclusion: {
-          ms: "Semua logam tenggelam dalam air",
-          en: "All metals sink in water"
-        },
-        type: "kuat",
-        convincing: "tidak",
-        reason: {
-          ms: "Walaupun pola konsisten dalam eksperimen, premis tidak lengkap kerana tidak menguji semua jenis logam. Natrium dan litium terapung di atas air, bukan tenggelam. Terdapat pengecualian yang tidak diketahui. Hujah induktif kuat tetapi tidak meyakinkan.",
-          en: "Although the pattern is consistent in experiments, the premises are incomplete as not all types of metals were tested. Sodium and lithium float on water, not sink. There are unknown exceptions. A strong inductive argument but not cogent."
-        }
-      },
-      {
-        premises: {
-          ms: ["√4 = 2", "√9 = 3", "√16 = 4"],
-          en: ["√4 = 2", "√9 = 3", "√16 = 4"]
-        },
-        conclusion: {
-          ms: "Punca kuasa dua sentiasa nombor bulat",
-          en: "Square roots are always whole numbers"
-        },
-        type: "lemah",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis benar tetapi sampel hanya untuk kuasa dua sempurna. √2, √3, √5, √7 dan banyak lagi menghasilkan nombor tak nisbah (irrational). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
-          en: "The premises are true but the sample only includes perfect squares. √2, √3, √5, √7 and many more produce irrational numbers. The conclusion is not true. A weak and not cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["3² = 9 (nombor ganjil)", "5² = 25 (nombor ganjil)", "7² = 49 (nombor ganjil)"],
-          en: ["3² = 9 (odd number)", "5² = 25 (odd number)", "7² = 49 (odd number)"]
-        },
-        conclusion: {
-          ms: "Kuasa dua semua nombor adalah ganjil",
-          en: "Squares of all numbers are odd"
-        },
-        type: "lemah",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis benar tetapi hanya untuk nombor ganjil. Sampel tidak termasuk nombor genap: 2² = 4, 4² = 16, 6² = 36 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
-          en: "The premises are true but only for odd numbers. The sample doesn't include even numbers: 2² = 4, 4² = 16, 6² = 36 (all even). The conclusion is not true. A weak and not cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Dalam ujian 1: 15 ÷ 3 = 5", "Dalam ujian 2: 20 ÷ 4 = 5"],
-          en: ["In test 1: 15 ÷ 3 = 5", "In test 2: 20 ÷ 4 = 5"]
-        },
-        conclusion: {
-          ms: "Hasil pembahagian sentiasa 5",
-          en: "Division results are always 5"
-        },
-        type: "lemah",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis benar tetapi sampel terlalu kecil dan spesifik. 10 ÷ 2 = 5 mungkin betul, tetapi 10 ÷ 5 = 2, 12 ÷ 3 = 4. Kesimpulan tidak benar untuk semua kes. Hujah induktif lemah dan tidak meyakinkan.",
-          en: "The premises are true but the sample is too small and specific. 10 ÷ 2 = 5 may be correct, but 10 ÷ 5 = 2, 12 ÷ 3 = 4. The conclusion is not true for all cases. A weak and not cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["1 × 5 = 5 (nombor ganjil)", "3 × 5 = 15 (nombor ganjil)", "7 × 5 = 35 (nombor ganjil)"],
-          en: ["1 × 5 = 5 (odd number)", "3 × 5 = 15 (odd number)", "7 × 5 = 35 (odd number)"]
-        },
-        conclusion: {
-          ms: "Hasil darab dengan 5 sentiasa nombor ganjil",
-          en: "Products with 5 are always odd numbers"
-        },
-        type: "lemah",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis benar tetapi hanya menggunakan nombor ganjil. Sampel tidak lengkap: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
-          en: "The premises are true but only use odd numbers. The sample is incomplete: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (all even). The conclusion is not true. A weak and not cogent inductive argument."
-        }
-      },
-      {
-        premises: {
-          ms: ["Nombor prima pertama ialah 2", "Nombor prima kedua ialah 3", "2 dan 3 adalah nombor kecil"],
-          en: ["The first prime number is 2", "The second prime number is 3", "2 and 3 are small numbers"]
-        },
-        conclusion: {
-          ms: "Semua nombor prima adalah nombor kecil",
-          en: "All prime numbers are small numbers"
-        },
-        type: "lemah",
-        convincing: "tidak",
-        reason: {
-          ms: "Premis benar tetapi sampel terlalu kecil (hanya 2 nombor prima). Terdapat nombor prima besar seperti 97, 101, 997. Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
-          en: "The premises are true but the sample is too small (only 2 prime numbers). There are large prime numbers like 97, 101, 997. The conclusion is not true. A weak and not cogent inductive argument."
-        }
-      }
-    ];
-
-    let currentView = 'menu';
-    let currentQuestionIndex = 0;
-    let selectedQuestions = [];
-    let userAnswers = [];
-    let score = 0;
-
-    function t(key) {
-      return translations[currentLanguage][key] || key;
-    }
-
-    function toggleLanguage() {
-      currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
-      updateLanguageToggle();
-      updateLanguage();
-    }
-
-    function updateLanguageToggle() {
-      const langBM = document.getElementById('langBM');
-      const langEN = document.getElementById('langEN');
-      const langBMMobileNota = document.getElementById('langBMMobileNota');
-      const langENMobileNota = document.getElementById('langENMobileNota');
-      const langBMMobileKuiz = document.getElementById('langBMMobileKuiz');
-      const langENMobileKuiz = document.getElementById('langENMobileKuiz');
-      
-      if (currentLanguage === 'ms') {
-        langBM.classList.add('active');
-        langEN.classList.remove('active');
-        langBMMobileNota.classList.add('active');
-        langENMobileNota.classList.remove('active');
-        langBMMobileKuiz.classList.add('active');
-        langENMobileKuiz.classList.remove('active');
-      } else {
-        langBM.classList.remove('active');
-        langEN.classList.add('active');
-        langBMMobileNota.classList.remove('active');
-        langENMobileNota.classList.add('active');
-        langBMMobileKuiz.classList.remove('active');
-        langENMobileKuiz.classList.add('active');
-      }
-    }
-
-    function updateLanguage() {
-      document.getElementById('appTitle').textContent = t('appTitle');
-      document.getElementById('notaTitle').textContent = t('flashcardNotaTitle');
-      document.getElementById('notaDesc').textContent = t('flashcardNotaDesc');
-      document.getElementById('kuizTitle').textContent = t('flashcardKuizTitle');
-      document.getElementById('kuizDesc').textContent = t('flashcardKuizDesc');
-      document.getElementById('notaViewTitle').textContent = t('notaHeader');
-      document.getElementById('kuizViewTitle').textContent = t('kuizHeader');
-
-      if (currentView === 'nota') {
-        renderFlashcards();
-      } else if (currentView === 'kuiz') {
-        renderQuestion();
-      }
-    }
-
-    function renderFlashcards() {
-      const container = document.getElementById('flashcardGrid');
-      container.innerHTML = `
-        <div class="flashcard" id="card1">
-          <div class="flashcard-inner">
-            <div class="flashcard-face flashcard-front">
-              <h3>${t('strongArgument')}</h3>
-              <p class="tap-hint">${t('clickToView')}</p>
-            </div>
-            <div class="flashcard-face flashcard-back">
-              <h3>${t('strongArgument')}</h3>
-              <p><strong>${t('conclusion')}:</strong> ${t('true')}</p>
-              <p style="margin-top: 16px;"><strong>${t('cogent')}:</strong> ${t('cogentIf')}</p>
-              <p><strong>${t('notCogent')}:</strong> ${t('notCogentIf')}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="flashcard" id="card2">
-          <div class="flashcard-inner">
-            <div class="flashcard-face flashcard-front">
-              <h3>${t('weakArgument')}</h3>
-              <p class="tap-hint">${t('clickToView')}</p>
-            </div>
-            <div class="flashcard-face flashcard-back">
-              <h3>${t('weakArgument')}</h3>
-              <p><strong>${t('conclusion')}:</strong> ${t('false')}</p>
-              <p style="margin-top: 16px;"><strong>${t('notCogent')}</strong></p>
-              <p>${t('alwaysNotCogent')}</p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      const config = window.elementSdk?.config || defaultConfig;
-      const flashcardFaces = container.querySelectorAll('.flashcard-face');
-      flashcardFaces.forEach(face => {
-        face.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        face.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        face.style.color = config.text_color || defaultConfig.text_color;
-      });
-
-      const flashcardH3 = container.querySelectorAll('.flashcard-face h3');
-      const baseSize = config.font_size || defaultConfig.font_size;
-      flashcardH3.forEach(h => {
-        h.style.fontSize = `${baseSize * 1.5}px`;
-        h.style.color = config.primary_color || defaultConfig.primary_color;
-      });
-
-      const flashcardP = container.querySelectorAll('.flashcard-face p');
-      flashcardP.forEach(p => {
-        p.style.fontSize = `${baseSize}px`;
-      });
-
-      document.getElementById('card1').addEventListener('click', function() {
-        this.classList.toggle('flipped');
-      });
-
-      document.getElementById('card2').addEventListener('click', function() {
-        this.classList.toggle('flipped');
-      });
-    }
-
-    function shuffleArray(array) {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    }
-
-    function showView(view) {
-      document.getElementById('mainMenu').style.display = 'none';
-      document.getElementById('notaView').style.display = 'none';
-      document.getElementById('kuizView').style.display = 'none';
-      document.getElementById('homeButton').style.display = 'none';
-
-      if (view === 'menu') {
-        document.getElementById('mainMenu').style.display = 'block';
-        currentView = 'menu';
-      } else if (view === 'nota') {
-        document.getElementById('notaView').style.display = 'block';
-        document.getElementById('homeButton').style.display = 'block';
-        currentView = 'nota';
-        renderFlashcards();
-      } else if (view === 'kuiz') {
-        document.getElementById('kuizView').style.display = 'block';
-        document.getElementById('homeButton').style.display = 'block';
-        currentView = 'kuiz';
-        startQuiz();
-      }
-    }
-
-    function startQuiz() {
-      currentQuestionIndex = 0;
-      score = 0;
-      userAnswers = [];
-      selectedQuestions = shuffleArray(quizQuestions).slice(0, 10);
-      renderQuestion();
-    }
-
-    function renderQuestion() {
-      const container = document.getElementById('quizContainer');
-      
-      if (currentQuestionIndex >= selectedQuestions.length) {
-        showResults();
-        return;
-      }
-
-      const question = selectedQuestions[currentQuestionIndex];
-      const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
-
-      const premisesHTML = question.premises[currentLanguage].map((premise, index) => 
-        `<div class="premise-item">${t('premise')} ${index + 1}: ${premise}</div>`
-      ).join('');
-
-      container.innerHTML = `
-        <div class="progress-bar" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border: 2px solid ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">
-          <div class="progress-fill" style="width: ${progress}%; background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};"></div>
-        </div>
-        
-        <div class="quiz-card-wrapper">
-          <div class="quiz-card" id="quizCard" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
-            <div class="card-front">
-              <div class="quiz-question">
-                <strong style="font-size: 20px;">${t('question')} ${currentQuestionIndex + 1}/${selectedQuestions.length}</strong><br><br>
-                ${premisesHTML}
-                <div class="conclusion-item" style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; border-left: 4px solid ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">
-                  <strong>${t('conclusion')}:</strong> ${question.conclusion[currentLanguage]}
-                </div>
-              </div>
-
-              <div class="quiz-options">
-                <div class="option-group">
-                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('argumentType')}</div>
-                  <button class="option-button type-btn" data-value="kuat" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('strong')}</button>
-                  <button class="option-button type-btn" data-value="lemah" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('weak')}</button>
-                </div>
-
-                <div class="option-group">
-                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('confidenceLevel')}</div>
-                  <button class="option-button convincing-btn" data-value="meyakinkan" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('cogent')}</button>
-                  <button class="option-button convincing-btn" data-value="tidak" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('notCogent')}</button>
-                </div>
-              </div>
-
-              <div class="quiz-actions">
-                <button class="action-button" id="checkBtn" disabled style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('checkAnswer')}</button>
-              </div>
-            </div>
-
-            <div class="card-back">
-              <div class="answer-content">
-                <h3 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 20px;">${t('answer')}</h3>
-                
-                <div style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; padding: 16px; border-radius: 8px; margin-bottom: 16px;" id="answerDisplay">
-                </div>
-
-                <div style="margin-top: 20px;">
-                  <h4 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 12px;">${t('explanation')}:</h4>
-                  <p style="line-height: 1.8;">${question.reason[currentLanguage]}</p>
-                </div>
-
-                <div class="quiz-actions" style="margin-top: 24px;">
-                  <button class="action-button" id="nextBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('next')}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      let selectedType = null;
-      let selectedConvincing = null;
-
-      const quizCard = container.querySelector('#quizCard');
-      const typeButtons = container.querySelectorAll('.type-btn');
-      const convincingButtons = container.querySelectorAll('.convincing-btn');
-      const checkBtn = container.querySelector('#checkBtn');
-      const nextBtn = container.querySelector('#nextBtn');
-
-      typeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          typeButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          selectedType = btn.dataset.value;
-          
-          convincingButtons.forEach(b => b.disabled = false);
-          
-          if (selectedType && selectedConvincing) {
-            checkBtn.disabled = false;
-          }
-        });
-      });
-
-      convincingButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          convincingButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          selectedConvincing = btn.dataset.value;
-          
-          if (selectedType && selectedConvincing) {
-            checkBtn.disabled = false;
-          }
-        });
-      });
-
-      checkBtn.addEventListener('click', () => {
-        const isTypeCorrect = selectedType === question.type;
-        const isConvincingCorrect = selectedConvincing === question.convincing;
-        const isCorrect = isTypeCorrect && isConvincingCorrect;
-
-        if (isCorrect) {
-          score++;
-        }
-
-        userAnswers.push({
-          premises: question.premises,
-          conclusion: question.conclusion,
-          userType: selectedType,
-          userConvincing: selectedConvincing,
-          correctType: question.type,
-          correctConvincing: question.convincing,
-          isCorrect: isCorrect
-        });
-
-        quizCard.classList.add('flipped');
-
-        typeButtons.forEach(btn => btn.disabled = true);
-        convincingButtons.forEach(btn => btn.disabled = true);
-
-        const answerDisplay = container.querySelector('#answerDisplay');
-        const typeColor = isTypeCorrect ? '#10b981' : '#ef4444';
-        const convincingColor = isConvincingCorrect ? '#10b981' : '#ef4444';
-        
-        const typeText = question.type === "kuat" ? t('strong') : t('weak');
-        const convincingText = question.convincing === "meyakinkan" ? t('cogent') : t('notCogent');
-        
-        answerDisplay.innerHTML = `
-          <p style="margin: 8px 0;"><strong>${t('argumentType')}:</strong> <span style="color: ${typeColor}; font-size: 18px; font-weight: 600;">${typeText}</span></p>
-          <p style="margin: 8px 0;"><strong>${t('confidenceLevel')}:</strong> <span style="color: ${convincingColor}; font-size: 18px; font-weight: 600;">${convincingText}</span></p>
-        `;
-      });
-
-      nextBtn.addEventListener('click', () => {
-        currentQuestionIndex++;
-        renderQuestion();
-      });
-    }
-
-    function showResults() {
-      const container = document.getElementById('quizContainer');
-      const percentage = (score / selectedQuestions.length) * 100;
-      
-      let message = '';
-      if (percentage >= 80) {
-        message = t('excellent');
-      } else if (percentage >= 60) {
-        message = t('good');
-      } else {
-        message = t('keepLearning');
-      }
-
-      container.innerHTML = `
-        <div class="quiz-card" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
-          <div class="score-display">
-            <h2 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">${t('quizResults')}</h2>
-            <p style="font-size: 48px; margin: 24px 0; color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">${score}/${selectedQuestions.length}</p>
-            <p style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${percentage.toFixed(0)}% ${t('correct')}</p>
-            <p style="margin-top: 16px; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${message}</p>
-          </div>
-
-          <div class="quiz-actions" style="margin-top: 32px;">
-            <button class="action-button" id="retryBtn" style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('tryAgain')}</button>
-            <button class="action-button" id="menuBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('backToMenu')}</button>
-          </div>
-        </div>
-      `;
-
-      container.querySelector('#retryBtn').addEventListener('click', () => startQuiz());
-      container.querySelector('#menuBtn').addEventListener('click', () => showView('menu'));
-    }
-
-    document.getElementById('notaCard').addEventListener('click', () => showView('nota'));
-    document.getElementById('kuizCard').addEventListener('click', () => showView('kuiz'));
-    document.getElementById('homeButton').addEventListener('click', () => showView('menu'));
-    document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-    document.getElementById('homeButtonMobileNota').addEventListener('click', () => showView('menu'));
-    document.getElementById('homeButtonMobileKuiz').addEventListener('click', () => showView('menu'));
-    document.getElementById('languageToggleMobileNota').addEventListener('click', toggleLanguage);
-    document.getElementById('languageToggleMobileKuiz').addEventListener('click', toggleLanguage);
 
     async function onConfigChange(config) {
-      const customFont = config.font_family || defaultConfig.font_family;
-      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
-      const fontFamily = `${customFont}, ${baseFontStack}`;
-      const baseSize = config.font_size || defaultConfig.font_size;
-
-      document.body.style.fontFamily = fontFamily;
-      document.body.style.fontSize = `${baseSize}px`;
-
-      const appContainer = document.querySelector('.app-container');
-      if (appContainer) {
-        appContainer.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      const titleElement = document.getElementById('main-title');
+      const instructionElement = document.getElementById('instruction-text');
+      const showBtnElement = document.getElementById('showBtn');
+      const resetBtnElement = document.getElementById('resetBtn');
+      
+      if (titleElement) {
+        titleElement.textContent = config.main_title || defaultConfig.main_title;
       }
-
-      const languageToggle = document.getElementById('languageToggle');
-      if (languageToggle) {
-        languageToggle.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        languageToggle.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        languageToggle.style.color = config.primary_color || defaultConfig.primary_color;
+      if (instructionElement) {
+        instructionElement.textContent = config.instruction_text || defaultConfig.instruction_text;
       }
-
-      const languageToggleMobileNota = document.getElementById('languageToggleMobileNota');
-      if (languageToggleMobileNota) {
-        languageToggleMobileNota.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        languageToggleMobileNota.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        languageToggleMobileNota.style.color = config.primary_color || defaultConfig.primary_color;
+      if (showBtnElement) {
+        showBtnElement.textContent = config.show_button || defaultConfig.show_button;
       }
-
-      const languageToggleMobileKuiz = document.getElementById('languageToggleMobileKuiz');
-      if (languageToggleMobileKuiz) {
-        languageToggleMobileKuiz.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        languageToggleMobileKuiz.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        languageToggleMobileKuiz.style.color = config.primary_color || defaultConfig.primary_color;
+      if (resetBtnElement) {
+        resetBtnElement.textContent = config.reset_button || defaultConfig.reset_button;
       }
+    }
 
-      const headers = document.querySelectorAll('.header h1');
-      headers.forEach(h => {
-        h.style.color = config.primary_color || defaultConfig.primary_color;
-        h.style.fontSize = `${baseSize * 3}px`;
-      });
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
 
-      const menuCards = document.querySelectorAll('.menu-card');
-      menuCards.forEach(card => {
-        card.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        card.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        card.style.color = config.text_color || defaultConfig.text_color;
-      });
-
-      const menuCardH2 = document.querySelectorAll('.menu-card h2');
-      menuCardH2.forEach(h => {
-        h.style.fontSize = `${baseSize * 1.75}px`;
-      });
-
-      const menuCardP = document.querySelectorAll('.menu-card p');
-      menuCardP.forEach(p => {
-        p.style.fontSize = `${baseSize}px`;
-      });
-
-      const flashcardFaces = document.querySelectorAll('.flashcard-face');
-      flashcardFaces.forEach(face => {
-        face.style.backgroundColor = config.card_background || defaultConfig.card_background;
-        face.style.borderColor = config.primary_color || defaultConfig.primary_color;
-        face.style.color = config.text_color || defaultConfig.text_color;
-      });
-
-      const flashcardH3 = document.querySelectorAll('.flashcard-face h3');
-      flashcardH3.forEach(h => {
-        h.style.fontSize = `${baseSize * 1.5}px`;
-        h.style.color = config.primary_color || defaultConfig.primary_color;
-      });
-
-      const flashcardP = document.querySelectorAll('.flashcard-face p');
-      flashcardP.forEach(p => {
-        p.style.fontSize = `${baseSize}px`;
-      });
-
-      document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
-      document.getElementById('notaTitle').textContent = config.flashcard_nota_title || defaultConfig.flashcard_nota_title;
-      document.getElementById('notaDesc').textContent = config.flashcard_nota_desc || defaultConfig.flashcard_nota_desc;
-      document.getElementById('kuizTitle').textContent = config.flashcard_kuiz_title || defaultConfig.flashcard_kuiz_title;
-      document.getElementById('kuizDesc').textContent = config.flashcard_kuiz_desc || defaultConfig.flashcard_kuiz_desc;
-
-      if (currentView === 'kuiz') {
-        renderQuestion();
-      } else if (currentView === 'nota') {
-        renderFlashcards();
-      }
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["instruction_text", config.instruction_text || defaultConfig.instruction_text],
+        ["show_button", config.show_button || defaultConfig.show_button],
+        ["reset_button", config.reset_button || defaultConfig.reset_button]
+      ]);
     }
 
     if (window.elementSdk) {
       window.elementSdk.init({
-        defaultConfig: defaultConfig,
-        onConfigChange: onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.card_background || defaultConfig.card_background,
-              set: (value) => {
-                config.card_background = value;
-                window.elementSdk.setConfig({ card_background: value });
-              }
-            },
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                config.primary_color = value;
-                window.elementSdk.setConfig({ primary_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (value) => {
-                config.accent_color = value;
-                window.elementSdk.setConfig({ accent_color: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["app_title", config.app_title || defaultConfig.app_title],
-          ["flashcard_nota_title", config.flashcard_nota_title || defaultConfig.flashcard_nota_title],
-          ["flashcard_nota_desc", config.flashcard_nota_desc || defaultConfig.flashcard_nota_desc],
-          ["flashcard_kuiz_title", config.flashcard_kuiz_title || defaultConfig.flashcard_kuiz_title],
-          ["flashcard_kuiz_desc", config.flashcard_kuiz_desc || defaultConfig.flashcard_kuiz_desc]
-        ])
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
       });
     }
 
-    onConfigChange(defaultConfig);
-    updateLanguageToggle();
+    // Venn diagram logic
+    const setASelect = document.getElementById('setA');
+    const setBSelect = document.getElementById('setB');
+    const setCSelect = document.getElementById('setC');
+    const operator1Select = document.getElementById('operator1');
+    const operator2Select = document.getElementById('operator2');
+    const showBtn = document.getElementById('showBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Define all regions
+    const regions = {
+      'A-only': ['region-A-only'],
+      'B-only': ['region-B-only'],
+      'C-only': ['region-C-only'],
+      'AB': ['region-AB'],
+      'AC': ['region-AC'],
+      'BC': ['region-BC'],
+      'ABC': ['region-ABC'],
+      'outside': ['region-outside']
+    };
+
+    function resetHighlights() {
+      Object.values(regions).forEach(regionIds => {
+        regionIds.forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.style.fillOpacity = '0';
+          }
+        });
+      });
+    }
+
+    function drawVennRegions() {
+      // Calculate intersection points and paths for accurate Venn diagram regions
+      const cx1 = 230, cy1 = 190, r = 100; // Circle A
+      const cx2 = 370, cy2 = 190; // Circle B
+      const cx3 = 300, cy3 = 290; // Circle C
+      
+      // Region A only (A - B - C)
+      const regionAOnly = document.getElementById('region-A-only');
+      regionAOnly.setAttribute('d', `M 230 90 A 100 100 0 0 1 330 190 A 100 100 0 0 1 270 260 A 100 100 0 0 1 190 260 A 100 100 0 0 1 130 190 A 100 100 0 0 1 230 90 Z`);
+      
+      // Region B only (B - A - C)
+      const regionBOnly = document.getElementById('region-B-only');
+      regionBOnly.setAttribute('d', `M 370 90 A 100 100 0 0 1 470 190 A 100 100 0 0 1 410 260 A 100 100 0 0 1 330 260 A 100 100 0 0 1 270 190 A 100 100 0 0 1 370 90 Z`);
+      
+      // Region C only (C - A - B)
+      const regionCOnly = document.getElementById('region-C-only');
+      regionCOnly.setAttribute('d', `M 300 190 A 100 100 0 0 1 400 290 A 100 100 0 0 1 300 390 A 100 100 0 0 1 200 290 A 100 100 0 0 1 300 190 Z`);
+      
+      // Region A ∩ B (not C)
+      const regionAB = document.getElementById('region-AB');
+      regionAB.setAttribute('d', `M 300 150 A 70 70 0 0 1 330 190 A 70 70 0 0 1 300 230 A 70 70 0 0 1 270 190 A 70 70 0 0 1 300 150 Z`);
+      
+      // Region A ∩ C (not B)
+      const regionAC = document.getElementById('region-AC');
+      regionAC.setAttribute('d', `M 250 220 A 60 60 0 0 1 290 250 A 60 60 0 0 1 250 280 A 60 60 0 0 1 210 250 A 60 60 0 0 1 250 220 Z`);
+      
+      // Region B ∩ C (not A)
+      const regionBC = document.getElementById('region-BC');
+      regionBC.setAttribute('d', `M 350 220 A 60 60 0 0 1 390 250 A 60 60 0 0 1 350 280 A 60 60 0 0 1 310 250 A 60 60 0 0 1 350 220 Z`);
+      
+      // Region A ∩ B ∩ C (all three)
+      const regionABC = document.getElementById('region-ABC');
+      regionABC.setAttribute('d', `M 300 220 A 30 30 0 0 1 330 240 A 30 30 0 0 1 300 260 A 30 30 0 0 1 270 240 A 30 30 0 0 1 300 220 Z`);
+    }
+
+    function highlightRegions(regionsToHighlight) {
+      resetHighlights();
+      regionsToHighlight.forEach(regionKey => {
+        if (regions[regionKey]) {
+          regions[regionKey].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+              element.style.fillOpacity = '0.65';
+            }
+          });
+        }
+      });
+    }
+
+    function getSetRegions(setName, complement = false) {
+      if (complement) {
+        // Return all regions except the specified set
+        switch(setName) {
+          case 'A':
+            return ['B-only', 'C-only', 'BC', 'outside'];
+          case 'B':
+            return ['A-only', 'C-only', 'AC', 'outside'];
+          case 'C':
+            return ['A-only', 'B-only', 'AB', 'outside'];
+        }
+      } else {
+        // Return regions containing the set
+        switch(setName) {
+          case 'A':
+            return ['A-only', 'AB', 'AC', 'ABC'];
+          case 'B':
+            return ['B-only', 'AB', 'BC', 'ABC'];
+          case 'C':
+            return ['C-only', 'AC', 'BC', 'ABC'];
+        }
+      }
+      return [];
+    }
+    
+    // Initialize regions on page load
+    drawVennRegions();
+
+    function intersectRegions(regions1, regions2) {
+      return regions1.filter(r => regions2.includes(r));
+    }
+
+    function unionRegions(regions1, regions2) {
+      return [...new Set([...regions1, ...regions2])];
+    }
+
+    showBtn.addEventListener('click', () => {
+      const setAValue = setASelect.value;
+      const setBValue = setBSelect.value;
+      const setCValue = setCSelect.value;
+      const op1Value = operator1Select.value;
+      const op2Value = operator2Select.value;
+
+      // Get regions for first set
+      const setAComplement = setAValue.includes("'");
+      const regionsA = getSetRegions('A', setAComplement);
+
+      // Get regions for second set
+      const setBComplement = setBValue.includes("'");
+      const regionsB = getSetRegions('B', setBComplement);
+
+      // Apply first operation
+      let resultRegions;
+      if (op1Value === '∩') {
+        resultRegions = intersectRegions(regionsA, regionsB);
+      } else {
+        resultRegions = unionRegions(regionsA, regionsB);
+      }
+
+      // Apply second operation with set C
+      const setCComplement = setCValue.includes("'");
+      const regionsC = getSetRegions('C', setCComplement);
+      
+      if (op2Value === '∩') {
+        resultRegions = intersectRegions(resultRegions, regionsC);
+      } else {
+        resultRegions = unionRegions(resultRegions, regionsC);
+      }
+
+      highlightRegions(resultRegions);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      setASelect.value = 'A';
+      setBSelect.value = 'B';
+      setCSelect.value = 'C';
+      operator1Select.value = '∩';
+      operator2Select.value = '∩';
+      resetHighlights();
+    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92a9d7d4902441',t:'MTc2NDkyODQ4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92dba92723c7bd',t:'MTc2NDkzMDUyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
