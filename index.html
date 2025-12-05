@@ -27,7 +27,7 @@
     .game-wrapper {
       width: 100%;
       min-height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #D4E9E2 0%, #A8C9BD 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -51,7 +51,7 @@
     .main-title {
       font-size: 32px;
       font-weight: 700;
-      color: #2d3748;
+      color: #2D4A3E;
       margin: 0 0 15px 0;
       line-height: 1.3;
     }
@@ -64,7 +64,7 @@
     }
     
     .instructions-box {
-      background: #f7fafc;
+      background: #F7F9F8;
       padding: 25px;
       border-radius: 15px;
       margin-bottom: 30px;
@@ -74,7 +74,7 @@
     .instructions-heading {
       font-size: 20px;
       font-weight: 700;
-      color: #2d3748;
+      color: #2D4A3E;
       margin: 0 0 15px 0;
       text-align: center;
     }
@@ -91,7 +91,7 @@
       content: '✓';
       position: absolute;
       left: 0;
-      color: #48bb78;
+      color: #6B9080;
       font-weight: 700;
       font-size: 17px;
     }
@@ -125,22 +125,22 @@
     }
     
     .level-easy {
-      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      background: linear-gradient(135deg, #E8F4F0 0%, #D4E9E2 100%);
       color: white;
     }
     
     .level-medium {
-      background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
       color: white;
     }
     
     .level-hard {
-      background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+      background: linear-gradient(135deg, #3D5A4A 0%, #2D4A3A 100%);
       color: white;
     }
     
     .back-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #5E9B93 0%, #4E8B83 100%);
       color: white;
       margin-top: 20px;
     }
@@ -169,12 +169,23 @@
     }
     
     .level-badge {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       color: white;
       padding: 10px 25px;
       border-radius: 20px;
       font-size: 16px;
       font-weight: 700;
+    }
+    
+    .level-badge.badge-easy {
+      background: linear-gradient(135deg, #E8F4F0 0%, #D4E9E2 100%);
+    }
+    
+    .level-badge.badge-medium {
+      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
+    }
+    
+    .level-badge.badge-hard {
+      background: linear-gradient(135deg, #3D5A4A 0%, #2D4A3A 100%);
     }
     
     .stats-container {
@@ -184,7 +195,7 @@
     }
     
     .stat-item {
-      background: #f7fafc;
+      background: #F7F9F8;
       padding: 10px 20px;
       border-radius: 10px;
       text-align: center;
@@ -193,7 +204,7 @@
     
     .stat-label {
       font-size: 12px;
-      color: #718096;
+      color: #6B9080;
       text-transform: uppercase;
       margin-bottom: 3px;
       font-weight: 600;
@@ -202,7 +213,7 @@
     .stat-value {
       font-size: 20px;
       font-weight: 700;
-      color: #2d3748;
+      color: #2D4A3E;
     }
     
     .game-grid {
@@ -213,7 +224,7 @@
     }
     
     .grid-column {
-      background: #f7fafc;
+      background: #F7F9F8;
       padding: 25px;
       border-radius: 15px;
       display: flex;
@@ -224,7 +235,7 @@
     .grid-title {
       font-size: 18px;
       font-weight: 700;
-      color: #2d3748;
+      color: #2D4A3E;
       text-align: center;
       margin: 0 0 20px 0;
       padding: 12px;
@@ -275,14 +286,14 @@
     }
     
     .card.revealed {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-color: #667eea;
+      background: linear-gradient(135deg, #5E9B93 0%, #4E8B83 100%);
+      border-color: #5E9B93;
       color: white;
     }
     
     .card.matched {
-      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-      border-color: #48bb78;
+      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
+      border-color: #6B9080;
       color: white;
       cursor: default;
       animation: pulse 0.5s ease;
@@ -363,12 +374,12 @@
     .victory-title {
       font-size: 36px;
       font-weight: 700;
-      color: #2d3748;
+      color: #2D4A3E;
       margin: 0 0 20px 0;
     }
     
     .victory-stats {
-      background: #f7fafc;
+      background: #F7F9F8;
       padding: 20px;
       border-radius: 12px;
       margin-bottom: 25px;
@@ -459,7 +470,7 @@
       Padankan semua kad untuk menang!
      </div>
     </div>
-    <div class="level-buttons"><button class="level-btn level-easy" id="easyBtn">🟢 Mudah</button> <button class="level-btn level-medium" id="mediumBtn">🟡 Sederhana</button> <button class="level-btn level-hard" id="hardBtn">🔴 Sukar</button>
+    <div class="level-buttons"><button class="level-btn level-easy" id="easyBtn">Mudah</button> <button class="level-btn level-medium" id="mediumBtn">Sederhana</button> <button class="level-btn level-hard" id="hardBtn">Sukar</button>
     </div>
    </section><!-- Game Screen -->
    <section class="game-view" id="gameView">
@@ -515,20 +526,20 @@
   </main>
   <script>
     const defaultConfig = {
-      background_color: "#667eea",
-      secondary_surface_color: "#f7fafc",
-      text_color: "#2d3748",
-      primary_action_color: "#48bb78",
-      secondary_action_color: "#667eea",
+      background_color: "#D4E9E2",
+      secondary_surface_color: "#F7F9F8",
+      text_color: "#2D4A3E",
+      primary_action_color: "#6B9080",
+      secondary_action_color: "#5E9B93",
       font_family: "Segoe UI",
       font_size: 16,
       game_title: "Asas Nombor Dua dan Asas Nombor Lapan",
       game_description: "Permainan penukaran nombor di antara Asas Dua dan Asas Lapan",
       instructions_title: "📋 Arahan Permainan",
       instruction_text: "Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul",
-      easy_button: "🟢 Mudah",
-      medium_button: "🟡 Sederhana",
-      hard_button: "🔴 Sukar",
+      easy_button: "Mudah",
+      medium_button: "Sederhana",
+      hard_button: "Sukar",
       back_button: "↩️ Kembali ke Menu"
     };
 
@@ -541,60 +552,46 @@
     let isProcessing = false;
     let gamePairs = [];
 
-    const easyPairs = [
+    const easyPairsPool = [
       { binary: '000', octal: '0' },
       { binary: '001', octal: '1' },
       { binary: '010', octal: '2' },
       { binary: '011', octal: '3' },
       { binary: '100', octal: '4' },
-      { binary: '101', octal: '5' }
+      { binary: '101', octal: '5' },
+      { binary: '110', octal: '6' },
+      { binary: '111', octal: '7' }
     ];
 
-    function generateMediumPairs() {
-      const pairs = [];
-      const used = new Set();
-      
-      while (pairs.length < 6) {
-        const length = Math.floor(Math.random() * 3) + 4;
-        let binary = '';
-        for (let i = 0; i < length; i++) {
-          binary += Math.random() > 0.5 ? '1' : '0';
-        }
-        
-        const octal = binaryToOctal(binary);
-        const key = binary + '-' + octal;
-        
-        if (!used.has(key) && binary.length <= 6) {
-          used.add(key);
-          const formatted = binary.match(/.{1,3}/g).join(' ');
-          pairs.push({ binary: formatted, octal: octal });
-        }
-      }
-      
-      return pairs;
+    const mediumPairsPool = [
+      { binary: '1000', octal: '10' },
+      { binary: '1001', octal: '11' },
+      { binary: '1010', octal: '12' },
+      { binary: '1011', octal: '13' },
+      { binary: '1100', octal: '14' },
+      { binary: '1101', octal: '15' },
+      { binary: '1110', octal: '16' },
+      { binary: '1111', octal: '17' }
+    ];
+
+    const hardPairsPool = [
+      { binary: '10000', octal: '20' },
+      { binary: '10001', octal: '21' },
+      { binary: '10101', octal: '25' },
+      { binary: '11000', octal: '30' },
+      { binary: '11001', octal: '31' },
+      { binary: '11010', octal: '32' },
+      { binary: '11110', octal: '36' },
+      { binary: '11111', octal: '37' }
+    ];
+
+    function selectRandomPairs(pool, count = 6) {
+      const shuffled = shuffle([...pool]);
+      return shuffled.slice(0, count);
     }
 
-    function generateHardPairs() {
-      const pairs = [];
-      const used = new Set();
-      
-      while (pairs.length < 6) {
-        const length = Math.floor(Math.random() * 4) + 5;
-        let binary = '';
-        for (let i = 0; i < length; i++) {
-          binary += Math.random() > 0.5 ? '1' : '0';
-        }
-        
-        const octal = binaryToOctal(binary);
-        const key = binary + '-' + octal;
-        
-        if (!used.has(key) && binary.length <= 9) {
-          used.add(key);
-          pairs.push({ binary: binary, octal: octal });
-        }
-      }
-      
-      return pairs;
+    function formatBinaryForMedium(binary) {
+      return binary.match(/.{1,3}/g).join(' ');
     }
 
     function binaryToOctal(binary) {
@@ -635,14 +632,24 @@
       isProcessing = false;
       
       if (level === 'easy') {
-        gamePairs = [...easyPairs];
-        document.getElementById('levelBadge').textContent = '🟢 Mudah';
+        gamePairs = selectRandomPairs(easyPairsPool, 6);
+        const badge = document.getElementById('levelBadge');
+        badge.textContent = 'Mudah';
+        badge.className = 'level-badge badge-easy';
       } else if (level === 'medium') {
-        gamePairs = generateMediumPairs();
-        document.getElementById('levelBadge').textContent = '🟡 Sederhana';
+        const selectedPairs = selectRandomPairs(mediumPairsPool, 6);
+        gamePairs = selectedPairs.map(p => ({
+          binary: formatBinaryForMedium(p.binary),
+          octal: p.octal
+        }));
+        const badge = document.getElementById('levelBadge');
+        badge.textContent = 'Sederhana';
+        badge.className = 'level-badge badge-medium';
       } else {
-        gamePairs = generateHardPairs();
-        document.getElementById('levelBadge').textContent = '🔴 Sukar';
+        gamePairs = selectRandomPairs(hardPairsPool, 6);
+        const badge = document.getElementById('levelBadge');
+        badge.textContent = 'Sukar';
+        badge.className = 'level-badge badge-hard';
       }
       
       renderCards();
@@ -812,7 +819,7 @@
       });
       
       const wrapper = document.querySelector('.game-wrapper');
-      wrapper.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #764ba2 100%)`;
+      wrapper.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #A8C9BD 100%)`;
       
       const surfaces = document.querySelectorAll('.instructions-box, .stat-item, .grid-column, .victory-stats');
       surfaces.forEach(el => {
@@ -826,12 +833,12 @@
       
       const easyButtons = document.querySelectorAll('.level-easy');
       easyButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${config.primary_action_color || defaultConfig.primary_action_color} 0%, #38a169 100%)`;
+        btn.style.background = `linear-gradient(135deg, ${config.primary_action_color || defaultConfig.primary_action_color} 0%, #5A7D70 100%)`;
       });
       
       const backButtons = document.querySelectorAll('.back-btn');
       backButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${config.secondary_action_color || defaultConfig.secondary_action_color} 0%, #764ba2 100%)`;
+        btn.style.background = `linear-gradient(135deg, ${config.secondary_action_color || defaultConfig.secondary_action_color} 0%, #4E8B83 100%)`;
       });
     }
 
@@ -906,5 +913,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90376c41b255a9',t:'MTc2NDkwMjgyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90672ba5181be4',t:'MTc2NDkwNDc3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
