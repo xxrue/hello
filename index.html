@@ -46,15 +46,16 @@
     }
     
     .language-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       display: flex;
       gap: 8px;
       background: #F7F9F8;
       padding: 6px;
       border-radius: 25px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .lang-btn {
@@ -283,7 +284,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      flex: 1;
+      width: 100%;
+      justify-items: center;
     }
     
     .card {
@@ -302,9 +304,9 @@
       font-size: 18px;
       font-weight: 700;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      max-width: 140px;
-      max-height: 140px;
       width: 100%;
+      max-width: 140px;
+      height: auto;
     }
     
     .card:not(.revealed):not(.matched):hover {
@@ -454,20 +456,28 @@
         gap: 20px;
       }
       
+      .grid-column {
+        padding: 20px 15px;
+      }
+      
       .cards-container {
-        gap: 10px;
+        gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
       }
       
       .card {
-        font-size: 20px;
+        font-size: 16px;
+        max-width: 100%;
+        border-width: 2px;
       }
       
       .card:not(.revealed):not(.matched):before {
-        font-size: 40px;
+        font-size: 36px;
       }
       
       .card-value {
-        font-size: 20px;
+        font-size: 16px;
+        padding: 5px;
       }
       
       .game-header {
@@ -481,6 +491,11 @@
       
       .victory-title {
         font-size: 28px;
+      }
+      
+      .grid-title {
+        font-size: 16px;
+        padding: 10px;
       }
     }
   </style>
@@ -576,8 +591,8 @@
         back_button: "↩️ Back to Menu",
         attempts_label: "Attempts",
         matches_label: "Matches",
-        binary_title: "Binary",
-        octal_title: "Octal",
+        binary_title: "Base Two (Binary)",
+        octal_title: "Base Eight (Octal)",
         victory_title: "🎉 Congratulations!",
         victory_found: "✅ All pairs found!",
         victory_attempts: "📊 Total Attempts:",
@@ -1052,5 +1067,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a907632a3571be4',t:'MTc2NDkwNTM5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90804cc5589103',t:'MTc2NDkwNTgwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
