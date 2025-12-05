@@ -457,27 +457,29 @@
       }
       
       .grid-column {
-        padding: 20px 15px;
+        padding: 15px 10px;
       }
       
       .cards-container {
-        gap: 8px;
+        gap: 6px;
         grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
       }
       
       .card {
-        font-size: 16px;
+        font-size: 13px;
         max-width: 100%;
         border-width: 2px;
       }
       
       .card:not(.revealed):not(.matched):before {
-        font-size: 36px;
+        font-size: 28px;
       }
       
       .card-value {
-        font-size: 16px;
-        padding: 5px;
+        font-size: 13px;
+        padding: 4px;
+        line-height: 1.2;
       }
       
       .game-header {
@@ -579,10 +581,10 @@
   <script>
     const translations = {
       en: {
-        game_title: "Binary and Octal Numbers",
-        game_description: "A number conversion game between Binary and Octal",
+        game_title: "Base Two (Binary) and Base Eight (Octal) Numbers",
+        game_description: "A number conversion game between Base Two (Binary) and Base Eight (Octal)",
         instructions_title: "📋 Game Instructions",
-        instruction_text: "Click one Binary card and one Octal card to find the correct match",
+        instruction_text: "Click one Base Two (Binary) card and one Base Eight (Octal) card to find the correct match",
         instruction_pairs: "Total pairs: 6",
         instruction_match: "Match all cards to win!",
         easy_button: "Easy",
@@ -1067,5 +1069,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90804cc5589103',t:'MTc2NDkwNTgwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a908d4730e1068e',t:'MTc2NDkwNjMzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
