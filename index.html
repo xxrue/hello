@@ -47,6 +47,58 @@
       transform: scale(1.2);
     }
 
+    .language-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s;
+      border: 2px solid;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .nav-controls .home-button {
+      position: static;
+      font-size: 28px;
+    }
+
+    .nav-controls .language-toggle {
+      position: static;
+      font-size: 13px;
+      padding: 8px 16px;
+    }
+
+    .lang-option {
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .lang-option.active {
+      opacity: 1;
+      font-weight: 700;
+    }
+
     .header {
       text-align: center;
       margin-bottom: 40px;
@@ -363,6 +415,7 @@
     @media (max-width: 640px) {
       .app-container {
         padding: 12px;
+        padding-top: 24px;
       }
 
       .header h1 {
@@ -386,9 +439,15 @@
       }
 
       .home-button {
-        top: 12px;
-        left: 12px;
-        font-size: 28px;
+        display: none !important;
+      }
+
+      .language-toggle {
+        display: none !important;
+      }
+
+      .nav-controls {
+        display: flex !important;
       }
 
       .quiz-card {
@@ -431,7 +490,7 @@
   <div class="app-container" id="app">
    <div class="home-button" id="homeButton" style="display: none;">
     🏠
-   </div>
+   </div><button class="language-toggle" id="languageToggle"> <span class="lang-option" id="langBM">BM</span> <span>|</span> <span class="lang-option" id="langEN">ENG</span> </button>
    <div id="mainMenu">
     <header class="header">
      <h1 id="appTitle">Hujah Induktif</h1>
@@ -448,56 +507,117 @@
     </div>
    </div>
    <div id="notaView" style="display: none;">
+    <div class="nav-controls" style="display: none;">
+     <div class="home-button" id="homeButtonMobileNota">
+      🏠
+     </div><button class="language-toggle" id="languageToggleMobileNota"> <span class="lang-option" id="langBMMobileNota">BM</span> <span>|</span> <span class="lang-option" id="langENMobileNota">ENG</span> </button>
+    </div>
     <header class="header">
-     <h1>📚 Flashcard Nota</h1>
+     <h1 id="notaViewTitle">📚 Flashcard Nota</h1>
     </header>
     <div class="flashcard-container">
-     <div class="flashcard-grid">
-      <div class="flashcard" id="card1">
-       <div class="flashcard-inner">
-        <div class="flashcard-face flashcard-front">
-         <h3>Hujah Induktif Kuat</h3>
-         <p class="tap-hint">Klik untuk lihat nota</p>
-        </div>
-        <div class="flashcard-face flashcard-back">
-         <h3>Hujah Induktif Kuat</h3>
-         <p><strong>Kesimpulan:</strong> Benar</p>
-         <p style="margin-top: 16px;"><strong>Meyakinkan:</strong> Jika semua premis benar</p>
-         <p><strong>Tidak Meyakinkan:</strong> Jika ada premis palsu</p>
-        </div>
-       </div>
-      </div>
-      <div class="flashcard" id="card2">
-       <div class="flashcard-inner">
-        <div class="flashcard-face flashcard-front">
-         <h3>Hujah Induktif Lemah</h3>
-         <p class="tap-hint">Klik untuk lihat nota</p>
-        </div>
-        <div class="flashcard-face flashcard-back">
-         <h3>Hujah Induktif Lemah</h3>
-         <p><strong>Kesimpulan:</strong> Tidak benar</p>
-         <p style="margin-top: 16px;"><strong>Tidak Meyakinkan</strong></p>
-         <p>Hujah induktif lemah sentiasa tidak meyakinkan</p>
-        </div>
-       </div>
-      </div>
+     <div class="flashcard-grid" id="flashcardGrid"><!-- Flashcards will be generated dynamically -->
      </div>
     </div>
    </div>
    <div id="kuizView" style="display: none;">
+    <div class="nav-controls" style="display: none;">
+     <div class="home-button" id="homeButtonMobileKuiz">
+      🏠
+     </div><button class="language-toggle" id="languageToggleMobileKuiz"> <span class="lang-option" id="langBMMobileKuiz">BM</span> <span>|</span> <span class="lang-option" id="langENMobileKuiz">ENG</span> </button>
+    </div>
     <header class="header">
-     <h1>🎯 Flashcard Kuiz</h1>
+     <h1 id="kuizViewTitle">🎯 Flashcard Kuiz</h1>
     </header>
     <div class="quiz-container" id="quizContainer"></div>
    </div>
   </div>
   <script>
+    let currentLanguage = 'ms';
+
+    const translations = {
+      ms: {
+        appTitle: "Hujah Induktif",
+        flashcardNotaTitle: "📚 Flashcard Nota",
+        flashcardNotaDesc: "Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif",
+        flashcardKuizTitle: "🎯 Flashcard Kuiz",
+        flashcardKuizDesc: "Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif",
+        notaHeader: "📚 Flashcard Nota",
+        kuizHeader: "🎯 Flashcard Kuiz",
+        strongArgument: "Hujah Induktif Kuat",
+        weakArgument: "Hujah Induktif Lemah",
+        clickToView: "Klik untuk lihat nota",
+        conclusion: "Kesimpulan",
+        true: "Benar",
+        false: "Tidak benar",
+        cogent: "Meyakinkan",
+        notCogent: "Tidak Meyakinkan",
+        cogentIf: "Jika semua premis benar",
+        notCogentIf: "Jika ada premis palsu",
+        alwaysNotCogent: "Hujah induktif lemah sentiasa tidak meyakinkan",
+        question: "Soalan",
+        premise: "Premis",
+        argumentType: "Jenis Hujah",
+        confidenceLevel: "Tahap Keyakinan",
+        strong: "Kuat",
+        weak: "Lemah",
+        checkAnswer: "Semak Jawapan",
+        answer: "Jawapan",
+        explanation: "Penjelasan",
+        next: "Seterusnya",
+        quizResults: "Keputusan Kuiz",
+        correct: "Betul",
+        tryAgain: "Cuba Lagi",
+        backToMenu: "Kembali ke Menu",
+        excellent: "Cemerlang! Anda menguasai konsep hujah induktif! 🌟",
+        good: "Bagus! Teruskan usaha anda! 👍",
+        keepLearning: "Terus belajar! Anda boleh buat lebih baik! 💪"
+      },
+      en: {
+        appTitle: "Inductive Arguments",
+        flashcardNotaTitle: "📚 Notes Flashcard",
+        flashcardNotaDesc: "Learn the basic concepts of strong and weak inductive arguments easily through interactive flashcards",
+        flashcardKuizTitle: "🎯 Quiz Flashcard",
+        flashcardKuizDesc: "Test your understanding with 10 random questions about inductive arguments",
+        notaHeader: "📚 Notes Flashcard",
+        kuizHeader: "🎯 Quiz Flashcard",
+        strongArgument: "Strong Inductive Argument",
+        weakArgument: "Weak Inductive Argument",
+        clickToView: "Click to view notes",
+        conclusion: "Conclusion",
+        true: "True",
+        false: "Not true",
+        cogent: "Cogent",
+        notCogent: "Not Cogent",
+        cogentIf: "If all premises are true",
+        notCogentIf: "If there are false premises",
+        alwaysNotCogent: "Weak inductive arguments are always not cogent",
+        question: "Question",
+        premise: "Premise",
+        argumentType: "Argument Type",
+        confidenceLevel: "Cogency",
+        strong: "Strong",
+        weak: "Weak",
+        checkAnswer: "Check Answer",
+        answer: "Answer",
+        explanation: "Explanation",
+        next: "Next",
+        quizResults: "Quiz Results",
+        correct: "Correct",
+        tryAgain: "Try Again",
+        backToMenu: "Back to Menu",
+        excellent: "Excellent! You have mastered inductive arguments! 🌟",
+        good: "Good! Keep up the effort! 👍",
+        keepLearning: "Keep learning! You can do better! 💪"
+      }
+    };
+
     const defaultConfig = {
-      background_color: "#f0f4f8",
+      background_color: "#fef3e2",
       card_background: "#ffffff",
-      primary_color: "#2563eb",
+      primary_color: "#ea580c",
       text_color: "#1e293b",
-      accent_color: "#10b981",
+      accent_color: "#0891b2",
       font_family: "Segoe UI",
       font_size: 16,
       app_title: "Hujah Induktif",
@@ -508,174 +628,245 @@
     };
 
     const quizQuestions = [
-      // KUAT DAN MEYAKINKAN (5 soalan)
       {
-        premises: [
-          "k³ × k⁵ = k⁸",
-          "k��� × k² = k⁹",
-          "k⁴ × k³ = k⁷"
-        ],
-        conclusion: "kᵃ × kᵇ = kᵃ⁺ᵇ",
+        premises: {
+          ms: ["k³ × k⁵ = k⁸", "k⁷ × k² = k⁹", "k⁴ × k³ = k⁷"],
+          en: ["k³ × k⁵ = k⁸", "k⁷ × k² = k⁹", "k⁴ × k³ = k⁷"]
+        },
+        conclusion: {
+          ms: "kᵃ × kᵇ = kᵃ⁺ᵇ",
+          en: "kᵃ × kᵇ = kᵃ⁺ᵇ"
+        },
         type: "kuat",
         convincing: "meyakinkan",
-        reason: "Premis benar berdasarkan hukum indeks. Pola konsisten menunjukkan apabila mengalikan nombor dengan asas sama, kita tambah kuasa. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan."
+        reason: {
+          ms: "Premis benar berdasarkan hukum indeks. Pola konsisten menunjukkan apabila mengalikan nombor dengan asas sama, kita tambah kuasa. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan.",
+          en: "The premises are true based on the laws of indices. The consistent pattern shows that when multiplying numbers with the same base, we add the powers. The conclusion is the correct general formula. A strong and cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Segi tiga mempunyai jumlah sudut dalaman 180°",
-          "Segi empat mempunyai jumlah sudut dalaman 360°",
-          "Pentagon mempunyai jumlah sudut dalaman 540°"
-        ],
-        conclusion: "Jumlah sudut dalaman polygon = (n-2) × 180°",
+        premises: {
+          ms: ["Segi tiga mempunyai jumlah sudut dalaman 180°", "Segi empat mempunyai jumlah sudut dalaman 360°", "Pentagon mempunyai jumlah sudut dalaman 540°"],
+          en: ["A triangle has interior angles summing to 180°", "A quadrilateral has interior angles summing to 360°", "A pentagon has interior angles summing to 540°"]
+        },
+        conclusion: {
+          ms: "Jumlah sudut dalaman polygon = (n-2) × 180°",
+          en: "Sum of interior angles of a polygon = (n-2) × 180°"
+        },
         type: "kuat",
         convincing: "meyakinkan",
-        reason: "Premis benar dan mengikut pola matematik yang konsisten: 3 sisi = (3-2)×180° = 180°, 4 sisi = (4-2)×180° = 360°, 5 sisi = (5-2)×180° = 540°. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan."
+        reason: {
+          ms: "Premis benar dan mengikut pola matematik yang konsisten: 3 sisi = (3-2)×180° = 180°, 4 sisi = (4-2)×180° = 360°, 5 sisi = (5-2)×180° = 540°. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan.",
+          en: "The premises are true and follow a consistent mathematical pattern: 3 sides = (3-2)×180° = 180°, 4 sides = (4-2)×180° = 360°, 5 sides = (5-2)×180° = 540°. The conclusion is the correct general formula. A strong and cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Lilitan bulatan 1 dengan jejari 5cm: Lilitan = 2π(5) = 10π cm",
-          "Lilitan bulatan 2 dengan jejari 8cm: Lilitan = 2π(8) = 16π cm",
-          "Lilitan bulatan 3 dengan jejari 12cm: Lilitan = 2π(12) = 24π cm"
-        ],
-        conclusion: "Lilitan bulatan = 2πj",
+        premises: {
+          ms: ["Lilitan bulatan 1 dengan jejari 5cm: Lilitan = 2π(5) = 10π cm", "Lilitan bulatan 2 dengan jejari 8cm: Lilitan = 2π(8) = 16π cm", "Lilitan bulatan 3 dengan jejari 12cm: Lilitan = 2π(12) = 24π cm"],
+          en: ["Circumference of circle 1 with radius 5cm: Circumference = 2π(5) = 10π cm", "Circumference of circle 2 with radius 8cm: Circumference = 2π(8) = 16π cm", "Circumference of circle 3 with radius 12cm: Circumference = 2π(12) = 24π cm"]
+        },
+        conclusion: {
+          ms: "Lilitan bulatan = 2πj",
+          en: "Circumference of circle = 2πr"
+        },
         type: "kuat",
         convincing: "meyakinkan",
-        reason: "Premis benar dan konsisten. Pola jelas menunjukkan lilitan = 2 × π × jejari. Ini adalah rumus standard geometri yang betul. Hujah induktif kuat yang meyakinkan."
+        reason: {
+          ms: "Premis benar dan konsisten. Pola jelas menunjukkan lilitan = 2 × π × jejari. Ini adalah rumus standard geometri yang betul. Hujah induktif kuat yang meyakinkan.",
+          en: "The premises are true and consistent. The pattern clearly shows circumference = 2 × π × radius. This is the correct standard geometry formula. A strong and cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Isipadu kubus 1 dengan sisi 2cm: Isipadu = 2³ = 8 cm³",
-          "Isipadu kubus 2 dengan sisi 5cm: Isipadu = 5³ = 125 cm³",
-          "Isipadu kubus 3 dengan sisi 10cm: Isipadu = 10³ = 1000 cm³"
-        ],
-        conclusion: "Isipadu kubus = sisi³",
+        premises: {
+          ms: ["Isipadu kubus 1 dengan sisi 2cm: Isipadu = 2³ = 8 cm³", "Isipadu kubus 2 dengan sisi 5cm: Isipadu = 5³ = 125 cm³", "Isipadu kubus 3 dengan sisi 10cm: Isipadu = 10³ = 1000 cm³"],
+          en: ["Volume of cube 1 with side 2cm: Volume = 2³ = 8 cm³", "Volume of cube 2 with side 5cm: Volume = 5³ = 125 cm³", "Volume of cube 3 with side 10cm: Volume = 10³ = 1000 cm³"]
+        },
+        conclusion: {
+          ms: "Isipadu kubus = sisi³",
+          en: "Volume of cube = side³"
+        },
         type: "kuat",
         convincing: "meyakinkan",
-        reason: "Premis benar dan konsisten dengan rumus isipadu kubus. Pola jelas Isipadu = sisi × sisi × sisi = sisi³. Kesimpulan adalah rumus standard yang betul. Hujah induktif kuat yang meyakinkan."
+        reason: {
+          ms: "Premis benar dan konsisten dengan rumus isipadu kubus. Pola jelas Isipadu = sisi × sisi × sisi = sisi³. Kesimpulan adalah rumus standard yang betul. Hujah induktif kuat yang meyakinkan.",
+          en: "The premises are true and consistent with the cube volume formula. The pattern is clear: Volume = side × side × side = side³. The conclusion is the correct standard formula. A strong and cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Dalam segi tiga bersudut tegak 3-4-5: 3² + 4² = 5²",
-          "Dalam segi tiga bersudut tegak 5-12-13: 5² + 12² = 13²",
-          "Dalam segi tiga bersudut tegak 8-15-17: 8² + 15² = 17²"
-        ],
-        conclusion: "Teorem Pythagoras: a² + b² = c² untuk semua segi tiga bersudut tegak",
+        premises: {
+          ms: ["Dalam segi tiga bersudut tegak 3-4-5: 3² + 4² = 5²", "Dalam segi tiga bersudut tegak 5-12-13: 5² + 12² = 13��", "Dalam segi tiga bersudut tegak 8-15-17: 8² + 15² = 17²"],
+          en: ["In right triangle 3-4-5: 3² + 4² = 5²", "In right triangle 5-12-13: 5² + 12² = 13²", "In right triangle 8-15-17: 8² + 15² = 17²"]
+        },
+        conclusion: {
+          ms: "Teorem Pythagoras: a² + b² = c² untuk semua segi tiga bersudut tegak",
+          en: "Pythagorean Theorem: a² + b² = c² for all right triangles"
+        },
         type: "kuat",
         convincing: "meyakinkan",
-        reason: "Premis benar dengan beberapa contoh konsisten. Ini adalah teorem matematik yang terbukti secara universal untuk semua segi tiga bersudut tegak. Kesimpulan matematik yang pasti. Hujah induktif kuat yang meyakinkan."
+        reason: {
+          ms: "Premis benar dengan beberapa contoh konsisten. Ini adalah teorem matematik yang terbukti secara universal untuk semua segi tiga bersudut tegak. Kesimpulan matematik yang pasti. Hujah induktif kuat yang meyakinkan.",
+          en: "The premises are true with several consistent examples. This is a mathematically proven theorem that is universally true for all right triangles. A mathematically certain conclusion. A strong and cogent inductive argument."
+        }
       },
-      
-      // KUAT DAN TIDAK MEYAKINKAN (5 soalan)
       {
-        premises: [
-          "2 + 4 = 6 (nombor genap)",
-          "6 + 2 = 10 (nombor genap)",
-          "14 + 20 = 34 (nombor genap)"
-        ],
-        conclusion: "Jumlah dua nombor genap sentiasa genap",
+        premises: {
+          ms: ["2 + 4 = 6 (nombor genap)", "6 + 2 = 10 (nombor genap)", "14 + 20 = 34 (nombor genap)"],
+          en: ["2 + 4 = 6 (even number)", "6 + 2 = 10 (even number)", "14 + 20 = 34 (even number)"]
+        },
+        conclusion: {
+          ms: "Jumlah dua nombor genap sentiasa genap",
+          en: "The sum of two even numbers is always even"
+        },
         type: "kuat",
         convincing: "tidak",
-        reason: "Premis kedua palsu kerana 6 + 2 = 8, bukan 10. Walaupun pola kuat dan kesimpulan sebenarnya benar dalam matematik, terdapat premis palsu. Hujah induktif kuat tetapi tidak meyakinkan kerana ada premis yang salah."
+        reason: {
+          ms: "Premis kedua palsu kerana 6 + 2 = 8, bukan 10. Walaupun pola kuat dan kesimpulan sebenarnya benar dalam matematik, terdapat premis palsu. Hujah induktif kuat tetapi tidak meyakinkan kerana ada premis yang salah.",
+          en: "The second premise is false because 6 + 2 = 8, not 10. Although the pattern is strong and the conclusion is actually true in mathematics, there is a false premise. A strong inductive argument but not cogent due to a false premise."
+        }
       },
       {
-        premises: [
-          "Dalam segi tiga sama sisi ABC, semua sudut = 60°",
-          "Dalam segi tiga sama sisi DEF, semua sudut = 60°",
-          "Dalam segi tiga sama sisi GHI, semua sudut = 90°"
-        ],
-        conclusion: "Semua segi tiga sama sisi mempunyai sudut 60°",
+        premises: {
+          ms: ["Dalam segi tiga sama sisi ABC, semua sudut = 60°", "Dalam segi tiga sama sisi DEF, semua sudut = 60°", "Dalam segi tiga sama sisi GHI, semua sudut = 90°"],
+          en: ["In equilateral triangle ABC, all angles = 60°", "In equilateral triangle DEF, all angles = 60°", "In equilateral triangle GHI, all angles = 90°"]
+        },
+        conclusion: {
+          ms: "Semua segi tiga sama sisi mempunyai sudut 60°",
+          en: "All equilateral triangles have 60° angles"
+        },
         type: "kuat",
         convincing: "tidak",
-        reason: "Premis ketiga palsu kerana segi tiga sama sisi tidak boleh mempunyai sudut 90°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan."
+        reason: {
+          ms: "Premis ketiga palsu kerana segi tiga sama sisi tidak boleh mempunyai sudut 90°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan.",
+          en: "The third premise is false because an equilateral triangle cannot have a 90° angle. Although the pattern is strong and the conclusion is actually correct, there is a false premise. A strong inductive argument but not cogent."
+        }
       },
       {
-        premises: [
-          "Luas segi empat sama 1: 5cm × 5cm = 25cm²",
-          "Luas 'segi empat sama' 2: 6cm × 8cm = 48cm²",
-          "Luas segi empat sama 3: 10cm × 10cm = 100cm²"
-        ],
-        conclusion: "Luas segi empat sama = sisi × sisi",
+        premises: {
+          ms: ["Luas segi empat sama 1: 5cm × 5cm = 25cm²", "Luas 'segi empat sama' 2: 6cm × 8cm = 48cm²", "Luas segi empat sama 3: 10cm × 10cm = 100cm²"],
+          en: ["Area of square 1: 5cm × 5cm = 25cm²", "Area of 'square' 2: 6cm × 8cm = 48cm²", "Area of square 3: 10cm × 10cm = 100cm²"]
+        },
+        conclusion: {
+          ms: "Luas segi empat sama = sisi × sisi",
+          en: "Area of square = side × side"
+        },
         type: "kuat",
         convincing: "tidak",
-        reason: "Premis kedua palsu kerana 6cm × 8cm bukan segi empat sama (segi empat tepat). Terdapat premis palsu dalam hujah. Kesimpulan betul tetapi hujah induktif kuat yang tidak meyakinkan."
+        reason: {
+          ms: "Premis kedua palsu kerana 6cm × 8cm bukan segi empat sama (segi empat tepat). Terdapat premis palsu dalam hujah. Kesimpulan betul tetapi hujah induktif kuat yang tidak meyakinkan.",
+          en: "The second premise is false because 6cm × 8cm is not a square (it's a rectangle). There is a false premise in the argument. The conclusion is correct but the inductive argument is strong yet not cogent."
+        }
       },
       {
-        premises: [
-          "Sudut peluaran 110° + sudut pedalam 60° = 180° (pasangan 1)",
-          "Sudut peluaran 120° + sudut pedalam 60° = 180° (pasangan 2)",
-          "Sudut peluaran 130° + sudut pedalam 50° = 180° (pasangan 3)"
-        ],
-        conclusion: "Sudut peluaran dan pedalam pada garisan selari sentiasa tambah kepada 180°",
+        premises: {
+          ms: ["Sudut peluaran 110° + sudut pedalam 60° = 180° (pasangan 1)", "Sudut peluaran 120° + sudut pedalam 60° = 180° (pasangan 2)", "Sudut peluaran 130° + sudut pedalam 50° = 180° (pasangan 3)"],
+          en: ["Exterior angle 110° + interior angle 60° = 180° (pair 1)", "Exterior angle 120° + interior angle 60° = 180° (pair 2)", "Exterior angle 130° + interior angle 50° = 180° (pair 3)"]
+        },
+        conclusion: {
+          ms: "Sudut peluaran dan pedalam pada garisan selari sentiasa tambah kepada 180°",
+          en: "Exterior and interior angles on parallel lines always sum to 180°"
+        },
         type: "kuat",
         convincing: "tidak",
-        reason: "Premis pertama palsu kerana 110° + 60° = 170°, bukan 180°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan."
+        reason: {
+          ms: "Premis pertama palsu kerana 110° + 60° = 170°, bukan 180°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan.",
+          en: "The first premise is false because 110° + 60° = 170°, not 180°. Although the pattern is strong and the conclusion is actually correct, there is a false premise. A strong inductive argument but not cogent."
+        }
       },
       {
-        premises: [
-          "Dalam 50 eksperimen, logam besi tenggelam dalam air",
-          "Dalam 50 eksperimen, logam kuprum tenggelam dalam air",
-          "Kesemua logam yang diuji tenggelam dalam air"
-        ],
-        conclusion: "Semua logam tenggelam dalam air",
+        premises: {
+          ms: ["Dalam 50 eksperimen, logam besi tenggelam dalam air", "Dalam 50 eksperimen, logam kuprum tenggelam dalam air", "Kesemua logam yang diuji tenggelam dalam air"],
+          en: ["In 50 experiments, iron metal sank in water", "In 50 experiments, copper metal sank in water", "All metals tested sank in water"]
+        },
+        conclusion: {
+          ms: "Semua logam tenggelam dalam air",
+          en: "All metals sink in water"
+        },
         type: "kuat",
         convincing: "tidak",
-        reason: "Walaupun pola konsisten dalam eksperimen, premis tidak lengkap kerana tidak menguji semua jenis logam. Natrium dan litium terapung di atas air, bukan tenggelam. Terdapat pengecualian yang tidak diketahui. Hujah induktif kuat tetapi tidak meyakinkan."
-      },
-
-      // LEMAH DAN TIDAK MEYAKINKAN (5 soalan)
-      {
-        premises: [
-          "√4 = 2",
-          "√9 = 3",
-          "√16 = 4"
-        ],
-        conclusion: "Punca kuasa dua sentiasa nombor bulat",
-        type: "lemah",
-        convincing: "tidak",
-        reason: "Premis benar tetapi sampel hanya untuk kuasa dua sempurna. √2, √3, √5, √7 dan banyak lagi menghasilkan nombor tak nisbah (irrational). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
+        reason: {
+          ms: "Walaupun pola konsisten dalam eksperimen, premis tidak lengkap kerana tidak menguji semua jenis logam. Natrium dan litium terapung di atas air, bukan tenggelam. Terdapat pengecualian yang tidak diketahui. Hujah induktif kuat tetapi tidak meyakinkan.",
+          en: "Although the pattern is consistent in experiments, the premises are incomplete as not all types of metals were tested. Sodium and lithium float on water, not sink. There are unknown exceptions. A strong inductive argument but not cogent."
+        }
       },
       {
-        premises: [
-          "3² = 9 (nombor ganjil)",
-          "5² = 25 (nombor ganjil)",
-          "7² = 49 (nombor ganjil)"
-        ],
-        conclusion: "Kuasa dua semua nombor adalah ganjil",
+        premises: {
+          ms: ["√4 = 2", "√9 = 3", "√16 = 4"],
+          en: ["√4 = 2", "√9 = 3", "√16 = 4"]
+        },
+        conclusion: {
+          ms: "Punca kuasa dua sentiasa nombor bulat",
+          en: "Square roots are always whole numbers"
+        },
         type: "lemah",
         convincing: "tidak",
-        reason: "Premis benar tetapi hanya untuk nombor ganjil. Sampel tidak termasuk nombor genap: 2² = 4, 4² = 16, 6² = 36 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
+        reason: {
+          ms: "Premis benar tetapi sampel hanya untuk kuasa dua sempurna. √2, √3, √5, √7 dan banyak lagi menghasilkan nombor tak nisbah (irrational). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
+          en: "The premises are true but the sample only includes perfect squares. √2, √3, √5, √7 and many more produce irrational numbers. The conclusion is not true. A weak and not cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Dalam ujian 1: 15 ÷ 3 = 5",
-          "Dalam ujian 2: 20 ÷ 4 = 5"
-        ],
-        conclusion: "Hasil pembahagian sentiasa 5",
+        premises: {
+          ms: ["3² = 9 (nombor ganjil)", "5² = 25 (nombor ganjil)", "7² = 49 (nombor ganjil)"],
+          en: ["3² = 9 (odd number)", "5² = 25 (odd number)", "7² = 49 (odd number)"]
+        },
+        conclusion: {
+          ms: "Kuasa dua semua nombor adalah ganjil",
+          en: "Squares of all numbers are odd"
+        },
         type: "lemah",
         convincing: "tidak",
-        reason: "Premis benar tetapi sampel terlalu kecil dan spesifik. 10 ÷ 2 = 5 mungkin betul, tetapi 10 ÷ 5 = 2, 12 ÷ 3 = 4. Kesimpulan tidak benar untuk semua kes. Hujah induktif lemah dan tidak meyakinkan."
+        reason: {
+          ms: "Premis benar tetapi hanya untuk nombor ganjil. Sampel tidak termasuk nombor genap: 2² = 4, 4² = 16, 6² = 36 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
+          en: "The premises are true but only for odd numbers. The sample doesn't include even numbers: 2² = 4, 4² = 16, 6² = 36 (all even). The conclusion is not true. A weak and not cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "1 × 5 = 5 (nombor ganjil)",
-          "3 × 5 = 15 (nombor ganjil)",
-          "7 × 5 = 35 (nombor ganjil)"
-        ],
-        conclusion: "Hasil darab dengan 5 sentiasa nombor ganjil",
+        premises: {
+          ms: ["Dalam ujian 1: 15 ÷ 3 = 5", "Dalam ujian 2: 20 ÷ 4 = 5"],
+          en: ["In test 1: 15 ÷ 3 = 5", "In test 2: 20 ÷ 4 = 5"]
+        },
+        conclusion: {
+          ms: "Hasil pembahagian sentiasa 5",
+          en: "Division results are always 5"
+        },
         type: "lemah",
         convincing: "tidak",
-        reason: "Premis benar tetapi hanya menggunakan nombor ganjil. Sampel tidak lengkap: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
+        reason: {
+          ms: "Premis benar tetapi sampel terlalu kecil dan spesifik. 10 ÷ 2 = 5 mungkin betul, tetapi 10 ÷ 5 = 2, 12 ÷ 3 = 4. Kesimpulan tidak benar untuk semua kes. Hujah induktif lemah dan tidak meyakinkan.",
+          en: "The premises are true but the sample is too small and specific. 10 ÷ 2 = 5 may be correct, but 10 ÷ 5 = 2, 12 ÷ 3 = 4. The conclusion is not true for all cases. A weak and not cogent inductive argument."
+        }
       },
       {
-        premises: [
-          "Nombor prima pertama ialah 2",
-          "Nombor prima kedua ialah 3",
-          "2 dan 3 adalah nombor kecil"
-        ],
-        conclusion: "Semua nombor prima adalah nombor kecil",
+        premises: {
+          ms: ["1 × 5 = 5 (nombor ganjil)", "3 × 5 = 15 (nombor ganjil)", "7 × 5 = 35 (nombor ganjil)"],
+          en: ["1 × 5 = 5 (odd number)", "3 × 5 = 15 (odd number)", "7 × 5 = 35 (odd number)"]
+        },
+        conclusion: {
+          ms: "Hasil darab dengan 5 sentiasa nombor ganjil",
+          en: "Products with 5 are always odd numbers"
+        },
         type: "lemah",
         convincing: "tidak",
-        reason: "Premis benar tetapi sampel terlalu kecil (hanya 2 nombor prima). Terdapat nombor prima besar seperti 97, 101, 997. Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
+        reason: {
+          ms: "Premis benar tetapi hanya menggunakan nombor ganjil. Sampel tidak lengkap: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
+          en: "The premises are true but only use odd numbers. The sample is incomplete: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (all even). The conclusion is not true. A weak and not cogent inductive argument."
+        }
+      },
+      {
+        premises: {
+          ms: ["Nombor prima pertama ialah 2", "Nombor prima kedua ialah 3", "2 dan 3 adalah nombor kecil"],
+          en: ["The first prime number is 2", "The second prime number is 3", "2 and 3 are small numbers"]
+        },
+        conclusion: {
+          ms: "Semua nombor prima adalah nombor kecil",
+          en: "All prime numbers are small numbers"
+        },
+        type: "lemah",
+        convincing: "tidak",
+        reason: {
+          ms: "Premis benar tetapi sampel terlalu kecil (hanya 2 nombor prima). Terdapat nombor prima besar seperti 97, 101, 997. Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan.",
+          en: "The premises are true but the sample is too small (only 2 prime numbers). There are large prime numbers like 97, 101, 997. The conclusion is not true. A weak and not cogent inductive argument."
+        }
       }
     ];
 
@@ -684,6 +875,120 @@
     let selectedQuestions = [];
     let userAnswers = [];
     let score = 0;
+
+    function t(key) {
+      return translations[currentLanguage][key] || key;
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
+      updateLanguageToggle();
+      updateLanguage();
+    }
+
+    function updateLanguageToggle() {
+      const langBM = document.getElementById('langBM');
+      const langEN = document.getElementById('langEN');
+      const langBMMobileNota = document.getElementById('langBMMobileNota');
+      const langENMobileNota = document.getElementById('langENMobileNota');
+      const langBMMobileKuiz = document.getElementById('langBMMobileKuiz');
+      const langENMobileKuiz = document.getElementById('langENMobileKuiz');
+      
+      if (currentLanguage === 'ms') {
+        langBM.classList.add('active');
+        langEN.classList.remove('active');
+        langBMMobileNota.classList.add('active');
+        langENMobileNota.classList.remove('active');
+        langBMMobileKuiz.classList.add('active');
+        langENMobileKuiz.classList.remove('active');
+      } else {
+        langBM.classList.remove('active');
+        langEN.classList.add('active');
+        langBMMobileNota.classList.remove('active');
+        langENMobileNota.classList.add('active');
+        langBMMobileKuiz.classList.remove('active');
+        langENMobileKuiz.classList.add('active');
+      }
+    }
+
+    function updateLanguage() {
+      document.getElementById('appTitle').textContent = t('appTitle');
+      document.getElementById('notaTitle').textContent = t('flashcardNotaTitle');
+      document.getElementById('notaDesc').textContent = t('flashcardNotaDesc');
+      document.getElementById('kuizTitle').textContent = t('flashcardKuizTitle');
+      document.getElementById('kuizDesc').textContent = t('flashcardKuizDesc');
+      document.getElementById('notaViewTitle').textContent = t('notaHeader');
+      document.getElementById('kuizViewTitle').textContent = t('kuizHeader');
+
+      if (currentView === 'nota') {
+        renderFlashcards();
+      } else if (currentView === 'kuiz') {
+        renderQuestion();
+      }
+    }
+
+    function renderFlashcards() {
+      const container = document.getElementById('flashcardGrid');
+      container.innerHTML = `
+        <div class="flashcard" id="card1">
+          <div class="flashcard-inner">
+            <div class="flashcard-face flashcard-front">
+              <h3>${t('strongArgument')}</h3>
+              <p class="tap-hint">${t('clickToView')}</p>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <h3>${t('strongArgument')}</h3>
+              <p><strong>${t('conclusion')}:</strong> ${t('true')}</p>
+              <p style="margin-top: 16px;"><strong>${t('cogent')}:</strong> ${t('cogentIf')}</p>
+              <p><strong>${t('notCogent')}:</strong> ${t('notCogentIf')}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard" id="card2">
+          <div class="flashcard-inner">
+            <div class="flashcard-face flashcard-front">
+              <h3>${t('weakArgument')}</h3>
+              <p class="tap-hint">${t('clickToView')}</p>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <h3>${t('weakArgument')}</h3>
+              <p><strong>${t('conclusion')}:</strong> ${t('false')}</p>
+              <p style="margin-top: 16px;"><strong>${t('notCogent')}</strong></p>
+              <p>${t('alwaysNotCogent')}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const config = window.elementSdk?.config || defaultConfig;
+      const flashcardFaces = container.querySelectorAll('.flashcard-face');
+      flashcardFaces.forEach(face => {
+        face.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        face.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        face.style.color = config.text_color || defaultConfig.text_color;
+      });
+
+      const flashcardH3 = container.querySelectorAll('.flashcard-face h3');
+      const baseSize = config.font_size || defaultConfig.font_size;
+      flashcardH3.forEach(h => {
+        h.style.fontSize = `${baseSize * 1.5}px`;
+        h.style.color = config.primary_color || defaultConfig.primary_color;
+      });
+
+      const flashcardP = container.querySelectorAll('.flashcard-face p');
+      flashcardP.forEach(p => {
+        p.style.fontSize = `${baseSize}px`;
+      });
+
+      document.getElementById('card1').addEventListener('click', function() {
+        this.classList.toggle('flipped');
+      });
+
+      document.getElementById('card2').addEventListener('click', function() {
+        this.classList.toggle('flipped');
+      });
+    }
 
     function shuffleArray(array) {
       const newArray = [...array];
@@ -707,6 +1012,7 @@
         document.getElementById('notaView').style.display = 'block';
         document.getElementById('homeButton').style.display = 'block';
         currentView = 'nota';
+        renderFlashcards();
       } else if (view === 'kuiz') {
         document.getElementById('kuizView').style.display = 'block';
         document.getElementById('homeButton').style.display = 'block';
@@ -734,8 +1040,8 @@
       const question = selectedQuestions[currentQuestionIndex];
       const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
 
-      const premisesHTML = question.premises.map((premise, index) => 
-        `<div class="premise-item">Premis ${index + 1}: ${premise}</div>`
+      const premisesHTML = question.premises[currentLanguage].map((premise, index) => 
+        `<div class="premise-item">${t('premise')} ${index + 1}: ${premise}</div>`
       ).join('');
 
       container.innerHTML = `
@@ -747,46 +1053,46 @@
           <div class="quiz-card" id="quizCard" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
             <div class="card-front">
               <div class="quiz-question">
-                <strong style="font-size: 20px;">Soalan ${currentQuestionIndex + 1}/${selectedQuestions.length}</strong><br><br>
+                <strong style="font-size: 20px;">${t('question')} ${currentQuestionIndex + 1}/${selectedQuestions.length}</strong><br><br>
                 ${premisesHTML}
                 <div class="conclusion-item" style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; border-left: 4px solid ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">
-                  <strong>Kesimpulan:</strong> ${question.conclusion}
+                  <strong>${t('conclusion')}:</strong> ${question.conclusion[currentLanguage]}
                 </div>
               </div>
 
               <div class="quiz-options">
                 <div class="option-group">
-                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Jenis Hujah</div>
-                  <button class="option-button type-btn" data-value="kuat" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Kuat</button>
-                  <button class="option-button type-btn" data-value="lemah" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Lemah</button>
+                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('argumentType')}</div>
+                  <button class="option-button type-btn" data-value="kuat" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('strong')}</button>
+                  <button class="option-button type-btn" data-value="lemah" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('weak')}</button>
                 </div>
 
                 <div class="option-group">
-                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Tahap Keyakinan</div>
-                  <button class="option-button convincing-btn" data-value="meyakinkan" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Meyakinkan</button>
-                  <button class="option-button convincing-btn" data-value="tidak" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Tidak Meyakinkan</button>
+                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('confidenceLevel')}</div>
+                  <button class="option-button convincing-btn" data-value="meyakinkan" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('cogent')}</button>
+                  <button class="option-button convincing-btn" data-value="tidak" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${t('notCogent')}</button>
                 </div>
               </div>
 
               <div class="quiz-actions">
-                <button class="action-button" id="checkBtn" disabled style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Semak Jawapan</button>
+                <button class="action-button" id="checkBtn" disabled style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('checkAnswer')}</button>
               </div>
             </div>
 
             <div class="card-back">
               <div class="answer-content">
-                <h3 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 20px;">Jawapan</h3>
+                <h3 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 20px;">${t('answer')}</h3>
                 
                 <div style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; padding: 16px; border-radius: 8px; margin-bottom: 16px;" id="answerDisplay">
                 </div>
 
                 <div style="margin-top: 20px;">
-                  <h4 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 12px;">Penjelasan:</h4>
-                  <p style="line-height: 1.8;">${question.reason}</p>
+                  <h4 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 12px;">${t('explanation')}:</h4>
+                  <p style="line-height: 1.8;">${question.reason[currentLanguage]}</p>
                 </div>
 
                 <div class="quiz-actions" style="margin-top: 24px;">
-                  <button class="action-button" id="nextBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Seterusnya</button>
+                  <button class="action-button" id="nextBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('next')}</button>
                 </div>
               </div>
             </div>
@@ -853,16 +1159,16 @@
         typeButtons.forEach(btn => btn.disabled = true);
         convincingButtons.forEach(btn => btn.disabled = true);
 
-        // Display answer with color indicators
         const answerDisplay = container.querySelector('#answerDisplay');
         const typeColor = isTypeCorrect ? '#10b981' : '#ef4444';
         const convincingColor = isConvincingCorrect ? '#10b981' : '#ef4444';
         
-        const convincingText = question.convincing === "meyakinkan" ? "Meyakinkan" : "Tidak Meyakinkan";
+        const typeText = question.type === "kuat" ? t('strong') : t('weak');
+        const convincingText = question.convincing === "meyakinkan" ? t('cogent') : t('notCogent');
         
         answerDisplay.innerHTML = `
-          <p style="margin: 8px 0;"><strong>Jenis Hujah:</strong> <span style="color: ${typeColor}; font-size: 18px; font-weight: 600;">${question.type.charAt(0).toUpperCase() + question.type.slice(1)}</span></p>
-          <p style="margin: 8px 0;"><strong>Tahap Keyakinan:</strong> <span style="color: ${convincingColor}; font-size: 18px; font-weight: 600;">${convincingText}</span></p>
+          <p style="margin: 8px 0;"><strong>${t('argumentType')}:</strong> <span style="color: ${typeColor}; font-size: 18px; font-weight: 600;">${typeText}</span></p>
+          <p style="margin: 8px 0;"><strong>${t('confidenceLevel')}:</strong> <span style="color: ${convincingColor}; font-size: 18px; font-weight: 600;">${convincingText}</span></p>
         `;
       });
 
@@ -878,25 +1184,25 @@
       
       let message = '';
       if (percentage >= 80) {
-        message = 'Cemerlang! Anda menguasai konsep hujah induktif! 🌟';
+        message = t('excellent');
       } else if (percentage >= 60) {
-        message = 'Bagus! Teruskan usaha anda! 👍';
+        message = t('good');
       } else {
-        message = 'Terus belajar! Anda boleh buat lebih baik! 💪';
+        message = t('keepLearning');
       }
 
       container.innerHTML = `
         <div class="quiz-card" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
           <div class="score-display">
-            <h2 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">Keputusan Kuiz</h2>
+            <h2 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">${t('quizResults')}</h2>
             <p style="font-size: 48px; margin: 24px 0; color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">${score}/${selectedQuestions.length}</p>
-            <p style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${percentage.toFixed(0)}% Betul</p>
+            <p style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${percentage.toFixed(0)}% ${t('correct')}</p>
             <p style="margin-top: 16px; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${message}</p>
           </div>
 
           <div class="quiz-actions" style="margin-top: 32px;">
-            <button class="action-button" id="retryBtn" style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Cuba Lagi</button>
-            <button class="action-button" id="menuBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Kembali ke Menu</button>
+            <button class="action-button" id="retryBtn" style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('tryAgain')}</button>
+            <button class="action-button" id="menuBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">${t('backToMenu')}</button>
           </div>
         </div>
       `;
@@ -908,14 +1214,11 @@
     document.getElementById('notaCard').addEventListener('click', () => showView('nota'));
     document.getElementById('kuizCard').addEventListener('click', () => showView('kuiz'));
     document.getElementById('homeButton').addEventListener('click', () => showView('menu'));
-
-    document.getElementById('card1').addEventListener('click', function() {
-      this.classList.toggle('flipped');
-    });
-
-    document.getElementById('card2').addEventListener('click', function() {
-      this.classList.toggle('flipped');
-    });
+    document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+    document.getElementById('homeButtonMobileNota').addEventListener('click', () => showView('menu'));
+    document.getElementById('homeButtonMobileKuiz').addEventListener('click', () => showView('menu'));
+    document.getElementById('languageToggleMobileNota').addEventListener('click', toggleLanguage);
+    document.getElementById('languageToggleMobileKuiz').addEventListener('click', toggleLanguage);
 
     async function onConfigChange(config) {
       const customFont = config.font_family || defaultConfig.font_family;
@@ -929,6 +1232,27 @@
       const appContainer = document.querySelector('.app-container');
       if (appContainer) {
         appContainer.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      }
+
+      const languageToggle = document.getElementById('languageToggle');
+      if (languageToggle) {
+        languageToggle.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        languageToggle.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        languageToggle.style.color = config.primary_color || defaultConfig.primary_color;
+      }
+
+      const languageToggleMobileNota = document.getElementById('languageToggleMobileNota');
+      if (languageToggleMobileNota) {
+        languageToggleMobileNota.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        languageToggleMobileNota.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        languageToggleMobileNota.style.color = config.primary_color || defaultConfig.primary_color;
+      }
+
+      const languageToggleMobileKuiz = document.getElementById('languageToggleMobileKuiz');
+      if (languageToggleMobileKuiz) {
+        languageToggleMobileKuiz.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        languageToggleMobileKuiz.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        languageToggleMobileKuiz.style.color = config.primary_color || defaultConfig.primary_color;
       }
 
       const headers = document.querySelectorAll('.header h1');
@@ -980,6 +1304,8 @@
 
       if (currentView === 'kuiz') {
         renderQuestion();
+      } else if (currentView === 'nota') {
+        renderFlashcards();
       }
     }
 
@@ -1052,6 +1378,7 @@
     }
 
     onConfigChange(defaultConfig);
+    updateLanguageToggle();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9266ff54091be4',t:'MTc2NDkyNTc0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9278bba43ff50a',t:'MTc2NDkyNjQ2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
