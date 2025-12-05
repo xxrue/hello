@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Bentuk Hujah Deduktif</title>
+  <title>Hujah Induktif</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
@@ -11,520 +11,369 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+      width: 100%;
       min-height: 100%;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    .app-container {
+      width: 100%;
+      min-height: 100%;
+      padding: 24px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    .container {
-      width: 70%;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        width: 90%;
-      }
-    }
-
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @media (max-width: 768px) {
-      .card {
-        padding: 24px;
-        border-radius: 16px;
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    h1 {
-      color: #5b7cba;
-      margin: 0 0 16px 0;
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
       font-size: 32px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.2s;
+      user-select: none;
+    }
+
+    .home-button:hover {
+      transform: scale(1.2);
+    }
+
+    .header {
       text-align: center;
-      font-weight: 700;
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 800px;
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 24px;
-      }
+    .header h1 {
+      margin: 0 0 12px 0;
+      font-size: 48px;
     }
 
-    .description {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 24px;
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
+
+    .menu-card {
+      padding: 32px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
-      font-size: 16px;
+      border: 3px solid;
     }
 
-    .note-section {
-      background: #f5f7fb;
-      border-left: 4px solid #5b7cba;
-      padding: 20px;
-      margin: 24px 0;
-      border-radius: 8px;
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     }
 
-    .note-section h3 {
-      color: #5b7cba;
+    .menu-card h2 {
       margin: 0 0 16px 0;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 28px;
     }
 
-    .note-section p {
-      margin: 8px 0;
-      color: #1e1e1e;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .note-section strong {
-      color: #5b7cba;
-    }
-
-    .form-label {
-      font-weight: 600;
-      color: #5b7cba;
-      margin: 16px 0 8px 0;
-      font-size: 16px;
-    }
-
-    .argument-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .argument-table tr {
-      border-bottom: 1px solid #e0e4ea;
-    }
-
-    .argument-table tr:last-child {
-      border-bottom: none;
-    }
-
-    .argument-table td {
-      padding: 12px 16px;
-      color: #1e1e1e;
-      font-size: 14px;
-    }
-
-    .table-label {
-      font-weight: 600;
-      color: #5b7cba;
-      width: 120px;
-      background: #f5f7fb;
-    }
-
-    @media (max-width: 768px) {
-      .table-label {
-        width: 100px;
-        font-size: 13px;
-      }
-      
-      .argument-table td {
-        padding: 10px 12px;
-        font-size: 13px;
-      }
-    }
-
-    .question-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 32px;
-      background: #f5f7fb;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #d0d7e5;
-    }
-
-    .question-table tr {
-      border-bottom: 1px solid #d0d7e5;
-    }
-
-    .question-table tr:last-child {
-      border-bottom: none;
-    }
-
-    .question-table td {
-      padding: 16px 20px;
+    .menu-card p {
+      margin: 0;
       font-size: 16px;
       line-height: 1.6;
     }
 
-    .question-table .table-label {
-      font-weight: 600;
-      color: #5b7cba;
-      width: 130px;
-      background: #fff;
-    }
-
-    .question-table .empty-cell {
-      background: #fff9e6;
-      color: #d97706;
-      font-weight: 600;
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .question-table .table-label {
-        width: 100px;
-        font-size: 14px;
-      }
-      
-      .question-table td {
-        padding: 12px 16px;
-        font-size: 14px;
-      }
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #5b7cba 0%, #4b6cb7 100%);
-      color: white;
-      border: none;
-      padding: 16px 40px;
-      font-size: 18px;
-      font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: block;
-      margin: 32px auto 0;
-      box-shadow: 0 4px 15px rgba(75, 108, 183, 0.3);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(75, 108, 183, 0.5);
-      background: linear-gradient(135deg, #6a8bc9 0%, #5b7cba 100%);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-      .btn {
-        padding: 14px 32px;
-        font-size: 16px;
-      }
-    }
-
-    .home-btn {
-      background: #f5f7fb;
-      border: 2px solid #d0d7e5;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      font-size: 20px;
-      cursor: pointer;
-      transition: all 0.25s ease;
+    .flashcard-container {
       display: flex;
+      flex-direction: column;
       align-items: center;
+      gap: 32px;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 20px;
+    }
+
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .flashcard {
+      perspective: 1000px;
+      height: 280px;
+      cursor: pointer;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .home-btn:hover {
-      background: #fff;
-      border-color: #5b7cba;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(75, 108, 183, 0.2);
-    }
-
-    .home-btn:active {
-      transform: translateY(0);
-    }
-
-    .quiz-header {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
+      border: 3px solid;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .flashcard-front {
+      transform: rotateY(0deg);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face h3 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .flashcard-face p {
+      margin: 8px 0;
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .tap-hint {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 12px;
+    }
+
+    .quiz-container {
+      width: 100%;
+      max-width: 700px;
+      margin-top: 20px;
+    }
+
+    .quiz-card-wrapper {
+      perspective: 1000px;
+      margin-bottom: 24px;
+      min-height: 400px;
+    }
+
+    .quiz-card {
+      border-radius: 16px;
+      padding: 32px;
+      border: 3px solid;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .quiz-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      width: 100%;
+    }
+
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 32px;
+      transform: rotateY(180deg);
+    }
+
+    .quiz-question {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .premise-item {
+      margin: 8px 0;
+      padding-left: 8px;
+    }
+
+    .conclusion-item {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .option-button {
+      padding: 16px;
+      border: 2px solid;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .option-button:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
+    .option-button.selected {
+      border-width: 3px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .option-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .action-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .answer-content {
+      text-align: left;
+    }
+
+    .answer-display h4 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+    }
+
+    .answer-display p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .score-display {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .score-display h2 {
+      margin: 0 0 16px 0;
+      font-size: 36px;
+    }
+
+    .score-display p {
+      margin: 8px 0;
+      font-size: 20px;
     }
 
     .progress-bar {
-      flex: 1;
+      width: 100%;
       height: 8px;
-      background: #e0e4ea;
       border-radius: 4px;
+      margin-bottom: 24px;
       overflow: hidden;
-      min-width: 200px;
-    }
-
-    @media (max-width: 768px) {
-      .progress-bar {
-        min-width: 100%;
-        order: 3;
-      }
     }
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #5b7cba 0%, #4b6cb7 100%);
-      transition: width 0.3s ease;
+      transition: width 0.3s;
+      border-radius: 4px;
     }
 
-    .question-counter {
-      font-weight: 600;
-      color: #5b7cba;
-      font-size: 16px;
-      white-space: nowrap;
-    }
-
-    .question-text {
-      font-size: 20px;
-      color: #1e1e1e;
-      margin-bottom: 32px;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      .question-text {
-        font-size: 18px;
-        margin-bottom: 24px;
-      }
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    .option {
-      background: #f5f7fb;
-      border: 2px solid #d0d7e5;
-      padding: 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-size: 16px;
-      color: #1e1e1e;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-      .option {
+    @media (max-width: 640px) {
+      .app-container {
         padding: 16px;
-        font-size: 15px;
       }
-    }
 
-    .option:hover {
-      border-color: #5b7cba;
-      background: #fff;
-      transform: translateX(4px);
-      box-shadow: 0 2px 8px rgba(75, 108, 183, 0.15);
-    }
-
-    .option.selected {
-      border-color: #5b7cba;
-      background: linear-gradient(135deg, #5b7cba 0%, #4b6cb7 100%);
-      color: white;
-    }
-
-    .option.correct {
-      border-color: #4caf50;
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .option.incorrect {
-      border-color: #f44336;
-      background: #ffebee;
-      color: #c62828;
-    }
-
-    .option.disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    .feedback {
-      padding: 16px;
-      border-radius: 8px;
-      margin-bottom: 24px;
-      font-weight: 500;
-      text-align: center;
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    .feedback.correct {
-      background: #e8f5e9;
-      color: #2e7d32;
-      border: 2px solid #4caf50;
-    }
-
-    .feedback.incorrect {
-      background: #ffebee;
-      color: #c62828;
-      border: 2px solid #f44336;
-    }
-
-    .results {
-      text-align: center;
-    }
-
-    .score {
-      font-size: 64px;
-      font-weight: 700;
-      color: #5b7cba;
-      margin: 24px 0;
-    }
-
-    @media (max-width: 768px) {
-      .score {
-        font-size: 48px;
+      .header h1 {
+        font-size: 32px;
       }
-    }
 
-    .score-label {
-      font-size: 24px;
-      color: #555;
-      margin-bottom: 32px;
-    }
-
-    @media (max-width: 768px) {
-      .score-label {
-        font-size: 20px;
+      .menu-card {
+        padding: 24px;
       }
-    }
 
-    .performance {
-      background: #f5f7fb;
-      padding: 24px;
-      border-radius: 12px;
-      margin: 24px 0;
-    }
-
-    .performance-item {
-      display: flex;
-      justify-content: space-between;
-      margin: 12px 0;
-      font-size: 16px;
-    }
-
-    .performance-label {
-      color: #555;
-    }
-
-    .performance-value {
-      font-weight: 600;
-      color: #5b7cba;
-    }
-
-    .emoji {
-      font-size: 80px;
-      margin: 16px 0;
-    }
-
-    @media (max-width: 768px) {
-      .emoji {
-        font-size: 60px;
+      .menu-card h2 {
+        font-size: 24px;
       }
-    }
 
-    .hidden {
-      display: none;
-    }
+      .quiz-options {
+        grid-template-columns: 1fr;
+      }
 
-    .btn-secondary {
-      background: white;
-      color: #5b7cba;
-      border: 2px solid #5b7cba;
-      margin-top: 16px;
-    }
+      .flashcard {
+        height: 320px;
+      }
 
-    .btn-secondary:hover {
-      background: #f5f7fb;
-    }
-
-    .language-toggle {
-      background: #f5f7fb;
-      border: 2px solid #d0d7e5;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .language-toggle:hover {
-      background: #fff;
-      border-color: #5b7cba;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(75, 108, 183, 0.2);
-    }
-
-    .language-toggle:active {
-      transform: translateY(0);
-    }
-
-    .lang-option {
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .lang-option.active {
-      background: #5b7cba;
-      color: white;
-    }
-
-    .lang-option.inactive {
-      color: #999;
+      .home-button {
+        top: 12px;
+        left: 12px;
+        font-size: 28px;
+      }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -532,500 +381,262 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="container">
-   <div class="card" id="welcomeScreen">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggle"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
-    </div>
-    <h1 id="quizTitle">Kuiz Bentuk Hujah Deduktif</h1>
-    <p class="description" id="quizDescription">Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!</p>
-    <div class="note-section">
-     <h3>📚 Nota Pembelajaran</h3>
-     <div class="form-label">
-      Bentuk 1:
-     </div>
-     <table class="argument-table">
-      <tbody>
-       <tr>
-        <td class="table-label">Premis 1</td>
-        <td>Semua A ialah B</td>
-       </tr>
-       <tr>
-        <td class="table-label">Premis 2</td>
-        <td>C ialah A</td>
-       </tr>
-       <tr>
-        <td class="table-label">Kesimpulan</td>
-        <td>C ialah B</td>
-       </tr>
-      </tbody>
-     </table>
-     <div class="form-label">
-      Bentuk 2:
-     </div>
-     <table class="argument-table">
-      <tbody>
-       <tr>
-        <td class="table-label">Premis 1</td>
-        <td>Jika p, maka q</td>
-       </tr>
-       <tr>
-        <td class="table-label">Premis 2</td>
-        <td>p adalah benar</td>
-       </tr>
-       <tr>
-        <td class="table-label">Kesimpulan</td>
-        <td>q adalah benar</td>
-       </tr>
-      </tbody>
-     </table>
-     <div class="form-label">
-      Bentuk 3:
-     </div>
-     <table class="argument-table">
-      <tbody>
-       <tr>
-        <td class="table-label">Premis 1</td>
-        <td>Jika p, maka q</td>
-       </tr>
-       <tr>
-        <td class="table-label">Premis 2</td>
-        <td>Bukan q adalah benar</td>
-       </tr>
-       <tr>
-        <td class="table-label">Kesimpulan</td>
-        <td>Bukan p adalah benar</td>
-       </tr>
-      </tbody>
-     </table>
-    </div><button class="btn" id="startBtn">Mula Quiz</button>
+  <div class="app-container" id="app">
+   <div class="home-button" id="homeButton" style="display: none;">
+    🏠
    </div>
-   <div class="card hidden" id="quizScreen">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggleQuiz"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
-    </div>
-    <h1 id="quizTitleInQuiz" style="margin-bottom: 24px;">Kuiz Bentuk Hujah Deduktif</h1>
-    <div class="quiz-header"><button class="home-btn" id="homeBtn" title="Kembali ke Menu Utama">🏠</button>
-     <div class="question-counter" id="questionCounter">
-      Soalan 1 / 15
+   <div id="mainMenu">
+    <header class="header">
+     <h1 id="appTitle">Hujah Induktif</h1>
+    </header>
+    <div class="menu-container">
+     <div class="menu-card" id="notaCard">
+      <h2 id="notaTitle">📚 Flashcard Nota</h2>
+      <p id="notaDesc">Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif</p>
      </div>
-     <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
+     <div class="menu-card" id="kuizCard">
+      <h2 id="kuizTitle">🎯 Flashcard Kuiz</h2>
+      <p id="kuizDesc">Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif</p>
      </div>
     </div>
-    <div class="question-text" id="questionText"></div>
-    <div class="options" id="optionsContainer"></div>
-    <div class="feedback hidden" id="feedback"></div><button class="btn hidden" id="nextBtn">Seterusnya</button>
    </div>
-   <div class="card hidden" id="resultsScreen">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggleResults"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
-    </div>
-    <h1 id="resultsTitle">Tahniah! 🎉</h1>
-    <div class="emoji" id="resultEmoji">
-     🎯
-    </div>
-    <div class="score" id="finalScore">
-     0%
-    </div>
-    <div class="score-label" id="scoreLabel">
-     Skor Anda
-    </div>
-    <div class="performance">
-     <div class="performance-item"><span class="performance-label" id="questionsAnsweredLabel">Soalan Dijawab:</span> <span class="performance-value" id="totalAnswered">0</span>
+   <div id="notaView" style="display: none;">
+    <header class="header">
+     <h1>📚 Flashcard Nota</h1>
+    </header>
+    <div class="flashcard-container">
+     <div class="flashcard-grid">
+      <div class="flashcard" id="card1">
+       <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+         <h3>Hujah Induktif Kuat</h3>
+         <p class="tap-hint">Klik untuk lihat nota</p>
+        </div>
+        <div class="flashcard-face flashcard-back">
+         <h3>Hujah Induktif Kuat</h3>
+         <p><strong>Kesimpulan:</strong> Benar</p>
+         <p style="margin-top: 16px;"><strong>Meyakinkan:</strong> Jika semua premis benar</p>
+         <p><strong>Tidak Meyakinkan:</strong> Jika ada premis palsu</p>
+        </div>
+       </div>
+      </div>
+      <div class="flashcard" id="card2">
+       <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+         <h3>Hujah Induktif Lemah</h3>
+         <p class="tap-hint">Klik untuk lihat nota</p>
+        </div>
+        <div class="flashcard-face flashcard-back">
+         <h3>Hujah Induktif Lemah</h3>
+         <p><strong>Kesimpulan:</strong> Tidak benar</p>
+         <p style="margin-top: 16px;"><strong>Tidak Meyakinkan</strong></p>
+         <p>Hujah induktif lemah sentiasa tidak meyakinkan</p>
+        </div>
+       </div>
+      </div>
      </div>
-     <div class="performance-item"><span class="performance-label" id="correctAnswersLabel">Jawapan Betul:</span> <span class="performance-value" id="correctAnswers">0</span>
-     </div>
-     <div class="performance-item"><span class="performance-label" id="incorrectAnswersLabel">Jawapan Salah:</span> <span class="performance-value" id="incorrectAnswers">0</span>
-     </div>
-    </div><button class="btn" id="restartBtn">Cuba Lagi</button>
+    </div>
+   </div>
+   <div id="kuizView" style="display: none;">
+    <header class="header">
+     <h1>🎯 Flashcard Kuiz</h1>
+    </header>
+    <div class="quiz-container" id="quizContainer"></div>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      quiz_title: "Kuiz Bentuk Hujah Deduktif",
-      quiz_description: "Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!",
-      start_button_text: "Mula Kuiz",
-      next_button_text: "Seterusnya",
-      restart_button_text: "Cuba Lagi",
-      background_color: "#4b6cb7",
-      card_color: "#ffffff",
-      text_color: "#1e1e1e",
-      primary_action_color: "#5b7cba",
-      secondary_action_color: "#7b9cc9"
+      background_color: "#f0f4f8",
+      card_background: "#ffffff",
+      primary_color: "#2563eb",
+      text_color: "#1e293b",
+      accent_color: "#10b981",
+      font_family: "Segoe UI",
+      font_size: 16,
+      app_title: "Hujah Induktif",
+      flashcard_nota_title: "📚 Flashcard Nota",
+      flashcard_nota_desc: "Pelajari konsep asas hujah induktif kuat dan lemah dengan mudah melalui flashcard interaktif",
+      flashcard_kuiz_title: "🎯 Flashcard Kuiz",
+      flashcard_kuiz_desc: "Uji pemahaman anda dengan 10 soalan rawak tentang hujah induktif"
     };
 
-    const allQuestions = [
+    const quizQuestions = [
+      // KUAT DAN MEYAKINKAN (5 soalan)
       {
-        premise1: "Semua nombor perdana lebih besar daripada 1 ialah nombor ganjil",
-        premise2: "7 ialah nombor perdana lebih besar daripada 1",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "7 ialah nombor ganjil",
-        distractors: ["7 ialah nombor genap", "7 bukan nombor ganjil", "7 ialah nombor perdana sahaja"]
+        premises: [
+          "k³ × k⁵ = k⁸",
+          "k⁷ × k² = k⁹",
+          "k⁴ × k³ = k⁷"
+        ],
+        conclusion: "kᵃ × kᵇ = kᵃ⁺ᵇ",
+        type: "kuat",
+        convincing: "meyakinkan",
+        reason: "Premis benar berdasarkan hukum indeks. Pola konsisten menunjukkan apabila mengalikan nombor dengan asas sama, kita tambah kuasa. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan."
       },
       {
-        premise1: "",
-        premise2: "ABC ialah segi tiga sama sisi",
-        conclusion: "ABC mempunyai tiga sisi yang sama panjang",
-        questionPart: "premis1",
-        correct: "Semua segi tiga sama sisi mempunyai tiga sisi yang sama panjang",
-        distractors: ["Semua segi tiga mempunyai tiga sudut", "Semua poligon mempunyai sisi yang sama", "Semua bentuk geometri adalah segi tiga"]
+        premises: [
+          "Segi tiga mempunyai jumlah sudut dalaman 180°",
+          "Segi empat mempunyai jumlah sudut dalaman 360°",
+          "Pentagon mempunyai jumlah sudut dalaman 540°"
+        ],
+        conclusion: "Jumlah sudut dalaman polygon = (n-2) × 180°",
+        type: "kuat",
+        convincing: "meyakinkan",
+        reason: "Premis benar dan mengikut pola matematik yang konsisten: 3 sisi = (3-2)×180° = 180°, 4 sisi = (4-2)×180° = 360°, 5 sisi = (5-2)×180° = 540°. Kesimpulan adalah rumus umum yang betul. Hujah induktif kuat yang meyakinkan."
       },
       {
-        premise1: "Semua segi empat sama ialah segi empat tepat",
-        premise2: "",
-        conclusion: "PQRS ialah segi empat tepat",
-        questionPart: "premis2",
-        correct: "PQRS ialah segi empat sama",
-        distractors: ["PQRS ialah segi tiga", "PQRS ialah pentagon", "PQRS ialah bulatan"]
+        premises: [
+          "Lilitan bulatan 1: Lilitan = 2π(5) = 10π cm",
+          "Lilitan bulatan 2: Lilitan = 2π(8) = 16π cm",
+          "Lilitan bulatan 3: Lilitan = 2π(12) = 24π cm"
+        ],
+        conclusion: "Lilitan bulatan = 2πr",
+        type: "kuat",
+        convincing: "meyakinkan",
+        reason: "Premis benar dan konsisten. Pola jelas menunjukkan lilitan = 2 × π × jejari. Ini adalah rumus standard geometri yang betul. Hujah induktif kuat yang meyakinkan."
       },
       {
-        premise1: "Semua nombor yang boleh dibahagi dengan 4 ialah nombor genap",
-        premise2: "12 boleh dibahagi dengan 4",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "12 ialah nombor genap",
-        distractors: ["12 ialah nombor ganjil", "12 bukan nombor genap", "12 ialah nombor perdana"]
+        premises: [
+          "Isipadu kubus 1: Isipadu = 2³ = 8 cm³",
+          "Isipadu kubus 2: Isipadu = 5³ = 125 cm³",
+          "Isipadu kubus 3: Isipadu = 10³ = 1000 cm³"
+        ],
+        conclusion: "Isipadu kubus = sisi³",
+        type: "kuat",
+        convincing: "meyakinkan",
+        reason: "Premis benar dan konsisten dengan rumus isipadu kubus. Pola jelas Isipadu = sisi × sisi × sisi = sisi³. Kesimpulan adalah rumus standard yang betul. Hujah induktif kuat yang meyakinkan."
       },
       {
-        premise1: "",
-        premise2: "Sudut P dalam bentuk ABCD ialah sudut dalam segi empat tepat",
-        conclusion: "Sudut P ialah sudut tegak",
-        questionPart: "premis1",
-        correct: "Semua sudut dalam segi empat tepat ialah sudut tegak",
-        distractors: ["Semua sudut adalah sudut tegak", "Semua bentuk mempunyai sudut tegak", "Semua sudut dalam poligon adalah sama"]
+        premises: [
+          "Dalam segi tiga bersudut tegak 3-4-5: 3² + 4² = 5²",
+          "Dalam segi tiga bersudut tegak 5-12-13: 5² + 12² = 13²",
+          "Dalam segi tiga bersudut tegak 8-15-17: 8² + 15² = 17²"
+        ],
+        conclusion: "Teorem Pythagoras: a² + b² = c² untuk semua segi tiga bersudut tegak",
+        type: "kuat",
+        convincing: "meyakinkan",
+        reason: "Premis benar dengan beberapa contoh konsisten. Ini adalah teorem matematik yang terbukti secara universal untuk semua segi tiga bersudut tegak. Kesimpulan matematik yang pasti. Hujah induktif kuat yang meyakinkan."
+      },
+      
+      // KUAT DAN TIDAK MEYAKINKAN (5 soalan)
+      {
+        premises: [
+          "2 + 4 = 6 (nombor genap)",
+          "8 + (-2) = 6 (nombor genap)",
+          "14 + 20 = 34 (nombor genap)"
+        ],
+        conclusion: "Jumlah dua nombor genap sentiasa genap",
+        type: "kuat",
+        convincing: "tidak",
+        reason: "Walaupun kesimpulan sebenarnya benar dalam matematik, premis kedua palsu kerana 8 + (-2) = 6 tetapi -2 bukan dalam set asal yang dibincangkan. Terdapat premis palsu, jadi hujah induktif kuat tetapi tidak meyakinkan."
       },
       {
-        premise1: "Semua nombor gandaan 10 berakhir dengan digit 0",
-        premise2: "",
-        conclusion: "50 berakhir dengan digit 0",
-        questionPart: "premis2",
-        correct: "50 ialah nombor gandaan 10",
-        distractors: ["50 ialah nombor perdana", "50 boleh dibahagi dengan 3", "50 ialah nombor ganjil"]
+        premises: [
+          "Dalam segi tiga sama sisi ABC, semua sudut = 60°",
+          "Dalam segi tiga sama sisi DEF, semua sudut = 60°",
+          "Dalam segi tiga sama sisi GHI dengan sisi 100m, semua sudut = 60°"
+        ],
+        conclusion: "Semua segi tiga sama sisi mempunyai sudut 60°",
+        type: "kuat",
+        convincing: "tidak",
+        reason: "Premis ketiga mengandungi maklumat yang tidak perlu dan mengelirukan (sisi 100m tidak mengubah sudut). Walaupun pola kuat, premis tidak dinyatakan dengan jelas. Hujah induktif kuat tetapi tidak meyakinkan kerana kekeliruan dalam premis."
       },
       {
-        premise1: "",
-        premise2: "Heksagon ABCDEF ialah poligon sekata",
-        conclusion: "Heksagon ABCDEF mempunyai semua sisi yang sama panjang",
-        questionPart: "premis1",
-        correct: "Semua poligon sekata mempunyai semua sisi yang sama panjang",
-        distractors: ["Semua heksagon mempunyai 6 sisi", "Semua poligon mempunyai sudut yang sama", "Semua bentuk geometri mempunyai sisi"]
+        premises: [
+          "Luas segi empat sama 1: 5cm × 5cm = 25cm²",
+          "Luas 'segi empat sama' 2: 6cm × 8cm = 48cm²",
+          "Luas segi empat sama 3: 10cm × 10cm = 100cm²"
+        ],
+        conclusion: "Luas segi empat sama = sisi × sisi",
+        type: "kuat",
+        convincing: "tidak",
+        reason: "Premis kedua palsu kerana 6cm × 8cm bukan segi empat sama (segi empat tepat). Terdapat premis palsu dalam hujah. Kesimpulan betul tetapi hujah induktif kuat yang tidak meyakinkan."
       },
       {
-        premise1: "Semua nombor perpangkat dua nombor ganjil ialah nombor ganjil",
-        premise2: "",
-        conclusion: "25 ialah nombor ganjil",
-        questionPart: "premis2",
-        correct: "25 ialah nombor perpangkat dua nombor ganjil (5²)",
-        distractors: ["25 ialah nombor genap", "25 ialah nombor perdana", "25 boleh dibahagi dengan 3"]
+        premises: [
+          "Sudut peluasan + sudut pedalam = 180° (garisan selari dengan pemalar salah)",
+          "Sudut peluasan + sudut pedalam = 180° (pasangan 2)",
+          "Sudut peluasan + sudut pedalam = 180° (pasangan 3)"
+        ],
+        conclusion: "Sudut peluasan dan pedalam pada garisan selari sentiasa tambah kepada 180°",
+        type: "kuat",
+        convincing: "tidak",
+        reason: "Walaupun pola konsisten dan kesimpulan betul, premis pertama mengandungi maklumat yang salah atau mengelirukan tentang pemalar. Terdapat kelemahan dalam premis. Hujah induktif kuat tetapi tidak meyakinkan."
       },
       {
-        premise1: "Jika satu nombor boleh dibahagi dengan 6, maka ia boleh dibahagi dengan 3",
-        premise2: "18 boleh dibahagi dengan 6",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "18 boleh dibahagi dengan 3",
-        distractors: ["18 tidak boleh dibahagi dengan 3", "18 boleh dibahagi dengan 5", "18 ialah nombor perdana"]
+        premises: [
+          "Dalam 50 eksperimen, logam besi tenggelam dalam air",
+          "Dalam 50 eksperimen, logam kuprum tenggelam dalam air",
+          "Kesemua logam yang diuji tenggelam dalam air"
+        ],
+        conclusion: "Semua logam tenggelam dalam air",
+        type: "kuat",
+        convincing: "tidak",
+        reason: "Walaupun pola konsisten dalam eksperimen, premis tidak lengkap kerana tidak menguji semua jenis logam. Natrium dan litium terapung di atas air, bukan tenggelam. Terdapat pengecualian yang tidak diketahui. Hujah induktif kuat tetapi tidak meyakinkan."
+      },
+
+      // LEMAH DAN TIDAK MEYAKINKAN (5 soalan)
+      {
+        premises: [
+          "√4 = 2",
+          "√9 = 3",
+          "√16 = 4"
+        ],
+        conclusion: "Punca kuasa dua sentiasa nombor bulat",
+        type: "lemah",
+        convincing: "tidak",
+        reason: "Premis benar tetapi sampel hanya untuk kuasa dua sempurna. √2, √3, √5, √7 dan banyak lagi menghasilkan nombor tak nisbah (irrational). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
       },
       {
-        premise1: "Jika sebuah segi tiga mempunyai dua sudut yang sama, maka ia adalah segi tiga sama kaki",
-        premise2: "",
-        conclusion: "Segi tiga PQR adalah segi tiga sama kaki",
-        questionPart: "premis2",
-        correct: "Segi tiga PQR mempunyai dua sudut yang sama",
-        distractors: ["Segi tiga PQR mempunyai tiga sisi yang sama", "Segi tiga PQR ialah segi tiga sama sisi", "Segi tiga PQR mempunyai sudut tegak"]
+        premises: [
+          "3² = 9 (nombor ganjil)",
+          "5² = 25 (nombor ganjil)",
+          "7² = 49 (nombor ganjil)"
+        ],
+        conclusion: "Kuasa dua semua nombor adalah ganjil",
+        type: "lemah",
+        convincing: "tidak",
+        reason: "Premis benar tetapi hanya untuk nombor ganjil. Sampel tidak termasuk nombor genap: 2² = 4, 4² = 16, 6² = 36 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
       },
       {
-        premise1: "",
-        premise2: "x = 15",
-        conclusion: "15 lebih besar daripada 5",
-        questionPart: "premis1",
-        correct: "Jika x lebih besar daripada 10, maka x lebih besar daripada 5",
-        distractors: ["Jika x lebih kecil daripada 10, maka x lebih besar daripada 5", "Semua nombor lebih besar daripada 5", "Jika x sama dengan 15, maka x ialah nombor perdana"]
+        premises: [
+          "Dalam ujian 1: 15 ÷ 3 = 5",
+          "Dalam ujian 2: 20 ÷ 4 = 5"
+        ],
+        conclusion: "Hasil pembahagian sentiasa 5",
+        type: "lemah",
+        convincing: "tidak",
+        reason: "Premis benar tetapi sampel terlalu kecil dan spesifik. 10 ÷ 2 = 5 mungkin betul, tetapi 10 ÷ 5 = 2, 12 ÷ 3 = 4. Kesimpulan tidak benar untuk semua kes. Hujah induktif lemah dan tidak meyakinkan."
       },
       {
-        premise1: "",
-        premise2: "30 berakhir dengan 0",
-        conclusion: "30 boleh dibahagi dengan 5",
-        questionPart: "premis1",
-        correct: "Jika sebuah nombor berakhir dengan 0, maka ia boleh dibahagi dengan 5",
-        distractors: ["Jika sebuah nombor genap, maka ia boleh dibahagi dengan 5", "Jika sebuah nombor lebih besar daripada 20, maka ia boleh dibahagi dengan 5", "Semua nombor boleh dibahagi dengan 5"]
+        premises: [
+          "1 × 5 = 5 (nombor ganjil)",
+          "3 × 5 = 15 (nombor ganjil)",
+          "7 × 5 = 35 (nombor ganjil)"
+        ],
+        conclusion: "Hasil darab dengan 5 sentiasa nombor ganjil",
+        type: "lemah",
+        convincing: "tidak",
+        reason: "Premis benar tetapi hanya menggunakan nombor ganjil. Sampel tidak lengkap: 2 × 5 = 10, 4 × 5 = 20, 6 × 5 = 30 (semua genap). Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
       },
       {
-        premise1: "Jika jumlah digit sebuah nombor boleh dibahagi dengan 3, maka nombor itu boleh dibahagi dengan 3",
-        premise2: "",
-        conclusion: "27 boleh dibahagi dengan 3",
-        questionPart: "premis2",
-        correct: "Jumlah digit 27 ialah 9 (2+7) yang boleh dibahagi dengan 3",
-        distractors: ["27 ialah nombor perdana", "27 berakhir dengan 7", "27 lebih kecil daripada 30"]
-      },
-      {
-        premise1: "Jika sebuah poligon mempunyai 4 sisi, maka jumlah sudut dalamannya ialah 360°",
-        premise2: "Segi empat ABCD mempunyai 4 sisi",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "Jumlah sudut dalaman ABCD ialah 360°",
-        distractors: ["Jumlah sudut dalaman ABCD ialah 180°", "Jumlah sudut dalaman ABCD ialah 540°", "Jumlah sudut dalaman ABCD ialah 270°"]
-      },
-      {
-        premise1: "Jika a + b = 10 dan a = 6, maka b = 4",
-        premise2: "",
-        conclusion: "b = 4",
-        questionPart: "premis2",
-        correct: "Diberi a + b = 10 dan a = 6",
-        distractors: ["Diberi a + b = 8 dan a = 4", "Diberi a - b = 10 dan a = 6", "Diberi a = b"]
-      },
-      {
-        premise1: "",
-        premise2: "Diameter bulatan O ialah 10 cm",
-        conclusion: "Jejari bulatan O ialah 5 cm",
-        questionPart: "premis1",
-        correct: "Jika diameter bulatan ialah 10 cm, maka jejarinya ialah 5 cm",
-        distractors: ["Jika jejari bulatan ialah 10 cm, maka diameternya ialah 5 cm", "Jika lilitan bulatan ialah 10 cm, maka jejarinya ialah 5 cm", "Semua bulatan mempunyai jejari 5 cm"]
-      },
-      {
-        premise1: "Jika sebuah nombor ialah nombor perdana lebih besar daripada 2, maka ia adalah nombor ganjil",
-        premise2: "",
-        conclusion: "8 bukan nombor perdana lebih besar daripada 2",
-        questionPart: "premis2",
-        correct: "8 bukan nombor ganjil",
-        distractors: ["8 ialah nombor ganjil", "8 ialah nombor perdana", "8 boleh dibahagi dengan 3"]
-      },
-      {
-        premise1: "Jika sebuah segi empat ialah segi empat sama, maka semua sisinya sama panjang",
-        premise2: "",
-        conclusion: "KLMN bukan segi empat sama",
-        questionPart: "premis2",
-        correct: "Segi empat KLMN tidak mempunyai semua sisi yang sama panjang",
-        distractors: ["Segi empat KLMN mempunyai semua sisi yang sama panjang", "Segi empat KLMN ialah segi tiga", "Segi empat KLMN tidak mempunyai sudut"]
-      },
-      {
-        premise1: "",
-        premise2: "7 tidak boleh dibahagi dengan 2",
-        conclusion: "7 bukan nombor genap",
-        questionPart: "premis1",
-        correct: "Jika x ialah nombor genap, maka x boleh dibahagi dengan 2",
-        distractors: ["Jika x ialah nombor ganjil, maka x boleh dibahagi dengan 2", "Semua nombor boleh dibahagi dengan 2", "Jika x lebih kecil daripada 10, maka x boleh dibahagi dengan 2"]
-      },
-      {
-        premise1: "",
-        premise2: "Segi tiga ABC tidak mempunyai semua sudut 60°",
-        conclusion: "Segi tiga ABC bukan segi tiga sama sisi",
-        questionPart: "premis1",
-        correct: "Jika sebuah segi tiga ialah segi tiga sama sisi, maka semua sudutnya ialah 60°",
-        distractors: ["Jika sebuah segi tiga mempunyai 3 sisi, maka ia segi tiga sama sisi", "Semua segi tiga mempunyai sudut 60°", "Jika segi tiga mempunyai sudut tegak, maka ia segi tiga sama sisi"]
-      },
-      {
-        premise1: "Jika sebuah nombor boleh dibahagi dengan 10, maka ia berakhir dengan 0",
-        premise2: "23 tidak berakhir dengan 0",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "23 tidak boleh dibahagi dengan 10",
-        distractors: ["23 boleh dibahagi dengan 10", "23 berakhir dengan 0", "23 ialah gandaan 10"]
-      },
-      {
-        premise1: "",
-        premise2: "12 tidak lebih besar daripada 15",
-        conclusion: "12 tidak lebih besar daripada 20",
-        questionPart: "premis1",
-        correct: "Jika y > 20, maka y > 15",
-        distractors: ["Jika y > 15, maka y > 20", "Semua nombor lebih besar daripada 20", "Jika y = 12, maka y ialah nombor genap"]
-      },
-      {
-        premise1: "",
-        premise2: "Poligon ABCDE tidak mempunyai 5 sisi yang sama panjang",
-        conclusion: "ABCDE bukan pentagon sekata",
-        questionPart: "premis1",
-        correct: "Jika sebuah poligon ialah pentagon sekata, maka ia mempunyai 5 sisi yang sama panjang",
-        distractors: ["Semua pentagon mempunyai 5 sisi", "Jika poligon mempunyai 6 sisi, maka ia pentagon", "Semua poligon adalah sekata"]
-      },
-      {
-        premise1: "Jika sebuah nombor ialah gandaan 9, maka jumlah digitnya boleh dibahagi dengan 9",
-        premise2: "",
-        conclusion: "25 bukan gandaan 9",
-        questionPart: "premis2",
-        correct: "Nombor 25 mempunyai jumlah digit 7 (2+5) yang tidak boleh dibahagi dengan 9",
-        distractors: ["Nombor 25 boleh dibahagi dengan 9", "Nombor 25 ialah nombor perdana", "Nombor 25 berakhir dengan 5"]
-      },
-      {
-        premise1: "Jika luas segi empat sama ialah 16 cm², maka panjang sisinya ialah 4 cm",
-        premise2: "Segi empat sama PQRS tidak mempunyai sisi sepanjang 4 cm",
-        conclusion: "",
-        questionPart: "kesimpulan",
-        correct: "Luas PQRS bukan 16 cm²",
-        distractors: ["Luas PQRS ialah 16 cm²", "Sisi PQRS ialah 4 cm", "PQRS ialah bulatan"]
+        premises: [
+          "Nombor prima pertama ialah 2",
+          "Nombor prima kedua ialah 3",
+          "2 dan 3 adalah nombor kecil"
+        ],
+        conclusion: "Semua nombor prima adalah nombor kecil",
+        type: "lemah",
+        convincing: "tidak",
+        reason: "Premis benar tetapi sampel terlalu kecil (hanya 2 nombor prima). Terdapat nombor prima besar seperti 97, 101, 997. Kesimpulan tidak benar. Hujah induktif lemah dan tidak meyakinkan."
       }
     ];
 
-    let currentQuestions = [];
+    let currentView = 'menu';
     let currentQuestionIndex = 0;
+    let selectedQuestions = [];
+    let userAnswers = [];
     let score = 0;
-    let answered = false;
-    let currentLanguage = 'ms'; // 'ms' for Malay, 'en' for English
-
-    function updateToggleButton(buttonId) {
-      const button = document.getElementById(buttonId);
-      const bmOption = button.querySelectorAll('.lang-option')[0];
-      const enOption = button.querySelectorAll('.lang-option')[1];
-      
-      if (currentLanguage === 'ms') {
-        bmOption.classList.add('active');
-        bmOption.classList.remove('inactive');
-        enOption.classList.remove('active');
-        enOption.classList.add('inactive');
-      } else {
-        enOption.classList.add('active');
-        enOption.classList.remove('inactive');
-        bmOption.classList.remove('active');
-        bmOption.classList.add('inactive');
-      }
-    }
-
-    const translations = {
-      ms: {
-        quizTitle: "Kuiz Bentuk Hujah Deduktif",
-        quizDescription: "Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!",
-        startButton: "Mula Kuiz",
-        nextButton: "Seterusnya",
-        restartButton: "Cuba Lagi",
-        homeTitle: "Kembali ke Menu Utama",
-        questionCounter: "Soalan",
-        noteTitle: "📚 Nota Pembelajaran",
-        form1Label: "Bentuk 1:",
-        form2Label: "Bentuk 2:",
-        form3Label: "Bentuk 3:",
-        premise1: "Premis 1",
-        premise2: "Premis 2",
-        conclusion: "Kesimpulan",
-        allAisB: "Semua A ialah B",
-        CisA: "C ialah A",
-        CisB: "C ialah B",
-        ifPthenQ: "Jika p, maka q",
-        pIsTrue: "p adalah benar",
-        qIsTrue: "q adalah benar",
-        notQisTrue: "Bukan q adalah benar",
-        notPisTrue: "Bukan p adalah benar",
-        promptPremis1: "Apakah Premis 1 yang sesuai?",
-        promptPremis2: "Apakah Premis 2 yang sesuai?",
-        promptConclusion: "Apakah kesimpulan yang sah?",
-        correctFeedback: "✓ Betul! Jawapan anda tepat!",
-        incorrectFeedback: "✗ Tidak tepat. Cuba lihat jawapan yang betul.",
-        congratulations: "Tahniah! 🎉",
-        yourScore: "Skor Anda",
-        questionsAnswered: "Soalan Dijawab:",
-        correctAnswers: "Jawapan Betul:",
-        incorrectAnswers: "Jawapan Salah:"
-      },
-      en: {
-        quizTitle: "Deductive Argument Forms Quiz",
-        quizDescription: "There are three valid forms of deductive arguments. Let's test your understanding with interactive questions!",
-        startButton: "Start Quiz",
-        nextButton: "Next",
-        restartButton: "Try Again",
-        homeTitle: "Back to Main Menu",
-        questionCounter: "Question",
-        noteTitle: "📚 Learning Notes",
-        form1Label: "Form 1:",
-        form2Label: "Form 2:",
-        form3Label: "Form 3:",
-        premise1: "Premise 1",
-        premise2: "Premise 2",
-        conclusion: "Conclusion",
-        allAisB: "All A is B",
-        CisA: "C is A",
-        CisB: "C is B",
-        ifPthenQ: "If p, then q",
-        pIsTrue: "p is true",
-        qIsTrue: "q is true",
-        notQisTrue: "Not q is true",
-        notPisTrue: "Not p is true",
-        promptPremis1: "What is the appropriate Premise 1?",
-        promptPremis2: "What is the appropriate Premise 2?",
-        promptConclusion: "What is the valid conclusion?",
-        correctFeedback: "✓ Correct! Your answer is accurate!",
-        incorrectFeedback: "✗ Incorrect. Look at the correct answer.",
-        congratulations: "Congratulations! 🎉",
-        yourScore: "Your Score",
-        questionsAnswered: "Questions Answered:",
-        correctAnswers: "Correct Answers:",
-        incorrectAnswers: "Incorrect Answers:"
-      }
-    };
-
-    function updateLanguage() {
-      const t = translations[currentLanguage];
-      
-      // Update toggle buttons
-      updateToggleButton('langToggle');
-      updateToggleButton('langToggleQuiz');
-      updateToggleButton('langToggleResults');
-      
-      // Update welcome screen and quiz screen title
-      document.getElementById('quizTitle').textContent = t.quizTitle;
-      document.getElementById('quizTitleInQuiz').textContent = t.quizTitle;
-      document.getElementById('quizDescription').textContent = t.quizDescription;
-      document.getElementById('startBtn').textContent = t.startButton;
-      
-      // Update note section
-      const noteSection = document.querySelector('.note-section h3');
-      if (noteSection) noteSection.textContent = t.noteTitle;
-      
-      // Update form labels
-      const formLabels = document.querySelectorAll('.form-label');
-      if (formLabels[0]) formLabels[0].textContent = t.form1Label;
-      if (formLabels[1]) formLabels[1].textContent = t.form2Label;
-      if (formLabels[2]) formLabels[2].textContent = t.form3Label;
-      
-      // Update table labels
-      const tableCells = document.querySelectorAll('.argument-table .table-label');
-      tableCells.forEach((cell, index) => {
-        const rowIndex = index % 3;
-        if (rowIndex === 0) cell.textContent = t.premise1;
-        if (rowIndex === 1) cell.textContent = t.premise2;
-        if (rowIndex === 2) cell.textContent = t.conclusion;
-      });
-      
-      // Update table content
-      const tables = document.querySelectorAll('.argument-table');
-      if (tables[0]) {
-        const cells1 = tables[0].querySelectorAll('td:not(.table-label)');
-        cells1[0].textContent = t.allAisB;
-        cells1[1].textContent = t.CisA;
-        cells1[2].textContent = t.CisB;
-      }
-      if (tables[1]) {
-        const cells2 = tables[1].querySelectorAll('td:not(.table-label)');
-        cells2[0].textContent = t.ifPthenQ;
-        cells2[1].textContent = t.pIsTrue;
-        cells2[2].textContent = t.qIsTrue;
-      }
-      if (tables[2]) {
-        const cells3 = tables[2].querySelectorAll('td:not(.table-label)');
-        cells3[0].textContent = t.ifPthenQ;
-        cells3[1].textContent = t.notQisTrue;
-        cells3[2].textContent = t.notPisTrue;
-      }
-      
-      // Update quiz screen buttons
-      document.getElementById('nextBtn').textContent = t.nextButton;
-      document.getElementById('homeBtn').title = t.homeTitle;
-      
-      // Update results screen
-      document.getElementById('resultsTitle').textContent = t.congratulations;
-      document.getElementById('scoreLabel').textContent = t.yourScore;
-      document.getElementById('questionsAnsweredLabel').textContent = t.questionsAnswered;
-      document.getElementById('correctAnswersLabel').textContent = t.correctAnswers;
-      document.getElementById('incorrectAnswersLabel').textContent = t.incorrectAnswers;
-      document.getElementById('restartBtn').textContent = t.restartButton;
-      
-      // Reload question if in quiz
-      if (!document.getElementById('quizScreen').classList.contains('hidden')) {
-        loadQuestion();
-      }
-    }
-
-    function toggleLanguage() {
-      currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
-      updateLanguage();
-    }
 
     function shuffleArray(array) {
       const newArray = [...array];
@@ -1036,166 +647,293 @@
       return newArray;
     }
 
-    function selectRandomQuestions() {
-      const shuffled = shuffleArray(allQuestions);
-      return shuffled.slice(0, 15);
+    function showView(view) {
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById('notaView').style.display = 'none';
+      document.getElementById('kuizView').style.display = 'none';
+      document.getElementById('homeButton').style.display = 'none';
+
+      if (view === 'menu') {
+        document.getElementById('mainMenu').style.display = 'block';
+        currentView = 'menu';
+      } else if (view === 'nota') {
+        document.getElementById('notaView').style.display = 'block';
+        document.getElementById('homeButton').style.display = 'block';
+        currentView = 'nota';
+      } else if (view === 'kuiz') {
+        document.getElementById('kuizView').style.display = 'block';
+        document.getElementById('homeButton').style.display = 'block';
+        currentView = 'kuiz';
+        startQuiz();
+      }
     }
 
     function startQuiz() {
-      currentQuestions = selectRandomQuestions();
       currentQuestionIndex = 0;
       score = 0;
-      
-      document.getElementById('welcomeScreen').classList.add('hidden');
-      document.getElementById('quizScreen').classList.remove('hidden');
-      document.getElementById('resultsScreen').classList.add('hidden');
-      
-      loadQuestion();
+      userAnswers = [];
+      selectedQuestions = shuffleArray(quizQuestions).slice(0, 10);
+      renderQuestion();
     }
 
-    function loadQuestion() {
-      answered = false;
-      const question = currentQuestions[currentQuestionIndex];
-      const t = translations[currentLanguage];
+    function renderQuestion() {
+      const container = document.getElementById('quizContainer');
       
-      document.getElementById('questionCounter').textContent = `${t.questionCounter} ${currentQuestionIndex + 1} / 15`;
-      
-      const questionText = document.getElementById('questionText');
-      let questionPrompt = '';
-      
-      if (question.questionPart === 'premis1') {
-        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptPremis1}</div>`;
-      } else if (question.questionPart === 'premis2') {
-        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptPremis2}</div>`;
-      } else if (question.questionPart === 'kesimpulan') {
-        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptConclusion}</div>`;
-      }
-      
-      questionText.innerHTML = questionPrompt + `
-        <table class="question-table">
-          <tr>
-            <td class="table-label">${t.premise1}</td>
-            <td class="${question.premise1 === '' ? 'empty-cell' : ''}">${question.premise1 || '?'}</td>
-          </tr>
-          <tr>
-            <td class="table-label">${t.premise2}</td>
-            <td class="${question.premise2 === '' ? 'empty-cell' : ''}">${question.premise2 || '?'}</td>
-          </tr>
-          <tr>
-            <td class="table-label">${t.conclusion}</td>
-            <td class="${question.conclusion === '' ? 'empty-cell' : ''}">${question.conclusion || '?'}</td>
-          </tr>
-        </table>
-      `;
-      
-      const progress = ((currentQuestionIndex + 1) / 15) * 100;
-      document.getElementById('progressFill').style.width = progress + '%';
-      
-      const options = shuffleArray([question.correct, ...question.distractors]);
-      const optionsContainer = document.getElementById('optionsContainer');
-      optionsContainer.innerHTML = '';
-      
-      options.forEach((option, index) => {
-        const optionDiv = document.createElement('div');
-        optionDiv.className = 'option fade-in';
-        optionDiv.textContent = option;
-        optionDiv.style.animationDelay = (index * 0.1) + 's';
-        optionDiv.onclick = () => selectOption(option, question.correct);
-        optionsContainer.appendChild(optionDiv);
-      });
-      
-      document.getElementById('feedback').classList.add('hidden');
-      document.getElementById('nextBtn').classList.add('hidden');
-    }
-
-    function selectOption(selected, correct) {
-      if (answered) return;
-      answered = true;
-      
-      const options = document.querySelectorAll('.option');
-      const feedback = document.getElementById('feedback');
-      
-      options.forEach(option => {
-        option.classList.add('disabled');
-        if (option.textContent === correct) {
-          option.classList.add('correct');
-        }
-        if (option.textContent === selected && selected !== correct) {
-          option.classList.add('incorrect');
-        }
-      });
-      
-      const t = translations[currentLanguage];
-      
-      if (selected === correct) {
-        score++;
-        feedback.textContent = t.correctFeedback;
-        feedback.className = 'feedback correct fade-in';
-      } else {
-        feedback.textContent = t.incorrectFeedback;
-        feedback.className = 'feedback incorrect fade-in';
-      }
-      
-      feedback.classList.remove('hidden');
-      document.getElementById('nextBtn').classList.remove('hidden');
-    }
-
-    function nextQuestion() {
-      currentQuestionIndex++;
-      
-      if (currentQuestionIndex < currentQuestions.length) {
-        loadQuestion();
-      } else {
+      if (currentQuestionIndex >= selectedQuestions.length) {
         showResults();
+        return;
       }
+
+      const question = selectedQuestions[currentQuestionIndex];
+      const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+
+      const premisesHTML = question.premises.map((premise, index) => 
+        `<div class="premise-item">Premis ${index + 1}: ${premise}</div>`
+      ).join('');
+
+      container.innerHTML = `
+        <div class="progress-bar" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border: 2px solid ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">
+          <div class="progress-fill" style="width: ${progress}%; background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};"></div>
+        </div>
+        
+        <div class="quiz-card-wrapper">
+          <div class="quiz-card" id="quizCard" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
+            <div class="card-front">
+              <div class="quiz-question">
+                <strong style="font-size: 20px;">Soalan ${currentQuestionIndex + 1}/${selectedQuestions.length}</strong><br><br>
+                ${premisesHTML}
+                <div class="conclusion-item" style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; border-left: 4px solid ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">
+                  <strong>Kesimpulan:</strong> ${question.conclusion}
+                </div>
+              </div>
+
+              <div class="quiz-options">
+                <div class="option-group">
+                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Jenis Hujah</div>
+                  <button class="option-button type-btn" data-value="kuat" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Kuat</button>
+                  <button class="option-button type-btn" data-value="lemah" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Lemah</button>
+                </div>
+
+                <div class="option-group">
+                  <div class="option-label" style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Tahap Keyakinan</div>
+                  <button class="option-button convincing-btn" data-value="meyakinkan" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Meyakinkan</button>
+                  <button class="option-button convincing-btn" data-value="tidak" disabled style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">Tidak Meyakinkan</button>
+                </div>
+              </div>
+
+              <div class="quiz-actions">
+                <button class="action-button" id="checkBtn" disabled style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Semak Jawapan</button>
+              </div>
+            </div>
+
+            <div class="card-back">
+              <div class="answer-content">
+                <h3 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 20px;">Jawapan</h3>
+                
+                <div style="background-color: ${window.elementSdk?.config?.background_color || defaultConfig.background_color}; padding: 16px; border-radius: 8px; margin-bottom: 16px;" id="answerDisplay">
+                </div>
+
+                <div style="margin-top: 20px;">
+                  <h4 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; margin-bottom: 12px;">Penjelasan:</h4>
+                  <p style="line-height: 1.8;">${question.reason}</p>
+                </div>
+
+                <div class="quiz-actions" style="margin-top: 24px;">
+                  <button class="action-button" id="nextBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Seterusnya</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      let selectedType = null;
+      let selectedConvincing = null;
+
+      const quizCard = container.querySelector('#quizCard');
+      const typeButtons = container.querySelectorAll('.type-btn');
+      const convincingButtons = container.querySelectorAll('.convincing-btn');
+      const checkBtn = container.querySelector('#checkBtn');
+      const nextBtn = container.querySelector('#nextBtn');
+
+      typeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          typeButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedType = btn.dataset.value;
+          
+          convincingButtons.forEach(b => b.disabled = false);
+          
+          if (selectedType && selectedConvincing) {
+            checkBtn.disabled = false;
+          }
+        });
+      });
+
+      convincingButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          convincingButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedConvincing = btn.dataset.value;
+          
+          if (selectedType && selectedConvincing) {
+            checkBtn.disabled = false;
+          }
+        });
+      });
+
+      checkBtn.addEventListener('click', () => {
+        const isTypeCorrect = selectedType === question.type;
+        const isConvincingCorrect = selectedConvincing === question.convincing;
+        const isCorrect = isTypeCorrect && isConvincingCorrect;
+
+        if (isCorrect) {
+          score++;
+        }
+
+        userAnswers.push({
+          premises: question.premises,
+          conclusion: question.conclusion,
+          userType: selectedType,
+          userConvincing: selectedConvincing,
+          correctType: question.type,
+          correctConvincing: question.convincing,
+          isCorrect: isCorrect
+        });
+
+        quizCard.classList.add('flipped');
+
+        typeButtons.forEach(btn => btn.disabled = true);
+        convincingButtons.forEach(btn => btn.disabled = true);
+
+        // Display answer with color indicators
+        const answerDisplay = container.querySelector('#answerDisplay');
+        const typeColor = isTypeCorrect ? '#10b981' : '#ef4444';
+        const convincingColor = isConvincingCorrect ? '#10b981' : '#ef4444';
+        
+        const convincingText = question.convincing === "meyakinkan" ? "Meyakinkan" : "Tidak Meyakinkan";
+        
+        answerDisplay.innerHTML = `
+          <p style="margin: 8px 0;"><strong>Jenis Hujah:</strong> <span style="color: ${typeColor}; font-size: 18px; font-weight: 600;">${question.type.charAt(0).toUpperCase() + question.type.slice(1)}</span></p>
+          <p style="margin: 8px 0;"><strong>Tahap Keyakinan:</strong> <span style="color: ${convincingColor}; font-size: 18px; font-weight: 600;">${convincingText}</span></p>
+        `;
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentQuestionIndex++;
+        renderQuestion();
+      });
     }
 
     function showResults() {
-      document.getElementById('quizScreen').classList.add('hidden');
-      document.getElementById('resultsScreen').classList.remove('hidden');
+      const container = document.getElementById('quizContainer');
+      const percentage = (score / selectedQuestions.length) * 100;
       
-      const percentage = Math.round((score / 15) * 100);
-      document.getElementById('finalScore').textContent = percentage + '%';
-      document.getElementById('totalAnswered').textContent = '15';
-      document.getElementById('correctAnswers').textContent = score;
-      document.getElementById('incorrectAnswers').textContent = (15 - score);
-      
-      const emoji = document.getElementById('resultEmoji');
-      if (percentage >= 90) {
-        emoji.textContent = '🏆';
-      } else if (percentage >= 70) {
-        emoji.textContent = '🎯';
-      } else if (percentage >= 50) {
-        emoji.textContent = '👍';
+      let message = '';
+      if (percentage >= 80) {
+        message = 'Cemerlang! Anda menguasai konsep hujah induktif! 🌟';
+      } else if (percentage >= 60) {
+        message = 'Bagus! Teruskan usaha anda! 👍';
       } else {
-        emoji.textContent = '💪';
+        message = 'Terus belajar! Anda boleh buat lebih baik! 💪';
       }
+
+      container.innerHTML = `
+        <div class="quiz-card" style="background-color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background}; border-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">
+          <div class="score-display">
+            <h2 style="color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color};">Keputusan Kuiz</h2>
+            <p style="font-size: 48px; margin: 24px 0; color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color};">${score}/${selectedQuestions.length}</p>
+            <p style="color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${percentage.toFixed(0)}% Betul</p>
+            <p style="margin-top: 16px; color: ${window.elementSdk?.config?.text_color || defaultConfig.text_color};">${message}</p>
+          </div>
+
+          <div class="quiz-actions" style="margin-top: 32px;">
+            <button class="action-button" id="retryBtn" style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Cuba Lagi</button>
+            <button class="action-button" id="menuBtn" style="background-color: ${window.elementSdk?.config?.accent_color || defaultConfig.accent_color}; color: ${window.elementSdk?.config?.card_background || defaultConfig.card_background};">Kembali ke Menu</button>
+          </div>
+        </div>
+      `;
+
+      container.querySelector('#retryBtn').addEventListener('click', () => startQuiz());
+      container.querySelector('#menuBtn').addEventListener('click', () => showView('menu'));
     }
 
-    document.getElementById('startBtn').onclick = startQuiz;
-    document.getElementById('nextBtn').onclick = nextQuestion;
-    document.getElementById('restartBtn').onclick = () => {
-      document.getElementById('resultsScreen').classList.add('hidden');
-      document.getElementById('welcomeScreen').classList.remove('hidden');
-    };
-    document.getElementById('homeBtn').onclick = () => {
-      document.getElementById('quizScreen').classList.add('hidden');
-      document.getElementById('welcomeScreen').classList.remove('hidden');
-    };
-    
-    // Language toggle buttons
-    document.getElementById('langToggle').onclick = toggleLanguage;
-    document.getElementById('langToggleQuiz').onclick = toggleLanguage;
-    document.getElementById('langToggleResults').onclick = toggleLanguage;
+    document.getElementById('notaCard').addEventListener('click', () => showView('nota'));
+    document.getElementById('kuizCard').addEventListener('click', () => showView('kuiz'));
+    document.getElementById('homeButton').addEventListener('click', () => showView('menu'));
+
+    document.getElementById('card1').addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+
+    document.getElementById('card2').addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
 
     async function onConfigChange(config) {
-      const t = translations[currentLanguage];
-      document.getElementById('quizTitle').textContent = t.quizTitle;
-      document.getElementById('quizTitleInQuiz').textContent = t.quizTitle;
-      document.getElementById('quizDescription').textContent = t.quizDescription;
-      document.getElementById('startBtn').textContent = t.startButton;
-      document.getElementById('nextBtn').textContent = t.nextButton;
-      document.getElementById('restartBtn').textContent = t.restartButton;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      const fontFamily = `${customFont}, ${baseFontStack}`;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      document.body.style.fontFamily = fontFamily;
+      document.body.style.fontSize = `${baseSize}px`;
+
+      const appContainer = document.querySelector('.app-container');
+      if (appContainer) {
+        appContainer.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      }
+
+      const headers = document.querySelectorAll('.header h1');
+      headers.forEach(h => {
+        h.style.color = config.primary_color || defaultConfig.primary_color;
+        h.style.fontSize = `${baseSize * 3}px`;
+      });
+
+      const menuCards = document.querySelectorAll('.menu-card');
+      menuCards.forEach(card => {
+        card.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        card.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        card.style.color = config.text_color || defaultConfig.text_color;
+      });
+
+      const menuCardH2 = document.querySelectorAll('.menu-card h2');
+      menuCardH2.forEach(h => {
+        h.style.fontSize = `${baseSize * 1.75}px`;
+      });
+
+      const menuCardP = document.querySelectorAll('.menu-card p');
+      menuCardP.forEach(p => {
+        p.style.fontSize = `${baseSize}px`;
+      });
+
+      const flashcardFaces = document.querySelectorAll('.flashcard-face');
+      flashcardFaces.forEach(face => {
+        face.style.backgroundColor = config.card_background || defaultConfig.card_background;
+        face.style.borderColor = config.primary_color || defaultConfig.primary_color;
+        face.style.color = config.text_color || defaultConfig.text_color;
+      });
+
+      const flashcardH3 = document.querySelectorAll('.flashcard-face h3');
+      flashcardH3.forEach(h => {
+        h.style.fontSize = `${baseSize * 1.5}px`;
+        h.style.color = config.primary_color || defaultConfig.primary_color;
+      });
+
+      const flashcardP = document.querySelectorAll('.flashcard-face p');
+      flashcardP.forEach(p => {
+        p.style.fontSize = `${baseSize}px`;
+      });
+
+      document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
+      document.getElementById('notaTitle').textContent = config.flashcard_nota_title || defaultConfig.flashcard_nota_title;
+      document.getElementById('notaDesc').textContent = config.flashcard_nota_desc || defaultConfig.flashcard_nota_desc;
+      document.getElementById('kuizTitle').textContent = config.flashcard_kuiz_title || defaultConfig.flashcard_kuiz_title;
+      document.getElementById('kuizDesc').textContent = config.flashcard_kuiz_desc || defaultConfig.flashcard_kuiz_desc;
+
+      if (currentView === 'kuiz') {
+        renderQuestion();
+      }
     }
 
     if (window.elementSdk) {
@@ -1203,20 +941,70 @@
         defaultConfig: defaultConfig,
         onConfigChange: onConfigChange,
         mapToCapabilities: (config) => ({
-          recolorables: [],
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_background || defaultConfig.card_background,
+              set: (value) => {
+                config.card_background = value;
+                window.elementSdk.setConfig({ card_background: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
           borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
         }),
         mapToEditPanelValues: (config) => new Map([
-          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-          ["quiz_description", config.quiz_description || defaultConfig.quiz_description],
-          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
-          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
-          ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text]
+          ["app_title", config.app_title || defaultConfig.app_title],
+          ["flashcard_nota_title", config.flashcard_nota_title || defaultConfig.flashcard_nota_title],
+          ["flashcard_nota_desc", config.flashcard_nota_desc || defaultConfig.flashcard_nota_desc],
+          ["flashcard_kuiz_title", config.flashcard_kuiz_title || defaultConfig.flashcard_kuiz_title],
+          ["flashcard_kuiz_desc", config.flashcard_kuiz_desc || defaultConfig.flashcard_kuiz_desc]
         ])
       });
     }
+
+    onConfigChange(defaultConfig);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a917708c7cb164f',t:'MTc2NDkxNTkxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9217dfc7955e2b',t:'MTc2NDkyMjUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
