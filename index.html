@@ -247,6 +247,32 @@
       }
     }
 
+    .home-btn {
+      background: #f5f7fb;
+      border: 2px solid #d0d7e5;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .home-btn:hover {
+      background: #fff;
+      border-color: #5b7cba;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(75, 108, 183, 0.2);
+    }
+
+    .home-btn:active {
+      transform: translateY(0);
+    }
+
     .quiz-header {
       display: flex;
       justify-content: space-between;
@@ -454,6 +480,46 @@
     .btn-secondary:hover {
       background: #f5f7fb;
     }
+
+    .language-toggle {
+      background: #f5f7fb;
+      border: 2px solid #d0d7e5;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-toggle:hover {
+      background: #fff;
+      border-color: #5b7cba;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(75, 108, 183, 0.2);
+    }
+
+    .language-toggle:active {
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .lang-option.active {
+      background: #5b7cba;
+      color: white;
+    }
+
+    .lang-option.inactive {
+      color: #999;
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -462,7 +528,9 @@
  <body>
   <div class="container">
    <div class="card" id="welcomeScreen">
-    <h1 id="quizTitle">Bentuk Hujah Deduktif</h1>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggle"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
+    </div>
+    <h1 id="quizTitle">Kuiz Bentuk Hujah Deduktif</h1>
     <p class="description" id="quizDescription">Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!</p>
     <div class="note-section">
      <h3>📚 Nota Pembelajaran</h3>
@@ -526,7 +594,10 @@
     </div><button class="btn" id="startBtn">Mula Quiz</button>
    </div>
    <div class="card hidden" id="quizScreen">
-    <div class="quiz-header">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggleQuiz"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
+    </div>
+    <h1 id="quizTitleInQuiz" style="margin-bottom: 24px;">Kuiz Bentuk Hujah Deduktif</h1>
+    <div class="quiz-header"><button class="home-btn" id="homeBtn" title="Kembali ke Menu Utama">🏠</button>
      <div class="question-counter" id="questionCounter">
       Soalan 1 / 15
      </div>
@@ -539,31 +610,33 @@
     <div class="feedback hidden" id="feedback"></div><button class="btn hidden" id="nextBtn">Seterusnya</button>
    </div>
    <div class="card hidden" id="resultsScreen">
-    <h1>Tahniah! 🎉</h1>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;"><button class="language-toggle" id="langToggleResults"> <span>🌐</span> <span class="lang-option active">BM</span> <span class="lang-option inactive">EN</span> </button>
+    </div>
+    <h1 id="resultsTitle">Tahniah! 🎉</h1>
     <div class="emoji" id="resultEmoji">
      🎯
     </div>
     <div class="score" id="finalScore">
      0%
     </div>
-    <div class="score-label">
+    <div class="score-label" id="scoreLabel">
      Skor Anda
     </div>
     <div class="performance">
-     <div class="performance-item"><span class="performance-label">Soalan Dijawab:</span> <span class="performance-value" id="totalAnswered">0</span>
+     <div class="performance-item"><span class="performance-label" id="questionsAnsweredLabel">Soalan Dijawab:</span> <span class="performance-value" id="totalAnswered">0</span>
      </div>
-     <div class="performance-item"><span class="performance-label">Jawapan Betul:</span> <span class="performance-value" id="correctAnswers">0</span>
+     <div class="performance-item"><span class="performance-label" id="correctAnswersLabel">Jawapan Betul:</span> <span class="performance-value" id="correctAnswers">0</span>
      </div>
-     <div class="performance-item"><span class="performance-label">Jawapan Salah:</span> <span class="performance-value" id="incorrectAnswers">0</span>
+     <div class="performance-item"><span class="performance-label" id="incorrectAnswersLabel">Jawapan Salah:</span> <span class="performance-value" id="incorrectAnswers">0</span>
      </div>
     </div><button class="btn" id="restartBtn">Cuba Lagi</button>
    </div>
   </div>
   <script>
     const defaultConfig = {
-      quiz_title: "Bentuk Hujah Deduktif",
+      quiz_title: "Kuiz Bentuk Hujah Deduktif",
       quiz_description: "Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!",
-      start_button_text: "Mula Quiz",
+      start_button_text: "Mula Kuiz",
       next_button_text: "Seterusnya",
       restart_button_text: "Cuba Lagi",
       background_color: "#4b6cb7",
@@ -780,6 +853,173 @@
     let currentQuestionIndex = 0;
     let score = 0;
     let answered = false;
+    let currentLanguage = 'ms'; // 'ms' for Malay, 'en' for English
+
+    function updateToggleButton(buttonId) {
+      const button = document.getElementById(buttonId);
+      const bmOption = button.querySelectorAll('.lang-option')[0];
+      const enOption = button.querySelectorAll('.lang-option')[1];
+      
+      if (currentLanguage === 'ms') {
+        bmOption.classList.add('active');
+        bmOption.classList.remove('inactive');
+        enOption.classList.remove('active');
+        enOption.classList.add('inactive');
+      } else {
+        enOption.classList.add('active');
+        enOption.classList.remove('inactive');
+        bmOption.classList.remove('active');
+        bmOption.classList.add('inactive');
+      }
+    }
+
+    const translations = {
+      ms: {
+        quizTitle: "Kuiz Bentuk Hujah Deduktif",
+        quizDescription: "Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!",
+        startButton: "Mula Kuiz",
+        nextButton: "Seterusnya",
+        restartButton: "Cuba Lagi",
+        homeTitle: "Kembali ke Menu Utama",
+        questionCounter: "Soalan",
+        noteTitle: "📚 Nota Pembelajaran",
+        form1Label: "Bentuk 1:",
+        form2Label: "Bentuk 2:",
+        form3Label: "Bentuk 3:",
+        premise1: "Premis 1",
+        premise2: "Premis 2",
+        conclusion: "Kesimpulan",
+        allAisB: "Semua A ialah B",
+        CisA: "C ialah A",
+        CisB: "C ialah B",
+        ifPthenQ: "Jika p, maka q",
+        pIsTrue: "p adalah benar",
+        qIsTrue: "q adalah benar",
+        notQisTrue: "Bukan q adalah benar",
+        notPisTrue: "Bukan p adalah benar",
+        promptPremis1: "Apakah Premis 1 yang sesuai?",
+        promptPremis2: "Apakah Premis 2 yang sesuai?",
+        promptConclusion: "Apakah kesimpulan yang sah?",
+        correctFeedback: "✓ Betul! Jawapan anda tepat!",
+        incorrectFeedback: "✗ Tidak tepat. Cuba lihat jawapan yang betul.",
+        congratulations: "Tahniah! 🎉",
+        yourScore: "Skor Anda",
+        questionsAnswered: "Soalan Dijawab:",
+        correctAnswers: "Jawapan Betul:",
+        incorrectAnswers: "Jawapan Salah:"
+      },
+      en: {
+        quizTitle: "Deductive Argument Forms Quiz",
+        quizDescription: "There are three valid forms of deductive arguments. Let's test your understanding with interactive questions!",
+        startButton: "Start Quiz",
+        nextButton: "Next",
+        restartButton: "Try Again",
+        homeTitle: "Back to Main Menu",
+        questionCounter: "Question",
+        noteTitle: "📚 Learning Notes",
+        form1Label: "Form 1:",
+        form2Label: "Form 2:",
+        form3Label: "Form 3:",
+        premise1: "Premise 1",
+        premise2: "Premise 2",
+        conclusion: "Conclusion",
+        allAisB: "All A is B",
+        CisA: "C is A",
+        CisB: "C is B",
+        ifPthenQ: "If p, then q",
+        pIsTrue: "p is true",
+        qIsTrue: "q is true",
+        notQisTrue: "Not q is true",
+        notPisTrue: "Not p is true",
+        promptPremis1: "What is the appropriate Premise 1?",
+        promptPremis2: "What is the appropriate Premise 2?",
+        promptConclusion: "What is the valid conclusion?",
+        correctFeedback: "✓ Correct! Your answer is accurate!",
+        incorrectFeedback: "✗ Incorrect. Look at the correct answer.",
+        congratulations: "Congratulations! 🎉",
+        yourScore: "Your Score",
+        questionsAnswered: "Questions Answered:",
+        correctAnswers: "Correct Answers:",
+        incorrectAnswers: "Incorrect Answers:"
+      }
+    };
+
+    function updateLanguage() {
+      const t = translations[currentLanguage];
+      
+      // Update toggle buttons
+      updateToggleButton('langToggle');
+      updateToggleButton('langToggleQuiz');
+      updateToggleButton('langToggleResults');
+      
+      // Update welcome screen and quiz screen title
+      document.getElementById('quizTitle').textContent = t.quizTitle;
+      document.getElementById('quizTitleInQuiz').textContent = t.quizTitle;
+      document.getElementById('quizDescription').textContent = t.quizDescription;
+      document.getElementById('startBtn').textContent = t.startButton;
+      
+      // Update note section
+      const noteSection = document.querySelector('.note-section h3');
+      if (noteSection) noteSection.textContent = t.noteTitle;
+      
+      // Update form labels
+      const formLabels = document.querySelectorAll('.form-label');
+      if (formLabels[0]) formLabels[0].textContent = t.form1Label;
+      if (formLabels[1]) formLabels[1].textContent = t.form2Label;
+      if (formLabels[2]) formLabels[2].textContent = t.form3Label;
+      
+      // Update table labels
+      const tableCells = document.querySelectorAll('.argument-table .table-label');
+      tableCells.forEach((cell, index) => {
+        const rowIndex = index % 3;
+        if (rowIndex === 0) cell.textContent = t.premise1;
+        if (rowIndex === 1) cell.textContent = t.premise2;
+        if (rowIndex === 2) cell.textContent = t.conclusion;
+      });
+      
+      // Update table content
+      const tables = document.querySelectorAll('.argument-table');
+      if (tables[0]) {
+        const cells1 = tables[0].querySelectorAll('td:not(.table-label)');
+        cells1[0].textContent = t.allAisB;
+        cells1[1].textContent = t.CisA;
+        cells1[2].textContent = t.CisB;
+      }
+      if (tables[1]) {
+        const cells2 = tables[1].querySelectorAll('td:not(.table-label)');
+        cells2[0].textContent = t.ifPthenQ;
+        cells2[1].textContent = t.pIsTrue;
+        cells2[2].textContent = t.qIsTrue;
+      }
+      if (tables[2]) {
+        const cells3 = tables[2].querySelectorAll('td:not(.table-label)');
+        cells3[0].textContent = t.ifPthenQ;
+        cells3[1].textContent = t.notQisTrue;
+        cells3[2].textContent = t.notPisTrue;
+      }
+      
+      // Update quiz screen buttons
+      document.getElementById('nextBtn').textContent = t.nextButton;
+      document.getElementById('homeBtn').title = t.homeTitle;
+      
+      // Update results screen
+      document.getElementById('resultsTitle').textContent = t.congratulations;
+      document.getElementById('scoreLabel').textContent = t.yourScore;
+      document.getElementById('questionsAnsweredLabel').textContent = t.questionsAnswered;
+      document.getElementById('correctAnswersLabel').textContent = t.correctAnswers;
+      document.getElementById('incorrectAnswersLabel').textContent = t.incorrectAnswers;
+      document.getElementById('restartBtn').textContent = t.restartButton;
+      
+      // Reload question if in quiz
+      if (!document.getElementById('quizScreen').classList.contains('hidden')) {
+        loadQuestion();
+      }
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
+      updateLanguage();
+    }
 
     function shuffleArray(array) {
       const newArray = [...array];
@@ -810,32 +1050,33 @@
     function loadQuestion() {
       answered = false;
       const question = currentQuestions[currentQuestionIndex];
+      const t = translations[currentLanguage];
       
-      document.getElementById('questionCounter').textContent = `Soalan ${currentQuestionIndex + 1} / 15`;
+      document.getElementById('questionCounter').textContent = `${t.questionCounter} ${currentQuestionIndex + 1} / 15`;
       
       const questionText = document.getElementById('questionText');
       let questionPrompt = '';
       
       if (question.questionPart === 'premis1') {
-        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah Premis 1 yang sesuai?</div>';
+        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptPremis1}</div>`;
       } else if (question.questionPart === 'premis2') {
-        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah Premis 2 yang sesuai?</div>';
+        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptPremis2}</div>`;
       } else if (question.questionPart === 'kesimpulan') {
-        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah kesimpulan yang sah?</div>';
+        questionPrompt = `<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">${t.promptConclusion}</div>`;
       }
       
       questionText.innerHTML = questionPrompt + `
         <table class="question-table">
           <tr>
-            <td class="table-label">Premis 1</td>
+            <td class="table-label">${t.premise1}</td>
             <td class="${question.premise1 === '' ? 'empty-cell' : ''}">${question.premise1 || '?'}</td>
           </tr>
           <tr>
-            <td class="table-label">Premis 2</td>
+            <td class="table-label">${t.premise2}</td>
             <td class="${question.premise2 === '' ? 'empty-cell' : ''}">${question.premise2 || '?'}</td>
           </tr>
           <tr>
-            <td class="table-label">Kesimpulan</td>
+            <td class="table-label">${t.conclusion}</td>
             <td class="${question.conclusion === '' ? 'empty-cell' : ''}">${question.conclusion || '?'}</td>
           </tr>
         </table>
@@ -878,12 +1119,14 @@
         }
       });
       
+      const t = translations[currentLanguage];
+      
       if (selected === correct) {
         score++;
-        feedback.textContent = '✓ Betul! Jawapan anda tepat!';
+        feedback.textContent = t.correctFeedback;
         feedback.className = 'feedback correct fade-in';
       } else {
-        feedback.textContent = '✗ Tidak tepat. Cuba lihat jawapan yang betul.';
+        feedback.textContent = t.incorrectFeedback;
         feedback.className = 'feedback incorrect fade-in';
       }
       
@@ -929,13 +1172,24 @@
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('welcomeScreen').classList.remove('hidden');
     };
+    document.getElementById('homeBtn').onclick = () => {
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    };
+    
+    // Language toggle buttons
+    document.getElementById('langToggle').onclick = toggleLanguage;
+    document.getElementById('langToggleQuiz').onclick = toggleLanguage;
+    document.getElementById('langToggleResults').onclick = toggleLanguage;
 
     async function onConfigChange(config) {
-      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
-      document.getElementById('quizDescription').textContent = config.quiz_description || defaultConfig.quiz_description;
-      document.getElementById('startBtn').textContent = config.start_button_text || defaultConfig.start_button_text;
-      document.getElementById('nextBtn').textContent = config.next_button_text || defaultConfig.next_button_text;
-      document.getElementById('restartBtn').textContent = config.restart_button_text || defaultConfig.restart_button_text;
+      const t = translations[currentLanguage];
+      document.getElementById('quizTitle').textContent = t.quizTitle;
+      document.getElementById('quizTitleInQuiz').textContent = t.quizTitle;
+      document.getElementById('quizDescription').textContent = t.quizDescription;
+      document.getElementById('startBtn').textContent = t.startButton;
+      document.getElementById('nextBtn').textContent = t.nextButton;
+      document.getElementById('restartBtn').textContent = t.restartButton;
     }
 
     if (window.elementSdk) {
@@ -958,5 +1212,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90f47952bb1d95',t:'MTc2NDkxMDU2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9163f5b2cf164f',t:'MTc2NDkxNTEzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
