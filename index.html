@@ -42,6 +42,41 @@
       max-width: 600px;
       width: 100%;
       text-align: center;
+      position: relative;
+    }
+    
+    .language-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      background: #F7F9F8;
+      padding: 6px;
+      border-radius: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .lang-btn {
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: #718096;
+    }
+    
+    .lang-btn.active {
+      background: white;
+      color: #2D4A3E;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    
+    .lang-btn:hover:not(.active) {
+      color: #2D4A3E;
     }
     
     .main-menu.hide {
@@ -125,17 +160,17 @@
     }
     
     .level-easy {
-      background: linear-gradient(135deg, #E8F4F0 0%, #D4E9E2 100%);
+      background: linear-gradient(135deg, #8BB4A6 0%, #7AA396 100%);
       color: white;
     }
     
     .level-medium {
-      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
+      background: linear-gradient(135deg, #5A7D70 0%, #4A6D60 100%);
       color: white;
     }
     
     .level-hard {
-      background: linear-gradient(135deg, #3D5A4A 0%, #2D4A3A 100%);
+      background: linear-gradient(135deg, #2D4A3A 0%, #1D3A2A 100%);
       color: white;
     }
     
@@ -177,15 +212,15 @@
     }
     
     .level-badge.badge-easy {
-      background: linear-gradient(135deg, #E8F4F0 0%, #D4E9E2 100%);
+      background: linear-gradient(135deg, #8BB4A6 0%, #7AA396 100%);
     }
     
     .level-badge.badge-medium {
-      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
+      background: linear-gradient(135deg, #5A7D70 0%, #4A6D60 100%);
     }
     
     .level-badge.badge-hard {
-      background: linear-gradient(135deg, #3D5A4A 0%, #2D4A3A 100%);
+      background: linear-gradient(135deg, #2D4A3A 0%, #1D3A2A 100%);
     }
     
     .stats-container {
@@ -456,6 +491,8 @@
  <body>
   <main class="game-wrapper"><!-- Main Menu -->
    <section class="main-menu" id="mainMenu">
+    <div class="language-toggle"><button class="lang-btn" id="langEn">ENG</button> <button class="lang-btn active" id="langBm">BM</button>
+    </div>
     <h1 class="main-title" id="gameTitle">Asas Nombor Dua dan Asas Nombor Lapan</h1>
     <p class="main-desc" id="gameDesc">Permainan penukaran nombor di antara Asas Dua dan Asas Lapan</p>
     <div class="instructions-box">
@@ -463,10 +500,10 @@
      <div class="instruction-item" id="instructionText">
       Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul
      </div>
-     <div class="instruction-item">
+     <div class="instruction-item" id="instructionPairs">
       Jumlah pasangan: 6
      </div>
-     <div class="instruction-item">
+     <div class="instruction-item" id="instructionMatch">
       Padankan semua kad untuk menang!
      </div>
     </div>
@@ -480,7 +517,7 @@
      </div>
      <div class="stats-container">
       <div class="stat-item">
-       <div class="stat-label">
+       <div class="stat-label" id="attemptsLabel">
         Percubaan
        </div>
        <div class="stat-value" id="attempts">
@@ -488,7 +525,7 @@
        </div>
       </div>
       <div class="stat-item">
-       <div class="stat-label">
+       <div class="stat-label" id="matchesLabel">
         Padanan
        </div>
        <div class="stat-value">
@@ -499,24 +536,24 @@
     </header>
     <div class="game-grid">
      <div class="grid-column">
-      <h2 class="grid-title">Asas Dua</h2>
+      <h2 class="grid-title" id="binaryTitle">Asas Dua</h2>
       <div class="cards-container" id="binaryCards"></div>
      </div>
      <div class="grid-column">
-      <h2 class="grid-title">Asas Lapan</h2>
+      <h2 class="grid-title" id="octalTitle">Asas Lapan</h2>
       <div class="cards-container" id="octalCards"></div>
      </div>
     </div><button class="level-btn back-btn" id="backBtn">↩️ Kembali ke Menu</button>
    </section><!-- Victory Modal -->
    <div class="victory-modal" id="victoryModal">
     <div class="victory-content">
-     <h2 class="victory-title">🎉 Tahniah!</h2>
+     <h2 class="victory-title" id="victoryTitle">🎉 Tahniah!</h2>
      <div class="victory-stats">
-      <div class="victory-stat">
+      <div class="victory-stat" id="victoryFound">
        ✅ Semua pasangan dijumpai!
       </div>
       <div class="victory-stat">
-       📊 Jumlah Percubaan: <strong id="finalAttempts">0</strong>
+       <span id="victoryAttemptsLabel">📊 Jumlah Percubaan:</span> <strong id="finalAttempts">0</strong>
       </div>
      </div>
      <div class="victory-buttons"><button class="level-btn level-easy" id="replayBtn">🔄 Main Lagi</button> <button class="level-btn back-btn" id="menuBtn">📋 Pilih Kesukaran Lain</button>
@@ -525,6 +562,57 @@
    </div>
   </main>
   <script>
+    const translations = {
+      en: {
+        game_title: "Binary and Octal Numbers",
+        game_description: "A number conversion game between Binary and Octal",
+        instructions_title: "📋 Game Instructions",
+        instruction_text: "Click one Binary card and one Octal card to find the correct match",
+        instruction_pairs: "Total pairs: 6",
+        instruction_match: "Match all cards to win!",
+        easy_button: "Easy",
+        medium_button: "Medium",
+        hard_button: "Hard",
+        back_button: "↩️ Back to Menu",
+        attempts_label: "Attempts",
+        matches_label: "Matches",
+        binary_title: "Binary",
+        octal_title: "Octal",
+        victory_title: "🎉 Congratulations!",
+        victory_found: "✅ All pairs found!",
+        victory_attempts: "📊 Total Attempts:",
+        replay_button: "🔄 Play Again",
+        menu_button: "📋 Choose Different Difficulty",
+        level_easy: "Easy",
+        level_medium: "Medium",
+        level_hard: "Hard"
+      },
+      bm: {
+        game_title: "Asas Nombor Dua dan Asas Nombor Lapan",
+        game_description: "Permainan penukaran nombor di antara Asas Dua dan Asas Lapan",
+        instructions_title: "📋 Arahan Permainan",
+        instruction_text: "Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul",
+        instruction_pairs: "Jumlah pasangan: 6",
+        instruction_match: "Padankan semua kad untuk menang!",
+        easy_button: "Mudah",
+        medium_button: "Sederhana",
+        hard_button: "Sukar",
+        back_button: "↩️ Kembali ke Menu",
+        attempts_label: "Percubaan",
+        matches_label: "Padanan",
+        binary_title: "Asas Dua",
+        octal_title: "Asas Lapan",
+        victory_title: "🎉 Tahniah!",
+        victory_found: "✅ Semua pasangan dijumpai!",
+        victory_attempts: "📊 Jumlah Percubaan:",
+        replay_button: "🔄 Main Lagi",
+        menu_button: "📋 Pilih Kesukaran Lain",
+        level_easy: "Mudah",
+        level_medium: "Sederhana",
+        level_hard: "Sukar"
+      }
+    };
+
     const defaultConfig = {
       background_color: "#D4E9E2",
       secondary_surface_color: "#F7F9F8",
@@ -544,6 +632,7 @@
     };
 
     // Game state
+    let currentLanguage = 'bm';
     let currentLevel = 'easy';
     let selectedBinary = null;
     let selectedOctal = null;
@@ -623,6 +712,52 @@
       return shuffled;
     }
 
+    function updateLanguage(lang) {
+      currentLanguage = lang;
+      const t = translations[lang];
+      
+      // Update language toggle buttons
+      document.getElementById('langEn').classList.toggle('active', lang === 'en');
+      document.getElementById('langBm').classList.toggle('active', lang === 'bm');
+      
+      // Main menu
+      document.getElementById('gameTitle').textContent = t.game_title;
+      document.getElementById('gameDesc').textContent = t.game_description;
+      document.getElementById('instructionsTitle').textContent = t.instructions_title;
+      document.getElementById('instructionText').textContent = t.instruction_text;
+      document.getElementById('instructionPairs').textContent = t.instruction_pairs;
+      document.getElementById('instructionMatch').textContent = t.instruction_match;
+      document.getElementById('easyBtn').textContent = t.easy_button;
+      document.getElementById('mediumBtn').textContent = t.medium_button;
+      document.getElementById('hardBtn').textContent = t.hard_button;
+      
+      // Game view
+      document.querySelectorAll('.back-btn').forEach(btn => {
+        btn.textContent = t.back_button;
+      });
+      document.getElementById('attemptsLabel').textContent = t.attempts_label;
+      document.getElementById('matchesLabel').textContent = t.matches_label;
+      document.getElementById('binaryTitle').textContent = t.binary_title;
+      document.getElementById('octalTitle').textContent = t.octal_title;
+      
+      // Victory modal
+      document.getElementById('victoryTitle').textContent = t.victory_title;
+      document.getElementById('victoryFound').textContent = t.victory_found;
+      document.getElementById('victoryAttemptsLabel').textContent = t.victory_attempts;
+      document.getElementById('replayBtn').textContent = t.replay_button;
+      document.getElementById('menuBtn').textContent = t.menu_button;
+      
+      // Update level badge if game is active
+      const badge = document.getElementById('levelBadge');
+      if (currentLevel === 'easy') {
+        badge.textContent = t.level_easy;
+      } else if (currentLevel === 'medium') {
+        badge.textContent = t.level_medium;
+      } else if (currentLevel === 'hard') {
+        badge.textContent = t.level_hard;
+      }
+    }
+
     function startGame(level) {
       currentLevel = level;
       attemptCount = 0;
@@ -631,10 +766,12 @@
       selectedOctal = null;
       isProcessing = false;
       
+      const t = translations[currentLanguage];
+      
       if (level === 'easy') {
         gamePairs = selectRandomPairs(easyPairsPool, 6);
         const badge = document.getElementById('levelBadge');
-        badge.textContent = 'Mudah';
+        badge.textContent = t.level_easy;
         badge.className = 'level-badge badge-easy';
       } else if (level === 'medium') {
         const selectedPairs = selectRandomPairs(mediumPairsPool, 6);
@@ -643,12 +780,12 @@
           octal: p.octal
         }));
         const badge = document.getElementById('levelBadge');
-        badge.textContent = 'Sederhana';
+        badge.textContent = t.level_medium;
         badge.className = 'level-badge badge-medium';
       } else {
         gamePairs = selectRandomPairs(hardPairsPool, 6);
         const badge = document.getElementById('levelBadge');
-        badge.textContent = 'Sukar';
+        badge.textContent = t.level_hard;
         badge.className = 'level-badge badge-hard';
       }
       
@@ -773,6 +910,8 @@
       document.getElementById('victoryModal').classList.remove('show');
     }
 
+    document.getElementById('langEn').addEventListener('click', () => updateLanguage('en'));
+    document.getElementById('langBm').addEventListener('click', () => updateLanguage('bm'));
     document.getElementById('easyBtn').addEventListener('click', () => startGame('easy'));
     document.getElementById('mediumBtn').addEventListener('click', () => startGame('medium'));
     document.getElementById('hardBtn').addEventListener('click', () => startGame('hard'));
@@ -913,5 +1052,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90672ba5181be4',t:'MTc2NDkwNDc3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a907632a3571be4',t:'MTc2NDkwNTM5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
