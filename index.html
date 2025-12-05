@@ -174,6 +174,7 @@
       width: 100%;
       max-width: 700px;
       margin-top: 20px;
+      box-sizing: border-box;
     }
 
     .quiz-card-wrapper {
@@ -190,6 +191,8 @@
       transition: transform 0.6s;
       transform-style: preserve-3d;
       position: relative;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .quiz-card.flipped {
@@ -208,6 +211,7 @@
       right: 0;
       padding: 32px;
       transform: rotateY(180deg);
+      box-sizing: border-box;
     }
 
     .quiz-question {
@@ -215,11 +219,15 @@
       line-height: 1.8;
       margin-bottom: 24px;
       text-align: left;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .premise-item {
       margin: 8px 0;
       padding-left: 8px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .conclusion-item {
@@ -227,6 +235,8 @@
       padding: 12px;
       border-radius: 8px;
       font-weight: 600;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .quiz-options {
@@ -346,19 +356,19 @@
 
     @media (max-width: 640px) {
       .app-container {
-        padding: 16px;
+        padding: 12px;
       }
 
       .header h1 {
-        font-size: 32px;
+        font-size: 28px;
       }
 
       .menu-card {
-        padding: 24px;
+        padding: 20px;
       }
 
       .menu-card h2 {
-        font-size: 24px;
+        font-size: 22px;
       }
 
       .quiz-options {
@@ -373,6 +383,37 @@
         top: 12px;
         left: 12px;
         font-size: 28px;
+      }
+
+      .quiz-card {
+        padding: 20px;
+      }
+
+      .card-back {
+        padding: 20px;
+      }
+
+      .quiz-question {
+        font-size: 16px;
+      }
+
+      .premise-item {
+        font-size: 14px;
+      }
+
+      .conclusion-item {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .option-button {
+        font-size: 14px;
+        padding: 12px;
+      }
+
+      .action-button {
+        font-size: 16px;
+        padding: 12px 24px;
       }
     }
   </style>
@@ -486,9 +527,9 @@
       },
       {
         premises: [
-          "Lilitan bulatan 1: Lilitan = 2π(5) = 10π cm",
-          "Lilitan bulatan 2: Lilitan = 2π(8) = 16π cm",
-          "Lilitan bulatan 3: Lilitan = 2π(12) = 24π cm"
+          "Lilitan bulatan 1 dengan jejari 5cm: Lilitan = 2π(5) = 10π cm",
+          "Lilitan bulatan 2 dengan jejari 8cm: Lilitan = 2π(8) = 16π cm",
+          "Lilitan bulatan 3 dengan jejari 12cm: Lilitan = 2π(12) = 24π cm"
         ],
         conclusion: "Lilitan bulatan = 2πr",
         type: "kuat",
@@ -497,9 +538,9 @@
       },
       {
         premises: [
-          "Isipadu kubus 1: Isipadu = 2³ = 8 cm³",
-          "Isipadu kubus 2: Isipadu = 5³ = 125 cm³",
-          "Isipadu kubus 3: Isipadu = 10³ = 1000 cm³"
+          "Isipadu kubus 1 dengan sisi 2cm: Isipadu = 2³ = 8 cm³",
+          "Isipadu kubus 2 dengan sisi 5cm: Isipadu = 5³ = 125 cm³",
+          "Isipadu kubus 3 dengan sisi 10cm: Isipadu = 10³ = 1000 cm³"
         ],
         conclusion: "Isipadu kubus = sisi³",
         type: "kuat",
@@ -522,24 +563,24 @@
       {
         premises: [
           "2 + 4 = 6 (nombor genap)",
-          "8 + (-2) = 6 (nombor genap)",
+          "6 + 2 = 10 (nombor genap)",
           "14 + 20 = 34 (nombor genap)"
         ],
         conclusion: "Jumlah dua nombor genap sentiasa genap",
         type: "kuat",
         convincing: "tidak",
-        reason: "Walaupun kesimpulan sebenarnya benar dalam matematik, premis kedua palsu kerana 8 + (-2) = 6 tetapi -2 bukan dalam set asal yang dibincangkan. Terdapat premis palsu, jadi hujah induktif kuat tetapi tidak meyakinkan."
+        reason: "Premis kedua palsu kerana 6 + 2 = 8, bukan 10. Walaupun pola kuat dan kesimpulan sebenarnya benar dalam matematik, terdapat premis palsu. Hujah induktif kuat tetapi tidak meyakinkan kerana ada premis yang salah."
       },
       {
         premises: [
           "Dalam segi tiga sama sisi ABC, semua sudut = 60°",
           "Dalam segi tiga sama sisi DEF, semua sudut = 60°",
-          "Dalam segi tiga sama sisi GHI dengan sisi 100m, semua sudut = 60°"
+          "Dalam segi tiga sama sisi GHI, semua sudut = 90°"
         ],
         conclusion: "Semua segi tiga sama sisi mempunyai sudut 60°",
         type: "kuat",
         convincing: "tidak",
-        reason: "Premis ketiga mengandungi maklumat yang tidak perlu dan mengelirukan (sisi 100m tidak mengubah sudut). Walaupun pola kuat, premis tidak dinyatakan dengan jelas. Hujah induktif kuat tetapi tidak meyakinkan kerana kekeliruan dalam premis."
+        reason: "Premis ketiga palsu kerana segi tiga sama sisi tidak boleh mempunyai sudut 90°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan."
       },
       {
         premises: [
@@ -554,14 +595,14 @@
       },
       {
         premises: [
-          "Sudut peluasan + sudut pedalam = 180° (garisan selari dengan pemalar salah)",
-          "Sudut peluasan + sudut pedalam = 180° (pasangan 2)",
-          "Sudut peluasan + sudut pedalam = 180° (pasangan 3)"
+          "Sudut peluasan 110° + sudut pedalam 60° = 180° (pasangan 1)",
+          "Sudut peluasan 120° + sudut pedalam 60° = 180° (pasangan 2)",
+          "Sudut peluasan 130° + sudut pedalam 50° = 180° (pasangan 3)"
         ],
         conclusion: "Sudut peluasan dan pedalam pada garisan selari sentiasa tambah kepada 180°",
         type: "kuat",
         convincing: "tidak",
-        reason: "Walaupun pola konsisten dan kesimpulan betul, premis pertama mengandungi maklumat yang salah atau mengelirukan tentang pemalar. Terdapat kelemahan dalam premis. Hujah induktif kuat tetapi tidak meyakinkan."
+        reason: "Premis pertama palsu kerana 110° + 60° = 170°, bukan 180°. Walaupun pola kuat dan kesimpulan sebenarnya betul, terdapat premis yang salah. Hujah induktif kuat tetapi tidak meyakinkan."
       },
       {
         premises: [
@@ -1006,5 +1047,5 @@
 
     onConfigChange(defaultConfig);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9217dfc7955e2b',t:'MTc2NDkyMjUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92572981bc5e2b',t:'MTc2NDkyNTA5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
