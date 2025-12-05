@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Binary Octal Matching Game</title>
+  <title>Quiz Bentuk Hujah Deduktif</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
@@ -11,494 +11,448 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      height: 100%;
-      width: 100%;
+      background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    html {
-      height: 100%;
-      width: 100%;
-    }
-    
+
     * {
       box-sizing: border-box;
     }
-    
-    .game-wrapper {
+
+    .container {
       width: 100%;
-      min-height: 100%;
-      background: linear-gradient(135deg, #D4E9E2 0%, #A8C9BD 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
     }
-    
-    .main-menu {
+
+    .card {
       background: white;
       border-radius: 20px;
-      padding: 45px 40px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      position: relative;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      animation: slideIn 0.5s ease-out;
     }
-    
-    .language-toggle {
-      display: flex;
-      gap: 8px;
-      background: #F7F9F8;
-      padding: 6px;
-      border-radius: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 24px;
+        border-radius: 16px;
+      }
     }
-    
-    .lang-btn {
-      padding: 8px 18px;
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: transparent;
-      color: #718096;
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
-    .lang-btn.active {
-      background: white;
-      color: #2D4A3E;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-out;
     }
-    
-    .lang-btn:hover:not(.active) {
-      color: #2D4A3E;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
-    
-    .main-menu.hide {
-      display: none;
-    }
-    
-    .main-title {
+
+    h1 {
+      color: #5b7cba;
+      margin: 0 0 16px 0;
       font-size: 32px;
-      font-weight: 700;
-      color: #2D4A3E;
-      margin: 0 0 15px 0;
-      line-height: 1.3;
-    }
-    
-    .main-desc {
-      font-size: 18px;
-      color: #718096;
-      margin: 0 0 30px 0;
-      line-height: 1.5;
-    }
-    
-    .instructions-box {
-      background: #F7F9F8;
-      padding: 25px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      text-align: left;
-    }
-    
-    .instructions-heading {
-      font-size: 20px;
-      font-weight: 700;
-      color: #2D4A3E;
-      margin: 0 0 15px 0;
       text-align: center;
-    }
-    
-    .instruction-item {
-      font-size: 16px;
-      color: #4a5568;
-      margin: 10px 0;
-      padding-left: 25px;
-      position: relative;
-    }
-    
-    .instruction-item:before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: #6B9080;
       font-weight: 700;
-      font-size: 17px;
     }
-    
-    .level-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 24px;
+      }
     }
-    
-    .level-btn {
-      padding: 18px 30px;
+
+    .description {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .note-section {
+      background: #f5f7fb;
+      border-left: 4px solid #5b7cba;
+      padding: 20px;
+      margin: 24px 0;
+      border-radius: 8px;
+    }
+
+    .note-section h3 {
+      color: #5b7cba;
+      margin: 0 0 16px 0;
       font-size: 18px;
       font-weight: 600;
+    }
+
+    .note-section p {
+      margin: 8px 0;
+      color: #1e1e1e;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .note-section strong {
+      color: #5b7cba;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #5b7cba;
+      margin: 16px 0 8px 0;
+      font-size: 16px;
+    }
+
+    .argument-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .argument-table tr {
+      border-bottom: 1px solid #e0e4ea;
+    }
+
+    .argument-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .argument-table td {
+      padding: 12px 16px;
+      color: #1e1e1e;
+      font-size: 14px;
+    }
+
+    .table-label {
+      font-weight: 600;
+      color: #5b7cba;
+      width: 120px;
+      background: #f5f7fb;
+    }
+
+    @media (max-width: 768px) {
+      .table-label {
+        width: 100px;
+        font-size: 13px;
+      }
+      
+      .argument-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+    }
+
+    .question-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+      background: #f5f7fb;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #d0d7e5;
+    }
+
+    .question-table tr {
+      border-bottom: 1px solid #d0d7e5;
+    }
+
+    .question-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .question-table td {
+      padding: 16px 20px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .question-table .table-label {
+      font-weight: 600;
+      color: #5b7cba;
+      width: 130px;
+      background: #fff;
+    }
+
+    .question-table .empty-cell {
+      background: #fff9e6;
+      color: #d97706;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .question-table .table-label {
+        width: 100px;
+        font-size: 14px;
+      }
+      
+      .question-table td {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #5b7cba 0%, #4b6cb7 100%);
+      color: white;
       border: none;
+      padding: 16px 40px;
+      font-size: 18px;
+      font-weight: 600;
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
-    
-    .level-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    }
-    
-    .level-btn:active {
-      transform: translateY(-1px);
-    }
-    
-    .level-easy {
-      background: linear-gradient(135deg, #8BB4A6 0%, #7AA396 100%);
-      color: white;
-    }
-    
-    .level-medium {
-      background: linear-gradient(135deg, #5A7D70 0%, #4A6D60 100%);
-      color: white;
-    }
-    
-    .level-hard {
-      background: linear-gradient(135deg, #2D4A3A 0%, #1D3A2A 100%);
-      color: white;
-    }
-    
-    .back-btn {
-      background: linear-gradient(135deg, #5E9B93 0%, #4E8B83 100%);
-      color: white;
-      margin-top: 20px;
-    }
-    
-    .game-view {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      max-width: 1200px;
-      width: 100%;
-      display: none;
-    }
-    
-    .game-view.show {
+      transition: all 0.3s ease;
       display: block;
+      margin: 32px auto 0;
+      box-shadow: 0 4px 15px rgba(75, 108, 183, 0.3);
     }
-    
-    .game-header {
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(75, 108, 183, 0.5);
+      background: linear-gradient(135deg, #6a8bc9 0%, #5b7cba 100%);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .btn {
+        padding: 14px 32px;
+        font-size: 16px;
+      }
+    }
+
+    .quiz-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 16px;
     }
-    
-    .level-badge {
-      color: white;
-      padding: 10px 25px;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: 700;
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: #e0e4ea;
+      border-radius: 4px;
+      overflow: hidden;
+      min-width: 200px;
     }
-    
-    .level-badge.badge-easy {
-      background: linear-gradient(135deg, #8BB4A6 0%, #7AA396 100%);
+
+    @media (max-width: 768px) {
+      .progress-bar {
+        min-width: 100%;
+        order: 3;
+      }
     }
-    
-    .level-badge.badge-medium {
-      background: linear-gradient(135deg, #5A7D70 0%, #4A6D60 100%);
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #5b7cba 0%, #4b6cb7 100%);
+      transition: width 0.3s ease;
     }
-    
-    .level-badge.badge-hard {
-      background: linear-gradient(135deg, #2D4A3A 0%, #1D3A2A 100%);
-    }
-    
-    .stats-container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .stat-item {
-      background: #F7F9F8;
-      padding: 10px 20px;
-      border-radius: 10px;
-      text-align: center;
-      min-width: 100px;
-    }
-    
-    .stat-label {
-      font-size: 12px;
-      color: #6B9080;
-      text-transform: uppercase;
-      margin-bottom: 3px;
+
+    .question-counter {
       font-weight: 600;
+      color: #5b7cba;
+      font-size: 16px;
+      white-space: nowrap;
     }
-    
-    .stat-value {
+
+    .question-text {
       font-size: 20px;
-      font-weight: 700;
-      color: #2D4A3E;
+      color: #1e1e1e;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      font-weight: 500;
     }
-    
-    .game-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      margin-bottom: 30px;
+
+    @media (max-width: 768px) {
+      .question-text {
+        font-size: 18px;
+        margin-bottom: 24px;
+      }
     }
-    
-    .grid-column {
-      background: #F7F9F8;
-      padding: 25px;
-      border-radius: 15px;
+
+    .options {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
     }
-    
-    .grid-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #2D4A3E;
-      text-align: center;
-      margin: 0 0 20px 0;
-      padding: 12px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      width: 100%;
-      justify-items: center;
-    }
-    
-    .card {
-      aspect-ratio: 1;
-      background: white;
-      border: 3px solid #e2e8f0;
+
+    .option {
+      background: #f5f7fb;
+      border: 2px solid #d0d7e5;
+      padding: 20px;
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.25s;
-      position: relative;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Courier New', monospace;
-      font-size: 18px;
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 140px;
-      height: auto;
+      transition: all 0.25s ease;
+      font-size: 16px;
+      color: #1e1e1e;
+      line-height: 1.5;
     }
-    
-    .card:not(.revealed):not(.matched):hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      border-color: #cbd5e0;
-    }
-    
-    .card:not(.revealed):not(.matched):before {
-      content: '?';
-      font-size: 48px;
-      color: #cbd5e0;
-      font-weight: 700;
-    }
-    
-    .card.revealed {
-      background: linear-gradient(135deg, #5E9B93 0%, #4E8B83 100%);
-      border-color: #5E9B93;
-      color: white;
-    }
-    
-    .card.matched {
-      background: linear-gradient(135deg, #6B9080 0%, #5A7D70 100%);
-      border-color: #6B9080;
-      color: white;
-      cursor: default;
-      animation: pulse 0.5s ease;
-    }
-    
-    .card.wrong {
-      background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-      border-color: #f56565;
-      color: white;
-      animation: shake 0.5s ease;
-    }
-    
-    .card-value {
-      opacity: 0;
-      font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-      padding: 8px;
-      word-break: break-word;
-      line-height: 1.3;
-      max-width: 100%;
-      overflow-wrap: break-word;
-    }
-    
-    .card.revealed .card-value,
-    .card.matched .card-value,
-    .card.wrong .card-value {
-      opacity: 1;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-    
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
-    
-    .victory-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    
-    .victory-modal.show {
-      display: flex;
-      animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    .victory-content {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
-      animation: slideUp 0.5s ease;
-    }
-    
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .victory-title {
-      font-size: 36px;
-      font-weight: 700;
-      color: #2D4A3E;
-      margin: 0 0 20px 0;
-    }
-    
-    .victory-stats {
-      background: #F7F9F8;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-    }
-    
-    .victory-stat {
-      font-size: 18px;
-      color: #4a5568;
-      margin: 10px 0;
-    }
-    
-    .victory-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
+
     @media (max-width: 768px) {
-      .main-menu {
-        padding: 30px 25px;
+      .option {
+        padding: 16px;
+        font-size: 15px;
       }
-      
-      .main-title {
-        font-size: 24px;
+    }
+
+    .option:hover {
+      border-color: #5b7cba;
+      background: #fff;
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(75, 108, 183, 0.15);
+    }
+
+    .option.selected {
+      border-color: #5b7cba;
+      background: linear-gradient(135deg, #5b7cba 0%, #4b6cb7 100%);
+      color: white;
+    }
+
+    .option.correct {
+      border-color: #4caf50;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .option.incorrect {
+      border-color: #f44336;
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .option.disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .feedback {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-weight: 500;
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .feedback.correct {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 2px solid #4caf50;
+    }
+
+    .feedback.incorrect {
+      background: #ffebee;
+      color: #c62828;
+      border: 2px solid #f44336;
+    }
+
+    .results {
+      text-align: center;
+    }
+
+    .score {
+      font-size: 64px;
+      font-weight: 700;
+      color: #5b7cba;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 768px) {
+      .score {
+        font-size: 48px;
       }
-      
-      .main-desc {
-        font-size: 16px;
+    }
+
+    .score-label {
+      font-size: 24px;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .score-label {
+        font-size: 20px;
       }
-      
-      .game-view {
-        padding: 20px;
+    }
+
+    .performance {
+      background: #f5f7fb;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+    }
+
+    .performance-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+      font-size: 16px;
+    }
+
+    .performance-label {
+      color: #555;
+    }
+
+    .performance-value {
+      font-weight: 600;
+      color: #5b7cba;
+    }
+
+    .emoji {
+      font-size: 80px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 768px) {
+      .emoji {
+        font-size: 60px;
       }
-      
-      .game-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      
-      .grid-column {
-        padding: 15px 10px;
-      }
-      
-      .cards-container {
-        gap: 6px;
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 100%;
-      }
-      
-      .card {
-        font-size: 13px;
-        max-width: 100%;
-        border-width: 2px;
-      }
-      
-      .card:not(.revealed):not(.matched):before {
-        font-size: 28px;
-      }
-      
-      .card-value {
-        font-size: 13px;
-        padding: 4px;
-        line-height: 1.2;
-      }
-      
-      .game-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .stats-container {
-        justify-content: center;
-      }
-      
-      .victory-title {
-        font-size: 28px;
-      }
-      
-      .grid-title {
-        font-size: 16px;
-        padding: 10px;
-      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #5b7cba;
+      border: 2px solid #5b7cba;
+      margin-top: 16px;
+    }
+
+    .btn-secondary:hover {
+      background: #f5f7fb;
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -506,568 +460,503 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <main class="game-wrapper"><!-- Main Menu -->
-   <section class="main-menu" id="mainMenu">
-    <div class="language-toggle"><button class="lang-btn" id="langEn">ENG</button> <button class="lang-btn active" id="langBm">BM</button>
-    </div>
-    <h1 class="main-title" id="gameTitle">Asas Nombor Dua dan Asas Nombor Lapan</h1>
-    <p class="main-desc" id="gameDesc">Permainan penukaran nombor di antara Asas Dua dan Asas Lapan</p>
-    <div class="instructions-box">
-     <h2 class="instructions-heading" id="instructionsTitle">📋 Arahan Permainan</h2>
-     <div class="instruction-item" id="instructionText">
-      Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul
+  <div class="container">
+   <div class="card" id="welcomeScreen">
+    <h1 id="quizTitle">Bentuk Hujah Deduktif</h1>
+    <p class="description" id="quizDescription">Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!</p>
+    <div class="note-section">
+     <h3>📚 Nota Pembelajaran</h3>
+     <div class="form-label">
+      Bentuk 1:
      </div>
-     <div class="instruction-item" id="instructionPairs">
-      Jumlah pasangan: 6
+     <table class="argument-table">
+      <tbody>
+       <tr>
+        <td class="table-label">Premis 1</td>
+        <td>Semua A ialah B</td>
+       </tr>
+       <tr>
+        <td class="table-label">Premis 2</td>
+        <td>C ialah A</td>
+       </tr>
+       <tr>
+        <td class="table-label">Kesimpulan</td>
+        <td>C ialah B</td>
+       </tr>
+      </tbody>
+     </table>
+     <div class="form-label">
+      Bentuk 2:
      </div>
-     <div class="instruction-item" id="instructionMatch">
-      Padankan semua kad untuk menang!
+     <table class="argument-table">
+      <tbody>
+       <tr>
+        <td class="table-label">Premis 1</td>
+        <td>Jika p, maka q</td>
+       </tr>
+       <tr>
+        <td class="table-label">Premis 2</td>
+        <td>p adalah benar</td>
+       </tr>
+       <tr>
+        <td class="table-label">Kesimpulan</td>
+        <td>q adalah benar</td>
+       </tr>
+      </tbody>
+     </table>
+     <div class="form-label">
+      Bentuk 3:
      </div>
-    </div>
-    <div class="level-buttons"><button class="level-btn level-easy" id="easyBtn">Mudah</button> <button class="level-btn level-medium" id="mediumBtn">Sederhana</button> <button class="level-btn level-hard" id="hardBtn">Sukar</button>
-    </div>
-   </section><!-- Game Screen -->
-   <section class="game-view" id="gameView">
-    <header class="game-header">
-     <div class="level-badge" id="levelBadge">
-      Mudah
-     </div>
-     <div class="stats-container">
-      <div class="stat-item">
-       <div class="stat-label" id="attemptsLabel">
-        Percubaan
-       </div>
-       <div class="stat-value" id="attempts">
-        0
-       </div>
-      </div>
-      <div class="stat-item">
-       <div class="stat-label" id="matchesLabel">
-        Padanan
-       </div>
-       <div class="stat-value">
-        <span id="matches">0</span>/6
-       </div>
-      </div>
-     </div>
-    </header>
-    <div class="game-grid">
-     <div class="grid-column">
-      <h2 class="grid-title" id="binaryTitle">Asas Dua</h2>
-      <div class="cards-container" id="binaryCards"></div>
-     </div>
-     <div class="grid-column">
-      <h2 class="grid-title" id="octalTitle">Asas Lapan</h2>
-      <div class="cards-container" id="octalCards"></div>
-     </div>
-    </div><button class="level-btn back-btn" id="backBtn">↩️ Kembali ke Menu</button>
-   </section><!-- Victory Modal -->
-   <div class="victory-modal" id="victoryModal">
-    <div class="victory-content">
-     <h2 class="victory-title" id="victoryTitle">🎉 Tahniah!</h2>
-     <div class="victory-stats">
-      <div class="victory-stat" id="victoryFound">
-       ✅ Semua pasangan dijumpai!
-      </div>
-      <div class="victory-stat">
-       <span id="victoryAttemptsLabel">📊 Jumlah Percubaan:</span> <strong id="finalAttempts">0</strong>
-      </div>
-     </div>
-     <div class="victory-buttons"><button class="level-btn level-easy" id="replayBtn">🔄 Main Lagi</button> <button class="level-btn back-btn" id="menuBtn">📋 Pilih Kesukaran Lain</button>
-     </div>
-    </div>
+     <table class="argument-table">
+      <tbody>
+       <tr>
+        <td class="table-label">Premis 1</td>
+        <td>Jika p, maka q</td>
+       </tr>
+       <tr>
+        <td class="table-label">Premis 2</td>
+        <td>Bukan q adalah benar</td>
+       </tr>
+       <tr>
+        <td class="table-label">Kesimpulan</td>
+        <td>Bukan p adalah benar</td>
+       </tr>
+      </tbody>
+     </table>
+    </div><button class="btn" id="startBtn">Mula Quiz</button>
    </div>
-  </main>
+   <div class="card hidden" id="quizScreen">
+    <div class="quiz-header">
+     <div class="question-counter" id="questionCounter">
+      Soalan 1 / 15
+     </div>
+     <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+     </div>
+    </div>
+    <div class="question-text" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback hidden" id="feedback"></div><button class="btn hidden" id="nextBtn">Seterusnya</button>
+   </div>
+   <div class="card hidden" id="resultsScreen">
+    <h1>Tahniah! 🎉</h1>
+    <div class="emoji" id="resultEmoji">
+     🎯
+    </div>
+    <div class="score" id="finalScore">
+     0%
+    </div>
+    <div class="score-label">
+     Skor Anda
+    </div>
+    <div class="performance">
+     <div class="performance-item"><span class="performance-label">Soalan Dijawab:</span> <span class="performance-value" id="totalAnswered">0</span>
+     </div>
+     <div class="performance-item"><span class="performance-label">Jawapan Betul:</span> <span class="performance-value" id="correctAnswers">0</span>
+     </div>
+     <div class="performance-item"><span class="performance-label">Jawapan Salah:</span> <span class="performance-value" id="incorrectAnswers">0</span>
+     </div>
+    </div><button class="btn" id="restartBtn">Cuba Lagi</button>
+   </div>
+  </div>
   <script>
-    const translations = {
-      en: {
-        game_title: "Base Two (Binary) and Base Eight (Octal) Numbers",
-        game_description: "A number conversion game between Base Two (Binary) and Base Eight (Octal)",
-        instructions_title: "📋 Game Instructions",
-        instruction_text: "Click one Base Two (Binary) card and one Base Eight (Octal) card to find the correct match",
-        instruction_pairs: "Total pairs: 6",
-        instruction_match: "Match all cards to win!",
-        easy_button: "Easy",
-        medium_button: "Medium",
-        hard_button: "Hard",
-        back_button: "↩️ Back to Menu",
-        attempts_label: "Attempts",
-        matches_label: "Matches",
-        binary_title: "Base Two (Binary)",
-        octal_title: "Base Eight (Octal)",
-        victory_title: "🎉 Congratulations!",
-        victory_found: "✅ All pairs found!",
-        victory_attempts: "📊 Total Attempts:",
-        replay_button: "🔄 Play Again",
-        menu_button: "📋 Choose Different Difficulty",
-        level_easy: "Easy",
-        level_medium: "Medium",
-        level_hard: "Hard"
-      },
-      bm: {
-        game_title: "Asas Nombor Dua dan Asas Nombor Lapan",
-        game_description: "Permainan penukaran nombor di antara Asas Dua dan Asas Lapan",
-        instructions_title: "📋 Arahan Permainan",
-        instruction_text: "Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul",
-        instruction_pairs: "Jumlah pasangan: 6",
-        instruction_match: "Padankan semua kad untuk menang!",
-        easy_button: "Mudah",
-        medium_button: "Sederhana",
-        hard_button: "Sukar",
-        back_button: "↩️ Kembali ke Menu",
-        attempts_label: "Percubaan",
-        matches_label: "Padanan",
-        binary_title: "Asas Dua",
-        octal_title: "Asas Lapan",
-        victory_title: "🎉 Tahniah!",
-        victory_found: "✅ Semua pasangan dijumpai!",
-        victory_attempts: "📊 Jumlah Percubaan:",
-        replay_button: "🔄 Main Lagi",
-        menu_button: "📋 Pilih Kesukaran Lain",
-        level_easy: "Mudah",
-        level_medium: "Sederhana",
-        level_hard: "Sukar"
-      }
-    };
-
     const defaultConfig = {
-      background_color: "#D4E9E2",
-      secondary_surface_color: "#F7F9F8",
-      text_color: "#2D4A3E",
-      primary_action_color: "#6B9080",
-      secondary_action_color: "#5E9B93",
-      font_family: "Segoe UI",
-      font_size: 16,
-      game_title: "Asas Nombor Dua dan Asas Nombor Lapan",
-      game_description: "Permainan penukaran nombor di antara Asas Dua dan Asas Lapan",
-      instructions_title: "📋 Arahan Permainan",
-      instruction_text: "Tekan satu kad Asas Nombor Dua dan satu kad Asas Nombor Lapan untuk mencari pasangan yang betul",
-      easy_button: "Mudah",
-      medium_button: "Sederhana",
-      hard_button: "Sukar",
-      back_button: "↩️ Kembali ke Menu"
+      quiz_title: "Bentuk Hujah Deduktif",
+      quiz_description: "Terdapat tiga bentuk hujah deduktif yang sah. Mari kita uji pemahaman anda dengan soalan-soalan interaktif!",
+      start_button_text: "Mula Quiz",
+      next_button_text: "Seterusnya",
+      restart_button_text: "Cuba Lagi",
+      background_color: "#4b6cb7",
+      card_color: "#ffffff",
+      text_color: "#1e1e1e",
+      primary_action_color: "#5b7cba",
+      secondary_action_color: "#7b9cc9"
     };
 
-    // Game state
-    let currentLanguage = 'bm';
-    let currentLevel = 'easy';
-    let selectedBinary = null;
-    let selectedOctal = null;
-    let attemptCount = 0;
-    let matchCount = 0;
-    let isProcessing = false;
-    let gamePairs = [];
-
-    const easyPairsPool = [
-      { binary: '000', octal: '0' },
-      { binary: '001', octal: '1' },
-      { binary: '010', octal: '2' },
-      { binary: '011', octal: '3' },
-      { binary: '100', octal: '4' },
-      { binary: '101', octal: '5' },
-      { binary: '110', octal: '6' },
-      { binary: '111', octal: '7' }
-    ];
-
-    const mediumPairsPool = [
-      { binary: '1000', octal: '10' },
-      { binary: '1001', octal: '11' },
-      { binary: '1010', octal: '12' },
-      { binary: '1011', octal: '13' },
-      { binary: '1100', octal: '14' },
-      { binary: '1101', octal: '15' },
-      { binary: '1110', octal: '16' },
-      { binary: '1111', octal: '17' }
-    ];
-
-    const hardPairsPool = [
-      { binary: '10000', octal: '20' },
-      { binary: '10001', octal: '21' },
-      { binary: '10101', octal: '25' },
-      { binary: '11000', octal: '30' },
-      { binary: '11001', octal: '31' },
-      { binary: '11010', octal: '32' },
-      { binary: '11110', octal: '36' },
-      { binary: '11111', octal: '37' }
-    ];
-
-    function selectRandomPairs(pool, count = 6) {
-      const shuffled = shuffle([...pool]);
-      return shuffled.slice(0, count);
-    }
-
-    function formatBinaryForMedium(binary) {
-      return binary.match(/.{1,3}/g).join(' ');
-    }
-
-    function binaryToOctal(binary) {
-      let clean = binary.replace(/\s/g, '');
-      while (clean.length % 3 !== 0) {
-        clean = '0' + clean;
+    const allQuestions = [
+      {
+        premise1: "Semua nombor perdana lebih besar daripada 1 ialah nombor ganjil",
+        premise2: "7 ialah nombor perdana lebih besar daripada 1",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "7 ialah nombor ganjil",
+        distractors: ["7 ialah nombor genap", "7 bukan nombor ganjil", "7 ialah nombor perdana sahaja"]
+      },
+      {
+        premise1: "",
+        premise2: "ABC ialah segi tiga sama sisi",
+        conclusion: "ABC mempunyai tiga sisi yang sama panjang",
+        questionPart: "premis1",
+        correct: "Semua segi tiga sama sisi mempunyai tiga sisi yang sama panjang",
+        distractors: ["Semua segi tiga mempunyai tiga sudut", "Semua poligon mempunyai sisi yang sama", "Semua bentuk geometri adalah segi tiga"]
+      },
+      {
+        premise1: "Semua segi empat sama ialah segi empat tepat",
+        premise2: "",
+        conclusion: "PQRS ialah segi empat tepat",
+        questionPart: "premis2",
+        correct: "PQRS ialah segi empat sama",
+        distractors: ["PQRS ialah segi tiga", "PQRS ialah pentagon", "PQRS ialah bulatan"]
+      },
+      {
+        premise1: "Semua nombor yang boleh dibahagi dengan 4 ialah nombor genap",
+        premise2: "12 boleh dibahagi dengan 4",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "12 ialah nombor genap",
+        distractors: ["12 ialah nombor ganjil", "12 bukan nombor genap", "12 ialah nombor perdana"]
+      },
+      {
+        premise1: "",
+        premise2: "Sudut P dalam bentuk ABCD ialah sudut dalam segi empat tepat",
+        conclusion: "Sudut P ialah sudut tegak",
+        questionPart: "premis1",
+        correct: "Semua sudut dalam segi empat tepat ialah sudut tegak",
+        distractors: ["Semua sudut adalah sudut tegak", "Semua bentuk mempunyai sudut tegak", "Semua sudut dalam poligon adalah sama"]
+      },
+      {
+        premise1: "Semua nombor gandaan 10 berakhir dengan digit 0",
+        premise2: "",
+        conclusion: "50 berakhir dengan digit 0",
+        questionPart: "premis2",
+        correct: "50 ialah nombor gandaan 10",
+        distractors: ["50 ialah nombor perdana", "50 boleh dibahagi dengan 3", "50 ialah nombor ganjil"]
+      },
+      {
+        premise1: "",
+        premise2: "Heksagon ABCDEF ialah poligon sekata",
+        conclusion: "Heksagon ABCDEF mempunyai semua sisi yang sama panjang",
+        questionPart: "premis1",
+        correct: "Semua poligon sekata mempunyai semua sisi yang sama panjang",
+        distractors: ["Semua heksagon mempunyai 6 sisi", "Semua poligon mempunyai sudut yang sama", "Semua bentuk geometri mempunyai sisi"]
+      },
+      {
+        premise1: "Semua nombor perpangkat dua nombor ganjil ialah nombor ganjil",
+        premise2: "",
+        conclusion: "25 ialah nombor ganjil",
+        questionPart: "premis2",
+        correct: "25 ialah nombor perpangkat dua nombor ganjil (5²)",
+        distractors: ["25 ialah nombor genap", "25 ialah nombor perdana", "25 boleh dibahagi dengan 3"]
+      },
+      {
+        premise1: "Jika satu nombor boleh dibahagi dengan 6, maka ia boleh dibahagi dengan 3",
+        premise2: "18 boleh dibahagi dengan 6",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "18 boleh dibahagi dengan 3",
+        distractors: ["18 tidak boleh dibahagi dengan 3", "18 boleh dibahagi dengan 5", "18 ialah nombor perdana"]
+      },
+      {
+        premise1: "Jika sebuah segi tiga mempunyai dua sudut yang sama, maka ia adalah segi tiga sama kaki",
+        premise2: "",
+        conclusion: "Segi tiga PQR adalah segi tiga sama kaki",
+        questionPart: "premis2",
+        correct: "Segi tiga PQR mempunyai dua sudut yang sama",
+        distractors: ["Segi tiga PQR mempunyai tiga sisi yang sama", "Segi tiga PQR ialah segi tiga sama sisi", "Segi tiga PQR mempunyai sudut tegak"]
+      },
+      {
+        premise1: "",
+        premise2: "x = 15",
+        conclusion: "15 lebih besar daripada 5",
+        questionPart: "premis1",
+        correct: "Jika x lebih besar daripada 10, maka x lebih besar daripada 5",
+        distractors: ["Jika x lebih kecil daripada 10, maka x lebih besar daripada 5", "Semua nombor lebih besar daripada 5", "Jika x sama dengan 15, maka x ialah nombor perdana"]
+      },
+      {
+        premise1: "",
+        premise2: "30 berakhir dengan 0",
+        conclusion: "30 boleh dibahagi dengan 5",
+        questionPart: "premis1",
+        correct: "Jika sebuah nombor berakhir dengan 0, maka ia boleh dibahagi dengan 5",
+        distractors: ["Jika sebuah nombor genap, maka ia boleh dibahagi dengan 5", "Jika sebuah nombor lebih besar daripada 20, maka ia boleh dibahagi dengan 5", "Semua nombor boleh dibahagi dengan 5"]
+      },
+      {
+        premise1: "Jika jumlah digit sebuah nombor boleh dibahagi dengan 3, maka nombor itu boleh dibahagi dengan 3",
+        premise2: "",
+        conclusion: "27 boleh dibahagi dengan 3",
+        questionPart: "premis2",
+        correct: "Jumlah digit 27 ialah 9 (2+7) yang boleh dibahagi dengan 3",
+        distractors: ["27 ialah nombor perdana", "27 berakhir dengan 7", "27 lebih kecil daripada 30"]
+      },
+      {
+        premise1: "Jika sebuah poligon mempunyai 4 sisi, maka jumlah sudut dalamannya ialah 360°",
+        premise2: "Segi empat ABCD mempunyai 4 sisi",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "Jumlah sudut dalaman ABCD ialah 360°",
+        distractors: ["Jumlah sudut dalaman ABCD ialah 180°", "Jumlah sudut dalaman ABCD ialah 540°", "Jumlah sudut dalaman ABCD ialah 270°"]
+      },
+      {
+        premise1: "Jika a + b = 10 dan a = 6, maka b = 4",
+        premise2: "",
+        conclusion: "b = 4",
+        questionPart: "premis2",
+        correct: "Diberi a + b = 10 dan a = 6",
+        distractors: ["Diberi a + b = 8 dan a = 4", "Diberi a - b = 10 dan a = 6", "Diberi a = b"]
+      },
+      {
+        premise1: "",
+        premise2: "Diameter bulatan O ialah 10 cm",
+        conclusion: "Jejari bulatan O ialah 5 cm",
+        questionPart: "premis1",
+        correct: "Jika diameter bulatan ialah 10 cm, maka jejarinya ialah 5 cm",
+        distractors: ["Jika jejari bulatan ialah 10 cm, maka diameternya ialah 5 cm", "Jika lilitan bulatan ialah 10 cm, maka jejarinya ialah 5 cm", "Semua bulatan mempunyai jejari 5 cm"]
+      },
+      {
+        premise1: "Jika sebuah nombor ialah nombor perdana lebih besar daripada 2, maka ia adalah nombor ganjil",
+        premise2: "",
+        conclusion: "8 bukan nombor perdana lebih besar daripada 2",
+        questionPart: "premis2",
+        correct: "8 bukan nombor ganjil",
+        distractors: ["8 ialah nombor ganjil", "8 ialah nombor perdana", "8 boleh dibahagi dengan 3"]
+      },
+      {
+        premise1: "Jika sebuah segi empat ialah segi empat sama, maka semua sisinya sama panjang",
+        premise2: "",
+        conclusion: "KLMN bukan segi empat sama",
+        questionPart: "premis2",
+        correct: "Segi empat KLMN tidak mempunyai semua sisi yang sama panjang",
+        distractors: ["Segi empat KLMN mempunyai semua sisi yang sama panjang", "Segi empat KLMN ialah segi tiga", "Segi empat KLMN tidak mempunyai sudut"]
+      },
+      {
+        premise1: "",
+        premise2: "7 tidak boleh dibahagi dengan 2",
+        conclusion: "7 bukan nombor genap",
+        questionPart: "premis1",
+        correct: "Jika x ialah nombor genap, maka x boleh dibahagi dengan 2",
+        distractors: ["Jika x ialah nombor ganjil, maka x boleh dibahagi dengan 2", "Semua nombor boleh dibahagi dengan 2", "Jika x lebih kecil daripada 10, maka x boleh dibahagi dengan 2"]
+      },
+      {
+        premise1: "",
+        premise2: "Segi tiga ABC tidak mempunyai semua sudut 60°",
+        conclusion: "Segi tiga ABC bukan segi tiga sama sisi",
+        questionPart: "premis1",
+        correct: "Jika sebuah segi tiga ialah segi tiga sama sisi, maka semua sudutnya ialah 60°",
+        distractors: ["Jika sebuah segi tiga mempunyai 3 sisi, maka ia segi tiga sama sisi", "Semua segi tiga mempunyai sudut 60°", "Jika segi tiga mempunyai sudut tegak, maka ia segi tiga sama sisi"]
+      },
+      {
+        premise1: "Jika sebuah nombor boleh dibahagi dengan 10, maka ia berakhir dengan 0",
+        premise2: "23 tidak berakhir dengan 0",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "23 tidak boleh dibahagi dengan 10",
+        distractors: ["23 boleh dibahagi dengan 10", "23 berakhir dengan 0", "23 ialah gandaan 10"]
+      },
+      {
+        premise1: "",
+        premise2: "12 tidak lebih besar daripada 15",
+        conclusion: "12 tidak lebih besar daripada 20",
+        questionPart: "premis1",
+        correct: "Jika y > 20, maka y > 15",
+        distractors: ["Jika y > 15, maka y > 20", "Semua nombor lebih besar daripada 20", "Jika y = 12, maka y ialah nombor genap"]
+      },
+      {
+        premise1: "",
+        premise2: "Poligon ABCDE tidak mempunyai 5 sisi yang sama panjang",
+        conclusion: "ABCDE bukan pentagon sekata",
+        questionPart: "premis1",
+        correct: "Jika sebuah poligon ialah pentagon sekata, maka ia mempunyai 5 sisi yang sama panjang",
+        distractors: ["Semua pentagon mempunyai 5 sisi", "Jika poligon mempunyai 6 sisi, maka ia pentagon", "Semua poligon adalah sekata"]
+      },
+      {
+        premise1: "Jika sebuah nombor ialah gandaan 9, maka jumlah digitnya boleh dibahagi dengan 9",
+        premise2: "",
+        conclusion: "25 bukan gandaan 9",
+        questionPart: "premis2",
+        correct: "Nombor 25 mempunyai jumlah digit 7 (2+5) yang tidak boleh dibahagi dengan 9",
+        distractors: ["Nombor 25 boleh dibahagi dengan 9", "Nombor 25 ialah nombor perdana", "Nombor 25 berakhir dengan 5"]
+      },
+      {
+        premise1: "Jika luas segi empat sama ialah 16 cm², maka panjang sisinya ialah 4 cm",
+        premise2: "Segi empat sama PQRS tidak mempunyai sisi sepanjang 4 cm",
+        conclusion: "",
+        questionPart: "kesimpulan",
+        correct: "Luas PQRS bukan 16 cm²",
+        distractors: ["Luas PQRS ialah 16 cm²", "Sisi PQRS ialah 4 cm", "PQRS ialah bulatan"]
       }
-      
-      const lookup = {
-        '000': '0', '001': '1', '010': '2', '011': '3',
-        '100': '4', '101': '5', '110': '6', '111': '7'
-      };
-      
-      let result = '';
-      for (let i = 0; i < clean.length; i += 3) {
-        const chunk = clean.substr(i, 3);
-        result += lookup[chunk];
-      }
-      
-      return result.replace(/^0+/, '') || '0';
-    }
+    ];
 
-    function shuffle(array) {
-      const shuffled = [...array];
-      for (let i = shuffled.length - 1; i > 0; i--) {
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
       }
-      return shuffled;
+      return newArray;
     }
 
-    function updateLanguage(lang) {
-      currentLanguage = lang;
-      const t = translations[lang];
-      
-      // Update language toggle buttons
-      document.getElementById('langEn').classList.toggle('active', lang === 'en');
-      document.getElementById('langBm').classList.toggle('active', lang === 'bm');
-      
-      // Main menu
-      document.getElementById('gameTitle').textContent = t.game_title;
-      document.getElementById('gameDesc').textContent = t.game_description;
-      document.getElementById('instructionsTitle').textContent = t.instructions_title;
-      document.getElementById('instructionText').textContent = t.instruction_text;
-      document.getElementById('instructionPairs').textContent = t.instruction_pairs;
-      document.getElementById('instructionMatch').textContent = t.instruction_match;
-      document.getElementById('easyBtn').textContent = t.easy_button;
-      document.getElementById('mediumBtn').textContent = t.medium_button;
-      document.getElementById('hardBtn').textContent = t.hard_button;
-      
-      // Game view
-      document.querySelectorAll('.back-btn').forEach(btn => {
-        btn.textContent = t.back_button;
-      });
-      document.getElementById('attemptsLabel').textContent = t.attempts_label;
-      document.getElementById('matchesLabel').textContent = t.matches_label;
-      document.getElementById('binaryTitle').textContent = t.binary_title;
-      document.getElementById('octalTitle').textContent = t.octal_title;
-      
-      // Victory modal
-      document.getElementById('victoryTitle').textContent = t.victory_title;
-      document.getElementById('victoryFound').textContent = t.victory_found;
-      document.getElementById('victoryAttemptsLabel').textContent = t.victory_attempts;
-      document.getElementById('replayBtn').textContent = t.replay_button;
-      document.getElementById('menuBtn').textContent = t.menu_button;
-      
-      // Update level badge if game is active
-      const badge = document.getElementById('levelBadge');
-      if (currentLevel === 'easy') {
-        badge.textContent = t.level_easy;
-      } else if (currentLevel === 'medium') {
-        badge.textContent = t.level_medium;
-      } else if (currentLevel === 'hard') {
-        badge.textContent = t.level_hard;
-      }
+    function selectRandomQuestions() {
+      const shuffled = shuffleArray(allQuestions);
+      return shuffled.slice(0, 15);
     }
 
-    function startGame(level) {
-      currentLevel = level;
-      attemptCount = 0;
-      matchCount = 0;
-      selectedBinary = null;
-      selectedOctal = null;
-      isProcessing = false;
+    function startQuiz() {
+      currentQuestions = selectRandomQuestions();
+      currentQuestionIndex = 0;
+      score = 0;
       
-      const t = translations[currentLanguage];
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
       
-      if (level === 'easy') {
-        gamePairs = selectRandomPairs(easyPairsPool, 6);
-        const badge = document.getElementById('levelBadge');
-        badge.textContent = t.level_easy;
-        badge.className = 'level-badge badge-easy';
-      } else if (level === 'medium') {
-        const selectedPairs = selectRandomPairs(mediumPairsPool, 6);
-        gamePairs = selectedPairs.map(p => ({
-          binary: formatBinaryForMedium(p.binary),
-          octal: p.octal
-        }));
-        const badge = document.getElementById('levelBadge');
-        badge.textContent = t.level_medium;
-        badge.className = 'level-badge badge-medium';
-      } else {
-        gamePairs = selectRandomPairs(hardPairsPool, 6);
-        const badge = document.getElementById('levelBadge');
-        badge.textContent = t.level_hard;
-        badge.className = 'level-badge badge-hard';
-      }
-      
-      renderCards();
-      updateStats();
-      
-      document.getElementById('mainMenu').classList.add('hide');
-      document.getElementById('gameView').classList.add('show');
+      loadQuestion();
     }
 
-    function renderCards() {
-      const binaryContainer = document.getElementById('binaryCards');
-      const octalContainer = document.getElementById('octalCards');
+    function loadQuestion() {
+      answered = false;
+      const question = currentQuestions[currentQuestionIndex];
       
-      binaryContainer.innerHTML = '';
-      octalContainer.innerHTML = '';
+      document.getElementById('questionCounter').textContent = `Soalan ${currentQuestionIndex + 1} / 15`;
       
-      const shuffledBinary = shuffle(gamePairs.map((p, i) => ({ ...p, id: i })));
-      const shuffledOctal = shuffle(gamePairs.map((p, i) => ({ ...p, id: i })));
+      const questionText = document.getElementById('questionText');
+      let questionPrompt = '';
       
-      shuffledBinary.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.id = item.id;
-        card.dataset.type = 'binary';
-        card.innerHTML = `<div class="card-value">${item.binary}</div>`;
-        card.addEventListener('click', () => handleCardClick(card, 'binary', item.id));
-        binaryContainer.appendChild(card);
+      if (question.questionPart === 'premis1') {
+        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah Premis 1 yang sesuai?</div>';
+      } else if (question.questionPart === 'premis2') {
+        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah Premis 2 yang sesuai?</div>';
+      } else if (question.questionPart === 'kesimpulan') {
+        questionPrompt = '<div style="font-weight: 600; color: #5b7cba; margin-bottom: 12px;">Apakah kesimpulan yang sah?</div>';
+      }
+      
+      questionText.innerHTML = questionPrompt + `
+        <table class="question-table">
+          <tr>
+            <td class="table-label">Premis 1</td>
+            <td class="${question.premise1 === '' ? 'empty-cell' : ''}">${question.premise1 || '?'}</td>
+          </tr>
+          <tr>
+            <td class="table-label">Premis 2</td>
+            <td class="${question.premise2 === '' ? 'empty-cell' : ''}">${question.premise2 || '?'}</td>
+          </tr>
+          <tr>
+            <td class="table-label">Kesimpulan</td>
+            <td class="${question.conclusion === '' ? 'empty-cell' : ''}">${question.conclusion || '?'}</td>
+          </tr>
+        </table>
+      `;
+      
+      const progress = ((currentQuestionIndex + 1) / 15) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+      
+      const options = shuffleArray([question.correct, ...question.distractors]);
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      
+      options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option fade-in';
+        optionDiv.textContent = option;
+        optionDiv.style.animationDelay = (index * 0.1) + 's';
+        optionDiv.onclick = () => selectOption(option, question.correct);
+        optionsContainer.appendChild(optionDiv);
       });
       
-      shuffledOctal.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.id = item.id;
-        card.dataset.type = 'octal';
-        card.innerHTML = `<div class="card-value">${item.octal}</div>`;
-        card.addEventListener('click', () => handleCardClick(card, 'octal', item.id));
-        octalContainer.appendChild(card);
-      });
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('nextBtn').classList.add('hidden');
     }
 
-    function handleCardClick(card, type, id) {
-      if (isProcessing) return;
-      if (card.classList.contains('matched')) return;
-      if (card.classList.contains('revealed')) return;
+    function selectOption(selected, correct) {
+      if (answered) return;
+      answered = true;
       
-      // Close previously selected card from same category
-      if (type === 'binary' && selectedBinary) {
-        selectedBinary.card.classList.remove('revealed');
-      }
-      if (type === 'octal' && selectedOctal) {
-        selectedOctal.card.classList.remove('revealed');
-      }
+      const options = document.querySelectorAll('.option');
+      const feedback = document.getElementById('feedback');
       
-      card.classList.add('revealed');
-      
-      if (type === 'binary') {
-        selectedBinary = { card, id };
-      } else {
-        selectedOctal = { card, id };
-      }
-      
-      if (selectedBinary && selectedOctal) {
-        checkMatch();
-      }
-    }
-
-    function checkMatch() {
-      isProcessing = true;
-      attemptCount++;
-      updateStats();
-      
-      const binaryId = selectedBinary.id;
-      const octalId = selectedOctal.id;
-      
-      setTimeout(() => {
-        if (binaryId === octalId) {
-          selectedBinary.card.classList.add('matched');
-          selectedOctal.card.classList.add('matched');
-          matchCount++;
-          updateStats();
-          
-          selectedBinary = null;
-          selectedOctal = null;
-          isProcessing = false;
-          
-          if (matchCount === 6) {
-            setTimeout(showVictory, 500);
-          }
-        } else {
-          selectedBinary.card.classList.add('wrong');
-          selectedOctal.card.classList.add('wrong');
-          
-          const bCard = selectedBinary.card;
-          const oCard = selectedOctal.card;
-          
-          setTimeout(() => {
-            bCard.classList.remove('revealed', 'wrong');
-            oCard.classList.remove('revealed', 'wrong');
-            
-            selectedBinary = null;
-            selectedOctal = null;
-            isProcessing = false;
-          }, 1000);
+      options.forEach(option => {
+        option.classList.add('disabled');
+        if (option.textContent === correct) {
+          option.classList.add('correct');
         }
-      }, 600);
+        if (option.textContent === selected && selected !== correct) {
+          option.classList.add('incorrect');
+        }
+      });
+      
+      if (selected === correct) {
+        score++;
+        feedback.textContent = '✓ Betul! Jawapan anda tepat!';
+        feedback.className = 'feedback correct fade-in';
+      } else {
+        feedback.textContent = '✗ Tidak tepat. Cuba lihat jawapan yang betul.';
+        feedback.className = 'feedback incorrect fade-in';
+      }
+      
+      feedback.classList.remove('hidden');
+      document.getElementById('nextBtn').classList.remove('hidden');
     }
 
-    function updateStats() {
-      document.getElementById('attempts').textContent = attemptCount;
-      document.getElementById('matches').textContent = matchCount;
+    function nextQuestion() {
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < currentQuestions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
     }
 
-    function showVictory() {
-      document.getElementById('finalAttempts').textContent = attemptCount;
-      document.getElementById('victoryModal').classList.add('show');
+    function showResults() {
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+      
+      const percentage = Math.round((score / 15) * 100);
+      document.getElementById('finalScore').textContent = percentage + '%';
+      document.getElementById('totalAnswered').textContent = '15';
+      document.getElementById('correctAnswers').textContent = score;
+      document.getElementById('incorrectAnswers').textContent = (15 - score);
+      
+      const emoji = document.getElementById('resultEmoji');
+      if (percentage >= 90) {
+        emoji.textContent = '🏆';
+      } else if (percentage >= 70) {
+        emoji.textContent = '🎯';
+      } else if (percentage >= 50) {
+        emoji.textContent = '👍';
+      } else {
+        emoji.textContent = '💪';
+      }
     }
 
-    function returnToMenu() {
-      document.getElementById('mainMenu').classList.remove('hide');
-      document.getElementById('gameView').classList.remove('show');
-      document.getElementById('victoryModal').classList.remove('show');
-    }
-
-    document.getElementById('langEn').addEventListener('click', () => updateLanguage('en'));
-    document.getElementById('langBm').addEventListener('click', () => updateLanguage('bm'));
-    document.getElementById('easyBtn').addEventListener('click', () => startGame('easy'));
-    document.getElementById('mediumBtn').addEventListener('click', () => startGame('medium'));
-    document.getElementById('hardBtn').addEventListener('click', () => startGame('hard'));
-    document.getElementById('backBtn').addEventListener('click', returnToMenu);
-    document.getElementById('menuBtn').addEventListener('click', returnToMenu);
-    document.getElementById('replayBtn').addEventListener('click', () => {
-      document.getElementById('victoryModal').classList.remove('show');
-      startGame(currentLevel);
-    });
+    document.getElementById('startBtn').onclick = startQuiz;
+    document.getElementById('nextBtn').onclick = nextQuestion;
+    document.getElementById('restartBtn').onclick = () => {
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    };
 
     async function onConfigChange(config) {
-      const font = config.font_family || defaultConfig.font_family;
-      const size = config.font_size || defaultConfig.font_size;
-      const fontStack = 'Tahoma, Geneva, Verdana, sans-serif';
-      
-      document.body.style.fontFamily = `${font}, ${fontStack}`;
-      
-      document.getElementById('gameTitle').textContent = config.game_title || defaultConfig.game_title;
-      document.getElementById('gameTitle').style.fontSize = `${size * 2}px`;
-      document.getElementById('gameTitle').style.color = config.text_color || defaultConfig.text_color;
-      
-      document.getElementById('gameDesc').textContent = config.game_description || defaultConfig.game_description;
-      document.getElementById('gameDesc').style.fontSize = `${size * 1.125}px`;
-      
-      document.getElementById('instructionsTitle').textContent = config.instructions_title || defaultConfig.instructions_title;
-      document.getElementById('instructionsTitle').style.fontSize = `${size * 1.25}px`;
-      document.getElementById('instructionsTitle').style.color = config.text_color || defaultConfig.text_color;
-      
-      document.getElementById('instructionText').textContent = config.instruction_text || defaultConfig.instruction_text;
-      document.getElementById('instructionText').style.fontSize = `${size}px`;
-      
-      document.getElementById('easyBtn').textContent = config.easy_button || defaultConfig.easy_button;
-      document.getElementById('easyBtn').style.fontSize = `${size * 1.125}px`;
-      
-      document.getElementById('mediumBtn').textContent = config.medium_button || defaultConfig.medium_button;
-      document.getElementById('mediumBtn').style.fontSize = `${size * 1.125}px`;
-      
-      document.getElementById('hardBtn').textContent = config.hard_button || defaultConfig.hard_button;
-      document.getElementById('hardBtn').style.fontSize = `${size * 1.125}px`;
-      
-      document.querySelectorAll('.back-btn').forEach(btn => {
-        btn.textContent = config.back_button || defaultConfig.back_button;
-        btn.style.fontSize = `${size * 1.125}px`;
-      });
-      
-      const wrapper = document.querySelector('.game-wrapper');
-      wrapper.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #A8C9BD 100%)`;
-      
-      const surfaces = document.querySelectorAll('.instructions-box, .stat-item, .grid-column, .victory-stats');
-      surfaces.forEach(el => {
-        el.style.backgroundColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
-      });
-      
-      const textElements = document.querySelectorAll('.stat-label, .stat-value, .grid-title, .instruction-item');
-      textElements.forEach(el => {
-        el.style.color = config.text_color || defaultConfig.text_color;
-      });
-      
-      const easyButtons = document.querySelectorAll('.level-easy');
-      easyButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${config.primary_action_color || defaultConfig.primary_action_color} 0%, #5A7D70 100%)`;
-      });
-      
-      const backButtons = document.querySelectorAll('.back-btn');
-      backButtons.forEach(btn => {
-        btn.style.background = `linear-gradient(135deg, ${config.secondary_action_color || defaultConfig.secondary_action_color} 0%, #4E8B83 100%)`;
-      });
+      document.getElementById('quizTitle').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('quizDescription').textContent = config.quiz_description || defaultConfig.quiz_description;
+      document.getElementById('startBtn').textContent = config.start_button_text || defaultConfig.start_button_text;
+      document.getElementById('nextBtn').textContent = config.next_button_text || defaultConfig.next_button_text;
+      document.getElementById('restartBtn').textContent = config.restart_button_text || defaultConfig.restart_button_text;
     }
 
     if (window.elementSdk) {
       window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
         mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
-              set: (value) => {
-                config.secondary_surface_color = value;
-                window.elementSdk.setConfig({ secondary_surface_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.primary_action_color || defaultConfig.primary_action_color,
-              set: (value) => {
-                config.primary_action_color = value;
-                window.elementSdk.setConfig({ primary_action_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-              set: (value) => {
-                config.secondary_action_color = value;
-                window.elementSdk.setConfig({ secondary_action_color: value });
-              }
-            }
-          ],
+          recolorables: [],
           borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
+          fontEditable: undefined,
+          fontSizeable: undefined
         }),
         mapToEditPanelValues: (config) => new Map([
-          ["game_title", config.game_title || defaultConfig.game_title],
-          ["game_description", config.game_description || defaultConfig.game_description],
-          ["instructions_title", config.instructions_title || defaultConfig.instructions_title],
-          ["instruction_text", config.instruction_text || defaultConfig.instruction_text],
-          ["easy_button", config.easy_button || defaultConfig.easy_button],
-          ["medium_button", config.medium_button || defaultConfig.medium_button],
-          ["hard_button", config.hard_button || defaultConfig.hard_button],
-          ["back_button", config.back_button || defaultConfig.back_button]
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["quiz_description", config.quiz_description || defaultConfig.quiz_description],
+          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+          ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+          ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text]
         ])
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a908d4730e1068e',t:'MTc2NDkwNjMzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a90f47952bb1d95',t:'MTc2NDkxMDU2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
