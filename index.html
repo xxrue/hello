@@ -6,6 +6,8 @@
   <title>Operasi Set: Persilangan Set</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+    
     body {
       box-sizing: border-box;
     }
@@ -17,7 +19,7 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100%;
       width: 100%;
@@ -26,139 +28,207 @@
     .main-wrapper {
       width: 100%;
       min-height: 100%;
-      padding: 32px 24px;
+      padding: 40px 20px;
     }
     
     .content-container {
-      max-width: 1000px;
+      max-width: 1400px;
       margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+    
+    .left-panel {
+      background: white;
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 20px;
     }
     
     header {
-      text-align: center;
       margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 4px solid #667eea;
     }
     
     h1 {
-      color: #ffffff;
-      font-size: 36px;
+      color: #1a202c;
+      font-size: 32px;
       margin: 0 0 12px 0;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
     }
     
     .instruction {
-      color: #f0f0f0;
-      font-size: 18px;
+      color: #4a5568;
+      font-size: 15px;
       margin: 0;
-    }
-    
-    .controls-panel {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 32px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      line-height: 1.6;
+      font-weight: 500;
     }
     
     .legend {
-      margin-bottom: 24px;
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 8px;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      border-radius: 16px;
+      border: 2px solid #e2e8f0;
     }
     
     .legend h3 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
-      color: #333;
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      color: #2d3748;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
-    .legend p {
-      margin: 6px 0;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0;
       font-size: 15px;
-      color: #555;
+      color: #2d3748;
+      font-weight: 600;
+    }
+    
+    .legend-symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 18px;
+      color: #667eea;
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+    }
+    
+    .legend-divider {
+      margin: 16px 0;
+      padding-top: 16px;
+      border-top: 2px solid #cbd5e0;
+    }
+    
+    .expression-section {
+      margin-bottom: 32px;
+    }
+    
+    .expression-label {
+      font-size: 14px;
+      font-weight: 800;
+      color: #2d3748;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .expression-builder {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      padding: 20px;
+      background: #f7fafc;
+      border-radius: 16px;
+      border: 3px solid #e2e8f0;
     }
     
     select {
-      padding: 10px 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border: 3px solid #cbd5e1;
+      border-radius: 12px;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
       background: white;
       cursor: pointer;
-      transition: all 0.3s ease;
-      min-width: 80px;
+      transition: all 0.2s ease;
+      min-width: 75px;
+      color: #1a202c;
     }
     
     select:hover {
       border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
     }
     
     select:focus {
       outline: none;
       border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
     }
     
     .button-group {
       display: flex;
-      gap: 16px;
-      margin-top: 8px;
+      flex-direction: column;
+      gap: 14px;
     }
     
     button {
-      flex: 1;
-      padding: 14px 28px;
+      width: 100%;
+      padding: 18px 28px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
       border: none;
-      border-radius: 8px;
+      border-radius: 14px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.2px;
     }
     
     .btn-show {
-      background: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
     }
     
     .btn-show:hover {
-      background: #5568d3;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(102, 126, 234, 0.5);
+    }
+    
+    .btn-show:active {
+      transform: translateY(0);
     }
     
     .btn-reset {
-      background: #f0f0f0;
-      color: #333;
+      background: #edf2f7;
+      color: #4a5568;
+      border: 3px solid #cbd5e1;
     }
     
     .btn-reset:hover {
-      background: #e0e0e0;
+      background: #e2e8f0;
+      border-color: #a0aec0;
       transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
     
     .venn-container {
       background: white;
-      border-radius: 16px;
-      padding: 48px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border-radius: 24px;
+      padding: 60px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 500px;
+      min-height: 650px;
     }
     
     svg {
@@ -168,42 +238,66 @@
     
     .set-circle {
       fill: none;
-      stroke: #333;
-      stroke-width: 3;
+      stroke-width: 4;
       transition: all 0.5s ease;
     }
     
     .set-label {
-      font-size: 24px;
-      font-weight: bold;
-      fill: #333;
+      font-size: 32px;
+      font-weight: 900;
+      font-family: 'Poppins', sans-serif;
     }
     
-    .highlight {
-      fill-opacity: 0.5;
+    .region {
       transition: all 0.5s ease;
+      opacity: 0;
+    }
+    
+    .region.active {
+      opacity: 0.75;
+    }
+    
+    @media (max-width: 1200px) {
+      .content-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .left-panel {
+        position: relative;
+        top: 0;
+      }
     }
     
     @media (max-width: 768px) {
+      .main-wrapper {
+        padding: 20px 16px;
+      }
+      
       h1 {
-        font-size: 28px;
+        font-size: 26px;
       }
       
       .instruction {
-        font-size: 16px;
+        font-size: 14px;
       }
       
-      .control-row {
-        flex-direction: column;
-      }
-      
-      .button-group {
-        flex-direction: column;
+      .left-panel {
+        padding: 28px;
       }
       
       .venn-container {
-        padding: 24px;
-        min-height: 400px;
+        padding: 32px;
+        min-height: 450px;
+      }
+      
+      .expression-builder {
+        gap: 8px;
+      }
+      
+      select {
+        min-width: 65px;
+        font-size: 16px;
+        padding: 10px 12px;
       }
     }
   </style>
@@ -212,56 +306,43 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="main-wrapper">
+  <main class="main-wrapper">
    <div class="content-container">
-    <header>
-     <h1 id="main-title">Operasi Set: Persilangan Set</h1>
-     <p class="instruction" id="instruction-text">Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan</p>
-    </header>
-    <div class="controls-panel">
+    <aside class="left-panel">
+     <header>
+      <h1 id="main-title">Operasi Set: Persilangan Set</h1>
+      <p class="instruction" id="instruction-text">Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan</p>
+     </header>
      <div class="legend">
-      <h3>Set Semesta (ξ) mengandungi: Set A, Set B, dan Set C</h3>
-      <p><strong>∩</strong> = Simbol Persilangan (Intersection)</p>
-      <p><strong>∪</strong> = Simbol Kesatuan (Union)</p>
+      <h3>Set Semesta (ξ)</h3>
+      <div class="legend-item"><span class="legend-symbol" style="color: #e53e3e;">A</span> <span>Set A</span>
+      </div>
+      <div class="legend-item"><span class="legend-symbol" style="color: #38b2ac;">B</span> <span>Set B</span>
+      </div>
+      <div class="legend-item"><span class="legend-symbol" style="color: #dd6b20;">C</span> <span>Set C</span>
+      </div>
+      <div class="legend-divider">
+       <div class="legend-item"><span class="legend-symbol">∩</span> <span>Persilangan</span>
+       </div>
+       <div class="legend-item"><span class="legend-symbol">∪</span> <span>Kesatuan</span>
+       </div>
+      </div>
      </div>
-     <div class="expression-builder"><select id="setA"> <option value="A">A</option> <option value="A'">A'</option> </select> <select id="operator1"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setB"> <option value="B">B</option> <option value="B'">B'</option> </select> <select id="operator2"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setC"> <option value="C">C</option> <option value="C'">C'</option> </select>
+     <div class="expression-section">
+      <div class="expression-label">
+       Bina Ekspresi Set
+      </div>
+      <div class="expression-builder"><select id="setA" aria-label="Pilih Set A atau pelengkap A"> <option value="A">A</option> <option value="A'">A'</option> </select> <select id="operator1" aria-label="Pilih operasi pertama"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setB" aria-label="Pilih Set B atau pelengkap B"> <option value="B">B</option> <option value="B'">B'</option> </select> <select id="operator2" aria-label="Pilih operasi kedua"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setC" aria-label="Pilih Set C atau pelengkap C"> <option value="C">C</option> <option value="C'">C'</option> </select>
+      </div>
      </div>
      <div class="button-group"><button class="btn-show" id="showBtn">Tunjukkan Hasil</button> <button class="btn-reset" id="resetBtn">Set Semula</button>
      </div>
-    </div>
+    </aside>
     <div class="venn-container">
-     <svg viewbox="0 0 600 450" id="vennDiagram"><!-- Background rectangle for universal set --> <rect x="50" y="50" width="500" height="350" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,5" /> <!-- Define clip paths for intersection regions --> <defs>
-       <clippath id="clipA">
-        <circle cx="230" cy="190" r="100" />
-       </clippath>
-       <clippath id="clipB">
-        <circle cx="370" cy="190" r="100" />
-       </clippath>
-       <clippath id="clipC">
-        <circle cx="300" cy="290" r="100" />
-       </clippath>
-      </defs> <!-- Highlight regions (will be filled based on selection) --> <g id="highlights"><!-- Region: Outside all sets -->
-       <rect id="region-outside" x="50" y="50" width="500" height="350" class="highlight" fill="#9ca3af" /> <!-- Region: Only A (A without B and C) -->
-       <path id="region-A-only" class="highlight" fill="#ff6b6b" d="" /> <!-- Region: Only B (B without A and C) -->
-       <path id="region-B-only" class="highlight" fill="#4ecdc4" d="" /> <!-- Region: Only C (C without A and B) -->
-       <path id="region-C-only" class="highlight" fill="#ffb347" d="" /> <!-- Region: A ∩ B (but not C) -->
-       <path id="region-AB" class="highlight" fill="#c779d0" d="" /> <!-- Region: A ∩ C (but not B) -->
-       <path id="region-AC" class="highlight" fill="#fab1a0" d="" /> <!-- Region: B ∩ C (but not A) -->
-       <path id="region-BC" class="highlight" fill="#a3e4d7" d="" /> <!-- Region: A ∩ B ∩ C (all three) -->
-       <path id="region-ABC" class="highlight" fill="#9c88ff" d="" />
-      </g> <!-- Set circles (drawn on top) --> <circle cx="230" cy="190" r="100" class="set-circle" stroke="#FF6B6B" /> <circle cx="370" cy="190" r="100" class="set-circle" stroke="#4ECDC4" /> <circle cx="300" cy="290" r="100" class="set-circle" stroke="#FFB347" /> <!-- Set labels --> <text x="170" y="130" class="set-label" fill="#FF6B6B">
-       A
-      </text> <text x="420" y="130" class="set-label" fill="#4ECDC4">
-       B
-      </text> <text x="290" y="380" class="set-label" fill="#FFB347">
-       C
-      </text> <!-- Universal set label --> <text x="520" y="70" font-size="18" fill="#999">
-       ξ
-      </text>
-     </svg>
+     <canvas id="vennCanvas" width="700" height="550" style="max-width: 100%; height: auto;"></canvas>
     </div>
    </div>
-  </div>
+  </main>
   <script>
     const defaultConfig = {
       main_title: "Operasi Set: Persilangan Set",
@@ -318,6 +399,8 @@
     }
 
     // Venn diagram logic
+    const canvas = document.getElementById('vennCanvas');
+    const ctx = canvas.getContext('2d');
     const setASelect = document.getElementById('setA');
     const setBSelect = document.getElementById('setB');
     const setCSelect = document.getElementById('setC');
@@ -326,148 +409,156 @@
     const showBtn = document.getElementById('showBtn');
     const resetBtn = document.getElementById('resetBtn');
 
-    // Define all regions
-    const regions = {
-      'A-only': ['region-A-only'],
-      'B-only': ['region-B-only'],
-      'C-only': ['region-C-only'],
-      'AB': ['region-AB'],
-      'AC': ['region-AC'],
-      'BC': ['region-BC'],
-      'ABC': ['region-ABC'],
-      'outside': ['region-outside']
+    // Circle positions and radius
+    const circles = {
+      A: { x: 280, y: 220, r: 120, color: '#e53e3e' },
+      B: { x: 420, y: 220, r: 120, color: '#38b2ac' },
+      C: { x: 350, y: 340, r: 120, color: '#dd6b20' }
     };
 
-    function resetHighlights() {
-      Object.values(regions).forEach(regionIds => {
-        regionIds.forEach(id => {
-          const element = document.getElementById(id);
-          if (element) {
-            element.style.fillOpacity = '0';
-          }
-        });
-      });
+    // Check if a point is inside a circle
+    function isInCircle(px, py, circle) {
+      const dx = px - circle.x;
+      const dy = py - circle.y;
+      return (dx * dx + dy * dy) <= (circle.r * circle.r);
     }
 
-    function drawVennRegions() {
-      // Calculate intersection points and paths for accurate Venn diagram regions
-      const cx1 = 230, cy1 = 190, r = 100; // Circle A
-      const cx2 = 370, cy2 = 190; // Circle B
-      const cx3 = 300, cy3 = 290; // Circle C
-      
-      // Region A only (A - B - C)
-      const regionAOnly = document.getElementById('region-A-only');
-      regionAOnly.setAttribute('d', `M 230 90 A 100 100 0 0 1 330 190 A 100 100 0 0 1 270 260 A 100 100 0 0 1 190 260 A 100 100 0 0 1 130 190 A 100 100 0 0 1 230 90 Z`);
-      
-      // Region B only (B - A - C)
-      const regionBOnly = document.getElementById('region-B-only');
-      regionBOnly.setAttribute('d', `M 370 90 A 100 100 0 0 1 470 190 A 100 100 0 0 1 410 260 A 100 100 0 0 1 330 260 A 100 100 0 0 1 270 190 A 100 100 0 0 1 370 90 Z`);
-      
-      // Region C only (C - A - B)
-      const regionCOnly = document.getElementById('region-C-only');
-      regionCOnly.setAttribute('d', `M 300 190 A 100 100 0 0 1 400 290 A 100 100 0 0 1 300 390 A 100 100 0 0 1 200 290 A 100 100 0 0 1 300 190 Z`);
-      
-      // Region A ∩ B (not C)
-      const regionAB = document.getElementById('region-AB');
-      regionAB.setAttribute('d', `M 300 150 A 70 70 0 0 1 330 190 A 70 70 0 0 1 300 230 A 70 70 0 0 1 270 190 A 70 70 0 0 1 300 150 Z`);
-      
-      // Region A ∩ C (not B)
-      const regionAC = document.getElementById('region-AC');
-      regionAC.setAttribute('d', `M 250 220 A 60 60 0 0 1 290 250 A 60 60 0 0 1 250 280 A 60 60 0 0 1 210 250 A 60 60 0 0 1 250 220 Z`);
-      
-      // Region B ∩ C (not A)
-      const regionBC = document.getElementById('region-BC');
-      regionBC.setAttribute('d', `M 350 220 A 60 60 0 0 1 390 250 A 60 60 0 0 1 350 280 A 60 60 0 0 1 310 250 A 60 60 0 0 1 350 220 Z`);
-      
-      // Region A ∩ B ∩ C (all three)
-      const regionABC = document.getElementById('region-ABC');
-      regionABC.setAttribute('d', `M 300 220 A 30 30 0 0 1 330 240 A 30 30 0 0 1 300 260 A 30 30 0 0 1 270 240 A 30 30 0 0 1 300 220 Z`);
+    // Determine which region a point belongs to
+    function getRegion(x, y) {
+      const inA = isInCircle(x, y, circles.A);
+      const inB = isInCircle(x, y, circles.B);
+      const inC = isInCircle(x, y, circles.C);
+
+      if (inA && inB && inC) return 'ABC';
+      if (inA && inB && !inC) return 'AB';
+      if (inA && !inB && inC) return 'AC';
+      if (!inA && inB && inC) return 'BC';
+      if (inA && !inB && !inC) return 'A';
+      if (!inA && inB && !inC) return 'B';
+      if (!inA && !inB && inC) return 'C';
+      return 'outside';
     }
 
-    function highlightRegions(regionsToHighlight) {
-      resetHighlights();
-      regionsToHighlight.forEach(regionKey => {
-        if (regions[regionKey]) {
-          regions[regionKey].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-              element.style.fillOpacity = '0.65';
+    // Draw the Venn diagram
+    function drawVenn(highlightRegions = []) {
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw universal set boundary
+      ctx.strokeStyle = '#a0aec0';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([8, 5]);
+      ctx.strokeRect(60, 60, 580, 430);
+      ctx.setLineDash([]);
+
+      // Define region colors
+      const regionColors = {
+        'A': '#fc8181',
+        'B': '#4fd1c5',
+        'C': '#f6ad55',
+        'AB': '#d6bcfa',
+        'AC': '#feb2b2',
+        'BC': '#9ae6b4',
+        'ABC': '#9f7aea',
+        'outside': '#cbd5e0'
+      };
+
+      // Draw highlighted regions using pixel-by-pixel approach
+      if (highlightRegions.length > 0) {
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
+        const data = imageData.data;
+
+        for (let y = 0; y < canvas.height; y++) {
+          for (let x = 0; x < canvas.width; x++) {
+            const region = getRegion(x, y);
+            const idx = (y * canvas.width + x) * 4;
+
+            if (highlightRegions.includes(region)) {
+              const color = regionColors[region];
+              const rgb = hexToRgb(color);
+              data[idx] = rgb.r;
+              data[idx + 1] = rgb.g;
+              data[idx + 2] = rgb.b;
+              data[idx + 3] = 190; // Alpha (75% opacity)
             }
-          });
+          }
         }
-      });
-    }
 
-    function getSetRegions(setName, complement = false) {
-      if (complement) {
-        // Return all regions except the specified set
-        switch(setName) {
-          case 'A':
-            return ['B-only', 'C-only', 'BC', 'outside'];
-          case 'B':
-            return ['A-only', 'C-only', 'AC', 'outside'];
-          case 'C':
-            return ['A-only', 'B-only', 'AB', 'outside'];
-        }
-      } else {
-        // Return regions containing the set
-        switch(setName) {
-          case 'A':
-            return ['A-only', 'AB', 'AC', 'ABC'];
-          case 'B':
-            return ['B-only', 'AB', 'BC', 'ABC'];
-          case 'C':
-            return ['C-only', 'AC', 'BC', 'ABC'];
-        }
+        ctx.putImageData(imageData, 0, 0);
       }
-      return [];
-    }
-    
-    // Initialize regions on page load
-    drawVennRegions();
 
-    function intersectRegions(regions1, regions2) {
-      return regions1.filter(r => regions2.includes(r));
+      // Draw circles
+      Object.keys(circles).forEach(key => {
+        const circle = circles[key];
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
+        ctx.strokeStyle = circle.color;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+      });
+
+      // Draw labels
+      ctx.font = '900 32px Poppins, sans-serif';
+      ctx.fillStyle = circles.A.color;
+      ctx.fillText('A', 200, 150);
+      ctx.fillStyle = circles.B.color;
+      ctx.fillText('B', 480, 150);
+      ctx.fillStyle = circles.C.color;
+      ctx.fillText('C', 330, 450);
+
+      // Draw universal set label
+      ctx.font = '800 24px Poppins, sans-serif';
+      ctx.fillStyle = '#718096';
+      ctx.fillText('ξ', 605, 85);
     }
 
-    function unionRegions(regions1, regions2) {
-      return [...new Set([...regions1, ...regions2])];
+    // Convert hex to RGB
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : { r: 0, g: 0, b: 0 };
+    }
+
+    // Map sets to regions
+    const regionMap = {
+      'A': ['A', 'AB', 'AC', 'ABC'],
+      'B': ['B', 'AB', 'BC', 'ABC'],
+      'C': ['C', 'AC', 'BC', 'ABC'],
+      "A'": ['B', 'C', 'BC', 'outside'],
+      "B'": ['A', 'C', 'AC', 'outside'],
+      "C'": ['A', 'B', 'AB', 'outside']
+    };
+
+    function intersect(arr1, arr2) {
+      return arr1.filter(x => arr2.includes(x));
+    }
+
+    function union(arr1, arr2) {
+      return [...new Set([...arr1, ...arr2])];
     }
 
     showBtn.addEventListener('click', () => {
-      const setAValue = setASelect.value;
-      const setBValue = setBSelect.value;
-      const setCValue = setCSelect.value;
-      const op1Value = operator1Select.value;
-      const op2Value = operator2Select.value;
+      const setA = setASelect.value;
+      const setB = setBSelect.value;
+      const setC = setCSelect.value;
+      const op1 = operator1Select.value;
+      const op2 = operator2Select.value;
 
-      // Get regions for first set
-      const setAComplement = setAValue.includes("'");
-      const regionsA = getSetRegions('A', setAComplement);
+      // Get regions for each set
+      let regionsA = regionMap[setA];
+      let regionsB = regionMap[setB];
+      let regionsC = regionMap[setC];
 
-      // Get regions for second set
-      const setBComplement = setBValue.includes("'");
-      const regionsB = getSetRegions('B', setBComplement);
+      // Apply first operation (A op1 B)
+      let result = op1 === '∩' ? intersect(regionsA, regionsB) : union(regionsA, regionsB);
 
-      // Apply first operation
-      let resultRegions;
-      if (op1Value === '∩') {
-        resultRegions = intersectRegions(regionsA, regionsB);
-      } else {
-        resultRegions = unionRegions(regionsA, regionsB);
-      }
+      // Apply second operation (result op2 C)
+      result = op2 === '∩' ? intersect(result, regionsC) : union(result, regionsC);
 
-      // Apply second operation with set C
-      const setCComplement = setCValue.includes("'");
-      const regionsC = getSetRegions('C', setCComplement);
-      
-      if (op2Value === '∩') {
-        resultRegions = intersectRegions(resultRegions, regionsC);
-      } else {
-        resultRegions = unionRegions(resultRegions, regionsC);
-      }
-
-      highlightRegions(resultRegions);
+      drawVenn(result);
     });
 
     resetBtn.addEventListener('click', () => {
@@ -476,8 +567,11 @@
       setCSelect.value = 'C';
       operator1Select.value = '∩';
       operator2Select.value = '∩';
-      resetHighlights();
+      drawVenn([]);
     });
+
+    // Initial draw
+    drawVenn([]);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92dba92723c7bd',t:'MTc2NDkzMDUyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa863b82568454a',t:'MTc2NTE1NjI5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
