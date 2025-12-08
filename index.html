@@ -156,31 +156,6 @@
       padding-top: 16px;
       border-top: 2px solid #fde2f3;
     }
-
-    .score-display {
-      margin-bottom: 24px;
-      padding: 20px;
-      background: linear-gradient(135deg, #fff, #fef5fb);
-      border-radius: 16px;
-      border: 3px solid #fbc2eb;
-      text-align: center;
-    }
-
-    .score-label {
-      font-size: 13px;
-      font-weight: 800;
-      color: #b08db5;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-    }
-
-    .score-value {
-      font-size: 36px;
-      font-weight: 900;
-      color: #6b4c7a;
-      font-family: 'Poppins', sans-serif;
-    }
     
     .question-display {
       margin-bottom: 24px;
@@ -385,14 +360,6 @@
       <h1 id="main-title">Operasi Set: Kesatuan Set</h1>
       <p class="instruction" id="instruction-text">Klik pada kawasan dalam gambar Venn yang mewakili kesatuan set dalam soalan</p>
      </header>
-     <div class="score-display">
-      <div class="score-label" id="score-label">
-       Skor
-      </div>
-      <div class="score-value" id="score-value">
-       0 / 15
-      </div>
-     </div>
      <div class="legend">
       <h3>Set Semesta (ξ)</h3>
       <div class="legend-item"><span class="legend-symbol" style="color: #f06292;">A</span> <span>Set A</span>
@@ -490,14 +457,12 @@
         universalSet: "Set Semesta (ξ)",
         union: "Kesatuan",
         question: "Soalan",
-        score: "Skor",
         checkAnswer: "Semak Jawapan",
         nextQuestion: "Soalan Seterusnya",
         restart: "Mula Semula",
         correctLabel: "Betul (diklik)",
         wrongLabel: "Salah (diklik)",
-        missedLabel: "Terlepas (tidak diklik)",
-        gameComplete: "Tamat! Skor anda: "
+        missedLabel: "Terlepas (tidak diklik)"
       },
       ENG: {
         title: "Operations on Sets: Union of Sets",
@@ -505,14 +470,12 @@
         universalSet: "Universal Set (ξ)",
         union: "Union",
         question: "Question",
-        score: "Score",
         checkAnswer: "Check Answer",
         nextQuestion: "Next Question",
         restart: "Restart",
         correctLabel: "Correct (clicked)",
         wrongLabel: "Wrong (clicked)",
-        missedLabel: "Missed (not clicked)",
-        gameComplete: "Complete! Your score: "
+        missedLabel: "Missed (not clicked)"
       }
     };
 
@@ -520,7 +483,7 @@
 
     // Game questions - 15 different union questions
     // Each question has sets involved in the union operation
-    const questions = [
+    const allQuestions = [
       { text: { BM: "A ∪ B", ENG: "A ∪ B" }, sets: ['A', 'B'] },
       { text: { BM: "B ∪ C", ENG: "B ∪ C" }, sets: ['B', 'C'] },
       { text: { BM: "C ∪ D", ENG: "C ∪ D" }, sets: ['C', 'D'] },
@@ -538,6 +501,19 @@
       { text: { BM: "A ∪ B ∪ C ∪ D ∪ E", ENG: "A ∪ B ∪ C ∪ D ∪ E" }, sets: ['A', 'B', 'C', 'D', 'E'] }
     ];
     
+    // Fisher-Yates shuffle algorithm to randomize questions
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+    
+    // Randomize questions on page load
+    const questions = shuffleArray(allQuestions);
+    
     // Helper function to check if a region contains any of the specified sets
     function regionContainsSets(region, sets) {
       // A region is correct if it contains at least one of the sets in the union
@@ -545,7 +521,6 @@
     }
 
     let currentQuestionIndex = 0;
-    let score = 0;
     let selectedRegions = new Set();
     let hasChecked = false;
 
@@ -556,7 +531,6 @@
     const nextBtn = document.getElementById('nextBtn');
     const resetBtn = document.getElementById('resetBtn');
     const questionText = document.getElementById('question-text');
-    const scoreValue = document.getElementById('score-value');
     const feedbackLegend = document.getElementById('feedback-legend');
     const langBMBtn = document.getElementById('langBM');
     const langENGBtn = document.getElementById('langENG');
@@ -571,7 +545,6 @@
       document.querySelector('.legend h3').textContent = t.universalSet;
       document.getElementById('union-label').textContent = t.union;
       document.getElementById('question-label').textContent = t.question;
-      document.getElementById('score-label').textContent = t.score;
       document.getElementById('checkBtn').textContent = t.checkAnswer;
       document.getElementById('nextBtn').textContent = t.nextQuestion;
       document.getElementById('resetBtn').textContent = t.restart;
@@ -791,12 +764,7 @@
       
       const isCorrect = allCorrect && allCorrectRegionsSelected;
 
-      if (isCorrect) {
-        score++;
-      }
-
       feedbackLegend.style.display = 'flex';
-      scoreValue.textContent = `${score} / 15`;
       
       checkBtn.style.display = 'none';
       nextBtn.style.display = 'block';
@@ -831,12 +799,10 @@
     // Reset game
     resetBtn.addEventListener('click', () => {
       currentQuestionIndex = 0;
-      score = 0;
       selectedRegions.clear();
       hasChecked = false;
       canvas.classList.remove('disabled');
       
-      scoreValue.textContent = '0 / 15';
       questionText.textContent = questions[0].text[currentLanguage];
       feedbackLegend.style.display = 'none';
       
@@ -850,5 +816,5 @@
     // Initial draw
     drawVenn();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa9272c25bcdac0',t:'MTc2NTE2NDMwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa9392c3257f004',t:'MTc2NTE2NTAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
