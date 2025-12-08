@@ -381,9 +381,7 @@
       <div class="question-label" id="question-label">
        Soalan
       </div>
-      <div class="question-text" id="question-text">
-       A ∪ B
-      </div>
+      <div class="question-text" id="question-text"></div>
      </div>
      <div class="feedback-section" id="feedback-section">
       <div class="feedback-legend" id="feedback-legend" style="display: none;">
@@ -481,23 +479,29 @@
 
     let currentLanguage = 'BM';
 
-    // Game questions - 15 different union questions
+    // Game questions - 15 different union questions (NO single set questions)
     // Each question has sets involved in the union operation
+    // For union: A ∪ B means any region that contains A OR B (or both)
     const allQuestions = [
+      // 2 set unions (10 questions)
       { text: { BM: "A ∪ B", ENG: "A ∪ B" }, sets: ['A', 'B'] },
       { text: { BM: "B ∪ C", ENG: "B ∪ C" }, sets: ['B', 'C'] },
       { text: { BM: "C ∪ D", ENG: "C ∪ D" }, sets: ['C', 'D'] },
       { text: { BM: "D ∪ E", ENG: "D ∪ E" }, sets: ['D', 'E'] },
       { text: { BM: "A ∪ E", ENG: "A ∪ E" }, sets: ['A', 'E'] },
-      { text: { BM: "B ∪ C ∪ E", ENG: "B ∪ C ∪ E" }, sets: ['B', 'C', 'E'] },
       { text: { BM: "A ∪ C", ENG: "A ∪ C" }, sets: ['A', 'C'] },
       { text: { BM: "B ∪ D", ENG: "B ∪ D" }, sets: ['B', 'D'] },
-      { text: { BM: "A ∪ B ∪ C", ENG: "A ∪ B ∪ C" }, sets: ['A', 'B', 'C'] },
       { text: { BM: "C ∪ E", ENG: "C ∪ E" }, sets: ['C', 'E'] },
       { text: { BM: "A ∪ D", ENG: "A ∪ D" }, sets: ['A', 'D'] },
-      { text: { BM: "A ∪ C ∪ D", ENG: "A ∪ C ∪ D" }, sets: ['A', 'C', 'D'] },
+      { text: { BM: "B ∪ E", ENG: "B ∪ E" }, sets: ['B', 'E'] },
+      
+      // 3 set unions (4 questions)
+      { text: { BM: "A ∪ B ∪ C", ENG: "A ∪ B ∪ C" }, sets: ['A', 'B', 'C'] },
+      { text: { BM: "A ∪ B ∪ C ∪ E", ENG: "A ∪ B ∪ C ∪ E" }, sets: ['A', 'B', 'C', 'E'] },
+      { text: { BM: "B ∪ C ∪ E", ENG: "B ∪ C ∪ E" }, sets: ['B', 'C', 'E'] },
       { text: { BM: "B ∪ D ∪ E", ENG: "B ∪ D ∪ E" }, sets: ['B', 'D', 'E'] },
-      { text: { BM: "A ∪ B ∪ D", ENG: "A ∪ B ∪ D" }, sets: ['A', 'B', 'D'] },
+      
+      // 5 set union (1 question)
       { text: { BM: "A ∪ B ∪ C ∪ D ∪ E", ENG: "A ∪ B ∪ C ∪ D ∪ E" }, sets: ['A', 'B', 'C', 'D', 'E'] }
     ];
     
@@ -514,15 +518,31 @@
     // Randomize questions on page load
     const questions = shuffleArray(allQuestions);
     
-    // Helper function to check if a region contains any of the specified sets
-    function regionContainsSets(region, sets) {
-      // A region is correct if it contains at least one of the sets in the union
-      return sets.some(set => region.includes(set));
+    // Helper function to check if a region belongs to the union of sets
+    function regionBelongsToUnion(region, sets) {
+      // A region is correct if it contains AT LEAST ONE of the sets in the union
+      // For example, if union is A ∪ C ∪ D:
+      // - A, C, D are correct (individual sets)
+      // - AB, AC, ABC are correct (contains A or C)
+      // - BC is correct (contains C)
+      // - CD, ACD, BCD, ABCD are correct (contains C or D)
+      // - B alone is incorrect (doesn't contain A, C, or D)
+      // - E alone is incorrect (doesn't contain A, C, or D)
+      
+      const regionSets = region.split('');
+      
+      // Check if at least one letter in the region is one of the sets in the union
+      return regionSets.some(letter => sets.includes(letter));
     }
 
     let currentQuestionIndex = 0;
     let selectedRegions = new Set();
     let hasChecked = false;
+    
+    // Helper function to get current question
+    function getCurrentQuestion() {
+      return questions[currentQuestionIndex];
+    }
 
     // Venn diagram logic
     const canvas = document.getElementById('vennCanvas');
@@ -556,7 +576,8 @@
       langENGBtn.classList.toggle('active', lang === 'ENG');
       
       // Update question text
-      questionText.textContent = questions[currentQuestionIndex].text[lang];
+      const currentQ = getCurrentQuestion();
+      questionText.textContent = currentQ.text[lang];
     }
 
     langBMBtn.addEventListener('click', () => updateLanguage('BM'));
@@ -643,14 +664,15 @@
       if (hasChecked) {
         const imageData = ctx.createImageData(canvas.width, canvas.height);
         const data = imageData.data;
-        const currentSets = questions[currentQuestionIndex].sets;
+        const currentQ = getCurrentQuestion();
+        const currentSets = currentQ.sets;
 
         for (let y = 0; y < canvas.height; y++) {
           for (let x = 0; x < canvas.width; x++) {
             const region = getRegion(x, y);
             const idx = (y * canvas.width + x) * 4;
 
-            const isCorrect = region !== 'outside' && regionContainsSets(region, currentSets);
+            const isCorrect = region !== 'outside' && regionBelongsToUnion(region, currentSets);
             const wasSelected = selectedRegions.has(region);
 
             if (isCorrect && wasSelected) {
@@ -739,12 +761,13 @@
       hasChecked = true;
       canvas.classList.add('disabled');
       
-      const currentSets = questions[currentQuestionIndex].sets;
+      const currentQ = getCurrentQuestion();
+      const currentSets = currentQ.sets;
       
       // Check if all selected regions are correct and no incorrect regions were selected
       let allCorrect = true;
       for (const region of selectedRegions) {
-        if (region === 'outside' || !regionContainsSets(region, currentSets)) {
+        if (region === 'outside' || !regionBelongsToUnion(region, currentSets)) {
           allCorrect = false;
           break;
         }
@@ -752,7 +775,7 @@
       
       // Also check if all correct regions were selected
       const allRegions = ['A', 'B', 'C', 'D', 'E', 'AB', 'AC', 'BC', 'ABC', 'CD', 'ACD', 'BCD', 'ABCD'];
-      const correctRegions = allRegions.filter(r => regionContainsSets(r, currentSets));
+      const correctRegions = allRegions.filter(r => regionBelongsToUnion(r, currentSets));
       
       let allCorrectRegionsSelected = true;
       for (const region of correctRegions) {
@@ -788,7 +811,8 @@
       canvas.classList.remove('disabled');
       feedbackLegend.style.display = 'none';
       
-      questionText.textContent = questions[currentQuestionIndex].text[currentLanguage];
+      const currentQ = getCurrentQuestion();
+      questionText.textContent = currentQ.text[currentLanguage];
       
       checkBtn.style.display = 'block';
       nextBtn.style.display = 'none';
@@ -803,7 +827,8 @@
       hasChecked = false;
       canvas.classList.remove('disabled');
       
-      questionText.textContent = questions[0].text[currentLanguage];
+      const currentQ = getCurrentQuestion();
+      questionText.textContent = currentQ.text[currentLanguage];
       feedbackLegend.style.display = 'none';
       
       checkBtn.style.display = 'block';
@@ -813,8 +838,12 @@
       drawVenn();
     });
 
+    // Initialize first question on page load
+    const firstQuestion = getCurrentQuestion();
+    questionText.textContent = firstQuestion.text[currentLanguage];
+    
     // Initial draw
     drawVenn();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa9392c3257f004',t:'MTc2NTE2NTAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa971f934a56312',t:'MTc2NTE2NzM2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
