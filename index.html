@@ -55,6 +55,44 @@
       margin-bottom: 32px;
       padding-bottom: 24px;
       border-bottom: 4px solid #fbc2eb;
+      position: relative;
+    }
+
+    .language-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      background: linear-gradient(135deg, #fff9fd, #f5faff);
+      border-radius: 12px;
+      padding: 4px;
+      border: 3px solid #fde2f3;
+      box-shadow: 0 4px 12px rgba(251, 194, 235, 0.2);
+    }
+
+    .language-toggle button {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: transparent;
+      color: #b08db5;
+    }
+
+    .language-toggle button.active {
+      background: linear-gradient(135deg, #fbc2eb 0%, #d998c5 100%);
+      color: #6b4c7a;
+      box-shadow: 0 2px 8px rgba(251, 194, 235, 0.4);
+    }
+
+    .language-toggle button:hover:not(.active) {
+      color: #6b4c7a;
     }
     
     h1 {
@@ -341,6 +379,8 @@
    <div class="content-container">
     <aside class="left-panel">
      <header>
+      <div class="language-toggle"><button id="langBM" class="active" aria-label="Switch to Malay">BM</button> <button id="langENG" aria-label="Switch to English">ENG</button>
+      </div>
       <h1 id="main-title">Operasi Set: Persilangan Set</h1>
       <p class="instruction" id="instruction-text">Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan</p>
      </header>
@@ -437,6 +477,44 @@
       });
     }
 
+    // Language translations
+    const translations = {
+      BM: {
+        title: "Operasi Set: Persilangan Set",
+        instruction: "Pilih operasi untuk setiap set dan klik 'Tunjukkan Hasil' untuk melihat persilangan",
+        universalSet: "Set Semesta (ξ)",
+        intersection: "Persilangan",
+        union: "Kesatuan",
+        buildExpression: "Bina Ekspresi Set",
+        currentExpression: "Ekspresi Semasa",
+        showResult: "Tunjukkan Hasil",
+        reset: "Set Semula",
+        selectA: "Pilih Set A atau pelengkap A",
+        selectB: "Pilih Set B atau pelengkap B",
+        selectC: "Pilih Set C atau pelengkap C",
+        selectOp1: "Pilih operasi pertama",
+        selectOp2: "Pilih operasi kedua"
+      },
+      ENG: {
+        title: "Operations on Sets: Intersections of Sets",
+        instruction: "Select operations for each set and click 'Show Result' to view the intersection",
+        universalSet: "Universal Set (ξ)",
+        intersection: "Intersection",
+        union: "Union",
+        buildExpression: "Build Set Expression",
+        currentExpression: "Current Expression",
+        showResult: "Show Result",
+        reset: "Reset",
+        selectA: "Select Set A or complement A",
+        selectB: "Select Set B or complement B",
+        selectC: "Select Set C or complement C",
+        selectOp1: "Select first operation",
+        selectOp2: "Select second operation"
+      }
+    };
+
+    let currentLanguage = 'BM';
+
     // Venn diagram logic
     const canvas = document.getElementById('vennCanvas');
     const ctx = canvas.getContext('2d');
@@ -448,6 +526,42 @@
     const showBtn = document.getElementById('showBtn');
     const resetBtn = document.getElementById('resetBtn');
     const expressionText = document.getElementById('expressionText');
+    const langBMBtn = document.getElementById('langBM');
+    const langENGBtn = document.getElementById('langENG');
+
+    // Update language function
+    function updateLanguage(lang) {
+      currentLanguage = lang;
+      const t = translations[lang];
+      
+      // Update title and instruction
+      document.getElementById('main-title').textContent = t.title;
+      document.getElementById('instruction-text').textContent = t.instruction;
+      
+      // Update legend
+      document.querySelector('.legend h3').textContent = t.universalSet;
+      document.querySelectorAll('.legend-item span:last-child')[3].textContent = t.intersection;
+      document.querySelectorAll('.legend-item span:last-child')[4].textContent = t.union;
+      
+      // Update expression section
+      document.querySelector('.expression-label').textContent = t.buildExpression;
+      document.querySelector('.expression-display-label').textContent = t.currentExpression;
+      
+      // Update buttons
+      document.getElementById('showBtn').textContent = t.showResult;
+      document.getElementById('resetBtn').textContent = t.reset;
+      
+      // Update aria labels
+      setASelect.setAttribute('aria-label', t.selectA);
+      setBSelect.setAttribute('aria-label', t.selectB);
+      setCSelect.setAttribute('aria-label', t.selectC);
+      operator1Select.setAttribute('aria-label', t.selectOp1);
+      operator2Select.setAttribute('aria-label', t.selectOp2);
+      
+      // Update toggle buttons
+      langBMBtn.classList.toggle('active', lang === 'BM');
+      langENGBtn.classList.toggle('active', lang === 'ENG');
+    }
 
     // Update expression display
     function updateExpression() {
@@ -459,6 +573,10 @@
       
       expressionText.textContent = `${setA} ${op1} ${setB} ${op2} ${setC}`;
     }
+
+    // Language toggle event listeners
+    langBMBtn.addEventListener('click', () => updateLanguage('BM'));
+    langENGBtn.addEventListener('click', () => updateLanguage('ENG'));
 
     // Add event listeners to update expression on change
     setASelect.addEventListener('change', updateExpression);
@@ -564,8 +682,8 @@
       ctx.fillStyle = circles.C.color;
       ctx.fillText('C', 330, 450);
 
-      // Draw universal set label
-      ctx.font = '800 24px Poppins, sans-serif';
+      // Draw universal set label (using ξ for universal set)
+      ctx.font = '800 28px Georgia, serif';
       ctx.fillStyle = '#b08db5';
       ctx.fillText('ξ', 605, 85);
     }
@@ -623,7 +741,7 @@
       setASelect.value = 'A';
       setBSelect.value = 'B';
       setCSelect.value = 'C';
-      operator1Select.value = '∩';
+      operator1Select.value = '��';
       operator2Select.value = '∩';
       updateExpression();
       drawVenn([]);
@@ -632,5 +750,5 @@
     // Initial draw
     drawVenn([]);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa8835cc0c2b2e8',t:'MTc2NTE1NzU5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa8a0421009b4d0',t:'MTc2NTE1ODc3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
