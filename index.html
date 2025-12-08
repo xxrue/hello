@@ -172,6 +172,35 @@
       box-shadow: 0 0 0 4px rgba(251, 194, 235, 0.2);
     }
     
+    .expression-display {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fff, #fef5fb);
+      border-radius: 16px;
+      border: 3px solid #fbc2eb;
+      box-shadow: 0 8px 20px rgba(251, 194, 235, 0.3);
+      text-align: center;
+    }
+
+    .expression-display-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #b08db5;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .expression-display-text {
+      font-size: 28px;
+      font-weight: 900;
+      color: #6b4c7a;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 2px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
     .button-group {
       display: flex;
       flex-direction: column;
@@ -337,6 +366,14 @@
       <div class="expression-builder"><select id="setA" aria-label="Pilih Set A atau pelengkap A"> <option value="A">A</option> <option value="A'">A'</option> </select> <select id="operator1" aria-label="Pilih operasi pertama"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setB" aria-label="Pilih Set B atau pelengkap B"> <option value="B">B</option> <option value="B'">B'</option> </select> <select id="operator2" aria-label="Pilih operasi kedua"> <option value="∩">∩</option> <option value="∪">∪</option> </select> <select id="setC" aria-label="Pilih Set C atau pelengkap C"> <option value="C">C</option> <option value="C'">C'</option> </select>
       </div>
      </div>
+     <div class="expression-display" id="expressionDisplay">
+      <div class="expression-display-label">
+       Ekspresi Semasa
+      </div>
+      <div class="expression-display-text" id="expressionText">
+       A ∩ B ∩ C
+      </div>
+     </div>
      <div class="button-group"><button class="btn-show" id="showBtn">Tunjukkan Hasil</button> <button class="btn-reset" id="resetBtn">Set Semula</button>
      </div>
     </aside>
@@ -410,6 +447,25 @@
     const operator2Select = document.getElementById('operator2');
     const showBtn = document.getElementById('showBtn');
     const resetBtn = document.getElementById('resetBtn');
+    const expressionText = document.getElementById('expressionText');
+
+    // Update expression display
+    function updateExpression() {
+      const setA = setASelect.value;
+      const setB = setBSelect.value;
+      const setC = setCSelect.value;
+      const op1 = operator1Select.value;
+      const op2 = operator2Select.value;
+      
+      expressionText.textContent = `${setA} ${op1} ${setB} ${op2} ${setC}`;
+    }
+
+    // Add event listeners to update expression on change
+    setASelect.addEventListener('change', updateExpression);
+    setBSelect.addEventListener('change', updateExpression);
+    setCSelect.addEventListener('change', updateExpression);
+    operator1Select.addEventListener('change', updateExpression);
+    operator2Select.addEventListener('change', updateExpression);
 
     // Circle positions and radius - Pastel colors
     const circles = {
@@ -569,11 +625,12 @@
       setCSelect.value = 'C';
       operator1Select.value = '∩';
       operator2Select.value = '∩';
+      updateExpression();
       drawVenn([]);
     });
 
     // Initial draw
     drawVenn([]);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa87e82f605b2e8',t:'MTc2NTE1NzM5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa8835cc0c2b2e8',t:'MTc2NTE1NzU5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
