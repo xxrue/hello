@@ -20,7 +20,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 50%, #c2e9fb 100%);
       min-height: 100%;
       width: 100%;
     }
@@ -42,22 +42,23 @@
     }
     
     .left-panel {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 24px;
       padding: 36px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 20px 60px rgba(251, 194, 235, 0.3);
       position: sticky;
       top: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
     }
     
     header {
       margin-bottom: 32px;
       padding-bottom: 24px;
-      border-bottom: 4px solid #667eea;
+      border-bottom: 4px solid #fbc2eb;
     }
     
     h1 {
-      color: #1a202c;
+      color: #6b4c7a;
       font-size: 32px;
       margin: 0 0 12px 0;
       font-weight: 900;
@@ -66,7 +67,7 @@
     }
     
     .instruction {
-      color: #4a5568;
+      color: #8b7a9e;
       font-size: 15px;
       margin: 0;
       line-height: 1.6;
@@ -76,15 +77,15 @@
     .legend {
       margin-bottom: 32px;
       padding: 24px;
-      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      background: linear-gradient(135deg, #fff5fc, #f0f7ff);
       border-radius: 16px;
-      border: 2px solid #e2e8f0;
+      border: 2px solid #fde2f3;
     }
     
     .legend h3 {
       margin: 0 0 16px 0;
       font-size: 16px;
-      color: #2d3748;
+      color: #6b4c7a;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -96,7 +97,7 @@
       gap: 12px;
       margin: 10px 0;
       font-size: 15px;
-      color: #2d3748;
+      color: #6b4c7a;
       font-weight: 600;
     }
     
@@ -110,14 +111,14 @@
       border-radius: 8px;
       font-weight: 800;
       font-size: 18px;
-      color: #667eea;
-      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+      color: #d998c5;
+      box-shadow: 0 4px 8px rgba(251, 194, 235, 0.3);
     }
     
     .legend-divider {
       margin: 16px 0;
       padding-top: 16px;
-      border-top: 2px solid #cbd5e0;
+      border-top: 2px solid #fde2f3;
     }
     
     .expression-section {
@@ -127,7 +128,7 @@
     .expression-label {
       font-size: 14px;
       font-weight: 800;
-      color: #2d3748;
+      color: #6b4c7a;
       margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -140,14 +141,14 @@
       justify-content: center;
       flex-wrap: wrap;
       padding: 20px;
-      background: #f7fafc;
+      background: linear-gradient(135deg, #fff9fd, #f5faff);
       border-radius: 16px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid #fde2f3;
     }
     
     select {
       padding: 12px 16px;
-      border: 3px solid #cbd5e1;
+      border: 3px solid #f9d5ef;
       border-radius: 12px;
       font-size: 18px;
       font-weight: 800;
@@ -156,19 +157,19 @@
       cursor: pointer;
       transition: all 0.2s ease;
       min-width: 75px;
-      color: #1a202c;
+      color: #6b4c7a;
     }
     
     select:hover {
-      border-color: #667eea;
+      border-color: #fbc2eb;
       transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 6px 12px rgba(251, 194, 235, 0.4);
     }
     
     select:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+      border-color: #fbc2eb;
+      box-shadow: 0 0 0 4px rgba(251, 194, 235, 0.2);
     }
     
     .button-group {
@@ -192,15 +193,15 @@
     }
     
     .btn-show {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #fbc2eb 0%, #d998c5 100%);
+      color: #6b4c7a;
+      box-shadow: 0 6px 16px rgba(251, 194, 235, 0.5);
     }
     
     .btn-show:hover {
-      background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+      background: linear-gradient(135deg, #f9aedd 0%, #d085b8 100%);
       transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(102, 126, 234, 0.5);
+      box-shadow: 0 10px 24px rgba(251, 194, 235, 0.6);
     }
     
     .btn-show:active {
@@ -208,27 +209,28 @@
     }
     
     .btn-reset {
-      background: #edf2f7;
-      color: #4a5568;
-      border: 3px solid #cbd5e1;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: #4a7ba7;
+      border: 3px solid #c2e9fb;
     }
     
     .btn-reset:hover {
-      background: #e2e8f0;
-      border-color: #a0aec0;
+      background: linear-gradient(135deg, #d1e9fc, #a6d4f7);
+      border-color: #a6c1ee;
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 16px rgba(166, 193, 238, 0.4);
     }
     
     .venn-container {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 24px;
       padding: 60px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 20px 60px rgba(251, 194, 235, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 650px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
     }
     
     svg {
@@ -315,11 +317,11 @@
      </header>
      <div class="legend">
       <h3>Set Semesta (ξ)</h3>
-      <div class="legend-item"><span class="legend-symbol" style="color: #e53e3e;">A</span> <span>Set A</span>
+      <div class="legend-item"><span class="legend-symbol" style="color: #f06292;">A</span> <span>Set A</span>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #38b2ac;">B</span> <span>Set B</span>
+      <div class="legend-item"><span class="legend-symbol" style="color: #81c784;">B</span> <span>Set B</span>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #dd6b20;">C</span> <span>Set C</span>
+      <div class="legend-item"><span class="legend-symbol" style="color: #64b5f6;">C</span> <span>Set C</span>
       </div>
       <div class="legend-divider">
        <div class="legend-item"><span class="legend-symbol">∩</span> <span>Persilangan</span>
@@ -409,11 +411,11 @@
     const showBtn = document.getElementById('showBtn');
     const resetBtn = document.getElementById('resetBtn');
 
-    // Circle positions and radius
+    // Circle positions and radius - Pastel colors
     const circles = {
-      A: { x: 280, y: 220, r: 120, color: '#e53e3e' },
-      B: { x: 420, y: 220, r: 120, color: '#38b2ac' },
-      C: { x: 350, y: 340, r: 120, color: '#dd6b20' }
+      A: { x: 280, y: 220, r: 120, color: '#f06292' },
+      B: { x: 420, y: 220, r: 120, color: '#81c784' },
+      C: { x: 350, y: 340, r: 120, color: '#64b5f6' }
     };
 
     // Check if a point is inside a circle
@@ -445,22 +447,22 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw universal set boundary
-      ctx.strokeStyle = '#a0aec0';
+      ctx.strokeStyle = '#dfc4e8';
       ctx.lineWidth = 3;
       ctx.setLineDash([8, 5]);
       ctx.strokeRect(60, 60, 580, 430);
       ctx.setLineDash([]);
 
-      // Define region colors
+      // Define region colors - Pastel theme
       const regionColors = {
-        'A': '#fc8181',
-        'B': '#4fd1c5',
-        'C': '#f6ad55',
-        'AB': '#d6bcfa',
-        'AC': '#feb2b2',
-        'BC': '#9ae6b4',
-        'ABC': '#9f7aea',
-        'outside': '#cbd5e0'
+        'A': '#ffb3d9',
+        'B': '#b3f5d9',
+        'C': '#b3d9ff',
+        'AB': '#e8b3f0',
+        'AC': '#ffc9e3',
+        'BC': '#9fe6d4',
+        'ABC': '#d9c3f0',
+        'outside': '#f5e6f0'
       };
 
       // Draw highlighted regions using pixel-by-pixel approach
@@ -508,7 +510,7 @@
 
       // Draw universal set label
       ctx.font = '800 24px Poppins, sans-serif';
-      ctx.fillStyle = '#718096';
+      ctx.fillStyle = '#b08db5';
       ctx.fillText('ξ', 605, 85);
     }
 
@@ -573,5 +575,5 @@
     // Initial draw
     drawVenn([]);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa863b82568454a',t:'MTc2NTE1NjI5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa87e82f605b2e8',t:'MTc2NTE1NzM5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
