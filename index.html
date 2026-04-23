@@ -3,847 +3,850 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Operasi Set: Kesatuan Set</title>
+  <title>Sistem Mekanikal</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
-    
-    body {
-      box-sizing: border-box;
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 50%, #c2e9fb 100%);
-      min-height: 100%;
-      width: 100%;
-    }
-    
-    .main-wrapper {
-      width: 100%;
-      min-height: 100%;
-      padding: 40px 20px;
-    }
-    
-    .content-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 30px;
-      align-items: start;
-    }
-    
-    .left-panel {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 36px;
-      box-shadow: 0 20px 60px rgba(251, 194, 235, 0.3);
-      position: sticky;
-      top: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-    }
-    
-    header {
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 4px solid #fbc2eb;
-    }
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #9F7AEA 0%, #68D391 100%);
+            min-height: 100%;
+            width: 100%;
+        }
 
-    .language-toggle {
-      display: flex;
-      background: linear-gradient(135deg, #fff9fd, #f5faff);
-      border-radius: 12px;
-      padding: 4px;
-      border: 3px solid #fde2f3;
-      box-shadow: 0 4px 12px rgba(251, 194, 235, 0.2);
-      margin-bottom: 20px;
-      width: fit-content;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .language-toggle button {
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 800;
-      font-family: 'Poppins', sans-serif;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: transparent;
-      color: #b08db5;
-    }
+        .main-container {
+            width: 100%;
+            min-height: 100%;
+            padding: 2rem 1rem;
+        }
 
-    .language-toggle button.active {
-      background: linear-gradient(135deg, #fbc2eb 0%, #d998c5 100%);
-      color: #6b4c7a;
-      box-shadow: 0 2px 8px rgba(251, 194, 235, 0.4);
-    }
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .language-toggle button:hover:not(.active) {
-      color: #6b4c7a;
-    }
-    
-    h1 {
-      color: #6b4c7a;
-      font-size: 32px;
-      margin: 0 0 12px 0;
-      font-weight: 900;
-      line-height: 1.2;
-      letter-spacing: -0.5px;
-    }
-    
-    .instruction {
-      color: #8b7a9e;
-      font-size: 15px;
-      margin: 0;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-    
-    .legend {
-      margin-bottom: 32px;
-      padding: 24px;
-      background: linear-gradient(135deg, #fff5fc, #f0f7ff);
-      border-radius: 16px;
-      border: 2px solid #fde2f3;
-    }
-    
-    .legend h3 {
-      margin: 0 0 16px 0;
-      font-size: 16px;
-      color: #6b4c7a;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 10px 0;
-      font-size: 15px;
-      color: #6b4c7a;
-      font-weight: 600;
-    }
-    
-    .legend-symbol {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: white;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 18px;
-      color: #d998c5;
-      box-shadow: 0 4px 8px rgba(251, 194, 235, 0.3);
-    }
-    
-    .legend-divider {
-      margin: 16px 0;
-      padding-top: 16px;
-      border-top: 2px solid #fde2f3;
-    }
-    
-    .question-display {
-      margin-bottom: 24px;
-      padding: 24px;
-      background: linear-gradient(135deg, #fff, #fef5fb);
-      border-radius: 16px;
-      border: 3px solid #fbc2eb;
-      box-shadow: 0 8px 20px rgba(251, 194, 235, 0.3);
-      text-align: center;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
 
-    .question-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: #b08db5;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 12px;
-    }
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
 
-    .question-text {
-      font-size: 28px;
-      font-weight: 900;
-      color: #6b4c7a;
-      font-family: 'Poppins', sans-serif;
-      letter-spacing: 2px;
-      line-height: 1.4;
-      word-break: break-word;
-    }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin: 0;
+        }
 
-    .feedback-section {
-      margin-bottom: 24px;
-      padding: 20px;
-      background: linear-gradient(135deg, #fff5fc, #f0f7ff);
-      border-radius: 16px;
-      border: 2px solid #fde2f3;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        .definition-card {
+            background: #F5F3FF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
+        }
 
-    .feedback-legend {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-    }
+        .definition-card h2 {
+            color: #9F7AEA;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
 
-    .feedback-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: #6b4c7a;
-      font-weight: 600;
-    }
+        .definition-card p {
+            line-height: 1.6;
+            color: #4A5568;
+            margin: 0.5rem 0;
+        }
 
-    .feedback-color-box {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: 2px solid rgba(0, 0, 0, 0.1);
-    }
+        .example-section {
+            background: #F5F3FF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
+        }
 
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    
-    button {
-      width: 100%;
-      padding: 18px 28px;
-      font-size: 16px;
-      font-weight: 800;
-      font-family: 'Poppins', sans-serif;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
+        .example-section h2 {
+            color: #9F7AEA;
+            margin-top: 0;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-    
-    .btn-check {
-      background: linear-gradient(135deg, #fbc2eb 0%, #d998c5 100%);
-      color: #6b4c7a;
-      box-shadow: 0 6px 16px rgba(251, 194, 235, 0.5);
-    }
-    
-    .btn-check:hover:not(:disabled) {
-      background: linear-gradient(135deg, #f9aedd 0%, #d085b8 100%);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(251, 194, 235, 0.6);
-    }
-    
-    .btn-check:active:not(:disabled) {
-      transform: translateY(0);
-    }
-    
-    .btn-next {
-      background: linear-gradient(135deg, #81c784, #66bb6a);
-      color: white;
-      box-shadow: 0 6px 16px rgba(129, 199, 132, 0.5);
-    }
-    
-    .btn-next:hover:not(:disabled) {
-      background: linear-gradient(135deg, #66bb6a, #4caf50);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(129, 199, 132, 0.6);
-    }
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .btn-reset {
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      color: #4a7ba7;
-      border: 3px solid #c2e9fb;
-    }
-    
-    .btn-reset:hover:not(:disabled) {
-      background: linear-gradient(135deg, #d1e9fc, #a6d4f7);
-      border-color: #a6c1ee;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(166, 193, 238, 0.4);
-    }
-    
-    .venn-container {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 60px;
-      box-shadow: 0 20px 60px rgba(251, 194, 235, 0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 650px;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-    }
-    
-    canvas {
-      max-width: 100%;
-      height: auto;
-      cursor: pointer;
-    }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #9F7AEA;
+            background: white;
+            color: #9F7AEA;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+            max-width: 200px;
+        }
 
-    canvas.disabled {
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-    
-    @media (max-width: 1200px) {
-      .content-container {
-        grid-template-columns: 1fr;
-      }
-      
-      .left-panel {
-        position: relative;
-        top: 0;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .main-wrapper {
-        padding: 20px 16px;
-      }
-      
-      h1 {
-        font-size: 26px;
-      }
-      
-      .instruction {
-        font-size: 14px;
-      }
-      
-      .left-panel {
-        padding: 28px;
-      }
-      
-      .venn-container {
-        padding: 32px;
-        min-height: 450px;
-      }
-    }
-  </style>
+        .tab-button:hover {
+            background: #FAF5FF;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(159, 122, 234, 0.2);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #9F7AEA 0%, #68D391 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(159, 122, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .visual-container {
+            background: #F5F3FF;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(159,122,234,0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            position: sticky;
+            top: 1rem;
+            z-index: 10;
+            margin-bottom: 2rem;
+            min-height: 300px;
+        }
+
+        .visual-svg {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .part {
+            transition: all 0.3s ease;
+        }
+
+        .part.highlighted {
+            filter: drop-shadow(0 0 10px #FFD700) drop-shadow(0 0 15px #FFA500) drop-shadow(0 0 20px #FF6347);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(159,122,234,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(159,122,234,0.2);
+            border-color: #9F7AEA;
+        }
+
+        .component-card.active {
+            border-color: #9F7AEA;
+            box-shadow: 0 8px 16px rgba(159, 122, 234, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #E9D8FD;
+        }
+
+        .part-icon {
+            font-size: 2rem;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: #9F7AEA;
+            font-size: 1.3rem;
+        }
+
+        .card-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9F8EF 100%);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            border-color: #68D391;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(104, 211, 145, 0.2);
+        }
+
+        .info-card strong {
+            color: #68D391;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #4A5568;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .component-highlight {
+            font-weight: 600;
+            color: #9F7AEA;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem 0.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .definition-card, .example-section {
+                padding: 1rem;
+            }
+
+            .definition-card h2, .example-section h2 {
+                font-size: 1.2rem;
+            }
+
+            .tab-button {
+                min-width: 120px;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .components-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .component-card {
+                padding: 1rem;
+            }
+
+            .card-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .card-content {
+                grid-template-columns: 1fr;
+            }
+
+            .info-card p {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .part-icon {
+                font-size: 1.5rem;
+            }
+
+            .card-header h3 {
+                font-size: 1rem;
+            }
+
+            .tab-button {
+                min-width: 100px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <main class="main-wrapper">
-   <div class="content-container">
-    <aside class="left-panel">
-     <header>
-      <div class="language-toggle"><button id="langBM" class="active" aria-label="Switch to Malay">BM</button> <button id="langENG" aria-label="Switch to English">ENG</button>
+  <main class="main-container">
+   <div class="content-wrapper">
+    <header class="header">
+     <h1 id="main-title">Sistem Mekanikal</h1>
+     <p id="subtitle">Alat Pembelajaran Interaktif</p>
+    </header>
+    <div class="definition-card">
+     <h2 id="definition-title">Apakah Sistem Mekanikal?</h2>
+     <p>Sistem mekanikal ialah suatu sistem yang melibatkan penggabungan beberapa komponen mekanikal yang berfungsi pada produk yang dipilih dan digunakan untuk menyelesaikan sesuatu tugas.</p>
+     <p>Setiap komponen mempunyai fungsinya tersendiri.</p>
+    </div>
+    <div class="example-section">
+     <h2>Contoh Sistem Mekanikal</h2>
+     <div class="tabs-container"><button class="tab-button active" data-tab="basikal">🚴 Basikal</button> <button class="tab-button" data-tab="pita">⚪ Pita Pembetulan</button> <button class="tab-button" data-tab="monopod">🤳 Monopod</button>
+     </div><!-- BASIKAL TAB -->
+     <div class="tab-content active" id="tab-basikal">
+      <div class="visual-container">
+       <svg class="visual-svg" viewbox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><!-- Back Wheel --> <g id="svg-basikal-roda-back" class="part">
+         <circle cx="80" cy="180" r="60" fill="none" stroke="#333" stroke-width="3" />
+         <circle cx="80" cy="180" r="50" fill="none" stroke="#9F7AEA" stroke-width="2" />
+         <line x1="80" y1="120" x2="80" y2="240" stroke="#9F7AEA" stroke-width="1" />
+         <line x1="20" y1="180" x2="140" y2="180" stroke="#9F7AEA" stroke-width="1" />
+         <circle cx="80" cy="180" r="8" fill="#333" />
+        </g> <!-- Front Wheel --> <g id="svg-basikal-roda-front" class="part">
+         <circle cx="320" cy="180" r="60" fill="none" stroke="#333" stroke-width="3" />
+         <circle cx="320" cy="180" r="50" fill="none" stroke="#68D391" stroke-width="2" />
+         <line x1="320" y1="120" x2="320" y2="240" stroke="#68D391" stroke-width="1" />
+         <line x1="260" y1="180" x2="380" y2="180" stroke="#68D391" stroke-width="1" />
+         <circle cx="320" cy="180" r="8" fill="#333" />
+        </g> <!-- Frame --> <g class="part">
+         <line x1="80" y1="180" x2="200" y2="80" stroke="#4A5568" stroke-width="4" />
+         <line x1="200" y1="80" x2="280" y2="140" stroke="#4A5568" stroke-width="4" />
+         <line x1="280" y1="140" x2="320" y2="180" stroke="#4A5568" stroke-width="4" />
+         <line x1="80" y1="180" x2="150" y2="140" stroke="#4A5568" stroke-width="4" />
+         <line x1="150" y1="140" x2="200" y2="140" stroke="#4A5568" stroke-width="4" />
+         <line x1="200" y1="140" x2="200" y2="80" stroke="#4A5568" stroke-width="4" />
+        </g> <!-- Handlebar --> <g id="svg-basikal-hendal" class="part">
+         <line x1="280" y1="140" x2="280" y2="80" stroke="#4A5568" stroke-width="3" />
+         <line x1="260" y1="80" x2="300" y2="80" stroke="#4A5568" stroke-width="4" />
+         <circle cx="280" cy="80" r="6" fill="#9F7AEA" opacity="0.8" />
+        </g> <!-- Seat --> <ellipse cx="200" cy="75" rx="20" ry="8" fill="#68D391" /> <!-- Pedal and Chain System --> <g id="svg-basikal-pedal" class="part">
+         <circle cx="150" cy="140" r="20" fill="none" stroke="#9F7AEA" stroke-width="3" />
+         <circle cx="150" cy="140" r="5" fill="#4A5568" />
+         <line x1="145" y1="165" x2="75" y2="205" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="75" y1="205" x2="75" y2="155" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="75" y1="155" x2="145" y2="115" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="145" y1="115" x2="145" y2="165" stroke="#B794F4" stroke-width="2" stroke-dasharray="3,3" />
+        </g> <!-- Brake --> <g id="svg-basikal-brek" class="part">
+         <rect x="265" y="78" width="8" height="15" fill="#9F7AEA" rx="2" />
+         <line x1="268" y1="80" x2="268" y2="70" stroke="#9F7AEA" stroke-width="2" />
+        </g>
+       </svg>
       </div>
-      <h1 id="main-title">Operasi Set: Kesatuan Set</h1>
-      <p class="instruction" id="instruction-text">Klik pada kawasan dalam gambar Venn yang mewakili kesatuan set dalam soalan</p>
-     </header>
-     <div class="legend">
-      <h3>Set Semesta (ξ)</h3>
-      <div class="legend-item"><span class="legend-symbol" style="color: #f06292;">A</span> <span>Set A</span>
+      <div class="components-grid">
+       <div class="component-card" data-part="basikal-hendal">
+        <div class="card-header"><span class="part-icon">🎯</span>
+         <h3>Hendal</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Mengawal haluan basikal</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Galas bebola</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Menggerakkan hendal dengan bebas</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="basikal-brek">
+        <div class="card-header"><span class="part-icon">🛑</span>
+         <h3>Brek</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Memperlahan atau memberhentikan pergerakan basikal</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Tuas</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Digunakan pada pemegang pencengkam brek</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="basikal-roda">
+        <div class="card-header"><span class="part-icon">⚙️</span>
+         <h3>Roda</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Membolehkan basikal bergerak dengan lancar</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Galas bebola</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Membenarkan roda berputar dengan mudah</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="basikal-pedal">
+        <div class="card-header"><span class="part-icon">🔄</span>
+         <h3>Pedal</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Berpusing apabila dikayuh dan menghasilkan tenaga penghantar kuasa</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Rantai dan gear</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Rantai sebagai pengantara penghantaran kuasa, gear memindahkan kuasa</p>
+         </div>
+        </div>
+       </div>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #81c784;">B</span> <span>Set B</span>
+     </div><!-- PITA PEMBETULAN TAB -->
+     <div class="tab-content" id="tab-pita">
+      <div class="visual-container">
+       <svg class="visual-svg" viewbox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><!-- Body/Casing --> <g class="part">
+         <rect x="100" y="80" width="200" height="90" rx="15" fill="#9F7AEA" stroke="#4A5568" stroke-width="3" />
+         <rect x="110" y="90" width="180" height="70" rx="10" fill="#ffffff" opacity="0.3" />
+        </g> <!-- Gelendong (Reel) - Left --> <g id="svg-pita-gelendong" class="part">
+         <circle cx="150" cy="125" r="30" fill="#68D391" stroke="#4A5568" stroke-width="2" />
+         <circle cx="150" cy="125" r="20" fill="#ffffff" stroke="#4A5568" stroke-width="2" />
+         <circle cx="150" cy="125" r="8" fill="#4A5568" /> <!-- Spokes -->
+         <line x1="150" y1="105" x2="150" y2="145" stroke="#4A5568" stroke-width="2" />
+         <line x1="130" y1="125" x2="170" y2="125" stroke="#4A5568" stroke-width="2" />
+        </g> <!-- Gear system --> <g id="svg-pita-gear" class="part">
+         <circle cx="250" cy="125" r="25" fill="none" stroke="#B794F4" stroke-width="3" /> <!-- Gear teeth -->
+         <circle cx="250" cy="100" r="4" fill="#B794F4" />
+         <circle cx="275" cy="125" r="4" fill="#B794F4" />
+         <circle cx="250" cy="150" r="4" fill="#B794F4" />
+         <circle cx="225" cy="125" r="4" fill="#B794F4" />
+         <circle cx="235" cy="107" r="3" fill="#B794F4" />
+         <circle cx="265" cy="107" r="3" fill="#B794F4" />
+         <circle cx="265" cy="143" r="3" fill="#B794F4" />
+         <circle cx="235" cy="143" r="3" fill="#B794F4" />
+        </g> <!-- Pita putih (White tape) --> <g id="svg-pita-putih" class="part">
+         <path d="M 170 125 Q 210 115, 230 125" fill="none" stroke="#ffffff" stroke-width="8" />
+         <path d="M 170 125 Q 210 115, 230 125" fill="none" stroke="#4A5568" stroke-width="2" />
+        </g> <!-- Bucu pita (Tip/Applicator) --> <g id="svg-pita-bucu" class="part">
+         <rect x="285" y="115" width="25" height="20" rx="3" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" />
+         <circle cx="310" cy="125" r="8" fill="#4A5568" /> <!-- Arrow showing linear motion -->
+         <path d="M 315 125 L 330 125 M 325 120 L 330 125 L 325 130" stroke="#9F7AEA" stroke-width="2" fill="none" />
+        </g>
+       </svg>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #64b5f6;">C</span> <span>Set C</span>
+      <div class="components-grid">
+       <div class="component-card" data-part="pita-gelendong">
+        <div class="card-header"><span class="part-icon">🎡</span>
+         <h3>Gelendong (Reel)</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Menyimpan pita pembetulan yang digulung</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Galas bebola</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Membenarkan gelendong berputar dengan lancar dan mengurangkan geseran</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="pita-putih">
+        <div class="card-header"><span class="part-icon">📄</span>
+         <h3>Pita Putih</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Membuat pembetulan pada kertas dengan jalur putih</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Gear</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Mengawal pergerakan dan ketegangan pita dengan sekata</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="pita-bucu">
+        <div class="card-header"><span class="part-icon">📍</span>
+         <h3>Bucu Pita</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Menekan dan memindahkan pita ke kertas</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Gelongsor</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Bucu boleh disimpan dan dikeluarkan untuk memindahkan pita ke kertas dengan pergerakan linear</p>
+         </div>
+        </div>
+       </div>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #ba68c8;">D</span> <span>Set D</span>
+     </div><!-- MONOPOD TAB -->
+     <div class="tab-content" id="tab-monopod">
+      <div class="visual-container">
+       <svg class="visual-svg" viewbox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><!-- Handle/Grip --> <g class="part">
+         <rect x="180" y="250" width="40" height="30" rx="5" fill="#4A5568" stroke="#2D3748" stroke-width="2" />
+         <circle cx="200" cy="265" r="8" fill="#9F7AEA" />
+        </g> <!-- Batang Teleskopik (Telescopic Pole) - 3 segments --> <g id="svg-monopod-batang" class="part"><!-- Segment 1 (thickest - bottom) -->
+         <rect x="185" y="200" width="30" height="50" rx="3" fill="#68D391" stroke="#4A5568" stroke-width="2" /> <!-- Segment 2 (middle) -->
+         <rect x="187" y="120" width="26" height="85" rx="3" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Segment 3 (thinnest - top) -->
+         <rect x="189" y="60" width="22" height="65" rx="3" fill="#B794F4" stroke="#4A5568" stroke-width="2" /> <!-- Extension lines to show telescopic -->
+         <line x1="185" y1="205" x2="175" y2="205" stroke="#68D391" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="215" y1="205" x2="225" y2="205" stroke="#68D391" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="187" y1="130" x2="177" y2="130" stroke="#9F7AEA" stroke-width="2" stroke-dasharray="3,3" />
+         <line x1="213" y1="130" x2="223" y2="130" stroke="#9F7AEA" stroke-width="2" stroke-dasharray="3,3" />
+        </g> <!-- Kepala Monopod (Rotating Head) --> <g id="svg-monopod-kepala" class="part">
+         <circle cx="200" cy="50" r="18" fill="#4A5568" stroke="#2D3748" stroke-width="2" />
+         <circle cx="200" cy="50" r="12" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Rotation indicator -->
+         <path d="M 185 35 Q 200 25, 215 35" fill="none" stroke="#68D391" stroke-width="2" />
+         <path d="M 217 35 L 215 32 M 217 35 L 214 37" stroke="#68D391" stroke-width="2" />
+        </g> <!-- Pengapit Telefon (Phone Clamp) --> <g id="svg-monopod-pengapit" class="part"><!-- Phone outline -->
+         <rect x="150" y="15" width="60" height="100" rx="8" fill="#ffffff" stroke="#4A5568" stroke-width="3" />
+         <rect x="155" y="20" width="50" height="80" rx="3" fill="#F5F3FF" />
+         <circle cx="180" cy="107" r="4" fill="#4A5568" /> <!-- Clamp arms (left and right) -->
+         <rect x="140" y="30" width="8" height="60" rx="2" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" />
+         <rect x="212" y="30" width="8" height="60" rx="2" fill="#9F7AEA" stroke="#4A5568" stroke-width="2" /> <!-- Linkage connection lines -->
+         <line x1="144" y1="60" x2="216" y2="60" stroke="#68D391" stroke-width="2" stroke-dasharray="2,2" />
+         <circle cx="144" cy="60" r="3" fill="#68D391" />
+         <circle cx="216" cy="60" r="3" fill="#68D391" />
+        </g>
+       </svg>
       </div>
-      <div class="legend-item"><span class="legend-symbol" style="color: #ffa726;">E</span> <span>Set E</span>
-      </div>
-      <div class="legend-divider">
-       <div class="legend-item"><span class="legend-symbol">∪</span> <span id="union-label">Kesatuan</span>
+      <div class="components-grid">
+       <div class="component-card" data-part="monopod-batang">
+        <div class="card-header"><span class="part-icon">📏</span>
+         <h3>Batang Monopod</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Melanjutkan jarak antara telefon dan pengguna</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Gelongsor</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Membenarkan segmen batang bergerak linear masuk dan keluar</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="monopod-kepala">
+        <div class="card-header"><span class="part-icon">🔄</span>
+         <h3>Kepala Monopod</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Membenarkan telefon dipusingkan untuk sudut yang berbeza</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Galas bebola</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Membolehkan putaran lancar 360° untuk pelbagai sudut pengambilan gambar</p>
+         </div>
+        </div>
+       </div>
+       <div class="component-card" data-part="monopod-pengapit">
+        <div class="card-header"><span class="part-icon">📱</span>
+         <h3>Pengapit Telefon</h3>
+        </div>
+        <div class="card-content">
+         <div class="info-card"><strong>Fungsi:</strong>
+          <p>Memegang telefon dengan selamat</p>
+         </div>
+         <div class="info-card"><strong>Komponen Mekanikal:</strong>
+          <p class="component-highlight">Pautan</p>
+         </div>
+         <div class="info-card"><strong>Fungsi Komponen Mekanikal:</strong>
+          <p>Menghubungkan bahagian pengapit untuk bergerak serentak mengapit telefon</p>
+         </div>
+        </div>
        </div>
       </div>
      </div>
-     <div class="question-display">
-      <div class="question-label" id="question-label">
-       Soalan
-      </div>
-      <div class="question-text" id="question-text"></div>
-     </div>
-     <div class="feedback-section" id="feedback-section">
-      <div class="feedback-legend" id="feedback-legend" style="display: none;">
-       <div class="feedback-legend-item">
-        <div class="feedback-color-box" style="background-color: #4caf50;"></div><span id="correct-label">Betul (diklik)</span>
-       </div>
-       <div class="feedback-legend-item">
-        <div class="feedback-color-box" style="background-color: #f44336;"></div><span id="wrong-label">Salah (diklik)</span>
-       </div>
-       <div class="feedback-legend-item">
-        <div class="feedback-color-box" style="background-color: #ffeb3b;"></div><span id="missed-label">Terlepas (tidak diklik)</span>
-       </div>
-      </div>
-     </div>
-     <div class="button-group"><button class="btn-check" id="checkBtn">Semak Jawapan</button> <button class="btn-next" id="nextBtn" style="display: none;">Soalan Seterusnya</button> <button class="btn-reset" id="resetBtn">Mula Semula</button>
-     </div>
-    </aside>
-    <div class="venn-container">
-     <canvas id="vennCanvas" width="700" height="550"></canvas>
     </div>
    </div>
   </main>
   <script>
-    const defaultConfig = {
-      main_title: "Operasi Set: Kesatuan Set",
-      instruction_text: "Klik pada kawasan dalam gambar Venn yang mewakili kesatuan set dalam soalan"
-    };
+        const defaultConfig = {
+            main_title: "Sistem Mekanikal",
+            subtitle: "Alat Pembelajaran Interaktif",
+            definition_title: "Apakah Sistem Mekanikal?",
+            background_color: "#9F7AEA",
+            surface_color: "#F5F3FF",
+            text_color: "#4A5568",
+            primary_action_color: "#9F7AEA",
+            secondary_action_color: "#68D391",
+            font_family: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            font_size: 16
+        };
 
-    async function onConfigChange(config) {
-      const titleElement = document.getElementById('main-title');
-      const instructionElement = document.getElementById('instruction-text');
-      
-      if (titleElement) {
-        titleElement.textContent = config.main_title || defaultConfig.main_title;
-      }
-      if (instructionElement) {
-        instructionElement.textContent = config.instruction_text || defaultConfig.instruction_text;
-      }
-    }
+        async function onConfigChange(config) {
+            const mainTitle = config.main_title || defaultConfig.main_title;
+            const subtitle = config.subtitle || defaultConfig.subtitle;
+            const definitionTitle = config.definition_title || defaultConfig.definition_title;
+            const backgroundColor = config.background_color || defaultConfig.background_color;
+            const surfaceColor = config.surface_color || defaultConfig.surface_color;
+            const textColor = config.text_color || defaultConfig.text_color;
+            const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+            const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+            const fontFamily = config.font_family || defaultConfig.font_family;
+            const fontSize = config.font_size || defaultConfig.font_size;
 
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      };
-    }
+            document.getElementById('main-title').textContent = mainTitle;
+            document.getElementById('subtitle').textContent = subtitle;
+            document.getElementById('definition-title').textContent = definitionTitle;
 
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["main_title", config.main_title || defaultConfig.main_title],
-        ["instruction_text", config.instruction_text || defaultConfig.instruction_text]
-      ]);
-    }
+            document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryActionColor} 100%)`;
+            
+            const cards = document.querySelectorAll('.definition-card, .example-section, .visual-container');
+            cards.forEach(card => {
+                card.style.background = surfaceColor;
+            });
 
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
+            const allText = document.querySelectorAll('p, .info-card p');
+            allText.forEach(el => {
+                el.style.color = textColor;
+            });
 
-    // Language translations
-    const translations = {
-      BM: {
-        title: "Operasi Set: Kesatuan Set",
-        instruction: "Klik pada kawasan dalam gambar Venn yang mewakili kesatuan set dalam soalan",
-        universalSet: "Set Semesta (ξ)",
-        union: "Kesatuan",
-        question: "Soalan",
-        checkAnswer: "Semak Jawapan",
-        nextQuestion: "Soalan Seterusnya",
-        restart: "Mula Semula",
-        correctLabel: "Betul (diklik)",
-        wrongLabel: "Salah (diklik)",
-        missedLabel: "Terlepas (tidak diklik)"
-      },
-      ENG: {
-        title: "Operations on Sets: Union of Sets",
-        instruction: "Click on the areas in the Venn diagram that represent the union of sets in the question",
-        universalSet: "Universal Set (ξ)",
-        union: "Union",
-        question: "Question",
-        checkAnswer: "Check Answer",
-        nextQuestion: "Next Question",
-        restart: "Restart",
-        correctLabel: "Correct (clicked)",
-        wrongLabel: "Wrong (clicked)",
-        missedLabel: "Missed (not clicked)"
-      }
-    };
+            const headings = document.querySelectorAll('.definition-card h2, .example-section h2, .component-highlight, .card-header h3');
+            headings.forEach(h => {
+                h.style.color = primaryActionColor;
+            });
 
-    let currentLanguage = 'BM';
-
-    // Game questions - 15 different union questions (NO single set questions)
-    // Each question has sets involved in the union operation
-    // For union: A ∪ B means any region that contains A OR B (or both)
-    const allQuestions = [
-      // 2 set unions (10 questions)
-      { text: { BM: "A ∪ B", ENG: "A ∪ B" }, sets: ['A', 'B'] },
-      { text: { BM: "B ∪ C", ENG: "B ∪ C" }, sets: ['B', 'C'] },
-      { text: { BM: "C ∪ D", ENG: "C ∪ D" }, sets: ['C', 'D'] },
-      { text: { BM: "D ∪ E", ENG: "D ∪ E" }, sets: ['D', 'E'] },
-      { text: { BM: "A ∪ E", ENG: "A ∪ E" }, sets: ['A', 'E'] },
-      { text: { BM: "A ∪ C", ENG: "A ∪ C" }, sets: ['A', 'C'] },
-      { text: { BM: "B ∪ D", ENG: "B ∪ D" }, sets: ['B', 'D'] },
-      { text: { BM: "C ∪ E", ENG: "C ∪ E" }, sets: ['C', 'E'] },
-      { text: { BM: "A ∪ D", ENG: "A ∪ D" }, sets: ['A', 'D'] },
-      { text: { BM: "B ∪ E", ENG: "B ∪ E" }, sets: ['B', 'E'] },
-      
-      // 3 set unions (4 questions)
-      { text: { BM: "A ∪ B ∪ C", ENG: "A ∪ B ∪ C" }, sets: ['A', 'B', 'C'] },
-      { text: { BM: "A ∪ B ∪ C ∪ E", ENG: "A ∪ B ∪ C ∪ E" }, sets: ['A', 'B', 'C', 'E'] },
-      { text: { BM: "B ∪ C ∪ E", ENG: "B ∪ C ∪ E" }, sets: ['B', 'C', 'E'] },
-      { text: { BM: "B ∪ D ∪ E", ENG: "B ∪ D ∪ E" }, sets: ['B', 'D', 'E'] },
-      
-      // 5 set union (1 question)
-      { text: { BM: "A ∪ B ∪ C ∪ D ∪ E", ENG: "A ∪ B ∪ C ∪ D ∪ E" }, sets: ['A', 'B', 'C', 'D', 'E'] }
-    ];
-    
-    // Fisher-Yates shuffle algorithm to randomize questions
-    function shuffleArray(array) {
-      const shuffled = [...array];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    }
-    
-    // Randomize questions on page load
-    const questions = shuffleArray(allQuestions);
-    
-    // Helper function to check if a region belongs to the union of sets
-    function regionBelongsToUnion(region, sets) {
-      // A region is correct if it contains AT LEAST ONE of the sets in the union
-      // For example, if union is A ∪ C ∪ D:
-      // - A, C, D are correct (individual sets)
-      // - AB, AC, ABC are correct (contains A or C)
-      // - BC is correct (contains C)
-      // - CD, ACD, BCD, ABCD are correct (contains C or D)
-      // - B alone is incorrect (doesn't contain A, C, or D)
-      // - E alone is incorrect (doesn't contain A, C, or D)
-      
-      const regionSets = region.split('');
-      
-      // Check if at least one letter in the region is one of the sets in the union
-      return regionSets.some(letter => sets.includes(letter));
-    }
-
-    let currentQuestionIndex = 0;
-    let selectedRegions = new Set();
-    let hasChecked = false;
-    
-    // Helper function to get current question
-    function getCurrentQuestion() {
-      return questions[currentQuestionIndex];
-    }
-
-    // Venn diagram logic
-    const canvas = document.getElementById('vennCanvas');
-    const ctx = canvas.getContext('2d');
-    const checkBtn = document.getElementById('checkBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const questionText = document.getElementById('question-text');
-    const feedbackLegend = document.getElementById('feedback-legend');
-    const langBMBtn = document.getElementById('langBM');
-    const langENGBtn = document.getElementById('langENG');
-
-    // Update language function
-    function updateLanguage(lang) {
-      currentLanguage = lang;
-      const t = translations[lang];
-      
-      document.getElementById('main-title').textContent = t.title;
-      document.getElementById('instruction-text').textContent = t.instruction;
-      document.querySelector('.legend h3').textContent = t.universalSet;
-      document.getElementById('union-label').textContent = t.union;
-      document.getElementById('question-label').textContent = t.question;
-      document.getElementById('checkBtn').textContent = t.checkAnswer;
-      document.getElementById('nextBtn').textContent = t.nextQuestion;
-      document.getElementById('resetBtn').textContent = t.restart;
-      document.getElementById('correct-label').textContent = t.correctLabel;
-      document.getElementById('wrong-label').textContent = t.wrongLabel;
-      document.getElementById('missed-label').textContent = t.missedLabel;
-      
-      langBMBtn.classList.toggle('active', lang === 'BM');
-      langENGBtn.classList.toggle('active', lang === 'ENG');
-      
-      // Update question text
-      const currentQ = getCurrentQuestion();
-      questionText.textContent = currentQ.text[lang];
-    }
-
-    langBMBtn.addEventListener('click', () => updateLanguage('BM'));
-    langENGBtn.addEventListener('click', () => updateLanguage('ENG'));
-
-    // Circle positions and radius
-    const circles = {
-      A: { x: 280, y: 220, r: 120, color: '#f06292' },
-      B: { x: 420, y: 220, r: 120, color: '#81c784' },
-      C: { x: 350, y: 340, r: 120, color: '#64b5f6' },
-      D: { x: 350, y: 370, r: 35, color: '#ba68c8' },
-      E: { x: 550, y: 400, r: 60, color: '#ffa726' }
-    };
-
-    // Check if a point is inside a circle
-    function isInCircle(px, py, circle) {
-      const dx = px - circle.x;
-      const dy = py - circle.y;
-      return (dx * dx + dy * dy) <= (circle.r * circle.r);
-    }
-
-    // Determine which region a point belongs to
-    function getRegion(x, y) {
-      const inA = isInCircle(x, y, circles.A);
-      const inB = isInCircle(x, y, circles.B);
-      const inC = isInCircle(x, y, circles.C);
-      const inD = isInCircle(x, y, circles.D);
-      const inE = isInCircle(x, y, circles.E);
-
-      if (inD) {
-        if (inA && inB && inC) return 'ABCD';
-        if (inA && inC && !inB) return 'ACD';
-        if (inB && inC && !inA) return 'BCD';
-        if (inC && !inA && !inB) return 'CD';
-        return 'D';
-      }
-
-      if (inE) return 'E';
-
-      if (inA && inB && inC) return 'ABC';
-      if (inA && inB && !inC) return 'AB';
-      if (inA && !inB && inC) return 'AC';
-      if (!inA && inB && inC) return 'BC';
-      if (inA && !inB && !inC) return 'A';
-      if (!inA && inB && !inC) return 'B';
-      if (!inA && !inB && inC) return 'C';
-      return 'outside';
-    }
-
-    // Draw the Venn diagram
-    function drawVenn() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw universal set boundary
-      ctx.strokeStyle = '#dfc4e8';
-      ctx.lineWidth = 3;
-      ctx.setLineDash([8, 5]);
-      ctx.strokeRect(60, 60, 580, 430);
-      ctx.setLineDash([]);
-
-      // Draw selected regions
-      if (selectedRegions.size > 0 && !hasChecked) {
-        const imageData = ctx.createImageData(canvas.width, canvas.height);
-        const data = imageData.data;
-
-        for (let y = 0; y < canvas.height; y++) {
-          for (let x = 0; x < canvas.width; x++) {
-            const region = getRegion(x, y);
-            const idx = (y * canvas.width + x) * 4;
-
-            if (selectedRegions.has(region)) {
-              data[idx] = 200;
-              data[idx + 1] = 200;
-              data[idx + 2] = 255;
-              data[idx + 3] = 150;
+            const activeTab = document.querySelector('.tab-button.active');
+            if (activeTab) {
+                activeTab.style.background = `linear-gradient(135deg, ${primaryActionColor} 0%, ${secondaryActionColor} 100%)`;
             }
-          }
+
+            const inactiveTabs = document.querySelectorAll('.tab-button:not(.active)');
+            inactiveTabs.forEach(tab => {
+                tab.style.borderColor = primaryActionColor;
+                tab.style.color = primaryActionColor;
+            });
+
+            const baseFontStack = 'Arial, sans-serif';
+            document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+
+            document.querySelector('.header h1').style.fontSize = `${fontSize * 2.5}px`;
+            document.querySelector('.header p').style.fontSize = `${fontSize * 1.1}px`;
+            document.querySelectorAll('.definition-card h2, .example-section h2').forEach(h2 => {
+                h2.style.fontSize = `${fontSize * 1.5}px`;
+            });
+            document.querySelectorAll('p').forEach(p => {
+                p.style.fontSize = `${fontSize}px`;
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.style.fontSize = `${fontSize}px`;
+            });
         }
 
-        ctx.putImageData(imageData, 0, 0);
-      }
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(`tab-${tabName}`).classList.add('active');
+                    
+                    // Clear all highlights when switching tabs
+                    document.querySelectorAll('.component-card').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.part').forEach(p => p.classList.remove('highlighted'));
+                });
+            });
 
-      // Draw feedback after checking
-      if (hasChecked) {
-        const imageData = ctx.createImageData(canvas.width, canvas.height);
-        const data = imageData.data;
-        const currentQ = getCurrentQuestion();
-        const currentSets = currentQ.sets;
+            // Interactive card and SVG highlighting for all tabs
+            const cards = document.querySelectorAll('.component-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const currentTab = this.closest('.tab-content');
+                    
+                    // Remove active states only within current tab
+                    currentTab.querySelectorAll('.component-card').forEach(c => c.classList.remove('active'));
+                    currentTab.querySelectorAll('.part').forEach(p => p.classList.remove('highlighted'));
+                    
+                    // Add active state to clicked card
+                    this.classList.add('active');
+                    
+                    // Highlight corresponding SVG part based on data-part attribute
+                    if (part === 'basikal-hendal') {
+                        document.getElementById('svg-basikal-hendal').classList.add('highlighted');
+                    } else if (part === 'basikal-brek') {
+                        document.getElementById('svg-basikal-brek').classList.add('highlighted');
+                    } else if (part === 'basikal-roda') {
+                        document.getElementById('svg-basikal-roda-back').classList.add('highlighted');
+                        document.getElementById('svg-basikal-roda-front').classList.add('highlighted');
+                    } else if (part === 'basikal-pedal') {
+                        document.getElementById('svg-basikal-pedal').classList.add('highlighted');
+                    } else if (part === 'pita-gelendong') {
+                        document.getElementById('svg-pita-gelendong').classList.add('highlighted');
+                    } else if (part === 'pita-putih') {
+                        document.getElementById('svg-pita-putih').classList.add('highlighted');
+                        document.getElementById('svg-pita-gear').classList.add('highlighted');
+                    } else if (part === 'pita-bucu') {
+                        document.getElementById('svg-pita-bucu').classList.add('highlighted');
+                    } else if (part === 'monopod-batang') {
+                        document.getElementById('svg-monopod-batang').classList.add('highlighted');
+                    } else if (part === 'monopod-kepala') {
+                        document.getElementById('svg-monopod-kepala').classList.add('highlighted');
+                    } else if (part === 'monopod-pengapit') {
+                        document.getElementById('svg-monopod-pengapit').classList.add('highlighted');
+                    }
+                });
+            });
+        });
 
-        for (let y = 0; y < canvas.height; y++) {
-          for (let x = 0; x < canvas.width; x++) {
-            const region = getRegion(x, y);
-            const idx = (y * canvas.width + x) * 4;
-
-            const isCorrect = region !== 'outside' && regionBelongsToUnion(region, currentSets);
-            const wasSelected = selectedRegions.has(region);
-
-            if (isCorrect && wasSelected) {
-              // Green - correct and selected
-              data[idx] = 76;
-              data[idx + 1] = 175;
-              data[idx + 2] = 80;
-              data[idx + 3] = 180;
-            } else if (!isCorrect && wasSelected) {
-              // Red - incorrect but selected
-              data[idx] = 244;
-              data[idx + 1] = 67;
-              data[idx + 2] = 54;
-              data[idx + 3] = 180;
-            } else if (isCorrect && !wasSelected) {
-              // Yellow - correct but not selected
-              data[idx] = 255;
-              data[idx + 1] = 235;
-              data[idx + 2] = 59;
-              data[idx + 3] = 180;
-            }
-          }
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                config.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                config.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["subtitle", config.subtitle || defaultConfig.subtitle],
+                    ["definition_title", config.definition_title || defaultConfig.definition_title]
+                ])
+            });
         }
-
-        ctx.putImageData(imageData, 0, 0);
-      }
-
-      // Draw circles
-      Object.keys(circles).forEach(key => {
-        const circle = circles[key];
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
-        ctx.strokeStyle = circle.color;
-        ctx.lineWidth = 4;
-        ctx.stroke();
-      });
-
-      // Draw labels
-      ctx.font = '900 32px Poppins, sans-serif';
-      ctx.fillStyle = circles.A.color;
-      ctx.fillText('A', 200, 150);
-      ctx.fillStyle = circles.B.color;
-      ctx.fillText('B', 480, 150);
-      ctx.fillStyle = circles.C.color;
-      ctx.fillText('C', 330, 450);
-      
-      ctx.font = '900 24px Poppins, sans-serif';
-      ctx.fillStyle = circles.D.color;
-      ctx.fillText('D', 345, 370);
-      
-      ctx.font = '900 28px Poppins, sans-serif';
-      ctx.fillStyle = circles.E.color;
-      ctx.fillText('E', 540, 410);
-
-      ctx.font = '800 28px Georgia, serif';
-      ctx.fillStyle = '#b08db5';
-      ctx.fillText('ξ', 605, 85);
-    }
-
-    // Canvas click handler
-    canvas.addEventListener('click', (e) => {
-      if (hasChecked) return;
-
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
-
-      const region = getRegion(x, y);
-      
-      if (region !== 'outside') {
-        if (selectedRegions.has(region)) {
-          selectedRegions.delete(region);
-        } else {
-          selectedRegions.add(region);
-        }
-        drawVenn();
-      }
-    });
-
-    // Check answer
-    checkBtn.addEventListener('click', () => {
-      if (selectedRegions.size === 0) return;
-
-      hasChecked = true;
-      canvas.classList.add('disabled');
-      
-      const currentQ = getCurrentQuestion();
-      const currentSets = currentQ.sets;
-      
-      // Check if all selected regions are correct and no incorrect regions were selected
-      let allCorrect = true;
-      for (const region of selectedRegions) {
-        if (region === 'outside' || !regionBelongsToUnion(region, currentSets)) {
-          allCorrect = false;
-          break;
-        }
-      }
-      
-      // Also check if all correct regions were selected
-      const allRegions = ['A', 'B', 'C', 'D', 'E', 'AB', 'AC', 'BC', 'ABC', 'CD', 'ACD', 'BCD', 'ABCD'];
-      const correctRegions = allRegions.filter(r => regionBelongsToUnion(r, currentSets));
-      
-      let allCorrectRegionsSelected = true;
-      for (const region of correctRegions) {
-        if (!selectedRegions.has(region)) {
-          allCorrectRegionsSelected = false;
-          break;
-        }
-      }
-      
-      const isCorrect = allCorrect && allCorrectRegionsSelected;
-
-      feedbackLegend.style.display = 'flex';
-      
-      checkBtn.style.display = 'none';
-      nextBtn.style.display = 'block';
-      
-      drawVenn();
-    });
-
-    // Next question
-    nextBtn.addEventListener('click', () => {
-      currentQuestionIndex++;
-      
-      if (currentQuestionIndex >= questions.length) {
-        // Game complete
-        nextBtn.disabled = true;
-        return;
-      }
-
-      // Reset for next question
-      selectedRegions.clear();
-      hasChecked = false;
-      canvas.classList.remove('disabled');
-      feedbackLegend.style.display = 'none';
-      
-      const currentQ = getCurrentQuestion();
-      questionText.textContent = currentQ.text[currentLanguage];
-      
-      checkBtn.style.display = 'block';
-      nextBtn.style.display = 'none';
-      
-      drawVenn();
-    });
-
-    // Reset game
-    resetBtn.addEventListener('click', () => {
-      currentQuestionIndex = 0;
-      selectedRegions.clear();
-      hasChecked = false;
-      canvas.classList.remove('disabled');
-      
-      const currentQ = getCurrentQuestion();
-      questionText.textContent = currentQ.text[currentLanguage];
-      feedbackLegend.style.display = 'none';
-      
-      checkBtn.style.display = 'block';
-      nextBtn.style.display = 'none';
-      nextBtn.disabled = false;
-      
-      drawVenn();
-    });
-
-    // Initialize first question on page load
-    const firstQuestion = getCurrentQuestion();
-    questionText.textContent = firstQuestion.text[currentLanguage];
-    
-    // Initial draw
-    drawVenn();
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa971f934a56312',t:'MTc2NTE2NzM2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7f7165b4c226b8',t:'MTc2NDcyNjkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
